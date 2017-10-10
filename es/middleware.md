@@ -1,34 +1,34 @@
 # Middleware
 
-- [Introduction](#introduction)
-- [Defining Middleware](#defining-middleware)
-- [Registering Middleware](#registering-middleware) 
-    - [Global Middleware](#global-middleware)
-    - [Assigning Middleware To Routes](#assigning-middleware-to-routes)
-    - [Middleware Groups](#middleware-groups)
-- [Middleware Parameters](#middleware-parameters)
-- [Terminable Middleware](#terminable-middleware)
+- [Introduccion](#introduction)
+- [Definir Middleware](#defining-middleware)
+- [Registrar Middleware](#registering-middleware) 
+    - [Middleware Global](#global-middleware)
+    - [Asignar Middleware a Rutas](#assigning-middleware-to-routes)
+    - [Grupos de Middleware](#middleware-groups)
+- [Middleware con Parámetros](#middleware-parameters)
+- [Middleware Terminable](#terminable-middleware)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introduccion
 
-Middleware provide a convenient mechanism for filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to the login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
+Los middleware proporcionan una herramienta para filtrar las peticiones HTTP que entran a la aplicación. Por ejemplo, Laravel incluye un middleware que verifica si el actual usuario de la aplicación esta autenticado. Si el usuario no esta autenticado, el middleware redirigirá al usuario a la vista de login. Sin embargo, si el usuario esta autenticado, el middleware permitirá que la petición continue y se ejecute en la aplicación.
 
-Of course, additional middleware can be written to perform a variety of tasks besides authentication. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. A logging middleware might log all incoming requests to your application.
+Por supuesto, se pueden crear middleware adicionales para realizar otro tipo tareas además de la autenticación. Un CORS middleware podría usarse para añadir los headers adecuados a todas las respuestas de la aplicación. Un logging middleware podría registrar en el log todas las peticiones hechas a la aplicación.
 
-There are several middleware included in the Laravel framework, including middleware for authentication and CSRF protection. All of these middleware are located in the `app/Http/Middleware` directory.
+Hay una gran cantidad de middleware incluidos en Laravel framework, incluyendo middleware para autenticación y protección CSRF. Todos estos middleware están ubicados en el directorio `app/Http/Middleware` .
 
 <a name="defining-middleware"></a>
 
-## Defining Middleware
+## Definir Middleware
 
-To create a new middleware, use the `make:middleware` Artisan command:
+La forma más sencilla de crear un nuevo middleware es utilizar el comando Artisan `make:middleware` :
 
     php artisan make:middleware CheckAge
     
 
-This command will place a new `CheckAge` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the `home` URI.
+Este comando creará un nuevo middleware llamado `CheckAge` en el directorio `app/Http/Middleware`. Este middleware solo permitirá acceso a la ruta si la `age` suministrada es mayor a 200. De otra forma, el middleware redirigirá a los usuarios de vuelta a la URI `home`.
 
     <?php
     
@@ -56,13 +56,13 @@ This command will place a new `CheckAge` class within your `app/Http/Middleware`
     }
     
 
-As you can see, if the given `age` is less than or equal to `200`, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), simply call the `$next` callback with the `$request`.
+Como puede verse, si la `age` es menor o igual a `200`, el middleware retornará un redirect HTTP al cliente; de otra manera la request será ejecutada por la aplicación. Para pasar la petición hacia abajo en la aplicación (permitir al middleware "pasar"), simplemente hay que llamar al callback `$next` con `$request`.
 
-It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
+Lo mejor es imaginar los middleware como una serie de "capas" por las que las requests HTTP deben pasar antes de que lleguen a la aplicación. Cada capa puede examinar la request e incluso rechazarla por completo.
 
-### Before & After Middleware
+### Middleware Antes & Después
 
-Whether a middleware runs before or after a request depends on the middleware itself. For example, the following middleware would perform some task **before** the request is handled by the application:
+Que el middleware se ejecute antes o después de que la petición entre en la aplicación depende del uso del middleware en si mismo. Por ejemplo, el siguiente middleware ejecuta algunas tareas antes de que la petición sea gestionada por la aplicación:
 
     <?php
     
@@ -81,7 +81,7 @@ Whether a middleware runs before or after a request depends on the middleware it
     }
     
 
-However, this middleware would perform its task **after** the request is handled by the application:
+Sin embargo, este middleware ejecuta las tareas después de que la petición haya sido gestionada por la aplicación:
 
     <?php
     
@@ -104,19 +104,19 @@ However, this middleware would perform its task **after** the request is handled
 
 <a name="registering-middleware"></a>
 
-## Registering Middleware
+## Registrar Middleware
 
 <a name="global-middleware"></a>
 
-### Global Middleware
+### Middleware Global
 
-If you want a middleware to run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class.
+Si se desea que un middleware se ejecute en todas las peticiones HTTP de la aplicación, simplemente debe listar el middleware en la propiedad `$middleware` de la clase `app/Http/Kernel.php`.
 
 <a name="assigning-middleware-to-routes"></a>
 
-### Assigning Middleware To Routes
+### Asignar Middleware a Rutas
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a key in your `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. To add your own, simply append it to this list and assign it a key of your choosing. For example:
+Si se desea que el middleware se ejecute en rutas especificas, primero debe asignarse al middleware un identificador en el archivo `app/Http/Kernel.php`. La propiedad `$routeMiddleware` de esta clase contiene registros de middleware incluidos por Laravel por defecto. Para agregar middleware personalizados, simplemente debe añadirse a la lista el nuevo middleware y asignarle el identificador de acceso rápido que se desee. Por ejemplo:
 
     // Within App\Http\Kernel Class...
     
@@ -130,21 +130,21 @@ If you would like to assign middleware to specific routes, you should first assi
     ];
     
 
-Once the middleware has been defined in the HTTP kernel, you may use the `middleware` method to assign middleware to a route:
+Una vez que el middleware ha sido registrado en el kernel HTTP, se puede utilizar el identificador de `middleware` para asignarlo a una ruta:
 
     Route::get('admin/profile', function () {
         //
     })->middleware('auth');
     
 
-You may also assign multiple middleware to the route:
+Se puede además asignar varios middleware a una ruta:
 
     Route::get('/', function () {
         //
     })->middleware('first', 'second');
     
 
-When assigning middleware, you may also pass the fully qualified class name:
+Al asignar un middleware, se puede también pasar el nombre completo de la clase:
 
     use App\Http\Middleware\CheckAge;
     
@@ -155,11 +155,11 @@ When assigning middleware, you may also pass the fully qualified class name:
 
 <a name="middleware-groups"></a>
 
-### Middleware Groups
+### Grupos de Middleware
 
-Sometimes you may want to group several middleware under a single key to make them easier to assign to routes. You may do this using the `$middlewareGroups` property of your HTTP kernel.
+En ocasiones es útil agrupar varios middleware sobre un mismo identificador haciendo la asignación a rutas mucho más simple. Esto se puede hacer utilizando la propiedad `$middlewareGroups` del kernel HTTP.
 
-Out of the box, Laravel comes with `web` and `api` middleware groups that contains common middleware you may want to apply to your web UI and API routes:
+Por defecto, Laravel incluye los grupos de middleware `web` y `api` que contienen el middleware común que se suele aplicar a las rutas de web UI y API:
 
     /**
      * The application's route middleware groups.
@@ -183,7 +183,7 @@ Out of the box, Laravel comes with `web` and `api` middleware groups that contai
     ];
     
 
-Middleware groups may be assigned to routes and controller actions using the same syntax as individual middleware. Again, middleware groups simply make it more convenient to assign many middleware to a route at once:
+Los grupos de middleware se pueden asignar a rutas y acciones de controladores utilizando la misma sintaxis que un middleware individual. De nuevo, los grupos únicamente permiten añadir varios middleware de una vez:
 
     Route::get('/', function () {
         //
@@ -194,15 +194,15 @@ Middleware groups may be assigned to routes and controller actions using the sam
     });
     
 
-> {tip} Out of the box, the `web` middleware group is automatically applied to your `routes/web.php` file by the `RouteServiceProvider`.
+> {tip} El grupo `web` se aplica directamente al archivo `routes/web.php` a través del `RouteServiceProvider`.
 
 <a name="middleware-parameters"></a>
 
-## Middleware Parameters
+## Middleware con Parámetros
 
-Middleware can also receive additional parameters. For example, if your application needs to verify that the authenticated user has a given "role" before performing a given action, you could create a `CheckRole` middleware that receives a role name as an additional argument.
+Los middleware pueden recibir parámetros adicionales. Por ejemplo, si la aplicación necesita verificar que el usuario autenticado tiene asignado cierto "rol" antes de ejecutar una acción, puede crearse un middleware `CheckRole` que reciba el nombre del rol como parámetro adicional.
 
-Additional middleware parameters will be passed to the middleware after the `$next` argument:
+Los parámetros adicionales del middleware deben ser pasados después de argumento `$next` :
 
     <?php
     
@@ -232,7 +232,7 @@ Additional middleware parameters will be passed to the middleware after the `$ne
     }
     
 
-Middleware parameters may be specified when defining the route by separating the middleware name and parameters with a `:`. Multiple parameters should be delimited by commas:
+Los parámetros del middleware pueden ser especificados se define la ruta, separando el nombre del middleware y los parámetros con `:`. Multiples parámetros deben ser separados por comas:
 
     Route::put('post/{id}', function ($id) {
         //
@@ -241,9 +241,9 @@ Middleware parameters may be specified when defining the route by separating the
 
 <a name="terminable-middleware"></a>
 
-## Terminable Middleware
+## Middleware Terminable
 
-Sometimes a middleware may need to do some work after the HTTP response has been sent to the browser. For example, the "session" middleware included with Laravel writes the session data to storage after the response has been sent to the browser. If you define a `terminate` method on your middleware, it will automatically be called after the response is sent to the browser.
+En ocasiones, un middleware necesita realizar algunas acciones después de que la respuesta HTTP ha sido enviada al navegador. Por ejemplo, el middleware "session" incluido por defecto en Laravel, registra los datos de sesión *después* de que la respuesta haya sido enviada al navegador. Si se define un método `terminate` en el middleware, se ejecutará automáticamente después de que la respuesta se haya enviado al navegador.
 
     <?php
     
@@ -265,6 +265,6 @@ Sometimes a middleware may need to do some work after the HTTP response has been
     }
     
 
-The `terminate` method should receive both the request and the response. Once you have defined a terminable middleware, you should add it to the list of route or global middleware in the `app/Http/Kernel.php` file.
+El método `terminate` debe recibir tanto la petición como la respuesta. Una vez que se ha definido un middleware terminable, este debe añadirse a la lista de rutas o middleware globales en `app/Http/Kernel.php`.
 
-When calling the `terminate` method on your middleware, Laravel will resolve a fresh instance of the middleware from the [service container](/docs/{{version}}/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method.
+Cuando se llama al método `terminate` en el middleware, Laravel resolverá una nueva instancia del middleware desde el [service container](/docs/{{version}}/container). Si se desea usar la misma instancia cuando los métodos `handle` y `terminate` son llamados, debe registrarse en el container el middleware usando el método `singleton` del container.
