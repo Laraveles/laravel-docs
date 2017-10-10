@@ -1,3 +1,3 @@
-# Contribution Guidelines
+# Guía de Contribución
 
-If you are submitting documentation for the **current stable release**, submit it to the corresponding branch. For example, documentation for Laravel 5.5 would be submitted to the `5.5` branch. Documentation intended for the next release of Laravel should be submitted to the `master` branch.
+Si estás enviando documentación para la **versión estable actual**, envíala al branch correspondiente. Por ejemplo, documentación para Laravel 5.5 se enviará al branch `5.5`. Documentación para la siguiente versión de Laravel se debe enviar al branch `master`.
