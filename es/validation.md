@@ -195,7 +195,7 @@ In this example, we used a traditional form to send data to the application. How
 
 ### Creating Form Requests
 
-For more complex validation scenarios, you may wish to create a "form request". Form requests are custom request classes that contain validation logic. To create a form request class, use the `make:request` Artisan CLI command:
+Para escenarios mas complejos, se pueden crear "form request". Los Form Request son clases para las peticiones que contienen la lógica de la validación. To create a form request class, use the `make:request` Artisan CLI command:
 
     php artisan make:request StoreBlogPost
     
@@ -216,7 +216,7 @@ The generated class will be placed in the `app/Http/Requests` directory. If this
     }
     
 
-So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
+Entonces, ¿cómo se evalúan las reglas de validación? Todo lo que se necesita es colocar el request dentro del metodo del controlador. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
 
     /**
      * Store the incoming blog post.
@@ -230,7 +230,7 @@ So, how are the validation rules evaluated? All you need to do is type-hint the 
     }
     
 
-If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors.
+If validation fails, a redirect response will be generated to send the user back to their previous location. Los errores también se mostrarán en la sesión para que estén disponibles para su visualización. Si el request era una solicitud AJAX, se devolverá una respuesta HTTP con un código de estado 422 al usuario incluyendo una representación en formato JSON de los errores de validación.
 
 #### Adding After Hooks To Form Requests
 
