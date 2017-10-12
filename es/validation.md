@@ -34,26 +34,26 @@ Laravel provides several different approaches to validate your application's inc
 
 ## Validation Quickstart
 
-To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user.
+Para saber más sobre las características de las potentes reglas de validación, veremos un ejemplo completo para validar un formulario y mostrar los mensajes de error al usuario.
 
 <a name="quick-defining-the-routes"></a>
 
-### Defining The Routes
+### Definir las Rutas
 
-First, let's assume we have the following routes defined in our `routes/web.php` file:
+En primer lugar, hay que asumir que se tienen definidas las siguientes rutas en el archivo `routes/web.php`:
 
     Route::get('post/create', 'PostController@create');
     
     Route::post('post', 'PostController@store');
     
 
-Of course, the `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
+Por supuesto, la ruta `GET` mostrará un formulario al usuario para crear un nuevo post en un blog, mientas que la ruta `POST` almacenará ese post en la base de datos.
 
 <a name="quick-creating-the-controller"></a>
 
-### Creating The Controller
+### Crear el Controlador
 
-Next, let's take a look at a simple controller that handles these routes. We'll leave the `store` method empty for now:
+A continuación, veamos un controlador muy simple que gestiona estas rutas. Se dejará el método `store` vacío por el momento:
 
     <?php
     
@@ -89,11 +89,11 @@ Next, let's take a look at a simple controller that handles these routes. We'll 
 
 <a name="quick-writing-the-validation-logic"></a>
 
-### Writing The Validation Logic
+### Definir la Lógica de Validación
 
-Now we are ready to fill in our `store` method with the logic to validate the new blog post. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
+Ya estamos listos para incluir la lógica para validar el nuevo post en el método `store`. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. Si la regla de validación pasa, el código continuará ejecutándose normalmente; sin embargo, si la regla falla, se lanzará una excepción y la respuesta apropiada se enviará automáticamente al usuario. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
 
-To get a better understanding of the `validate` method, let's jump back into the `store` method:
+Para entender mejor el método `validate`, desarrollemos el método `store`:
 
     /**
      * Store a new blog post.
@@ -112,7 +112,7 @@ To get a better understanding of the `validate` method, let's jump back into the
     }
     
 
-As you can see, we simply pass the desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
+As you can see, we simply pass the desired validation rules into the `validate` method. De nuevo, si la validación falla, se generará una respuesta automáticamente. Si la validación pasa, el controlador continuará ejecutándose con normalidad.
 
 #### Stopping On First Validation Failure
 
