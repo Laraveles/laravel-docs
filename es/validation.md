@@ -128,7 +128,7 @@ In this example, if the `unique` rule on the `title` attribute fails, the `max` 
 
 #### A Note On Nested Attributes
 
-If your HTTP request contains "nested" parameters, you may specify them in your validation rules using "dot" syntax:
+Si la petición HTTP contiene parámetros "anidados", se pueden especificar en las reglas de validación utilizando la notación de "puntos":
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
