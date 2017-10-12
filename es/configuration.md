@@ -3,36 +3,36 @@
 - [Introducción](#introduction)
 - [Configuración del Entorno](#environment-configuration) 
     - [Obtener la Configuración del Entorno](#retrieving-environment-configuration)
-    - [Determining The Current Environment](#determining-the-current-environment)
+    - [Determinar el Entorno Actual](#determining-the-current-environment)
 - [Acceso a Valores de Configuración](#accessing-configuration-values)
 - [Configuración de Caché](#configuration-caching)
 - [Modo de Mantenimiento](#maintenance-mode)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-All of the configuration files for the Laravel framework are stored in the `config` directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
+Todos los archivos de configuración de Laravel se almacenan en el directorio `config`. Cada opción está documentada, por lo que es más que recomendable navegar entre los diferentes archivos y conocer las diferentes opciones.
 
 <a name="environment-configuration"></a>
 
-## Environment Configuration
+## Configuración del Entorno
 
-It is often helpful to have different configuration values based on the environment where the application is running. For example, you may wish to use a different cache driver locally than you do on your production server.
+A menudo es útil tener valores de configuración diferentes basados en el entorno de en que la aplicación se ejecuta. Por ejemplo, se puede utilizar un controlador de *cache* local diferente que el que se utiliza en el servidor de producción.
 
-To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be renamed to `.env`. Otherwise, you should rename the file manually.
+Para hacer esto muy fácil, Laravel utiliza la librería de PHP [DotEnv](https://github.com/vlucas/phpdotenv) de Vance Lucas. En una instalación nueva de Laravel, el directorio raíz de la aplicación contendrá un archivo `.env.example`. Si se instala Laravel través de composer, este archivo automáticamente se renombrará a `.env`. De lo contrario, debe cambiarse manualmente.
 
-Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gain access to your source control repository, since any sensitive credentials would get exposed.
+Sin embargo, el archivo `.env` no debe incorporarse nunca al repositorio, pues cada desarrollador / servidor que utiliza la aplicación puede requerir una configuración de entorno diferente. Además, esto supondría un riesgo de seguridad en caso de que un intruso acceda a su repositorio, ya que cualquier credencial sensible quedaría expuesta.
 
-If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting place-holder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application. You may also create a `.env.testing` file. This file will override values from the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+Si se desarrolla en conjunto con un equipo, es recomendable seguir incluyendo un archivo `.env.example`. Estableciendo valores de ejemplo en el archivo de configuración, otros desarrolladores del equipo podrán saber cuales son las variables necesarias para ejecutar la aplicación. También puede crear un archivo `.env.testing`. Este archivo reemplazará los valores del archivo `.env` al ejecutar pruebas de *PHPUnit* o al ejecutar comandos *Artisan* con la opción `--env=testing`.
 
-> {tip} Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
+> {tip} Cualquier variable en su archivo `.env` puede ser reemplazada por variables de entorno externas a nivel de servidor o de sistema.
 
 <a name="retrieving-environment-configuration"></a>
 
-### Retrieving Environment Configuration
+### Obtener la Configuración del Entorno
 
-All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` helper to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice several of the options already using this helper:
+Todas las variables listadas en este archivo se cargarán en la variable super-global de PHP `$_ENV` cada vez que la aplicación reciba una petición. Sin embargo, se puede utilizar el *helper* `env` para recuperar valores de estas variables en sus archivos de configuración. De hecho, revisando los archivos de configuración de Laravel se puede observar que varias de las opciones están usando este *helper*:
 
     'debug' => env('APP_DEBUG', false),
     
@@ -41,7 +41,7 @@ The second value passed to the `env` function is the "default value". This value
 
 <a name="determining-the-current-environment"></a>
 
-### Determining The Current Environment
+### Determinar el Entorno Actual
 
 The current application environment is determined via the `APP_ENV` variable from your `.env` file. You may access this value via the `environment` method on the `App` [facade](/docs/{{version}}/facades):
 
@@ -63,7 +63,7 @@ You may also pass arguments to the `environment` method to check if the environm
 
 <a name="accessing-configuration-values"></a>
 
-## Accessing Configuration Values
+## Acceso a Valores de Configuración
 
 You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
 
@@ -87,11 +87,11 @@ You should typically run the `php artisan config:cache` command as part of your 
 
 <a name="maintenance-mode"></a>
 
-## Maintenance Mode
+## Modo de Mantenimiento
 
 When your application is in maintenance mode, a custom view will be displayed for all requests into your application. This makes it easy to "disable" your application while it is updating or when you are performing maintenance. A maintenance mode check is included in the default middleware stack for your application. If the application is in maintenance mode, a `MaintenanceModeException` will be thrown with a status code of 503.
 
-To enable maintenance mode, simply execute the `down` Artisan command:
+Para activar el modo de mantenimiento, simplemente ejecutar el comando de Artisan `down`:
 
     php artisan down
     
@@ -106,12 +106,12 @@ To disable maintenance mode, use the `up` command:
     php artisan up
     
 
-> {tip} You may customize the default maintenance mode template by defining your own template at `resources/views/errors/503.blade.php`.
+> {tip} Puede personalizar la plantilla del modo de mantenimiento predeterminado definiendo su propia plantilla en `resources/views/errors/503.blade.php`.
 
-#### Maintenance Mode & Queues
+#### Modo de Mantenimiento & Colas
 
-While your application is in maintenance mode, no [queued jobs](/docs/{{version}}/queues) will be handled. The jobs will continue to be handled as normal once the application is out of maintenance mode.
+Mientras que la aplicación se encuentra en modo de mantenimiento, no se atenderán [colas de trabajo](/docs/{{version}}/queues). Los trabajos continuarán normalmente una vez que la aplicación salga del modo de mantenimiento.
 
-#### Alternatives To Maintenance Mode
+#### Alternativas al Modo de Mantenimiento
 
-Since maintenance mode requires your application to have several seconds of downtime, consider alternatives like [Envoyer](https://envoyer.io) to accomplish zero-downtime deployment with Laravel.
+Puesto que el modo de mantenimiento requiere que su aplicación tenga varios segundos de tiempo de inactividad, considere alternativas como [Envoyer](https://envoyer.io) para lograr un despliegue de tiempo de inactividad cero con Laravel.
