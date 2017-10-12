@@ -37,18 +37,18 @@ Todas las variables listadas en este archivo se cargarán en la variable super-g
     'debug' => env('APP_DEBUG', false),
     
 
-The second value passed to the `env` function is the "default value". This value will be used if no environment variable exists for the given key.
+El segundo valor pasado a la función `env` es el "valor por defecto". Este valor se utilizará si no existe ninguna variable de entorno para la clave dada.
 
 <a name="determining-the-current-environment"></a>
 
 ### Determinar el Entorno Actual
 
-The current application environment is determined via the `APP_ENV` variable from your `.env` file. You may access this value via the `environment` method on the `App` [facade](/docs/{{version}}/facades):
+El entorno actual de la aplicación se determina mediante la variable `APP_ENV` del archivo `.env`. Se puede acceder a este valor mediante el método `environment` en la [facade](/docs/{{version}}/facades) `App`:
 
     $environment = App::environment();
     
 
-You may also pass arguments to the `environment` method to check if the environment matches a given value. The method will return `true` if the environment matches any of the given values:
+También se pueden pasar argumentos al método `environment` para comprobar si el entorno corresponde a un valor determinado. El método devolverá `true` si el entorno coincide con alguno de los valores dados:
 
     if (App::environment('local')) {
         // The environment is local
@@ -59,49 +59,49 @@ You may also pass arguments to the `environment` method to check if the environm
     }
     
 
-> {tip} The current application environment detection can be overridden by a server-level `APP_ENV` environment variable. This can be useful when you need to share the same application for different environment configurations, so you can set up a given host to match a given environment in your server's configurations.
+> {tip} La detección del entorno de la aplicación actual puede ser anulada por una variable de entorno `APP_ENV` a nivel de servidor. Esto puede ser útil cuando necesite compartir la misma aplicación para diferentes configuraciones de entorno, de modo que se puede configurar un host determinado para que coincida con un entorno determinado en las configuraciones de su servidor.
 
 <a name="accessing-configuration-values"></a>
 
 ## Acceso a Valores de Configuración
 
-You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
+Se puede acceder fácilmente a los valores de configuración utilizando el *helper* global `config` desde cualquier lugar de la aplicación. Los valores de configuración pueden accederse mediante una sintaxis de "punto", que incluye el nombre del archivo y la opción a acceder. Se puede especificar un valor por defecto en caso de que la opción de configuración no exista:
 
     $value = config('app.timezone');
     
 
-To set configuration values at runtime, pass an array to the `config` helper:
+Para establecer valores de configuración en tiempo de ejecución, pasar un *array* al *helper* `config`:
 
     config(['app.timezone' => 'America/Chicago']);
     
 
 <a name="configuration-caching"></a>
 
-## Configuration Caching
+## Configuración de Caché
 
-To give your application a speed boost, you should cache all of your configuration files into a single file using the `config:cache` Artisan command. This will combine all of the configuration options for your application into a single file which will be loaded quickly by the framework.
+Para mejorar el rendimiento de la aplicación, es recomendable cachear todos los archivos de configuración en uno solo utilizando el comando de *Artisan* `config:cache`. Esto combinará todas las opciones de configuración de la aplicación en un solo archivo que será cargado rápidamente por el framework.
 
-You should typically run the `php artisan config:cache` command as part of your production deployment routine. The command should not be run during local development as configuration options will frequently need to be changed during the course of your application's development.
+Normalmente se debe ejecutar el comando `php artisan config:cache` como parte de la rutina de implementación de producción. El comando no debe ejecutarse durante el desarrollo local ya que las opciones cambiarán de forma frecuente durante esta etapa.
 
-> {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files.
+> {note} Si ejecuta el comando `config:cache` durante el proceso de despliegue, debe asegurarse de que sólo está llamando a la función `env` desde los archivos de configuración.
 
 <a name="maintenance-mode"></a>
 
 ## Modo de Mantenimiento
 
-When your application is in maintenance mode, a custom view will be displayed for all requests into your application. This makes it easy to "disable" your application while it is updating or when you are performing maintenance. A maintenance mode check is included in the default middleware stack for your application. If the application is in maintenance mode, a `MaintenanceModeException` will be thrown with a status code of 503.
+Cuando la aplicación está en modo de mantenimiento, se mostrará una vista personalizada para todas las solicitudes. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o efectuando mantenimiento. Se incluye un middleware que controla el modo de mantenimiento de la aplicación. Si la aplicación está en modo de mantenimiento, se lanzará una excepcion `MaintenanceModeException` con un código de estado de 503.
 
 Para activar el modo de mantenimiento, simplemente ejecutar el comando de Artisan `down`:
 
     php artisan down
     
 
-You may also provide `message` and `retry` options to the `down` command. The `message` value may be used to display or log a custom message, while the `retry` value will be set as the `Retry-After` HTTP header's value:
+También se pueden proporcionar las opciones `message` y `retry` para el comando `down`. El valor `message` puede utilizarse para mostrar o registrar un mensaje personalizado, mientras que el valor `retry` se fijará como valor `Retry-After` en la cabecera HTTP:
 
     php artisan down --message="Upgrading Database" --retry=60
     
 
-To disable maintenance mode, use the `up` command:
+Para desactivar el modo de mantenimiento, utilizar el comando `up`:
 
     php artisan up
     
