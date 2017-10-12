@@ -1,12 +1,12 @@
-# Configuration
+# Configuración
 
-- [Introduction](#introduction)
-- [Environment Configuration](#environment-configuration) 
-    - [Retrieving Environment Configuration](#retrieving-environment-configuration)
+- [Introducción](#introduction)
+- [Configuración del Entorno](#environment-configuration) 
+    - [Obtener la Configuración del Entorno](#retrieving-environment-configuration)
     - [Determining The Current Environment](#determining-the-current-environment)
-- [Accessing Configuration Values](#accessing-configuration-values)
-- [Configuration Caching](#configuration-caching)
-- [Maintenance Mode](#maintenance-mode)
+- [Acceso a Valores de Configuración](#accessing-configuration-values)
+- [Configuración de Caché](#configuration-caching)
+- [Modo de Mantenimiento](#maintenance-mode)
 
 <a name="introduction"></a>
 
