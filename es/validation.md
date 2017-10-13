@@ -34,26 +34,26 @@ Laravel provides several different approaches to validate your application's inc
 
 ## Validation Quickstart
 
-To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user.
+Para saber más sobre las características de las potentes reglas de validación, veremos un ejemplo completo para validar un formulario y mostrar los mensajes de error al usuario.
 
 <a name="quick-defining-the-routes"></a>
 
-### Defining The Routes
+### Definir las Rutas
 
-First, let's assume we have the following routes defined in our `routes/web.php` file:
+En primer lugar, hay que asumir que se tienen definidas las siguientes rutas en el archivo `routes/web.php`:
 
     Route::get('post/create', 'PostController@create');
     
     Route::post('post', 'PostController@store');
     
 
-Of course, the `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
+Por supuesto, la ruta `GET` mostrará un formulario al usuario para crear un nuevo post en un blog, mientas que la ruta `POST` almacenará ese post en la base de datos.
 
 <a name="quick-creating-the-controller"></a>
 
-### Creating The Controller
+### Crear el Controlador
 
-Next, let's take a look at a simple controller that handles these routes. We'll leave the `store` method empty for now:
+A continuación, veamos un controlador muy simple que gestiona estas rutas. Se dejará el método `store` vacío por el momento:
 
     <?php
     
@@ -89,11 +89,11 @@ Next, let's take a look at a simple controller that handles these routes. We'll 
 
 <a name="quick-writing-the-validation-logic"></a>
 
-### Writing The Validation Logic
+### Definir la Lógica de Validación
 
-Now we are ready to fill in our `store` method with the logic to validate the new blog post. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
+Ya estamos listos para incluir la lógica para validar el nuevo post en el método `store`. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. Si la regla de validación pasa, el código continuará ejecutándose normalmente; sin embargo, si la regla falla, se lanzará una excepción y la respuesta apropiada se enviará automáticamente al usuario. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
 
-To get a better understanding of the `validate` method, let's jump back into the `store` method:
+Para entender mejor el método `validate`, desarrollemos el método `store`:
 
     /**
      * Store a new blog post.
@@ -112,7 +112,7 @@ To get a better understanding of the `validate` method, let's jump back into the
     }
     
 
-As you can see, we simply pass the desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
+As you can see, we simply pass the desired validation rules into the `validate` method. De nuevo, si la validación falla, se generará una respuesta automáticamente. Si la validación pasa, el controlador continuará ejecutándose con normalidad.
 
 #### Stopping On First Validation Failure
 
@@ -128,7 +128,7 @@ In this example, if the `unique` rule on the `title` attribute fails, the `max` 
 
 #### A Note On Nested Attributes
 
-If your HTTP request contains "nested" parameters, you may specify them in your validation rules using "dot" syntax:
+Si la petición HTTP contiene parámetros "anidados", se pueden especificar en las reglas de validación utilizando la notación de "puntos":
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -170,7 +170,7 @@ So, in our example, the user will be redirected to our controller's `create` met
 
 ### A Note On Optional Fields
 
-By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. For example:
+By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. Por ejemplo:
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -195,7 +195,7 @@ In this example, we used a traditional form to send data to the application. How
 
 ### Creating Form Requests
 
-For more complex validation scenarios, you may wish to create a "form request". Form requests are custom request classes that contain validation logic. To create a form request class, use the `make:request` Artisan CLI command:
+Para escenarios mas complejos, se pueden crear "form request". Los Form Request son clases para las peticiones que contienen la lógica de la validación. To create a form request class, use the `make:request` Artisan CLI command:
 
     php artisan make:request StoreBlogPost
     
@@ -216,7 +216,7 @@ The generated class will be placed in the `app/Http/Requests` directory. If this
     }
     
 
-So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
+Entonces, ¿cómo se evalúan las reglas de validación? Todo lo que se necesita es colocar el request dentro del metodo del controlador. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
 
     /**
      * Store the incoming blog post.
@@ -230,7 +230,7 @@ So, how are the validation rules evaluated? All you need to do is type-hint the 
     }
     
 
-If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors.
+If validation fails, a redirect response will be generated to send the user back to their previous location. Los errores también se mostrarán en la sesión para que estén disponibles para su visualización. Si el request era una solicitud AJAX, se devolverá una respuesta HTTP con un código de estado 422 al usuario incluyendo una representación en formato JSON de los errores de validación.
 
 #### Adding After Hooks To Form Requests
 
