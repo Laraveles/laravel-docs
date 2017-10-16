@@ -1,17 +1,17 @@
-# Views
+# Vistas
 
-- [Creating Views](#creating-views)
-- [Passing Data To Views](#passing-data-to-views) 
-    - [Sharing Data With All Views](#sharing-data-with-all-views)
-- [View Composers](#view-composers)
+- [Crear Vistas](#creating-views)
+- [Pasar Datos a las Vistas](#passing-data-to-views) 
+    - [Compartir Datos en Todas las Vistas](#sharing-data-with-all-views)
+- [Composers de Vistas (compositores)](#view-composers)
 
 <a name="creating-views"></a>
 
-## Creating Views
+## Crear Vistas
 
-> {tip} Looking for more information on how to write Blade templates? Check out the full [Blade documentation](/docs/{{version}}/blade) to get started.
+> {tip} Para saber más sobre como escribir plantillas en Blade, comprobar la documentación completa de [Blade](/docs/{{version}}/blade).
 
-Views contain the HTML served by your application and separate your controller / application logic from your presentation logic. Views are stored in the `resources/views` directory. A simple view might look something like this:
+Las vistas contienen el HTML que se sirve por cualquier aplicación y separa la lógica del controlador/aplicación de la lógica de presentación. Views are stored in the `resources/views` directory. A simple view might look something like this:
 
     <!-- View stored in resources/views/greeting.blade.php -->
     
