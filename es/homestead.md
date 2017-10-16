@@ -65,7 +65,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 ### First Steps
 
-Before launching your Homestead environment, you must install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com), or [Parallels](http://www.parallels.com/products/desktop/) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
+Before launching your Homestead environment, you must install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com), or [Parallels](https://www.parallels.com/products/desktop/) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
 
 To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the [VMware Vagrant plug-in](https://www.vagrantup.com/vmware). Though it is not free, VMware can provide faster shared folder performance out of the box.
 
@@ -225,7 +225,7 @@ Next, run the `vagrant up` command in your terminal and access your project at `
 If you prefer to use MariaDB instead of MySQL, you may add the `mariadb` option to your `Homestead.yaml` file. This option will remove MySQL and install MariaDB. MariaDB serves as a drop-in replacement for MySQL so you should still use the `mysql` database driver in your application's database configuration:
 
     box: laravel/homestead
-    ip: "192.168.20.20"
+    ip: "192.168.10.10"
     memory: 2048
     cpus: 4
     provider: virtualbox
@@ -239,7 +239,7 @@ If you prefer to use MariaDB instead of MySQL, you may add the `mariadb` option 
 To install Elasticsearch, add the `elasticsearch` option to your `Homestead.yaml` file. The default installation will create a cluster named 'homestead' and allocate it 2GB of memory. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead machine has at least 4GB of memory:
 
     box: laravel/homestead
-    ip: "192.168.20.20"
+    ip: "192.168.10.10"
     memory: 4096
     cpus: 4
     provider: virtualbox
@@ -523,7 +523,7 @@ An example:
 
     box: laravel/homestead
     version: 0.6.0
-    ip: "192.168.20.20"
+    ip: "192.168.10.10"
     memory: 2048
     cpus: 4
     provider: virtualbox
