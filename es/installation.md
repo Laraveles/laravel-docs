@@ -1,21 +1,21 @@
-# Installation
+# Instalación
 
-- [Installation](#installation) 
-    - [Server Requirements](#server-requirements)
-    - [Installing Laravel](#installing-laravel)
-    - [Configuration](#configuration)
-- [Web Server Configuration](#web-server-configuration) 
-    - [Pretty URLs](#pretty-urls)
+- [Instalación](#installation) 
+    - [Requisitos del Servidor](#server-requirements)
+    - [Instalar Laravel](#installing-laravel)
+    - [Configuración](#configuration)
+- [Configuración del Servidor Web](#web-server-configuration) 
+    - [URL Amigables](#pretty-urls)
 
 <a name="installation"></a>
 
-## Installation
+## Instalación
 
-> {video} Are you a visual learner? Laracasts provides a [free, thorough introduction to Laravel](http://laravelfromscratch.com) for newcomers to the framework. It's a great place to start your journey.
+> ¿Prefieres aprender con vídeos {video}? Laracasts ofrece una [introducción gratuita y completa a Laravel](http://laravelfromscratch.com) para los recién llegados al *framework*. Es un buen lugar para comenzar tu viaje.
 
 <a name="server-requirements"></a>
 
-### Server Requirements
+### Requisitos del Servidor
 
 The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
 
@@ -114,27 +114,27 @@ You may also want to configure a few additional components of Laravel, such as:
       <a href="/docs/{{version}}/cache#configuration">Cache</a>
     </li>
     <li>
-      <a href="/docs/{{version}}/database#configuration">Database</a>
+      <a href="/docs/{{version}}/database#configuration">Base de datos</a>
     </li>
     <li>
-      <a href="/docs/{{version}}/session#configuration">Session</a>
+      <a href="/docs/{{version}}/session#configuration">Sesión</a>
     </li>
   </ul>
 </div>
 
 <a name="web-server-configuration"></a>
 
-## Web Server Configuration
+## Configuración del servidor Web
 
 <a name="pretty-urls"></a>
 
-### Pretty URLs
+### URL Amigables
 
 #### Apache
 
-Laravel includes a `public/.htaccess` file that is used to provide URLs without the `index.php` front controller in the path. Before serving Laravel with Apache, be sure to enable the `mod_rewrite` module so the `.htaccess` file will be honored by the server.
+Laravel incluye un fichero `public/.htaccess` que es utilizado para proveer URLs sin el *front controller* `index.php` en la ruta. Antes de servir Laravel con Apache, asegurese de activar el módulo `mod_rewrite` para que el servidor respete el fichero `.htaccess`.
 
-If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
+Si el fichero `.htaccess` que provee Laravel no funciona con su instalación de Apache, intente está alternativa:
 
     Options +FollowSymLinks
     RewriteEngine On
@@ -146,11 +146,11 @@ If the `.htaccess` file that ships with Laravel does not work with your Apache i
 
 #### Nginx
 
-If you are using Nginx, the following directive in your site configuration will direct all requests to the `index.php` front controller:
+Si usted está utilizando Nginx, la siguiente directiva en la configuración de su sitio redireccionará todas las peticiones al controlador frontal `index.php`:
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
     
 
-Of course, when using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.
+Por supuesto, cuando se utiliza [Homestead](/docs/{{version}}/homestead) o [Valet](/docs/{{version}}/valet), las URLs serán automáticamente configuradas.
