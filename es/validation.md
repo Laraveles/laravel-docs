@@ -463,7 +463,7 @@ If needed, you may use custom error messages for validation instead of the defau
     $validator = Validator::make($input, $rules, $messages);
     
 
-In this example, the `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. For example:
+In this example, the `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. Por ejemplo:
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
