@@ -1,6 +1,6 @@
 # Localization
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Defining Translation Strings](#defining-translation-strings) 
     - [Using Short Keys](#using-short-keys)
     - [Using Translation Strings As Keys](#using-translation-strings-as-keys)
@@ -11,7 +11,7 @@
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
 Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application. Language strings are stored in files within the `resources/lang` directory. Within this directory there should be a subdirectory for each language supported by the application:
 
@@ -32,7 +32,7 @@ All language files simply return an array of keyed strings. For example:
     ];
     
 
-### Configuring The Locale
+### Configuración Regional
 
 The default language for your application is stored in the `config/app.php` configuration file. Of course, you may modify this value to suit the needs of your application. You may also change the active language at runtime using the `setLocale` method on the `App` facade:
 

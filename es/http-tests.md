@@ -240,3 +240,8 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 | `$response->assertJsonStructure(array $structure);`                                      | Assert that the response has a given JSON structure.                     |
 | `$response->assertViewIs($value);`                                                       | Assert that the given view was returned by the route.                    |
 | `$response->assertViewHas($key, $value = null);`                                         | Assert that the response view was given a piece of data.                 |
+| `$response->assertViewMissing($key);`                                                    | Assert that the response view is missing a piece of bound data.          |
+| `$response->assertSee($value);`                                                          | Assert that the given string is contained within the response.           |
+| `$response->assertDontSee($value);`                                                      | Assert that the given string is not contained within the response.       |
+| `$response->assertSeeText($value);`                                                      | Assert that the given string is contained within the response text.      |
+| `$response->assertDontSeeText($value);`                                                  | Assert that the given string is not contained within the response text.  |

@@ -278,7 +278,7 @@ Since all form requests extend the base Laravel request class, we may use the `u
 
 If the `authorize` method returns `false`, a HTTP response with a 403 status code will automatically be returned and your controller method will not execute.
 
-If you plan to have authorization logic in another part of your application, simply return `true` from the `authorize` method:
+Si el plan es tener una lógica de autorización en otra parte de la aplicación, simplemente se coloca return `true` en el método `authorize`:
 
     /**
      * Determine if the user is authorized to make this request.
@@ -351,9 +351,9 @@ If you do not want to use the `validate` method on the request, you may create a
     }
     
 
-The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data.
+El primer argumento pasado al método `make` es la data a validar, el segundo argumento es la regla de validación que debe ser aplicada a esta data.
 
-After checking if the request validation failed, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
+After checking if the request validation failed, you may use the `withErrors` method to flash the error messages to the session. Cuando se usa ese método, la variable `$erros` es automáticamente compartida con las vistas después de la redirección, permitiendo mostrarlos fácilmente de nuevo al usuario. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
 
 <a name="automatic-redirection"></a>
 

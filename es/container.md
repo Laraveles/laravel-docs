@@ -1,24 +1,24 @@
 # Service Container
 
-- [Introduction](#introduction)
-- [Binding](#binding) 
-    - [Binding Basics](#binding-basics)
-    - [Binding Interfaces To Implementations](#binding-interfaces-to-implementations)
-    - [Contextual Binding](#contextual-binding)
-    - [Tagging](#tagging)
-- [Resolving](#resolving) 
-    - [The Make Method](#the-make-method)
-    - [Automatic Injection](#automatic-injection)
-- [Container Events](#container-events)
+- [Introduccion](#introduction)
+- [*Binding* (Enlazado)](#binding) 
+    - [Lo Básico de un *Binding*](#binding-basics)
+    - [Enlazar Interfaces a Implementaciones](#binding-interfaces-to-implementations)
+    - [*Binding* Contextual](#contextual-binding)
+    - [Etiquetado](#tagging)
+- [Resolución](#resolving) 
+    - [El Método *make*](#the-make-method)
+    - [Inyección Automática](#automatic-injection)
+- [Eventos del Container](#container-events)
 - [PSR-11](#psr-11)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-The Laravel service container is a powerful tool for managing class dependencies and performing dependency injection. Dependency injection is a fancy phrase that essentially means this: class dependencies are "injected" into the class via the constructor or, in some cases, "setter" methods.
+El service container de Laravel es una potente herramienta para gestionar las dependencias de clases y llevar a cabo la inyección de estas. La inyección de dependencias es una frase moderna que básicamente significa: las dependencias de la clase se "inyectan" en la clase a través del constructor o, en algunos casos, métodos "setter".
 
-Let's look at a simple example:
+Un simple ejemplo:
 
     <?php
     
@@ -63,54 +63,54 @@ Let's look at a simple example:
     }
     
 
-In this example, the `UserController` needs to retrieve users from a data source. So, we will **inject** a service that is able to retrieve users. In this context, our `UserRepository` most likely uses [Eloquent](/docs/{{version}}/eloquent) to retrieve user information from the database. However, since the repository is injected, we are able to easily swap it out with another implementation. We are also able to easily "mock", or create a dummy implementation of the `UserRepository` when testing our application.
+En este ejemplo, `UserController` necesita obtener usuarios desde una fuente de datos. Por lo tanto, se **inyecta** un servicio que es capaz de ello. En este contexto, el `UserRepository` probablemente utilizará [Eloquent](/docs/{{version}}/eloquent) para obtener la información del usuario de la base de datos. Sin embargo, puesto que el repositorio se inyecta, es muy sencillo intercambiarlo por otra implementación. Se podría además crear un *mock*, o una implementación ficticia de `UserRepository` para las pruebas de la aplicación.
 
-A deep understanding of the Laravel service container is essential to building a powerful, large application, as well as for contributing to the Laravel core itself.
+Una comprensión profunda del service container de Laravel es básica para crear una aplicación grande y potente, así como para contribuir al core de Laravel.
 
 <a name="binding"></a>
 
-## Binding
+## Binding (Enlazado)
 
 <a name="binding-basics"></a>
 
-### Binding Basics
+### Lo Básico de un *Binding*
 
-Almost all of your service container bindings will be registered within [service providers](/docs/{{version}}/providers), so most of these examples will demonstrate using the container in that context.
+Casi todos los *bindings* del *service container* se registrarán en [service providers](/docs/{{version}}/providers), por lo que la mayoría de estos ejemplos mostrarán el uso del *container* en ese contexto.
 
-> {tip} There is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve these objects using reflection.
+> {tip} No hay necesidad de enlazar clases en el *container* si no dependen de una interfaz. El *container* no necesita conocer cómo crear esos objetos, puesto que puede resolverlos automáticamente utilizando el *reflection* nativo de PHP.
 
-#### Simple Bindings
+#### *Bindings* Simples
 
-Within a service provider, you always have access to the container via the `$this->app` property. We can register a binding using the `bind` method, passing the class or interface name that we wish to register along with a `Closure` that returns an instance of the class:
+En un *service provider* siempre se tendrá acceso al *container* a través de la propiedad `$this->app`. Se puede registrar un *binding* utilizando el método `bind`, pasando el nombre de la clase o interfaz que se desee registrar acompañado de un `Closure` que retornará una instancia de la clase:
 
     $this->app->bind('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app->make('HttpClient'));
     });
     
 
-Note that we receive the container itself as an argument to the resolver. We can then use the container to resolve sub-dependencies of the object we are building.
+Tener en cuenta que se recibe el *container* en sí mismo como argumento. Se puede utilizar para resolver sub-dependencias del objeto que se está creando.
 
-#### Binding A Singleton
+#### Enlazar un Singleton
 
-The `singleton` method binds a class or interface into the container that should only be resolved one time. Once a singleton binding is resolved, the same object instance will be returned on subsequent calls into the container:
+El método `singleton` enlaza una clase o interfaz al *container* y que únicamente debe ser resuelta una vez. Una vez que se ha resuelto un *binding singleton*, se devolverá la misma instancia del objeto a las subsecuentes llamadas en el *container*:
 
     $this->app->singleton('HelpSpot\API', function ($app) {
         return new HelpSpot\API($app->make('HttpClient'));
     });
     
 
-#### Binding Instances
+#### Enlazar Instancias
 
-You may also bind an existing object instance into the container using the `instance` method. The given instance will always be returned on subsequent calls into the container:
+Se puede enlazar la instancia de un objeto existente al container utilizando el método `instance`. La instancia proporcionada se retornará en las futuras llamadas:
 
     $api = new HelpSpot\API(new HttpClient);
     
     $this->app->instance('HelpSpot\API', $api);
     
 
-#### Binding Primitives
+#### *Bindings* Primitivos
 
-Sometimes you may have a class that receives some injected classes, but also needs an injected primitive value such as an integer. You may easily use contextual binding to inject any value your class may need:
+Se puede dar el caso de una clase que recibe otras clases inyectadas pero que además necesita de algún valor primitivo como un entero. Se puede utilizar un enlazado contextual para inyectar el valor que la clase necesite:
 
     $this->app->when('App\Http\Controllers\UserController')
               ->needs('$variableName')
@@ -119,9 +119,9 @@ Sometimes you may have a class that receives some injected classes, but also nee
 
 <a name="binding-interfaces-to-implementations"></a>
 
-### Binding Interfaces To Implementations
+### Enlazar Interfaces a Implementaciones
 
-A very powerful feature of the service container is its ability to bind an interface to a given implementation. For example, let's assume we have an `EventPusher` interface and a `RedisEventPusher` implementation. Once we have coded our `RedisEventPusher` implementation of this interface, we can register it with the service container like so:
+Una característica muy potente del service container es la capacidad de enlazar una interfaz a una implementación concreta. Por ejemplo, una interfaz `EventPusher` y una implementación `ReidsEventPusher`. Una vez que se ha programado la implementación `RedisEventPusher` de la interfaz, se puede registrar en el service container así:
 
     $this->app->bind(
         'App\Contracts\EventPusher',
@@ -129,7 +129,7 @@ A very powerful feature of the service container is its ability to bind an inter
     );
     
 
-This statement tells the container that it should inject the `RedisEventPusher` when a class needs an implementation of `EventPusher`. Now we can type-hint the `EventPusher` interface in a constructor, or any other location where dependencies are injected by the service container:
+Esto indica al *container* que debe inyectar la clase `RedisEventPusher` cuando una clase necesite una implementación de `EventPusher`. Ahora se puede *type-hint* la interfaz `EventPusher` en un constructor, o cualquier otra localización donde las dependencias se inyecten por el service container:
 
     use App\Contracts\EventPusher;
     
@@ -147,9 +147,9 @@ This statement tells the container that it should inject the `RedisEventPusher` 
 
 <a name="contextual-binding"></a>
 
-### Contextual Binding
+### *Binding* Contextual
 
-Sometimes you may have two classes that utilize the same interface, but you wish to inject different implementations into each class. For example, two controllers may depend on different implementations of the `Illuminate\Contracts\Filesystem\Filesystem` [contract](/docs/{{version}}/contracts). Laravel provides a simple, fluent interface for defining this behavior:
+A veces se pueden tener dos clases que utilicen la misma interfaz, pero inyectar diferentes implementaciones en cada clase. Por ejemplo, dos controladores pueden depender de diferentes implementaciones del [contrato](/docs/{{version}}/contracts) `Illuminate\Contracts\Filesystem\Filesystem`. Laravel provee de una simple y fluida interfaz para definir este comportamiento:
 
     use Illuminate\Support\Facades\Storage;
     use App\Http\Controllers\PhotoController;
@@ -171,9 +171,9 @@ Sometimes you may have two classes that utilize the same interface, but you wish
 
 <a name="tagging"></a>
 
-### Tagging
+### Etiquetado
 
-Occasionally, you may need to resolve all of a certain "category" of binding. For example, perhaps you are building a report aggregator that receives an array of many different `Report` interface implementations. After registering the `Report` implementations, you can assign them a tag using the `tag` method:
+En ocasiones, puede ser necesario resolver toda una "categoría" concreta de bindings. Por ejemplo, quizá se esta desarrollando un agregador de informes que recibe un array de diferentes implementaciones de la interfaz `Report`. Tras registrar las implementaciones `Report`, se les puede asignar una etiqueta utilizando el método `tag`:
 
     $this->app->bind('SpeedReport', function () {
         //
@@ -186,7 +186,7 @@ Occasionally, you may need to resolve all of a certain "category" of binding. Fo
     $this->app->tag(['SpeedReport', 'MemoryReport'], 'reports');
     
 
-Once the services have been tagged, you may easily resolve them all via the `tagged` method:
+Una vez que los servicios se han etiquetado, se pueden resolver utilizando el método `tagget`:
 
     $this->app->bind('ReportAggregator', function ($app) {
         return new ReportAggregator($app->tagged('reports'));
@@ -195,34 +195,34 @@ Once the services have been tagged, you may easily resolve them all via the `tag
 
 <a name="resolving"></a>
 
-## Resolving
+## Resolución
 
 <a name="the-make-method"></a>
 
-#### The `make` Method
+#### El Método `make`
 
-You may use the `make` method to resolve a class instance out of the container. The `make` method accepts the name of the class or interface you wish to resolve:
+Se puede utilizar el método `make` para resolver la instancia de una clase desde el *container*. Este método aceptará el nombre de la clase o interfaz a resolver:
 
     $api = $this->app->make('HelpSpot\API');
     
 
-If you are in a location of your code that does not have access to the `$app` variable, you may use the global `resolve` helper:
+Se puede utilizar la función global `resolve` para acceder a la variable `$app` si no se tiene acceso a ella en alguna parte del código:
 
     $api = resolve('HelpSpot\API');
     
 
-If some of your class' dependencies are not resolvable via the container, you may inject them by passing them as an associative array into the `makeWith` method:
+Si alguna/s dependencias de la clase no se pueden resolver a través del *container*, se podrían inyectar pasándolas como un *array* asociativo al método `makeWith`:
 
     $api = $this->app->makeWith('HelpSpot\API', ['id' => 1]);
     
 
 <a name="automatic-injection"></a>
 
-#### Automatic Injection
+#### Inyección Automática
 
-Alternatively, and importantly, you may simply "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects should be resolved by the container.
+Alternativamente y muy importante, se puede "*type-hint*" una dependencia en el constructor de cualquier clase que se resuelve en el *container*, incluyendo [controladores](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), y más. En la práctica, así es como la mayoría de objetos se resuelven por el *container*.
 
-For example, you may type-hint a repository defined by your application in a controller's constructor. The repository will automatically be resolved and injected into the class:
+Por ejemplo, se puede *type-hint* un repositorio de la aplicación en el constructor de un controlador. El repositorio se resolverá automáticamente y se inyectará en la clase:
 
     <?php
     
@@ -263,9 +263,9 @@ For example, you may type-hint a repository defined by your application in a con
 
 <a name="container-events"></a>
 
-## Container Events
+## Eventos del Container
 
-The service container fires an event each time it resolves an object. You may listen to this event using the `resolving` method:
+El *service container* dispara un evento cada vez que resuelve un objeto. Se puede capturar utilizando el método `resolving`:
 
     $this->app->resolving(function ($object, $app) {
         // Called when container resolves object of any type...
@@ -276,13 +276,13 @@ The service container fires an event each time it resolves an object. You may li
     });
     
 
-As you can see, the object being resolved will be passed to the callback, allowing you to set any additional properties on the object before it is given to its consumer.
+Como se puede apreciar, el objeto a ser resuelto se pasará al *callback*, permitiendo establecer cualquier propiedad adicional al objeto antes de que se entregue.
 
 <a name="psr-11"></a>
 
 ## PSR-11
 
-Laravel's service container implements the [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) interface. Therefore, you may type-hint the PSR-11 container interface to obtain an instance of the Laravel container:
+El *service container* de Laravel implementa la interfaz [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md). Por lo tanto, se puede *type-hint* (sugerencia de tipo) la interfaz PSR-11 del *container* para obtener una instancia del *container* de Laravel:
 
     use Psr\Container\ContainerInterface;
     
@@ -293,4 +293,4 @@ Laravel's service container implements the [PSR-11](https://github.com/php-fig/f
     });
     
 
-> {note} Calling the `get` method will throw an exception if the identifier has not been explicitly bound into the container.
+> {note} El método `get` lanzará una excepción si el identificador no se ha enlazado en el *container* explícitamente.
