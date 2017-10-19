@@ -103,12 +103,12 @@ Para entender mejor el método `validate`, desarrollemos el método `store`:
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|unique:posts|max:255',
             'body' => 'required',
         ]);
     
-        // The blog post is valid, store in database...
+        // The blog post is valid...
     }
     
 
