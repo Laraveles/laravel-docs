@@ -1055,7 +1055,7 @@ The first argument passed to the `sometimes` method is the name of the field we 
 
 <a name="validating-arrays"></a>
 
-## Validating Arrays
+## Validación de Arrays
 
 Validating array based form input fields doesn't have to be a pain. You may use "dot notation" to validate attributes within an array. For example, if the incoming HTTP request contains a `photos[profile]` field, you may validate it like so:
 
