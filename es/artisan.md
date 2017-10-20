@@ -137,18 +137,18 @@ Los comandos definidos como una *Closure* (función anónima) presentan una alte
     }
     
 
-Aunque este fichero no define rutas HTTP aquí se definen puntos de entrada a la consola (rutas) dentro de la aplicación. En el interior de este fichero se pueden definir todos los comandos definidos como *Closure* usando el método `Artisan::command`. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a Closure which receives the commands arguments and options:
+Aunque este fichero no define rutas HTTP aquí se definen puntos de entrada a la consola (rutas) dentro de la aplicación. En el interior de este fichero se pueden definir todos los comandos definidos como *Closure* usando el método `Artisan::command`. El método `command` acepta dos parámetros: La [firma del comando](#defining-input-expectations) y una *Closure* que recibirá los parámetros y opciones del comando:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
     });
     
 
-The Closure is bound to the underlying command instance, so you have full access to all of the helper methods you would typically be able to access on a full command class.
+La *Closure* está enlazada con la instancia de un comando, por tanto, tiene acceso a todos los métodos *helper* que tendría accesibles en una clase de comando.
 
 #### Type-Hinting Dependencies
 
-In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
+Además de recibir los parámetros y opciones de su comando, en los comandos definidos como *Closure* puede también usar las sugerencias de tipo para cargar dependencias a través del [service container](/docs/{{version}}/container):
 
     use App\User;
     use App\DripEmailer;
