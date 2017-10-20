@@ -1,68 +1,68 @@
-# Artisan Console
+# Consola Artisan
 
-- [Introduction](#introduction)
-- [Writing Commands](#writing-commands) 
-    - [Generating Commands](#generating-commands)
-    - [Command Structure](#command-structure)
-    - [Closure Commands](#closure-commands)
-- [Defining Input Expectations](#defining-input-expectations) 
-    - [Arguments](#arguments)
-    - [Options](#options)
-    - [Input Arrays](#input-arrays)
-    - [Input Descriptions](#input-descriptions)
-- [Command I/O](#command-io) 
-    - [Retrieving Input](#retrieving-input)
-    - [Prompting For Input](#prompting-for-input)
-    - [Writing Output](#writing-output)
-- [Registering Commands](#registering-commands)
+- [Introducción](#introduction)
+- [Crear Comandos](#writing-commands) 
+    - [Generar Comandos](#generating-commands)
+    - [Estructura del Comando](#command-structure)
+    - [Comandos Closure](#closure-commands)
+- [Definición de Expectativas de Entrada](#defining-input-expectations) 
+    - [Argumentos](#arguments)
+    - [Opciones](#options)
+    - [Arrays de Entrada](#input-arrays)
+    - [Descripciones de Entrada](#input-descriptions)
+- [E/S del Comando](#command-io) 
+    - [Obtener Input](#retrieving-input)
+    - [Solicitud de Parámetros de Entrada](#prompting-for-input)
+    - [Generar Salida](#writing-output)
+- [Registro de Comandos](#registering-commands)
 - [Programmatically Executing Commands](#programmatically-executing-commands) 
-    - [Calling Commands From Other Commands](#calling-commands-from-other-commands)
+    - [Ejecutar Comandos Desde Otros Comandos](#calling-commands-from-other-commands)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Artisan is the command-line interface included with Laravel. It provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the `list` command:
+Artisan es el nombre de la interfaz de línea de comandos incluida en Laravel. Proporciona una serie de comandos útiles que podrán ayudar mientras se desarrolla una aplicación. Para conocer todos los comandos Artisan disponibles, utilizar el comando `list`:
 
     php artisan list
     
 
-Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, simply precede the name of the command with `help`:
+Cada comando incluye además una pantalla de "help" que muestra y describe los parámetros y opciones disponibles en el comando. Para visualizar la pantalla de ayuda, simplemente preceder el nombre del comando con `help`:
 
     php artisan help migrate
     
 
 #### Laravel REPL
 
-All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
+Todas las aplicaciones Laravel incluyen Tinker, un REPL impulsado por el páquete [PsySH](https://github.com/bobthecow/psysh). Tinker permite interactuar con toda la aplicación a través de la linea de comandos, incluyendo Eloquent ORM, jobs, eventos, y más. Para entrar en el entorno de `tinker` ejecutar el comando Artisan:
 
     php artisan tinker
     
 
 <a name="writing-commands"></a>
 
-## Writing Commands
+## Crear Comandos
 
-In addition to the commands provided with Artisan, you may also build your own custom commands. Commands are typically stored in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be loaded by Composer.
+Además de los comandos que provee Artisan, se pueden crear comandos propios personalizados. Estos comandos se almacenan normalmente en el directorio `app/Console/Commands`; sin embargo, se es libre de elegir su propia ubicación de almacenamiento siempre y cuando sus comandos puedan ser cargados por Composer.
 
 <a name="generating-commands"></a>
 
-### Generating Commands
+### Generar Comandos
 
-To create a new command, use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if this directory does not exist in your application, since it will be created the first time you run the `make:command` Artisan command. The generated command will include the default set of properties and methods that are present on all commands:
+Para crear un nuevo comando se utiliza el comando de Artisan `make:command`. Este comando creará una nueva clase *command* en el directorio `app/Console/Commands`. No se preocupe si este directorio no existe en la aplicación, ya que se creará la primera vez que se ejecute el comando Artisan `make:command`. El comando generado incluirá el conjunto predeterminado de propiedades y métodos que están presentes en todos los comandos:
 
     php artisan make:command SendEmails
     
 
 <a name="command-structure"></a>
 
-### Command Structure
+### Estructura de un Comando
 
-After generating your command, you should fill in the `signature` and `description` properties of the class, which will be used when displaying your command on the `list` screen. The `handle` method will be called when your command is executed. You may place your command logic in this method.
+Tras generar el comando debería rellenar las propiedades `signature` y `description` de la clase que serán usadas al mostrar el comando en la lista que obtenemos al ejecutar el comando Artisan `list`. El método `handle` será llamado cuando el comando sea ejecutado. Puede colocar la lógica del comando dentro de este método.
 
-> {tip} For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example below, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
+> {tip} Para facilitar la reutilización de código, es buena práctica mantener los comandos de consola ligeros y delegar la lógica a servicios de aplicación. En el ejemplo que mostramos más abajo se inyecta un servicio para hacer la "parte pesada" de enviar correos electrónicos.
 
-Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor:
+Veamos un comando de ejemplo. Tener en cuenta que es posible inyectar cualquier dependencia necesaria en el constructor del comando. El [service container](/docs/{{version}}/container) de Laravel inyectará automáticamente todas las dependencias que se le indiquen como sugerencia de tipo en en el constructor:
 
     <?php
     
@@ -124,7 +124,7 @@ Let's take a look at an example command. Note that we are able to inject any dep
 
 ### Closure Commands
 
-Closure based commands provide an alternative to defining console commands as classes. In the same way that route Closures are an alternative to controllers, think of command Closures as an alternative to command classes. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
+Los comandos definidos como una *Closure* (función anónima) presentan una alternativa a definir comandos de consola como clases. Del mismo modo que las rutas definida como *Closures* son una alternativa al uso de controladores, piense que los comandos definidos como *Closures* son una alternativa a los comandos definidos en una clase. En el interior del método `commands` del fichero `app/Console/Kernel.php`, Laravel carga el fichero `routes/console.php`:
 
     /**
      * Register the Closure based commands for the application.
@@ -137,7 +137,7 @@ Closure based commands provide an alternative to defining console commands as cl
     }
     
 
-Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your Closure based routes using the `Artisan::command` method. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a Closure which receives the commands arguments and options:
+Aunque este fichero no define rutas HTTP aquí se definen puntos de entrada a la consola (rutas) dentro de la aplicación. En el interior de este fichero se pueden definir todos los comandos definidos como *Closure* usando el método `Artisan::command`. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a Closure which receives the commands arguments and options:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
