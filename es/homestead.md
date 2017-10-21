@@ -41,21 +41,55 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 ### Included Software
 
-- Ubuntu 16.04
-- Git
-- PHP 7.1
-- Nginx
-- MySQL
-- MariaDB
-- Sqlite3
-- PostgreSQL
-- Composer
-- Node (With Yarn, Bower, Grunt, and Gulp)
-- Redis
-- Memcached
-- Beanstalkd
-- Mailhog
-- ngrok
+<div class="content-list">
+  <ul>
+    <li>
+      Ubuntu 16.04
+    </li>
+    <li>
+      Git
+    </li>
+    <li>
+      PHP 7.1
+    </li>
+    <li>
+      Nginx
+    </li>
+    <li>
+      MySQL
+    </li>
+    <li>
+      MariaDB
+    </li>
+    <li>
+      Sqlite3
+    </li>
+    <li>
+      PostgreSQL
+    </li>
+    <li>
+      Composer
+    </li>
+    <li>
+      Node (With Yarn, Bower, Grunt, and Gulp)
+    </li>
+    <li>
+      Redis
+    </li>
+    <li>
+      Memcached
+    </li>
+    <li>
+      Beanstalkd
+    </li>
+    <li>
+      Mailhog
+    </li>
+    <li>
+      ngrok
+    </li>
+  </ul>
+</div>
 
 <a name="installation-and-setup"></a>
 
