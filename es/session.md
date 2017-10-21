@@ -234,9 +234,9 @@ Laravel automatically regenerates the session ID during authentication if you ar
 
 <a name="implementing-the-driver"></a>
 
-#### Implementing The Driver
+#### Implementar el Driver
 
-Your custom session driver should implement the `SessionHandlerInterface`. This interface contains just a few simple methods we need to implement. A stubbed MongoDB implementation looks something like this:
+Un driver de sesión personalizado debe implementar `SessionHanldlerInterface`. La interfaz contiene unos pocos métodos que se deben implementar. Un ejemplo de una implementación para MongoDB sería algo así:
 
     <?php
     
@@ -253,38 +253,38 @@ Your custom session driver should implement the `SessionHandlerInterface`. This 
     }
     
 
-> {tip} Laravel does not ship with a directory to contain your extensions. You are free to place them anywhere you like. In this example, we have created an `Extensions` directory to house the `MongoHandler`.
+> {tip} Laravel no incluye ningún directorio para almacenar extensiones. Se pueden establecer donde convengan. En este ejemplo, se ha creado un directorio `Extensions` para almacenar el `MongoHandler`.
 
-Since the purpose of these methods is not readily understandable, let's quickly cover what each of the methods do:
+Puesto que el propósito de estos métodos no es intuitivo, se van a revisar a continuación:
 
 <div class="content-list">
   <ul>
     <li>
-      The <code>open</code> method would typically be used in file based session store systems. Since Laravel ships with a <code>file</code> session driver, you will almost never need to put anything in this method. You can leave it as an empty stub. It is simply a fact of poor interface design (which we'll discuss later) that PHP requires us to implement this method.
+      El método <code>open</code> se puede utilizar en sistemas de almacenamiento de sesión basados en archivos. Puesto que Laravel incluye el controlador de sesión <code>file</code>, casi nunca será necesario poner nada en este método. Se puede dejar vacío. Es solo un hecho sobre el pobre diseño de interfaz (del cual discutiremos luego) que PHP requiere para implementar este método.
     </li>
     <li>
-      The <code>close</code> method, like the <code>open</code> method, can also usually be disregarded. For most drivers, it is not needed.
+      El método <code>close</code>, como el <code>open</code>, puede no tenerse en cuenta. Para muchos de los controladores, este no es necesario.
     </li>
     <li>
-      The <code>read</code> method should return the string version of the session data associated with the given <code>$sessionId</code>. There is no need to do any serialization or other encoding when retrieving or storing session data in your driver, as Laravel will perform the serialization for you.
+      El método <code>read</code> debe retornar la versión de la cadena de la información de sesión asociada con el <code>$sessionId</code> dado. No es necesario hacer ninguna serializacion u otra codificación cuando recupera o almacena información de sesión, ya que Laravel se encargará de esto automáticamente.
     </li>
     <li>
-      The <code>write</code> method should write the given <code>$data</code> string associated with the <code>$sessionId</code> to some persistent storage system, such as MongoDB, Dynamo, etc. Again, you should not perform any serialization - Laravel will have already handled that for you.
+      El método <code>write</code> debe escribir la cadena <code>$data</code> asociada con el <code>$sessionId</code> en algún sistema de almacenamiento persistente, como MongoDB, Dynamo, etc. De nuevo, no se debe realizar ninguna serialización – Laravel lo gestionará por nosotros.
     </li>
     <li>
-      The <code>destroy</code> method should remove the data associated with the <code>$sessionId</code> from persistent storage.
+      El método <code>destroy</code> debe eliminar la información asociada con el <code>$sessionId</code> del almacenamiento.
     </li>
     <li>
-      The <code>gc</code> method should destroy all session data that is older than the given <code>$lifetime</code>, which is a UNIX timestamp. For self-expiring systems like Memcached and Redis, this method may be left empty.
+      El método <code>gc</code> debe destruir toda la información de sesión que sea anterior al <code>$lifetime</code> dado, el cual es un <em>timestamp</em> de UNIX. Para sistemas auto-expirables, como <em>Memcached</em> y <em>Redis</em>, este método debe dejarse vacío.
     </li>
   </ul>
 </div>
 
 <a name="registering-the-driver"></a>
 
-#### Registering The Driver
+#### Registrar el Driver
 
-Once your driver has been implemented, you are ready to register it with the framework. To add additional drivers to Laravel's session backend, you may use the `extend` method on the `Session` [facade](/docs/{{version}}/facades). You should call the `extend` method from the `boot` method of a [service provider](/docs/{{version}}/providers). You may do this from the existing `AppServiceProvider` or create an entirely new provider:
+Una vez que se ha implementado el driver, ya se puede registrar en el framework. Para añadir drivers de sesión adicionales a Laravel, se puede utilizar el método `extend` de la `Session` [facade](/docs/{{version}}/facades). Se debe llamar al método `extend` desde el método `boot` de un [service provider](/docs/{{version}}/providers). Se podría hacer desde el `AppServiceProvider` existente o crear uno nuevo:
 
     <?php
     
