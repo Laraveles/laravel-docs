@@ -200,7 +200,7 @@ You may also make arguments optional and define default values for arguments:
 
 ### Opciones
 
-Las opciones, al igual que los argumentos, son otra forma de recoger valores de entrada aportados por el usuario. Las opciones son precedidas por dos guiones (`--`) cuando se especifican en la línea de comandos. There are two types of options: those that receive a value and those that don't. Las opciones que no reciben un valor funcionan como un "interuptor" lógico. Mire el siguiente ejemplo de este tipo de opción:
+Las opciones, al igual que los argumentos, son otra forma de recoger valores de entrada aportados por el usuario. Las opciones son precedidas por dos guiones (`--`) cuando se especifican en la línea de comandos. Hay dos tipos de opciones: aquellas que reciben un valor y las que no. Las opciones que no reciben un valor funcionan como un "interuptor" lógico. Mire el siguiente ejemplo de este tipo de opción:
 
     /**
      * The name and signature of the console command.
@@ -210,7 +210,7 @@ Las opciones, al igual que los argumentos, son otra forma de recoger valores de 
     protected $signature = 'email:send {user} {--queue}';
     
 
-En este ejemplo, la opción `--queue` se puede especificar directamente cuando se ejecuta el comando Artisan. If the `--queue` switch is passed, the value of the option will be `true`. De lo contrario, el valor será `false`:
+En este ejemplo, la opción `--queue` se puede especificar directamente cuando se ejecuta el comando Artisan. Si se pasa el opción `--queue`, el valor de la opción será `true`. De lo contrario, el valor será `false`:
 
     php artisan email:send 1 --queue
     
