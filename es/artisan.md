@@ -4,7 +4,7 @@
 - [Crear comandos](#writing-commands) 
     - [Generar comandos](#generating-commands)
     - [Estructura de un comando](#command-structure)
-    - [Comandos *closure*](#closure-commands)
+    - [Comandos en funciones anónimas (closure)](#closure-commands)
 - [Definición de expectativas de entrada](#defining-input-expectations) 
     - [Argumentos](#arguments)
     - [Opciones](#options)
@@ -124,7 +124,7 @@ Veamos un comando de ejemplo. Tener en cuenta que somos capaces de inyectar cual
 
 ### Closure Commands
 
-Los comandos basadoe en una función anónima (*Closure*) son una alternativa a definir comandos de consola como clases. Del mismo modo que las rutas definida como funciones anónimas son la alternativa al uso de controladores, piense que los comandos definidos así son una alternativa a los comandos definidos en una clase. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
+Los comandos basadoe en una función anónima (*Closure*) son una alternativa a definir comandos de consola como clases. Del mismo modo que las rutas definida como funciones anónimas son la alternativa al uso de controladores, piense que los comandos definidos así son una alternativa a los comandos definidos en una clase. En el interior del método `commands` del fichero `app/Console/Kernel.php`, Laravel carga el fichero `routes/console.php`:
 
     /**
      * Register the Closure based commands for the application.
@@ -137,18 +137,18 @@ Los comandos basadoe en una función anónima (*Closure*) son una alternativa a 
     }
     
 
-Aunque este fichero no define rutas HTTP aquí se definen puntos de entrada a la consola (rutas) dentro de la aplicación. En el interior de este fichero se pueden definir todos los comandos definidos como *Closure* usando el método `Artisan::command`. El método `command` acepta dos parámetros: La [firma del comando](#defining-input-expectations) y una *Closure* que recibirá los parámetros y opciones del comando:
+Aunque este fichero no define rutas HTTP, éstas definen puntos de entrada a la consola (rutas) dentro de la aplicación. En el interior de este fichero se pueden definir todos los comandos definidos como funciones anónimas usando el método `Artisan::command`. El método `command` acepta dos argumentos: La [firma del comando](#defining-input-expectations) y una función anónima que recibe los argumentos y opciones del comando:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
     });
     
 
-La *Closure* está enlazada con la instancia de un comando, por tanto, tiene acceso a todos los métodos *helper* que tendría accesibles en una clase de comando.
+La función anónima está enlazada con la instancia de un comando, por tanto, tiene acceso total a todos los métodos de ayuda que tendría normalmente accesibles en una clase de comando.
 
-#### Type-Hinting Dependencies
+#### Sugerencias de tipo para las dependencias
 
-Además de recibir los parámetros y opciones de su comando, en los comandos definidos como *Closure* puede también usar las sugerencias de tipo para cargar dependencias a través del [service container](/docs/{{version}}/container):
+Además de recibir los argumentos y opciones del comando, las funciones anónimas pueden también establecer los tipos para las dependencias adicionales que quisieran ser resueltas a través del [service container](/docs/{{version}}/container):
 
     use App\User;
     use App\DripEmailer;
@@ -160,7 +160,7 @@ Además de recibir los parámetros y opciones de su comando, en los comandos def
 
 #### Closure Command Descriptions
 
-When defining a Closure based command, you may use the `describe` method to add a description to the command. This description will be displayed when you run the `php artisan list` or `php artisan help` commands:
+Cuando se define un comando a través de una función anónima, usted puede usar el método `describe` para añadir la descripción al comando. Esta descripción será mostrada cuando ejecuten los comandos `php artisan list` o `php artisan help`:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -171,13 +171,13 @@ When defining a Closure based command, you may use the `describe` method to add 
 
 ## Defining Input Expectations
 
-When writing console commands, it is common to gather input from the user through arguments or options. Laravel makes it very convenient to define the input you expect from the user using the `signature` property on your commands. The `signature` property allows you to define the name, arguments, and options for the command in a single, expressive, route-like syntax.
+Al escribir comandos de consola, es bastante común obtener datos de entrada desde el usuario a través de argumentos u opciones. Laravel simplifica la definición de las entradas requeridas por el usuario utilizando la propiedad `signature` del comando. La propiedad `signature` le permite definir el nombre, argumentos y opciones del comando con una sintaxis simple y expresiva, similar a la de la rutas.
 
 <a name="arguments"></a>
 
-### Arguments
+### Argumentos
 
-All user supplied arguments and options are wrapped in curly braces. In the following example, the command defines one **required** argument: `user`:
+Todos los argumentos y opciones introducidos por el usuario irán entre llaves. En el siguiente ejemplo, el comando define un argumento obligatorio **required**: `user`:
 
     /**
      * The name and signature of the console command.
