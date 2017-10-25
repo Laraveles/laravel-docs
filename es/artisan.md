@@ -3,47 +3,47 @@
 - [Introducción](#introduction)
 - [Crear comandos](#writing-commands) 
     - [Generar comandos](#generating-commands)
-    - [Estructura del comando](#command-structure)
+    - [Estructura de un comando](#command-structure)
     - [Comandos *closure*](#closure-commands)
 - [Definición de expectativas de entrada](#defining-input-expectations) 
     - [Argumentos](#arguments)
     - [Opciones](#options)
-    - [Arrays de Entrada](#input-arrays)
-    - [Descripciones de Entrada](#input-descriptions)
-- [E/S del Comando](#command-io) 
-    - [Obtener Input](#retrieving-input)
+    - [Matrices de entradas](#input-arrays)
+    - [Descripciones de entrada](#input-descriptions)
+- [E/S del comando](#command-io) 
+    - [Obtener la entrada](#retrieving-input)
     - [Solicitud de parámetros de entrada](#prompting-for-input)
-    - [Generar Salida](#writing-output)
-- [Registro de Comandos](#registering-commands)
+    - [Generar la salida](#writing-output)
+- [Registro de los comandos](#registering-commands)
 - [Programmatically Executing Commands](#programmatically-executing-commands) 
-    - [Ejecutar Comandos Desde Otros Comandos](#calling-commands-from-other-commands)
+    - [Ejecutar Comandos desde otros comandos](#calling-commands-from-other-commands)
 
 <a name="introduction"></a>
 
 ## Introducción
 
-Artisan es el nombre de la interfaz de línea de comandos incluida en Laravel. Proporciona una serie de comandos útiles que podrán ayudar mientras se desarrolla una aplicación. Para conocer todos los comandos Artisan disponibles, utilizar el comando `list`:
+Artisan es el nombre de la interfaz de línea de comandos incluída en Laravel. Ésta proporciona una serie de comandos útiles que podrán ayudar mientras desarrolla su aplicación. Para conocer la lista de todos los comandos Artisan disponibles, usted puede utilizar el comando `list`:
 
     php artisan list
     
 
-Cada comando incluye además una pantalla de "help" que muestra y describe los parámetros y opciones disponibles en el comando. Para visualizar la pantalla de ayuda, simplemente preceder el nombre del comando con `help`:
+Cada comando incluye además una ayuda en pantalla que muestra y describe los parámetros y argumentos disponibles para el comando. Para visualizar la ayuda en pantalla, simplemente precede el nombre del comando con `help`:
 
     php artisan help migrate
     
 
 #### Laravel REPL
 
-Todas las aplicaciones Laravel incluyen Tinker, un REPL impulsado por el páquete [PsySH](https://github.com/bobthecow/psysh). Tinker permite interactuar con toda la aplicación a través de la linea de comandos, incluyendo Eloquent ORM, jobs, eventos, y más. Para entrar en el entorno de `tinker` ejecutar el comando Artisan:
+Todas las aplicaciones Laravel incluyen *Tinker*, una consola (REPL) utilizando el motor del paquete [PsySH](https://github.com/bobthecow/psysh). Tinker le permite interactuar con toda la aplicación Laravel a través de la linea de comandos, incluyendo *Eloquent ORM*, trabajos, eventos, y más. Para entrar en el entorno Tinker ejecute el comando Artisan `tinker`:
 
     php artisan tinker
     
 
 <a name="writing-commands"></a>
 
-## Crear Comandos
+## Escribir comandos
 
-Además de los comandos que provee Artisan, se pueden crear comandos propios personalizados. Estos comandos se almacenan normalmente en el directorio `app/Console/Commands`; sin embargo, se es libre de elegir su propia ubicación de almacenamiento siempre y cuando sus comandos puedan ser cargados por Composer.
+Además de los comandos que provee Artisan, usted puede crear también sus propios comandos personalizados. Los comandos se almacenan normalmente en el directorio `app/Console/Commands`; sin embargo, usted es libre de elegir su propia ubicación de almacenamiento siempre y cuando sus comandos puedan ser cargados por *Composer*.
 
 <a name="generating-commands"></a>
 
