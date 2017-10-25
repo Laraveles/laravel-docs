@@ -210,14 +210,14 @@ Las opciones, al igual que los argumentos, son otra forma de recoger valores de 
     protected $signature = 'email:send {user} {--queue}';
     
 
-En este ejemplo, el interruptor `--queue` se puede especificar directamente cuando se ejecuta el comando Artisan. If the `--queue` switch is passed, the value of the option will be `true`. Otherwise, the value will be `false`:
+En este ejemplo, la opción `--queue` se puede especificar directamente cuando se ejecuta el comando Artisan. If the `--queue` switch is passed, the value of the option will be `true`. De lo contrario, el valor será `false`:
 
     php artisan email:send 1 --queue
     
 
 <a name="options-with-values"></a>
 
-#### Options With Values
+#### Opciones con Valores
 
 Next, let's take a look at an option that expects a value. If the user must specify a value for an option, suffix the option name with a `=` sign:
 
@@ -229,7 +229,7 @@ Next, let's take a look at an option that expects a value. If the user must spec
     protected $signature = 'email:send {user} {--queue=}';
     
 
-In this example, the user may pass a value for the option like so:
+En este ejemplo, el usuario puede pasar un valor para la opción:
 
     php artisan email:send 1 --queue=default
     
