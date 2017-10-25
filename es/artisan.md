@@ -198,9 +198,9 @@ You may also make arguments optional and define default values for arguments:
 
 <a name="options"></a>
 
-### Options
+### Opciones
 
-Options, like arguments, are another form of user input. Options are prefixed by two hyphens (`--`) when they are specified on the command line. There are two types of options: those that receive a value and those that don't. Options that don't receive a value serve as a boolean "switch". Let's take a look at an example of this type of option:
+Las opciones, al igual que los argumentos, son otra forma de recoger valores de entrada aportados por el usuario. Las opciones son precedidas por dos guiones (`--`) cuando se especifican en la línea de comandos. There are two types of options: those that receive a value and those that don't. Las opciones que no reciben un valor funcionan como un "interuptor" lógico. Mire el siguiente ejemplo de este tipo de opción:
 
     /**
      * The name and signature of the console command.
@@ -210,7 +210,7 @@ Options, like arguments, are another form of user input. Options are prefixed by
     protected $signature = 'email:send {user} {--queue}';
     
 
-In this example, the `--queue` switch may be specified when calling the Artisan command. If the `--queue` switch is passed, the value of the option will be `true`. Otherwise, the value will be `false`:
+En este ejemplo, el interruptor `--queue` se puede especificar directamente cuando se ejecuta el comando Artisan. If the `--queue` switch is passed, the value of the option will be `true`. Otherwise, the value will be `false`:
 
     php artisan email:send 1 --queue
     
