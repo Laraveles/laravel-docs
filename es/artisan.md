@@ -47,22 +47,22 @@ Además de los comandos que provee Artisan, usted puede crear también sus propi
 
 <a name="generating-commands"></a>
 
-### Generar Comandos
+### Generar comandos
 
-Para crear un nuevo comando se utiliza el comando de Artisan `make:command`. Este comando creará una nueva clase *command* en el directorio `app/Console/Commands`. No se preocupe si este directorio no existe en la aplicación, ya que se creará la primera vez que se ejecute el comando Artisan `make:command`. El comando generado incluirá el conjunto predeterminado de propiedades y métodos que están presentes en todos los comandos:
+Para crear un nuevo comando utilice el comando de Artisan `make:command`. Este comando creará una nueva clase *command* en el directorio `app/Console/Commands`. No se preocupe si este directorio no existe en la aplicación, ya que éste se creará la primera vez que ejecute el comando Artisan `make:command`. El comando generado incluirá el conjunto predeterminado de propiedades y métodos que están presentes en todos los comandos:
 
     php artisan make:command SendEmails
     
 
 <a name="command-structure"></a>
 
-### Estructura de un Comando
+### Estructura de un comando
 
-Tras generar el comando debería rellenar las propiedades `signature` y `description` de la clase que serán usadas al mostrar el comando en la lista que obtenemos al ejecutar el comando Artisan `list`. El método `handle` será llamado cuando el comando sea ejecutado. Puede colocar la lógica del comando dentro de este método.
+Tras generar el comando usted debería rellenar las propiedades `signature` y `description` de la clase, las cuales serán usadas cuando se muestre el comando en la lista que obtenemos al ejecutar el comando Artisan `list`. El método `handle` será llamado cuando el comando es ejecutado. Puede colocar la lógica del comando dentro de este método.
 
-> {tip} Para facilitar la reutilización de código, es buena práctica mantener los comandos de consola ligeros y delegar la lógica a servicios de aplicación. En el ejemplo que mostramos más abajo se inyecta un servicio para hacer la "parte pesada" de enviar correos electrónicos.
+> {tip} Para facilitar la reutilización de código, es una buena práctica mantener los comandos de consola ligeros y permitir delegar la lógica para cumplir sus tareas a los servicios de la aplicación. En el ejemplo que mostramos más abajo se inyecta una clase servicio para hacer la "parte pesada" del envío de los correos electrónicos.
 
-Veamos un comando de ejemplo. Tener en cuenta que es posible inyectar cualquier dependencia necesaria en el constructor del comando. El [service container](/docs/{{version}}/container) de Laravel inyectará automáticamente todas las dependencias que se le indiquen como sugerencia de tipo en en el constructor:
+Veamos un comando de ejemplo. Tener en cuenta que somos capaces de inyectar cualquier dependencia que necesitemos dentro del constructor del comando. El [*service container*](/docs/{{version}}/container) de Laravel inyectará automáticamente, en en el constructor, todas las dependencias que estén cualificadas por su tipo:
 
     <?php
     
@@ -124,7 +124,7 @@ Veamos un comando de ejemplo. Tener en cuenta que es posible inyectar cualquier 
 
 ### Closure Commands
 
-Los comandos definidos como una *Closure* (función anónima) presentan una alternativa a definir comandos de consola como clases. Del mismo modo que las rutas definida como *Closures* son una alternativa al uso de controladores, piense que los comandos definidos como *Closures* son una alternativa a los comandos definidos en una clase. En el interior del método `commands` del fichero `app/Console/Kernel.php`, Laravel carga el fichero `routes/console.php`:
+Los comandos basadoe en una función anónima (*Closure*) son una alternativa a definir comandos de consola como clases. Del mismo modo que las rutas definida como funciones anónimas son la alternativa al uso de controladores, piense que los comandos definidos así son una alternativa a los comandos definidos en una clase. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
 
     /**
      * Register the Closure based commands for the application.
