@@ -141,6 +141,15 @@ You may rollback & re-migrate a limited number of migrations by providing the `s
     php artisan migrate:refresh --step=5
     
 
+#### Drop All Tables & Migrate
+
+The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+
+    php artisan migrate:fresh
+    
+    php artisan migrate:fresh --seed
+    
+
 <a name="tables"></a>
 
 ## Tables
@@ -297,16 +306,16 @@ In addition to the column types listed above, there are several column "modifier
 
 Below is a list of all the available column modifiers. This list does not include the [index modifiers](#creating-indexes):
 
-| Modifier                      | Description                                          |
-| ----------------------------- | ---------------------------------------------------- |
-| `->after('column')`        | Place the column "after" another column (MySQL Only) |
-| `->comment('my comment')`  | Add a comment to a column (MySQL Only)               |
-| `->default($value)`        | Specify a "default" value for the column             |
-| `->first()`                | Place the column "first" in the table (MySQL Only)   |
-| `->nullable()`             | Allow NULL values to be inserted into the column     |
-| `->storedAs($expression)`  | Create a stored generated column (MySQL Only)        |
-| `->unsigned()`             | Set `integer` columns to `UNSIGNED`                  |
-| `->virtualAs($expression)` | Create a virtual generated column (MySQL Only)       |
+| Modifier                       | Description                                                    |
+| ------------------------------ | -------------------------------------------------------------- |
+| `->after('column')`         | Place the column "after" another column (MySQL Only)           |
+| `->comment('my comment')`   | Add a comment to a column (MySQL Only)                         |
+| `->default($value)`         | Specify a "default" value for the column                       |
+| `->first()`                 | Place the column "first" in the table (MySQL Only)             |
+| `->nullable($value = true)` | Allows (by default) NULL values to be inserted into the column |
+| `->storedAs($expression)`   | Create a stored generated column (MySQL Only)                  |
+| `->unsigned()`              | Set `integer` columns to `UNSIGNED`                            |
+| `->virtualAs($expression)`  | Create a virtual generated column (MySQL Only)                 |
 
 <a name="changing-columns"></a>
 <a name="modifying-columns"></a>
