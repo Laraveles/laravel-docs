@@ -409,7 +409,7 @@ The `table` method makes it easy to correctly format multiple rows / columns of 
 
 #### Progress Bars
 
-For long running tasks, it could be helpful to show a progress indicator. Using the output object, we can start, advance and stop the Progress Bar. First, define the total number of steps the process will iterate through. Then, advance the Progress Bar after processing each item:
+For long running tasks, it could be helpful to show a progress indicator. Utilizando el objeto de salida, podemos comenzar, avanzar y detener la barra de progreso. Primero, define el número total de pasos que recorrer el proceso. Then, advance the Progress Bar after processing each item:
 
     $users = App\User::all();
     
