@@ -243,7 +243,7 @@ Puede asignar valores por defecto a las opciones especificándolo después del n
 
 #### Option Shortcuts
 
-To assign a shortcut when defining an option, you may specify it before the option name and use a | delimiter to separate the shortcut from the full option name:
+Para asignar un atajo cuando se define una opción, usted puede especificarla antes del nombre de la opción y utilizando el delimitador | para separar el atajo del nombre completo de la opción:
 
     email:send {user} {--Q|queue}
     
@@ -252,17 +252,17 @@ To assign a shortcut when defining an option, you may specify it before the opti
 
 ### Input Arrays
 
-If you would like to define arguments or options to expect array inputs, you may use the `*` character. First, let's take a look at an example that specifies an array argument:
+Si quisiera definir argumentos u opciones que esperan una entrada en forma de matriz, puedes usar el carácter `*`. Primero, veamos un ejemplo que especifica una matriz como argumento:
 
     email:send {user*}
     
 
-When calling this method, the `user` arguments may be passed in order to the command line. Por ejemplo, el siguiente comando asignará `['foo', 'bar']` como valor de `user`:
+Cuando se llame este método, los argumentos de `user` pueden ser pasados, en orden, a la línea de comandos. Por ejemplo, el siguiente comando asignará `['foo', 'bar']` como valor de `user`:
 
     php artisan email:send foo bar
     
 
-When defining an option that expects an array input, each option value passed to the command should be prefixed with the option name:
+Cuando definimos una opción que espera una matriz como entrada, cada valor de opción pasado al comando debería ser precedido por el nombre de opción:
 
     email:send {user} {--id=*}
     
@@ -308,7 +308,7 @@ While your command is executing, you will obviously need to access the values fo
     }
     
 
-If you need to retrieve all of the arguments as an `array`, call the `arguments` method:
+Si necesita obtener todos los argumentos como una `matriz`, use el método `arguments`:
 
     $arguments = $this->arguments();
     
