@@ -357,7 +357,7 @@ If you need to ask the user for a simple confirmation, you may use the `confirm`
 
 #### Autocompletado
 
-The `anticipate` method can be used to provide auto-completion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:
+El método `anticipate` puede ser usado para proveer autocompletado para posibles elecciones. El usuario podrá elegir cualquier respuesta, independientemente de las opciones que se le ofrecen como autocompletado:
 
     $name = $this->anticipate('What is your name?', ['Taylor', 'Dayle']);
     
@@ -373,7 +373,7 @@ If you need to give the user a predefined set of choices, you may use the `choic
 
 ### Writing Output
 
-To send output to the console, use the `line`, `info`, `comment`, `question` and `error` methods. Each of these methods will use appropriate ANSI colors for their purpose. For example, let's display some general information to the user. Typically, the `info` method will display in the console as green text:
+To send output to the console, use the `line`, `info`, `comment`, `question` and `error` methods. Cada uno de estos métodos usará colores ANSI apropiados para su cometido. For example, let's display some general information to the user. Normalmente, el método `info` mostrará texto verde en la consola:
 
     /**
      * Execute the console command.
