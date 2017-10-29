@@ -313,7 +313,7 @@ Si necesita obtener todos los argumentos como una `matriz`, use el método `argu
     $arguments = $this->arguments();
     
 
-Options may be retrieved just as easily as arguments using the `option` method. To retrieve all of the options as an array, call the `options` method:
+Las opciones pueden ser obtenidas tan fácilmente como los argumentos usando el método `option`. Para obtener las opciones como una matriz, llama al método `options`:
 
     // Retrieve a specific option...
     $queueName = $this->option('queue');
@@ -322,7 +322,7 @@ Options may be retrieved just as easily as arguments using the `option` method. 
     $options = $this->options();
     
 
-If the argument or option does not exist, `null` will be returned.
+Si el argumento u opción no existe, se retornará `null`.
 
 <a name="prompting-for-input"></a>
 
@@ -341,21 +341,21 @@ In addition to displaying output, you may also ask the user to provide input dur
     }
     
 
-The `secret` method is similar to `ask`, but the user's input will not be visible to them as they type in the console. This method is useful when asking for sensitive information such as a password:
+El método `secret` es parecido a `ask`, pero la entrada del usuario no será visible mientras se escribe en la consola. Este método resulta útil cuando se solicita información sensible como contraseñas:
 
     $password = $this->secret('What is the password?');
     
 
 #### Asking For Confirmation
 
-If you need to ask the user for a simple confirmation, you may use the `confirm` method. By default, this method will return `false`. However, if the user enters `y` or `yes` in response to the prompt, the method will return `true`.
+If you need to ask the user for a simple confirmation, you may use the `confirm` method. Por defecto, este método retornará `false`. Si embargo, si el usuario introduce `y` o `yes` como respuesta a la solicitud desde la consola de comandos, el método retornará `true`.
 
     if ($this->confirm('Do you wish to continue?')) {
         //
     }
     
 
-#### Auto-Completion
+#### Autocompletado
 
 The `anticipate` method can be used to provide auto-completion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:
 
