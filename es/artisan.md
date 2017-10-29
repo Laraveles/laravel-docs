@@ -424,7 +424,7 @@ For long running tasks, it could be helpful to show a progress indicator. Utiliz
     $bar->finish();
     
 
-For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
+Para opciones más avanzadas, eche un vistazo a la [documentación del componente de la Barra de Progreso de Symfony](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
 
 <a name="registering-commands"></a>
 
