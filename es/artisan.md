@@ -187,7 +187,7 @@ Todos los argumentos y opciones introducidos por el usuario irán entre llaves. 
     protected $signature = 'email:send {user}';
     
 
-You may also make arguments optional and define default values for arguments:
+Puede crear argumentos opcionales y definir valores por defecto para los argumentos:
 
     // Optional argument...
     email:send {user?}
@@ -219,7 +219,7 @@ En este ejemplo, la opción `--queue` se puede especificar directamente cuando s
 
 #### Opciones con Valores
 
-Next, let's take a look at an option that expects a value. If the user must specify a value for an option, suffix the option name with a `=` sign:
+Ahora, veamos una opción que espera un valor. Si el usuario debe especificar un valor para una opción, ponga `=` como sufijo de la opción:
 
     /**
      * The name and signature of the console command.
@@ -234,7 +234,7 @@ En este ejemplo, el usuario puede pasar un valor para la opción:
     php artisan email:send 1 --queue=default
     
 
-You may assign default values to options by specifying the default value after the option name. If no option value is passed by the user, the default value will be used:
+Puede asignar valores por defecto a las opciones especificándolo después del nombre de la opción. Si el usuario no se pasa ningún valor se usará el el valor por defecto:
 
     email:send {user} {--queue=default}
     
@@ -257,7 +257,7 @@ If you would like to define arguments or options to expect array inputs, you may
     email:send {user*}
     
 
-When calling this method, the `user` arguments may be passed in order to the command line. For example, the following command will set the value of `user` to `['foo', 'bar']`:
+When calling this method, the `user` arguments may be passed in order to the command line. Por ejemplo, el siguiente comando asignará `['foo', 'bar']` como valor de `user`:
 
     php artisan email:send foo bar
     
