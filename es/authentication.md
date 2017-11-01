@@ -66,7 +66,7 @@ This command should be used on fresh applications and will install a layout view
 
 ### Views
 
-As mentioned in the previous section, the `php artisan make:auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+Como se ha mencionado anteriormente, el comando `php artisan make:auth` creará todas las vistas necesarias para la autenticación y las ubicará en el directorio `resources/views/auth`.
 
 The `make:auth` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
 
