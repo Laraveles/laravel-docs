@@ -24,20 +24,20 @@ Para hacer esto más fácil, Laravel utiliza la librería de PHP [DotEnv](https:
 
 Su fichero `.env` no debería ser incorporado al control de versiones de su aplicación, pues cada desarrollador / servidor que utiliza la aplicación podría requerir una configuración de entorno diferente. Además, esto supondría un riesgo de seguridad en caso de que un intruso acceda a su repositorio de control de versiones, ya que cualquier credencial sensible quedaría expuesta.
 
-Si se desarrolla en conjunto con un equipo, es recomendable seguir incluyendo un archivo `.env.example`. Estableciendo valores de ejemplo en el archivo de configuración, otros desarrolladores del equipo podrán saber cuales son las variables necesarias para ejecutar la aplicación. También puede crear un archivo `.env.testing`. Este archivo reemplazará los valores del archivo `.env` al ejecutar pruebas de *PHPUnit* o al ejecutar comandos *Artisan* con la opción `--env=testing`.
+Si usted está desarrollando con un equipo, puede continuar incluyendo un archivo `.env.example` con su aplicación. Estableciendo valores de ejemplo en el archivo de configuración de ejemplo, otros desarrolladores en su equipo pueden ver claramente que variables de entorno son necesarias para ejecutar su aplicación. Usted también puede crear un archivo `.env.testing`. Este archivo reemplazará valores del archivo `.env` al ejecutar pruebas de *PHPUnit* o al ejecutar comandos *Artisan* con la opción `--env=testing`.
 
 > {tip} Cualquier variable en su archivo `.env` puede ser reemplazada por variables de entorno externas a nivel de servidor o de sistema.
 
 <a name="retrieving-environment-configuration"></a>
 
-### Obtener la Configuración del Entorno
+### Obtener la configuración del entorno
 
-Todas las variables listadas en este archivo se cargarán en la variable super-global de PHP `$_ENV` cada vez que la aplicación reciba una petición. Sin embargo, se puede utilizar el *helper* `env` para recuperar valores de estas variables en sus archivos de configuración. De hecho, revisando los archivos de configuración de Laravel se puede observar que varias de las opciones están usando este *helper*:
+All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. Sin embargo, usted puede utilizar el *helper* `env` para recuperar valores de esas variables en sus archivos de configuración. De hecho, si revisa los archivos de configuración de Laravel, puede observar que varias de las opciones ya usan este *helper*:
 
     'debug' => env('APP_DEBUG', false),
     
 
-El segundo valor pasado a la función `env` es el "valor por defecto". Este valor se utilizará si no existe ninguna variable de entorno para la clave dada.
+El segundo valor pasado a la función `env` es el *"valor por defecto"*. Este valor será usado si no existe ninguna variable de entorno para la clave dada.
 
 <a name="determining-the-current-environment"></a>
 
