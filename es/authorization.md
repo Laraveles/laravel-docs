@@ -21,21 +21,21 @@
 
 ## Introducción
 
-Además de contar con servicios de [authentication](/docs/{{version}}/authentication) desde la instalación, Laravel también provee una manera simple de autorizar las acciones de los usuarios contra un recurso determinado. Como en la autenticación, el enfoque de Laravel hacia la autorización es simple, y existen principalmente dos maneras de autorizar acciones: *gates* y políticas.
+In addition to providing [authentication](/docs/{{version}}/authentication) services out of the box, Laravel also provides a simple way to authorize user actions against a given resource. Like authentication, Laravel's approach to authorization is simple, and there are two primary ways of authorizing actions: gates and policies.
 
-Think of gates and policies like routes and controllers. *Gates* ofrecen una manera simple de autorización basada en funciones anónimas, mientras que las políticas, como los controladores, agrupan la lógica alrededor de un modelo o recurso particular. Primero veremos las *gates* y luego las políticas.
+Piense en *gates* y en las políticas como las rutas y los controladores. Gates provide a simple, Closure based approach to authorization while policies, like controllers, group their logic around a particular model or resource. We'll explore gates first and then examine policies.
 
-Cuando se construye una aplicación, no es necesario elegir entre usar exclusivamente *gates* o exclusivamente políticas. La mayoría de las aplicaciones probablemente contienen una mezcla de *gates* y políticas ¡y eso es perfectamente correcto! Los *Gates* son más aplicables a las acciones que no están relacionadas con ningun modelo o recurso, tal como ver el dashboard de administración. Por el contrario, las políticas se deberían utilizar cuando se desea autorizar una acción para un modelo o recurso particular.
+You do not need to choose between exclusively using gates or exclusively using policies when building an application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.
 
 <a name="gates"></a>
 
-## *Gates*
+## Gates
 
 <a name="writing-gates"></a>
 
-### Writing Gates
+### Escribir *Gates*
 
-Los *Gates* son funciones anónimas que determinan si un usuario está autorizado para realizar una determinada acción y se definen típicamente en la clase `App\Providers\AuthServiceProvider` usando el *facade* `<em>Gate</em>`. Gates always receive a user instance as their first argument, and may optionally receive additional arguments such as a relevant Eloquent model:
+Gates are Closures that determine if a user is authorized to perform a given action and are typically defined in the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Los *Gates* siempre reciben una instancia del usuario como primer argumento, y pueden recibir opcionalmente argumentos adicionales como un modelo Eloquent relevante:
 
     /**
      * Register any authentication / authorization services.
@@ -52,7 +52,7 @@ Los *Gates* son funciones anónimas que determinan si un usuario está autorizad
     }
     
 
-Gates may also be defined using a `Class@method` style callback string, like controllers:
+Los *Gates* también se pueden ser definidos usando el estilo de *callback* `Class@method`, como en los controladores:
 
     /**
      * Register any authentication / authorization services.
@@ -67,9 +67,9 @@ Gates may also be defined using a `Class@method` style callback string, like con
     }
     
 
-#### Resource Gates
+#### *Gates* de Recursos
 
-You may also define multiple Gate abilities at once using the `resource` method:
+Usted puede definir multiples habilidades del *Gates* usando el método `resource`:
 
     Gate::resource('posts', 'PostPolicy');
     
