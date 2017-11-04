@@ -18,11 +18,11 @@ Todos los archivos de configuración del *framework* Laravel están almacenados 
 
 ## Configuración del entorno
 
-A menudo es útil tener diferentes valores de configuración basados en el entorno donde se ejecute la aplicación. Por ejemplo, se puede utilizar un controlador de *cache* local diferente que el que se utiliza en el servidor de producción.
+A menudo es útil tener diferentes valores de configuración basados en el entorno donde se ejecute la aplicación. Por ejemplo, usted puede desear utilizar un majeador de *cache* diferente local diferente que el que se utiliza en su servidor de producción.
 
-Para hacer esto muy fácil, Laravel utiliza la librería de PHP [DotEnv](https://github.com/vlucas/phpdotenv) de Vance Lucas. En una instalación nueva de Laravel, el directorio raíz de la aplicación contendrá un archivo `.env.example`. Si se instala Laravel través de composer, este archivo automáticamente se renombrará a `.env`. De lo contrario, debe cambiarse manualmente.
+Para hacer esto más fácil, Laravel utiliza la librería de PHP [DotEnv](https://github.com/vlucas/phpdotenv) de Vance Lucas. En una instalación nueva de Laravel, el directorio raíz de la aplicación contendrá un archivo `.env.example`. Si usted instala Laravel través de *Composer*, este archivo automáticamente será renombrado como `.env`. De lo contrario, usted debe renombrarlo manualmente.
 
-Sin embargo, el archivo `.env` no debe incorporarse nunca al repositorio, pues cada desarrollador / servidor que utiliza la aplicación puede requerir una configuración de entorno diferente. Además, esto supondría un riesgo de seguridad en caso de que un intruso acceda a su repositorio, ya que cualquier credencial sensible quedaría expuesta.
+Su fichero `.env` no debería ser incorporado al control de versiones de su aplicación, pues cada desarrollador / servidor que utiliza la aplicación podría requerir una configuración de entorno diferente. Además, esto supondría un riesgo de seguridad en caso de que un intruso acceda a su repositorio de control de versiones, ya que cualquier credencial sensible quedaría expuesta.
 
 Si se desarrolla en conjunto con un equipo, es recomendable seguir incluyendo un archivo `.env.example`. Estableciendo valores de ejemplo en el archivo de configuración, otros desarrolladores del equipo podrán saber cuales son las variables necesarias para ejecutar la aplicación. También puede crear un archivo `.env.testing`. Este archivo reemplazará los valores del archivo `.env` al ejecutar pruebas de *PHPUnit* o al ejecutar comandos *Artisan* con la opción `--env=testing`.
 
