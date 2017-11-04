@@ -65,29 +65,29 @@ También puede pasar argumentos al método `environment` para comprobar si hay c
 
 ## Acceso a valores de configuración
 
-Usted puede acceder fácilmente a los valores de configuración utilizando el *helper* global `config` desde cualquier lugar de la aplicación. Los valores de configuración pueden ser accedidos mediante una sintaxis de "punto", que incluye el nombre del archivo y la opción a la que se desea acceder. Se puede especificar un valor por defecto en caso de que la opción de configuración no exista:
+Usted puede acceder fácilmente a los valores de configuración utilizando el *helper* global `config` desde cualquier lugar de la aplicación. Los valores de configuración pueden ser accedidos mediante una sintaxis de "punto", que incluye el nombre del archivo y la opción a la que se desea acceder. Se puede especificar un valor por defecto y será devuelto si la opción de configuración no existe:
 
     $value = config('app.timezone');
     
 
-Para establecer valores de configuración en tiempo de ejecución, pasar un *array* al *helper* `config`:
+Para establecer valores de configuración en tiempo de ejecución, pasa una matríz al *helper* `config`:
 
     config(['app.timezone' => 'America/Chicago']);
     
 
 <a name="configuration-caching"></a>
 
-## Configuración de Caché
+## Configuración de caché
 
-Para mejorar el rendimiento de la aplicación, es recomendable cachear todos los archivos de configuración en uno solo utilizando el comando de *Artisan* `config:cache`. Esto combinará todas las opciones de configuración de la aplicación en un solo archivo que será cargado rápidamente por el framework.
+Para mejorar el rendimiento de su aplicación, debería almacenar en la caché todos los archivos de configuración en un solo archivo utilizando el comando de *Artisan* `config:cache`. Esto combinará todas las opciones de configuración para su aplicación en un solo archivo que será cargado rápidamente por el * framework*.
 
-Normalmente se debe ejecutar el comando `php artisan config:cache` como parte de la rutina de implementación de producción. El comando no debe ejecutarse durante el desarrollo local ya que las opciones cambiarán de forma frecuente durante esta etapa.
+Usted normalmente debe ejecutar el comando `php artisan config:cache` como parte de la rutina de implementación en producción. El comando no se debe ejecutarse durante el desarrollo local ya que las opciones de configuración necesitarán ser cambiadas frecuentemente durante el desarrollo de la aplicación.
 
-> {note} Si ejecuta el comando `config:cache` durante el proceso de despliegue, debe asegurarse de que sólo está llamando a la función `env` desde los archivos de configuración.
+> {note} Si usted ejecuta el comando `config:cache` durante su proceso de despliegue, debe asegurarse que sólo está llamando a la función `env` desde los archivos de configuración.
 
 <a name="maintenance-mode"></a>
 
-## Modo de Mantenimiento
+## Modo mantenimiento
 
 Cuando la aplicación está en modo de mantenimiento, se mostrará una vista personalizada para todas las solicitudes. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o efectuando mantenimiento. Se incluye un middleware que controla el modo de mantenimiento de la aplicación. Si la aplicación está en modo de mantenimiento, se lanzará una excepcion `MaintenanceModeException` con un código de estado de 503.
 
