@@ -1,4 +1,4 @@
-# CSRF Protection
+# Protección CSRF
 
 - [Introduction](#csrf-introduction)
 - [Excluding URIs](#csrf-excluding-uris)
