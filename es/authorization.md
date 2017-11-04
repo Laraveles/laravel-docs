@@ -35,7 +35,7 @@ Cuando se construye una aplicación, no es necesario elegir entre usar exclusiva
 
 ### Writing Gates
 
-Gates are Closures that determine if a user is authorized to perform a given action and are typically defined in the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument, and may optionally receive additional arguments such as a relevant Eloquent model:
+Los *Gates* son funciones anónimas que determinan si un usuario está autorizado para realizar una determinada acción y se definen típicamente en la clase `App\Providers\AuthServiceProvider` usando el *facade* `<em>Gate</em>`. Gates always receive a user instance as their first argument, and may optionally receive additional arguments such as a relevant Eloquent model:
 
     /**
      * Register any authentication / authorization services.
