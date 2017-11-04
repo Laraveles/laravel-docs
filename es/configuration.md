@@ -1,24 +1,24 @@
-# Configuración
+# Configuration
 
-- [Introducción](#introduction)
-- [Configuración del Entorno](#environment-configuration) 
-    - [Obtener la Configuración del Entorno](#retrieving-environment-configuration)
-    - [Determinar el Entorno Actual](#determining-the-current-environment)
-- [Acceso a Valores de Configuración](#accessing-configuration-values)
-- [Configuración de Caché](#configuration-caching)
-- [Modo de Mantenimiento](#maintenance-mode)
+- [Introduction](#introduction)
+- [Configuración del entorno](#environment-configuration) 
+    - [Obtener la configuración del entorno](#retrieving-environment-configuration)
+    - [Determinar el entorno actual](#determining-the-current-environment)
+- [Acceso a los valores de configuración](#accessing-configuration-values)
+- [Configuración de almacenamiento caché](#configuration-caching)
+- [Modo mantenimiento](#maintenance-mode)
 
 <a name="introduction"></a>
 
-## Introducción
+## Introduction
 
-Todos los archivos de configuración de Laravel se almacenan en el directorio `config`. Cada opción está documentada, por lo que es más que recomendable navegar entre los diferentes archivos y conocer las diferentes opciones.
+Todos los archivos de configuración del *framework* Laravel están almacenados en el directorio `config`. Cada opción está documentada, así que no dude en consultar los archivos y familiarizarse con las diferentes opciones disponibles.
 
 <a name="environment-configuration"></a>
 
-## Configuración del Entorno
+## Configuración del entorno
 
-A menudo es útil tener valores de configuración diferentes basados en el entorno de en que la aplicación se ejecuta. Por ejemplo, se puede utilizar un controlador de *cache* local diferente que el que se utiliza en el servidor de producción.
+A menudo es útil tener diferentes valores de configuración basados en el entorno donde se ejecute la aplicación. Por ejemplo, se puede utilizar un controlador de *cache* local diferente que el que se utiliza en el servidor de producción.
 
 Para hacer esto muy fácil, Laravel utiliza la librería de PHP [DotEnv](https://github.com/vlucas/phpdotenv) de Vance Lucas. En una instalación nueva de Laravel, el directorio raíz de la aplicación contendrá un archivo `.env.example`. Si se instala Laravel través de composer, este archivo automáticamente se renombrará a `.env`. De lo contrario, debe cambiarse manualmente.
 
