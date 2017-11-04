@@ -21,15 +21,15 @@
 
 ## Introducción
 
-Además de contar con servicios de [authentication](/docs/{{version}}/authentication) desde la instalación, Laravel también provee una manera simple de autorizar las acciones de los usuarios contra un recurso determinado. Like authentication, Laravel's approach to authorization is simple, and there are two primary ways of authorizing actions: gates and policies.
+Además de contar con servicios de [authentication](/docs/{{version}}/authentication) desde la instalación, Laravel también provee una manera simple de autorizar las acciones de los usuarios contra un recurso determinado. Como en la autenticación, el enfoque de Laravel hacia la autorización es simple, y existen principalmente dos maneras de autorizar acciones: *gates* y políticas.
 
-Think of gates and policies like routes and controllers. Gates provide a simple, Closure based approach to authorization while policies, like controllers, group their logic around a particular model or resource. We'll explore gates first and then examine policies.
+Think of gates and policies like routes and controllers. *Gates* ofrecen una manera simple de autorización basada en funciones anónimas, mientras que las políticas, como los controladores, agrupan la lógica alrededor de un modelo o recurso particular. Primero veremos las *gates* y luego las políticas.
 
-You do not need to choose between exclusively using gates or exclusively using policies when building an application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.
+Cuando se construye una aplicación, no es necesario elegir entre usar exclusivamente *gates* o exclusivamente políticas. La mayoría de las aplicaciones probablemente contienen una mezcla de *gates* y políticas ¡y eso es perfectamente correcto! Los *Gates* son más aplicables a las acciones que no están relacionadas con ningun modelo o recurso, tal como ver el dashboard de administración. Por el contrario, las políticas se deberían utilizar cuando se desea autorizar una acción para un modelo o recurso particular.
 
 <a name="gates"></a>
 
-## Gates
+## *Gates*
 
 <a name="writing-gates"></a>
 
