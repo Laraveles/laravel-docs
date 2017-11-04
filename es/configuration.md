@@ -89,29 +89,29 @@ Usted normalmente debe ejecutar el comando `php artisan config:cache` como parte
 
 ## Modo mantenimiento
 
-Cuando la aplicación está en modo de mantenimiento, se mostrará una vista personalizada para todas las solicitudes. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o efectuando mantenimiento. Se incluye un middleware que controla el modo de mantenimiento de la aplicación. Si la aplicación está en modo de mantenimiento, se lanzará una excepcion `MaintenanceModeException` con un código de estado de 503.
+Cuando su aplicación está en modo de mantenimiento, una vista personalizada será mostrada para todas las peticiones en su aplicación. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o cuando se está realizando el mantenimiento. La comprobación del modo de mantenimiento es incluída en la pilam, por defecto, de *middleware* de su aplicación. Si la aplicación está en modo de mantenimiento, una excepcion `MaintenanceModeException` será lanzada con un código de estado 503.
 
-Para activar el modo de mantenimiento, simplemente ejecutar el comando de Artisan `down`:
+To enable maintenance mode, simply execute the `down` Artisan command:
 
     php artisan down
     
 
-También se pueden proporcionar las opciones `message` y `retry` para el comando `down`. El valor `message` puede utilizarse para mostrar o registrar un mensaje personalizado, mientras que el valor `retry` se fijará como valor `Retry-After` en la cabecera HTTP:
+You may also provide `message` and `retry` options to the `down` command. El valor `message` puede ser utilizado para mostrar o registrar un mensaje personalizado, mientras que el valor `retry` sera establecido como valor `Retry-After` en la cabecera HTTP:
 
     php artisan down --message="Upgrading Database" --retry=60
     
 
-Para desactivar el modo de mantenimiento, utilizar el comando `up`:
+Para desactivar el modo de mantenimiento, utilice el comando `up`:
 
     php artisan up
     
 
-> {tip} Puede personalizar la plantilla del modo de mantenimiento predeterminado definiendo su propia plantilla en `resources/views/errors/503.blade.php`.
+> {tip} You may customize the default maintenance mode template by defining your own template at `resources/views/errors/503.blade.php`.
 
-#### Modo de Mantenimiento & Colas
+#### Modo mantenimiento & colas
 
-Mientras que la aplicación se encuentra en modo de mantenimiento, no se atenderán [colas de trabajo](/docs/{{version}}/queues). Los trabajos continuarán normalmente una vez que la aplicación salga del modo de mantenimiento.
+Mientras que la aplicación se encuentra en modo de mantenimiento, no se atenderán [trabajos encolados](/docs/{{version}}/queues). Los trabajos continuarán siendo manejados normalmente una vez que la aplicación salga del modo de mantenimiento.
 
-#### Alternativas al Modo de Mantenimiento
+#### Alternativas al modo de mantenimiento
 
-Puesto que el modo de mantenimiento requiere que su aplicación tenga varios segundos de tiempo de inactividad, considere alternativas como [Envoyer](https://envoyer.io) para lograr un despliegue de tiempo de inactividad cero con Laravel.
+Puesto que el modo de mantenimiento requiere que su aplicación tenga varios segundos de tiempo de inactividad, considere alternativas como [Envoyer](https://envoyer.io) para lograr un despliegue con tiempo de inactividad cero con Laravel.
