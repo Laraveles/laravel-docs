@@ -41,14 +41,14 @@ El segundo valor pasado a la función `env` es el *"valor por defecto"*. Este va
 
 <a name="determining-the-current-environment"></a>
 
-### Determinar el Entorno Actual
+### Determinando el entorno actual
 
-El entorno actual de la aplicación se determina mediante la variable `APP_ENV` del archivo `.env`. Se puede acceder a este valor mediante el método `environment` en la [facade](/docs/{{version}}/facades) `App`:
+El entorno actual de la aplicación es determinado a través de la variable `APP_ENV` dede el archivo `.env`. Usted puede acceder a este valor mediante el método `environment` en la [facade](/docs/{{version}}/facades) `App`:
 
     $environment = App::environment();
     
 
-También se pueden pasar argumentos al método `environment` para comprobar si el entorno corresponde a un valor determinado. El método devolverá `true` si el entorno coincide con alguno de los valores dados:
+También puede pasar argumentos al método `environment` para comprobar si hay coincidencia en el entorno para un valor dado. El método retornará `true` si el entorno tiene coincidencia con alguno de los valores dados:
 
     if (App::environment('local')) {
         // The environment is local
@@ -59,13 +59,13 @@ También se pueden pasar argumentos al método `environment` para comprobar si e
     }
     
 
-> {tip} La detección del entorno de la aplicación actual puede ser anulada por una variable de entorno `APP_ENV` a nivel de servidor. Esto puede ser útil cuando necesite compartir la misma aplicación para diferentes configuraciones de entorno, de modo que se puede configurar un host determinado para que coincida con un entorno determinado en las configuraciones de su servidor.
+> {tip} The current application environment detection can be overridden by a server-level `APP_ENV` environment variable. Esto puede ser útil cuando necesite compartir la misma aplicación para diferentes entornos de configuración, de modo que se puede configurar un host para que coincida con un entorno dado en las configuraciones en su servidor.
 
 <a name="accessing-configuration-values"></a>
 
-## Acceso a Valores de Configuración
+## Acceso a valores de configuración
 
-Se puede acceder fácilmente a los valores de configuración utilizando el *helper* global `config` desde cualquier lugar de la aplicación. Los valores de configuración pueden accederse mediante una sintaxis de "punto", que incluye el nombre del archivo y la opción a acceder. Se puede especificar un valor por defecto en caso de que la opción de configuración no exista:
+Usted puede acceder fácilmente a los valores de configuración utilizando el *helper* global `config` desde cualquier lugar de la aplicación. Los valores de configuración pueden ser accedidos mediante una sintaxis de "punto", que incluye el nombre del archivo y la opción a la que se desea acceder. Se puede especificar un valor por defecto en caso de que la opción de configuración no exista:
 
     $value = config('app.timezone');
     
