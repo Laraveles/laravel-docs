@@ -1,6 +1,6 @@
 # Eloquent: Mutators
 
-- [Introduccion](#introduction)
+- [Introducción](#introduction)
 - [Accessors y Mutators](#accessors-and-mutators) 
     - [Definiendo un Accessor](#defining-an-accessor)
     - [Definiendo un Mutator](#defining-a-mutator)
@@ -10,9 +10,9 @@
 
 <a name="introduction"></a>
 
-## Introduccion
+## Introducción
 
-Los accessors (accesores) y mutators (mutadores) permiten formatear los valores de los atributos de Eloquent cuando se accede a ellos o bien se establece o cambia su valor en una instancia. Por ejemplo, se puede usar [Laravel encrypter](/docs/{{version}}/encryption) para encriptar un valor mientras es almacenado en la base de datos, y luego automáticamente desencriptar el atributo cuando se acceder a él en un modelo de Eloquent.
+Los *accessors* (accesores) y *mutators* (mutadores) permiten formatear los valores de los atributos de Eloquent cuando se accede a ellos o bien se establece o cambia su valor en una instancia. Por ejemplo, se puede usar [Laravel encrypter](/docs/{{version}}/encryption) para encriptar un valor mientras es almacenado en la base de datos, y luego automáticamente desencriptar el atributo cuando se acceder a él en un modelo de Eloquent.
 
 Además de poder personalizar los accessors y mutators, Eloquent permite convertir campos de fechas a instancias de [Carbon](https://github.com/briannesbitt/Carbon) o incluso de [convertir campos texto a JSON](#attribute-casting).
 
@@ -107,7 +107,7 @@ In this example, the `setFirstNameAttribute` function will be called with the va
 
 ## Mutadores de Fechas
 
-By default, Eloquent will convert the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class to provide an assortment of helpful methods. You may customize which dates are automatically mutated, and even completely disable this mutation, by overriding the `$dates` property of your model:
+Por defecto, Eloquent convertirá las columnas `created_at` y `updated_at` en instancias de [Carbon](https://github.com/briannesbitt/Carbon), las cuales proporcionan una gran variedad de métodos útiles y heredan de la clase nativa de PHP `DateTime`. Se puede personalizar qué campos de fecha deben ser automáticamente mutados, e incluso completamente desactivar esta opción sobrescribiendo la propiedad `$dates` del modelo:
 
     <?php
     
