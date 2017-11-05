@@ -1,4 +1,4 @@
-- ## Prologue 
+- ## Prólogo 
     - [Release Notes](/docs/{{version}}/releases)
     - [Guía de actualización](/docs/{{version}}/upgrade)
     - [Guía de contribución](/docs/{{version}}/contributions)
