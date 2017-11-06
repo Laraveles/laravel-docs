@@ -5,7 +5,7 @@
     - [El método *Register*](#the-register-method)
     - [El método *Boot*](#the-boot-method)
 - [Registrando *Providers*](#registering-providers)
-- [Providers Diferidos](#deferred-providers)
+- [Providers diferidos](#deferred-providers)
 
 <a name="introduction"></a>
 
@@ -65,7 +65,7 @@ Este *service provider* únicamente define el método `register` y lo utiliza pa
 
 <a name="the-boot-method"></a>
 
-### El Método *Boot*
+### El método *Boot*
 
 Entonces, ¿qué ocurre si hay que registrar un *view composer* en un *service provider*? Suele hacerse dentro del método `boot`. **A este método se le llama después de que todos los demás *service providers* han sido registrados**, por tanto se tiene acceso a todos los demás servicios que hayan sido registrados por el framework:
 
@@ -91,7 +91,7 @@ Entonces, ¿qué ocurre si hay que registrar un *view composer* en un *service p
     }
     
 
-#### El Método *Boot*, Inyección de Dependencias
+#### El Método *Boot*, inyección de dependencias
 
 Se pueden añadir dependencias para el método `boot` del *service provider*. El [service container](/docs/{{version}}/container) inyectará automáticamente cualquier dependencia que se necesite:
 
@@ -122,7 +122,7 @@ Para registrar un providers, simplemente hay que añadirlo al array:
 
 <a name="deferred-providers"></a>
 
-## Providers Diferidos
+## Providers diferidos
 
 Si el proveedor **sólo** registra enlaces en el [service container](/docs/{{version}}/container), se puede diferir este registro hasta que uno de estos enlaces se necesite realmente. Aplazando la carga de estos providers se incrementará el rendimiento de la aplicación, puesto que no se cargará desde el sistema de archivo en cada petición.
 
