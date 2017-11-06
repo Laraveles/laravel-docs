@@ -1,9 +1,9 @@
 # Vistas
 
-- [Crear Vistas](#creating-views)
-- [Pasar Datos a las Vistas](#passing-data-to-views) 
-    - [Compartir Datos en Todas las Vistas](#sharing-data-with-all-views)
-- [Composers de Vistas (compositores)](#view-composers)
+- [Crear vistas](#creating-views)
+- [Pasar datos a vistas](#passing-data-to-views) 
+    - [Compartir datos en todas las vistas](#sharing-data-with-all-views)
+- [*Composers* de Vistas (compositores)](#view-composers)
 
 <a name="creating-views"></a>
 
