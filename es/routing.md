@@ -1,4 +1,4 @@
-# Routing
+# Rutas
 
 - [Basic Routing](#basic-routing) 
     - [Redirect Routes](#redirect-routes)
@@ -23,7 +23,7 @@
 
 ## Basic Routing
 
-The most basic Laravel routes simply accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
+La ruta más básica en Laravel únicamente acepta la URI y un `Closure`, ofreciendo una forma muy sencilla y expresiva de definir rutas:
 
     Route::get('foo', function () {
         return 'Hello World';
