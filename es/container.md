@@ -1,15 +1,15 @@
 # Service Container
 
-- [Introduccion](#introduction)
+- [Introducción](#introduction)
 - [*Binding* (Enlazado)](#binding) 
-    - [Lo Básico de un *Binding*](#binding-basics)
-    - [Enlazar Interfaces a Implementaciones](#binding-interfaces-to-implementations)
-    - [*Binding* Contextual](#contextual-binding)
+    - [Lo básico de un *Binding*](#binding-basics)
+    - [Enlazar interfaces a implementaciones](#binding-interfaces-to-implementations)
+    - [*Binding* contextual](#contextual-binding)
     - [Etiquetado](#tagging)
 - [Resolución](#resolving) 
-    - [El Método *make*](#the-make-method)
-    - [Inyección Automática](#automatic-injection)
-- [Eventos del Container](#container-events)
+    - [El método *make*](#the-make-method)
+    - [Inyección automática](#automatic-injection)
+- [Eventos del *Container*](#container-events)
 - [PSR-11](#psr-11)
 
 <a name="introduction"></a>
@@ -73,13 +73,13 @@ Una comprensión profunda del service container de Laravel es básica para crear
 
 <a name="binding-basics"></a>
 
-### Lo Básico de un *Binding*
+### Lo básico de un *Binding*
 
 Casi todos los *bindings* del *service container* se registrarán en [service providers](/docs/{{version}}/providers), por lo que la mayoría de estos ejemplos mostrarán el uso del *container* en ese contexto.
 
 > {tip} No hay necesidad de enlazar clases en el *container* si no dependen de una interfaz. El *container* no necesita conocer cómo crear esos objetos, puesto que puede resolverlos automáticamente utilizando el *reflection* nativo de PHP.
 
-#### *Bindings* Simples
+#### *Bindings* simples
 
 En un *service provider* siempre se tendrá acceso al *container* a través de la propiedad `$this->app`. Se puede registrar un *binding* utilizando el método `bind`, pasando el nombre de la clase o interfaz que se desee registrar acompañado de un `Closure` que retornará una instancia de la clase:
 
@@ -90,7 +90,7 @@ En un *service provider* siempre se tendrá acceso al *container* a través de l
 
 Tener en cuenta que se recibe el *container* en sí mismo como argumento. Se puede utilizar para resolver sub-dependencias del objeto que se está creando.
 
-#### Enlazar un Singleton
+#### Enlazar un *singleton*
 
 El método `singleton` enlaza una clase o interfaz al *container* y que únicamente debe ser resuelta una vez. Una vez que se ha resuelto un *binding singleton*, se devolverá la misma instancia del objeto a las subsecuentes llamadas en el *container*:
 
@@ -99,7 +99,7 @@ El método `singleton` enlaza una clase o interfaz al *container* y que únicame
     });
     
 
-#### Enlazar Instancias
+#### Enlazar instancias
 
 Se puede enlazar la instancia de un objeto existente al container utilizando el método `instance`. La instancia proporcionada se retornará en las futuras llamadas:
 
@@ -108,7 +108,7 @@ Se puede enlazar la instancia de un objeto existente al container utilizando el 
     $this->app->instance('HelpSpot\API', $api);
     
 
-#### *Bindings* Primitivos
+#### *Bindings* primitivos
 
 Se puede dar el caso de una clase que recibe otras clases inyectadas pero que además necesita de algún valor primitivo como un entero. Se puede utilizar un enlazado contextual para inyectar el valor que la clase necesite:
 
@@ -119,7 +119,7 @@ Se puede dar el caso de una clase que recibe otras clases inyectadas pero que ad
 
 <a name="binding-interfaces-to-implementations"></a>
 
-### Enlazar Interfaces a Implementaciones
+### Enlazar interfaces a implementaciones
 
 Una característica muy potente del service container es la capacidad de enlazar una interfaz a una implementación concreta. Por ejemplo, una interfaz `EventPusher` y una implementación `ReidsEventPusher`. Una vez que se ha programado la implementación `RedisEventPusher` de la interfaz, se puede registrar en el service container así:
 
@@ -147,7 +147,7 @@ Esto indica al *container* que debe inyectar la clase `RedisEventPusher` cuando 
 
 <a name="contextual-binding"></a>
 
-### *Binding* Contextual
+### *Binding* contextual
 
 A veces se pueden tener dos clases que utilicen la misma interfaz, pero inyectar diferentes implementaciones en cada clase. Por ejemplo, dos controladores pueden depender de diferentes implementaciones del [contrato](/docs/{{version}}/contracts) `Illuminate\Contracts\Filesystem\Filesystem`. Laravel provee de una simple y fluida interfaz para definir este comportamiento:
 
@@ -199,7 +199,7 @@ Una vez que los servicios se han etiquetado, se pueden resolver utilizando el m�
 
 <a name="the-make-method"></a>
 
-#### El Método `make`
+#### El método `make`
 
 Se puede utilizar el método `make` para resolver la instancia de una clase desde el *container*. Este método aceptará el nombre de la clase o interfaz a resolver:
 
@@ -218,7 +218,7 @@ Si alguna/s dependencias de la clase no se pueden resolver a través del *contai
 
 <a name="automatic-injection"></a>
 
-#### Inyección Automática
+#### Inyección automática
 
 Alternativamente y muy importante, se puede "*type-hint*" una dependencia en el constructor de cualquier clase que se resuelve en el *container*, incluyendo [controladores](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), y más. En la práctica, así es como la mayoría de objetos se resuelven por el *container*.
 
@@ -263,7 +263,7 @@ Por ejemplo, se puede *type-hint* un repositorio de la aplicación en el constru
 
 <a name="container-events"></a>
 
-## Eventos del Container
+## Eventos del *Container*
 
 El *service container* dispara un evento cada vez que resuelve un objeto. Se puede capturar utilizando el método `resolving`:
 
