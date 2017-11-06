@@ -11,7 +11,7 @@
 
 ## Instalación
 
-> ¿Prefieres aprender con vídeos {video}? Laracasts ofrece una [introducción gratuita y completa a Laravel](http://laravelfromscratch.com) para los recién llegados al *framework*. Es un buen lugar para comenzar tu viaje.
+> {video} ¿Prefieres aprender con vídeos? Laracasts ofrece una [introducción gratuita y completa a Laravel](http://laravelfromscratch.com) para los recién llegados al *framework*. Es un buen lugar para comenzar tu viaje.
 
 <a name="server-requirements"></a>
 
@@ -146,7 +146,7 @@ Si el fichero `.htaccess` que provee Laravel no funciona con su instalación de 
 
 #### Nginx
 
-Si usted está utilizando Nginx, la siguiente directiva en la configuración de su sitio redireccionará todas las peticiones al controlador frontal `index.php`:
+Si está utilizando Nginx, la siguiente directiva en la configuración de su sitio redireccionará todas las peticiones al controlador frontal `index.php`:
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;

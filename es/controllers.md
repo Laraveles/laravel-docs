@@ -220,6 +220,14 @@ When declaring resource routes that will be consumed by APIs, you will commonly 
     Route::apiResource('photo', 'PhotoController');
     
 
+You may register many API resource controllers at once by passing an array to the `apiResources` method:
+
+    Route::apiResources([
+        'photos' => 'PhotoController',
+        'posts' => 'PostController'
+    ]);
+    
+
 <a name="restful-naming-resource-routes"></a>
 
 ### Naming Resource Routes

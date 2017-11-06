@@ -995,7 +995,7 @@ If your table uses a primary key column name other than `id`, you may specify th
     'email' => Rule::unique('users')->ignore($user->id, 'user_id')
     
 
-**Adding Additional Where Clauses:**
+**Agregar cláusulas *Where* adicionales:**
 
 You may also specify additional query constraints by customizing the query using the `where` method. For example, let's add a constraint that verifies the `account_id` is `1`:
 
