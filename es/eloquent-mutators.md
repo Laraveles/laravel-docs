@@ -130,7 +130,7 @@ Por defecto, Eloquent convertirá las columnas `created_at` y `updated_at` en in
     }
     
 
-Cuando una columna es considerada una fecha, se puede configurar su valor a un timestamp de Unix, una cadena de fecha (`Y-m-d`), una cadena date-time y por supuesto una instancia `DateTime` / `Carbon`. Las fechas serán automáticamente almacenadas correctamente en la base de datos:
+Cuando una columna se considera una fecha, se puede configurar su valor a un *timestamp de Unix*, una cadena de fecha (`Y-m-d`), una cadena *date-time* y por supuesto una instancia `DateTime` / `Carbon`. Las fechas serán automáticamente almacenadas correctamente en la base de datos:
 
     $user = App\User::find(1);
     
@@ -146,9 +146,9 @@ Como se indicó anteriormente, cuando se recuperan atributos que son listados en
     return $user->deleted_at->getTimestamp();
     
 
-#### Formatos de Fecha
+#### Formatos de fecha
 
-Por defecto, los timestamps tiene el formato `'Y-m-d H:i:s'`. Si se necesita personalizar el formato del timestamp, hay que configurar la propiedad `$dateFormat` del modelo. Esta propiedad determina como los atributos de fechas son almacenados en la base de datos, así como su formato cuando el modelo es serializado a un array o JSON:
+Por defecto, los *timestamps* tiene el formato `'Y-m-d H:i:s'`. Si se necesita personalizar el formato del *timestamp*, hay que configurar la propiedad `$dateFormat` del modelo. Esta propiedad determina como los atributos de fechas son almacenados en la base de datos, así como su formato cuando el modelo es serializado a un array o JSON:
 
     <?php
     
@@ -171,7 +171,7 @@ Por defecto, los timestamps tiene el formato `'Y-m-d H:i:s'`. Si se necesita per
 
 ## Casting de Atributos
 
-La propiedad `$casts` del modelo proporciona un método adecuado para convertir atributos a tipos de datos comunes. La propiedad `$casts` debe contener un array donde la clave es el nombre del atributo a aplicar el casting y el valor el tipo de casting a realizar. Los tipos soportados para convertir son: `integer`, `real`, `float`, `double`, `string`, `boolean`, `object`, `array`, `collection`, `date`, `datetime`, y `timestamp`.
+La propiedad `$casts` del modelo proporciona un método adecuado para convertir atributos a tipos de datos comunes. La propiedad `$casts` debe contener un array donde la clave es el nombre del atributo a aplicar el *casting* y el valor el tipo de *casting* a realizar. Los tipos soportados para convertir son: `integer`, `real`, `float`, `double`, `string`, `boolean`, `object`, `array`, `collection`, `date`, `datetime`, y `timestamp`.
 
 Por ejemplo, para convertir el atributo `is_admin`, el cual se almacena en la base de datos como un entero (`` o `1`) a un valor boobleano:
 
@@ -194,7 +194,7 @@ Por ejemplo, para convertir el atributo `is_admin`, el cual se almacena en la ba
     }
     
 
-Ahora el atributo `is_admin` siempre será convertido a tipo boolean cuando se acceda a él, incluso si el valor subyacente es almacenado en la base de datos como un entero:
+Ahora el atributo `is_admin` siempre será convertido a tipo *boolean* cuando se acceda a él, incluso si el valor subyacente es almacenado en la base de datos como un entero:
 
     $user = App\User::find(1);
     
@@ -207,7 +207,7 @@ Ahora el atributo `is_admin` siempre será convertido a tipo boolean cuando se a
 
 ### Casting Array & JSON
 
-El tipo de conversión `array` es especialmente útil cuando se trabaja con columnas que están almacenadas como JSON serializados. Por ejemplo, si la base de datos tiene un campo de tipo `TEXT` o `JSON` que contiene un JSON serializado, añadiendo el cast `array` al atributo, automáticamente deserializará el atributo a un array de PHP cuando se acceda a él en un modelo Eloquent:
+El tipo de conversión `array` es especialmente útil cuando se trabaja con columnas que están almacenadas como JSON serializados. Por ejemplo, si la base de datos tiene un campo de tipo `TEXT` o `JSON` que contiene un JSON serializado, añadiendo el *cast* `array` al atributo, automáticamente *deserializará* el atributo a un array de PHP cuando se acceda a él en un modelo Eloquent:
 
     <?php
     
