@@ -7,7 +7,7 @@
 
 <a name="creating-views"></a>
 
-## Crear Vistas
+## Crear vistas
 
 > {tip} Para saber más sobre como escribir plantillas en Blade, comprobar la documentación completa de [Blade](/docs/{{version}}/blade).
 
@@ -65,21 +65,21 @@ Por supuesto, también se puede llamar a este método a través de la [facade](/
 
 ## Pasar datos a vistas
 
-As you saw in the previous examples, you may pass an array of data to views:
+Como se ha visto en ejemplos anteriores, se puede pasar un array de datos a las vistas:
 
     return view('greetings', ['name' => 'Victoria']);
     
 
-When passing information in this manner, the data should be an array with key / value pairs. Inside your view, you can then access each value using its corresponding key, such as `<?php echo $key; ?>`. As an alternative to passing a complete array of data to the `view` helper function, you may use the `with` method to add individual pieces of data to the view:
+Al pasar información de esta forma, los datos deben ser un array con pares de clave/valor. Dentro de la vista, se pueden acceder a estos valores utilizando su clave correspondiente, tal como `<?php echo $key; ?>`. Como alternativa a pasar un array de datos al helper `view`, se pueden pasar piezas individuales de datos a la vista utilizando el método `with`:
 
     return view('greeting')->with('name', 'Victoria');
     
 
 <a name="sharing-data-with-all-views"></a>
 
-#### Sharing Data With All Views
+#### Compartir datos en todas las vistas
 
-Occasionally, you may need to share a piece of data with all views that are rendered by your application. You may do so using the view facade's `share` method. Typically, you should place calls to `share` within a service provider's `boot` method. You are free to add them to the `AppServiceProvider` or generate a separate service provider to house them:
+Ocasionalmente, puede surgir la necesidad de compartir ciertos datos en todas las vistas de la aplicación. Esto se puede hacer utilizando el método de la facade `share`. Por lo general, las llamadas al método `share` se hacen dentro del método `boot` de un service provider. Estas llamadas se pueden añadir en `AppServiceProvider` o generar un service provider independiente para alojarlas:
 
     <?php
     
@@ -113,11 +113,11 @@ Occasionally, you may need to share a piece of data with all views that are rend
 
 <a name="view-composers"></a>
 
-## View Composers
+## *Composers* de Vistas (compositores)
 
-Los View composers son callbacks o métodos de una clase que son llamados cuando una vista es renderizada. If you have data that you want to be bound to a view each time that view is rendered, a view composer can help you organize that logic into a single location.
+Los *view composers* son *callbacks* o métodos de una clase que son llamados cuando una vista es renderizada. Si hay datos susceptibles de ser vinculados a una vista cada vez que esta es renderizada, un *view composer* ayudará a organizar esta lógica en una única ubicación.
 
-For this example, let's register the view composers within a [service provider](/docs/{{version}}/providers). We'll use the `View` facade to access the underlying `Illuminate\Contracts\View\Factory` contract implementation. Remember, Laravel does not include a default directory for view composers. You are free to organize them however you wish. For example, you could create an `app/Http/ViewComposers` directory:
+Para este ejemplo se registrarán los *view composer* en un [service provider](/docs/{{version}}/providers). Se utilizará la *facade* `View` para acceder a la implementación subyacente del contrato `Illuminate\Contracts\View\Factory`. Laravel no incluye un directorio predeterminado para los *view composer*. Así que se deja a libertad el programador de organizarlos como desee. Por ejemplo, se podría crear un directorio `app/Http/ViewComposers`:
 
     <?php
     
@@ -158,9 +158,9 @@ For this example, let's register the view composers within a [service provider](
     }
     
 
-> {note} Remember, if you create a new service provider to contain your view composer registrations, you will need to add the service provider to the `providers` array in the `config/app.php` configuration file.
+> {note} Si se crea un nuevo *service provider* que almacene los registros de *view composers*, será necesario añadirlo al array de `providers` en el archivo de configuración `config/app.php`.
 
-Now that we have registered the composer, the `ProfileComposer@compose` method will be executed each time the `profile` view is being rendered. So, let's define the composer class:
+Luego de registrar el *composer*, el método `ProfileComposer@compose` se ejecutara cada vez que la vista `profile` esté renderizada. Por lo tanto, se define la clase del *composer*:
 
     <?php
     
@@ -203,13 +203,13 @@ Now that we have registered the composer, the `ProfileComposer@compose` method w
     }
     
 
-Just before the view is rendered, the composer's `compose` method is called with the `Illuminate\View\View` instance. You may use the `with` method to bind data to the view.
+Justo antes de que la vista sea renderizada, los *composers* del metodo `compose` se llaman desde la instancia `Illuminate\Contracts\View\View`. Se puede utilizar el método `with` para enlazar datos con la vista.
 
-> {tip} All view composers are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a composer's constructor.
+> {tip} Todos los *view composers* se resuelven a través del [service container](/docs/{{version}}/container), así que se pueden añadir tantas dependencias como se necesiten en el constructor del *composer*.
 
-#### Attaching A Composer To Multiple Views
+#### Asociar un *composer* a varias vistas
 
-You may attach a view composer to multiple views at once by passing an array of views as the first argument to the `composer` method:
+Se puede conectar un view composer a múltiples vistas al mismo tiempo pasando un array de las vistas como primer argumento del método `composer`:
 
     View::composer(
         ['profile', 'dashboard'],
@@ -217,15 +217,15 @@ You may attach a view composer to multiple views at once by passing an array of 
     );
     
 
-The `composer` method also accepts the `*` character as a wildcard, allowing you to attach a composer to all views:
+El método `composer` acepta el carácter `*` como comodín, permitiendo adjuntar un *composer* a todas las vistas:
 
     View::composer('*', function ($view) {
         //
     });
     
 
-#### View Creators
+#### *View creators</en></h4> 
 
-View **creators** are very similar to view composers; however, they are executed immediately after the view is instantiated instead of waiting until the view is about to render. To register a view creator, use the `creator` method:
+Los View **creators** son muy similares a los *view composers*; sin embargo se ejecutan inmediatamente después de que una vista se instancie en lugar de esperar a que esté a punto de renderizar. Para registrar un *view creator*, simplemente se utiliza el método `creator`:
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
