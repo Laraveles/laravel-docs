@@ -1,29 +1,29 @@
-# Authorization
+# Autorización
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Gates](#gates) 
     - [Writing Gates](#writing-gates)
-    - [Authorizing Actions](#authorizing-actions-via-gates)
-- [Creating Policies](#creating-policies) 
-    - [Generating Policies](#generating-policies)
-    - [Registering Policies](#registering-policies)
-- [Writing Policies](#writing-policies) 
+    - [Autorizar acciones](#authorizing-actions-via-gates)
+- [Creación de políticas](#creating-policies) 
+    - [Generación de políticas](#generating-policies)
+    - [Registro de políticas](#registering-policies)
+- [Definición políticas](#writing-policies) 
     - [Policy Methods](#policy-methods)
-    - [Methods Without Models](#methods-without-models)
-    - [Policy Filters](#policy-filters)
-- [Authorizing Actions Using Policies](#authorizing-actions-using-policies) 
+    - [Métodos sin modelos](#methods-without-models)
+    - [Filtros de políticas](#policy-filters)
+- [Autorizar acciones usando políticas](#authorizing-actions-using-policies) 
     - [Via The User Model](#via-the-user-model)
-    - [Via Middleware](#via-middleware)
-    - [Via Controller Helpers](#via-controller-helpers)
+    - [A través de *middleware*](#via-middleware)
+    - [A través de *helper* de controladores](#via-controller-helpers)
     - [Via Blade Templates](#via-blade-templates)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
 In addition to providing [authentication](/docs/{{version}}/authentication) services out of the box, Laravel also provides a simple way to authorize user actions against a given resource. Like authentication, Laravel's approach to authorization is simple, and there are two primary ways of authorizing actions: gates and policies.
 
-Think of gates and policies like routes and controllers. Gates provide a simple, Closure based approach to authorization while policies, like controllers, group their logic around a particular model or resource. We'll explore gates first and then examine policies.
+Piense en *gates* y en las políticas como las rutas y los controladores. Gates provide a simple, Closure based approach to authorization while policies, like controllers, group their logic around a particular model or resource. We'll explore gates first and then examine policies.
 
 You do not need to choose between exclusively using gates or exclusively using policies when building an application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.
 
@@ -33,9 +33,9 @@ You do not need to choose between exclusively using gates or exclusively using p
 
 <a name="writing-gates"></a>
 
-### Writing Gates
+### Escribir *Gates*
 
-Gates are Closures that determine if a user is authorized to perform a given action and are typically defined in the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument, and may optionally receive additional arguments such as a relevant Eloquent model:
+Gates are Closures that determine if a user is authorized to perform a given action and are typically defined in the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Los *Gates* siempre reciben una instancia del usuario como primer argumento, y pueden recibir opcionalmente argumentos adicionales como un modelo Eloquent relevante:
 
     /**
      * Register any authentication / authorization services.
@@ -52,7 +52,7 @@ Gates are Closures that determine if a user is authorized to perform a given act
     }
     
 
-Gates may also be defined using a `Class@method` style callback string, like controllers:
+Los *Gates* también se pueden ser definidos usando el estilo de *callback* `Class@method`, como en los controladores:
 
     /**
      * Register any authentication / authorization services.
@@ -67,9 +67,9 @@ Gates may also be defined using a `Class@method` style callback string, like con
     }
     
 
-#### Resource Gates
+#### *Gates* de Recursos
 
-You may also define multiple Gate abilities at once using the `resource` method:
+Usted puede definir multiples habilidades del *Gates* usando el método `resource`:
 
     Gate::resource('posts', 'PostPolicy');
     
@@ -365,13 +365,13 @@ When writing Blade templates, you may wish to display a portion of the page only
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
-    @elsecan('create', $post)
+    @elsecan('create', App\Post::class)
         <!-- The Current User Can Create New Post -->
     @endcan
     
     @cannot('update', $post)
         <!-- The Current User Can't Update The Post -->
-    @elsecannot('create', $post)
+    @elsecannot('create', App\Post::class)
         <!-- The Current User Can't Create New Post -->
     @endcannot
     

@@ -14,6 +14,7 @@
     - [Connecting Via SSH](#connecting-via-ssh)
     - [Connecting To Databases](#connecting-to-databases)
     - [Adding Additional Sites](#adding-additional-sites)
+    - [Environment Variables](#environment-variables)
     - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Configuring Mailhog](#configuring-mailhog)
     - [Ports](#ports)
@@ -41,21 +42,55 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 ### Included Software
 
-- Ubuntu 16.04
-- Git
-- PHP 7.1
-- Nginx
-- MySQL
-- MariaDB
-- Sqlite3
-- PostgreSQL
-- Composer
-- Node (With Yarn, Bower, Grunt, and Gulp)
-- Redis
-- Memcached
-- Beanstalkd
-- Mailhog
-- ngrok
+<div class="content-list">
+  <ul>
+    <li>
+      Ubuntu 16.04
+    </li>
+    <li>
+      Git
+    </li>
+    <li>
+      PHP 7.1
+    </li>
+    <li>
+      Nginx
+    </li>
+    <li>
+      MySQL
+    </li>
+    <li>
+      MariaDB
+    </li>
+    <li>
+      Sqlite3
+    </li>
+    <li>
+      PostgreSQL
+    </li>
+    <li>
+      Composer
+    </li>
+    <li>
+      Node (With Yarn, Bower, Grunt, and Gulp)
+    </li>
+    <li>
+      Redis
+    </li>
+    <li>
+      Memcached
+    </li>
+    <li>
+      Beanstalkd
+    </li>
+    <li>
+      Mailhog
+    </li>
+    <li>
+      ngrok
+    </li>
+  </ul>
+</div>
 
 <a name="installation-and-setup"></a>
 
@@ -94,7 +129,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd Homestead
     
     // Clone the desired release...
-    git checkout v6.3.0
+    git checkout v6.5.0
     
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
@@ -167,7 +202,7 @@ Not familiar with Nginx? No problem. The `sites` property allows you to easily m
 
     sites:
     
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
     
 
@@ -177,12 +212,12 @@ If you change the `sites` property after provisioning the Homestead box, you sho
 
 You must add the "domains" for your Nginx sites to the `hosts` file on your machine. The `hosts` file will redirect requests for your Homestead sites into your Homestead machine. On Mac and Linux, this file is located at `/etc/hosts`. On Windows, it is located at `C:\Windows\System32\drivers\etc\hosts`. The lines you add to this file will look like the following:
 
-    192.168.10.10  homestead.localhost
+    192.168.10.10  homestead.test
     
 
 Make sure the IP address listed is the one set in your `Homestead.yaml` file. Once you have added the domain to your `hosts` file and launched the Vagrant box you will be able to access the site via your web browser:
 
-    http://homestead.localhost
+    http://homestead.test
     
 
 <a name="launching-the-vagrant-box"></a>
@@ -216,7 +251,7 @@ Windows:
     vendor\\bin\\homestead make
     
 
-Next, run the `vagrant up` command in your terminal and access your project at `http://homestead.localhost` in your browser. Remember, you will still need to add an `/etc/hosts` file entry for `homestead.app` or the domain of your choice.
+Next, run the `vagrant up` command in your terminal and access your project at `http://homestead.test` in your browser. Remember, you will still need to add an `/etc/hosts` file entry for `homestead.test` or the domain of your choice.
 
 <a name="installing-mariadb"></a>
 
@@ -321,16 +356,16 @@ Once your Homestead environment is provisioned and running, you may want to add 
 
     sites:
     
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
-        - map: another.localhost
+        - map: another.test
           to: /home/vagrant/code/another/public
     
 
 If Vagrant is not automatically managing your "hosts" file, you may need to add the new site to that file as well:
 
-    192.168.10.10  homestead.localhost
-    192.168.10.10  another.localhost
+    192.168.10.10  homestead.test
+    192.168.10.10  another.test
     
 
 Once the site has been added, run the `vagrant reload --provision` command from your Homestead directory.
@@ -343,7 +378,7 @@ Homestead supports several types of sites which allow you to easily run projects
 
     sites:
     
-        - map: symfony2.localhost
+        - map: symfony2.test
           to: /home/vagrant/code/Symfony/web
           type: symfony2
     
@@ -358,12 +393,28 @@ You may add additional Nginx `fastcgi_param` values to your site via the `params
 
     sites:
     
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           params:
               - key: FOO
                 value: BAR
     
+
+<a name="environment-variables"></a>
+
+### Environment Variables
+
+You can set global environment variables by adding them to your `Homestead.yaml` file:
+
+    variables:
+    
+        - key: APP_ENV
+          value: local
+        - key: FOO
+          value: bar
+    
+
+After updating the `Homestead.yaml`, be sure to re-provision the machine by running `vagrant reload --provision`. This will update the PHP-FPM configuration for all of the installed PHP versions and also update the environment for the `vagrant` user.
 
 <a name="configuring-cron-schedules"></a>
 
@@ -375,7 +426,7 @@ If you would like the `schedule:run` command to be run for a Homestead site, you
 
     sites:
     
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           schedule: true
     
@@ -429,14 +480,14 @@ If you wish, you may forward additional ports to the Vagrant box, as well as spe
 
 Sometimes you may wish to share what you're currently working on with coworkers or a client. Vagrant has a built-in way to support this via `vagrant share`; however, this will not work if you have multiple sites configured in your `Homestead.yaml` file.
 
-To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.localhost`. This will share the `homestead.localhost` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.localhost`:
+To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.test`. This will share the `homestead.test` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.test`:
 
-    share homestead.localhost
+    share homestead.test
     
 
 After running the command, you will see an Ngrok screen appear which contains the activity log and the publicly accessible URLs for the shared site. If you would like to specify a custom region, subdomain, or other Ngrok runtime option, you may add them to your `share` command:
 
-    share homestead.localhost -region=eu -subdomain=laravel
+    share homestead.test -region=eu -subdomain=laravel
     
 
 > {note} Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the `share` command.
@@ -447,11 +498,11 @@ After running the command, you will see an Ngrok screen appear which contains th
 
 > {note} This feature is only compatible with Nginx.
 
-Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", and "7.1":
+Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1" and "7.2":
 
     sites:
     
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           php: "5.6"
     
@@ -461,6 +512,7 @@ In addition, you may use any of the supported PHP versions via the CLI:
     php5.6 artisan list
     php7.0 artisan list
     php7.1 artisan list
+    php7.2 artisan list
     
 
 <a name="network-interfaces"></a>
@@ -531,12 +583,13 @@ An example:
 
 When you use an older version of the Homestead box you need to match that with a compatible version of the Homestead source code. Below is a chart which shows the supported box versions, which version of Homestead source code to use, and the version of PHP provided:
 
-|         | Homestead Version | Box Version |
-| ------- | ----------------- | ----------- |
-| PHP 7.0 | 3.1.0             | 0.6.0       |
-| PHP 7.1 | 4.0.0             | 1.0.0       |
-| PHP 7.1 | 5.0.0             | 2.0.0       |
-| PHP 7.1 | 6.0.0             | 3.0.0       |
+|             | Homestead Version | Box Version |
+| ----------- | ----------------- | ----------- |
+| PHP 7.0     | 3.1.0             | 0.6.0       |
+| PHP 7.1     | 4.0.0             | 1.0.0       |
+| PHP 7.1     | 5.0.0             | 2.0.0       |
+| PHP 7.1     | 6.0.0             | 3.0.0       |
+| PHP 7.2 RC3 | 6.4.0             | 4.0.0       |
 
 <a name="provider-specific-settings"></a>
 

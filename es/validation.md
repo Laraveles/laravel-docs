@@ -103,12 +103,12 @@ Para entender mejor el método `validate`, desarrollemos el método `store`:
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|unique:posts|max:255',
             'body' => 'required',
         ]);
     
-        // The blog post is valid, store in database...
+        // The blog post is valid...
     }
     
 
@@ -463,7 +463,7 @@ If needed, you may use custom error messages for validation instead of the defau
     $validator = Validator::make($input, $rules, $messages);
     
 
-In this example, the `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. For example:
+In this example, the `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. Por ejemplo:
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
@@ -1055,7 +1055,7 @@ The first argument passed to the `sometimes` method is the name of the field we 
 
 <a name="validating-arrays"></a>
 
-## Validating Arrays
+## Validación de Arrays
 
 Validating array based form input fields doesn't have to be a pain. You may use "dot notation" to validate attributes within an array. For example, if the incoming HTTP request contains a `photos[profile]` field, you may validate it like so:
 

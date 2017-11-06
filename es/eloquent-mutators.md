@@ -1,30 +1,30 @@
 # Eloquent: Mutators
 
-- [Introduccion](#introduction)
-- [Accessors y Mutators](#accessors-and-mutators) 
-    - [Definiendo un Accessor](#defining-an-accessor)
-    - [Definiendo un Mutator](#defining-a-mutator)
-- [Mutators de Fechas](#date-mutators)
-- [Casting de Atributos](#attribute-casting) 
+- [Introducción](#introduction)
+- [*Accessors* y *mutators*](#accessors-and-mutators) 
+    - [Definiendo un *accessor*](#defining-an-accessor)
+    - [Definiendo un *mutator*](#defining-a-mutator)
+- [Mutators de fechas](#date-mutators)
+- [Casting de atributos](#attribute-casting) 
     - [Casting Array & JSON](#array-and-json-casting)
 
 <a name="introduction"></a>
 
-## Introduccion
+## Introducción
 
-Los accessors (accesores) y mutators (mutadores) permiten formatear los valores de los atributos de Eloquent cuando se accede a ellos o bien se establece o cambia su valor en una instancia. Por ejemplo, se puede usar [Laravel encrypter](/docs/{{version}}/encryption) para encriptar un valor mientras es almacenado en la base de datos, y luego automáticamente desencriptar el atributo cuando se acceder a él en un modelo de Eloquent.
+Los *accessors* (accesores) y *mutators* (mutadores) permiten formatear los valores de los atributos de Eloquent cuando se accede a ellos o bien se establece o cambia su valor en una instancia. Por ejemplo, se puede usar [Laravel encrypter](/docs/{{version}}/encryption) para encriptar un valor mientras es almacenado en la base de datos, y luego automáticamente desencriptar el atributo cuando se acceder a él en un modelo de Eloquent.
 
-Además de poder personalizar los accessors y mutators, Eloquent permite convertir campos de fechas a instancias de [Carbon](https://github.com/briannesbitt/Carbon) o incluso de [convertir campos texto a JSON](#attribute-casting).
+Además de poder personalizar los *accessors* y *mutators*, Eloquent permite convertir campos de fechas a instancias de [Carbon](https://github.com/briannesbitt/Carbon) o incluso de [convertir campos texto a JSON](#attribute-casting).
 
 <a name="accessors-and-mutators"></a>
 
-## Accessors y Mutators
+## *Accessors* y *mutators*
 
 <a name="defining-an-accessor"></a>
 
-### Definiendo un Accessor
+### Definiendo un *accessor*
 
-Para definir un accessor, hay que crear un método `getFooAttribute` en el modelo donde `Foo` es el nombre "studly" de la columna a la que se desea acceder (importante las mayúsculas y minúsculas). En este ejemplo, se define un accessor para el atributo `first_name`. Eloquent llamará automáticamente al método accessor cuando se intente obtener el valor del atributo `first_name`:
+Para definir un *accessor*, hay que crear un método `getFooAttribute` en el modelo donde `Foo` es el nombre "studly" de la columna a la que se desea acceder (importante las mayúsculas y minúsculas). En este ejemplo, se define un accessor para el atributo `first_name`. Eloquent llamará automáticamente al método *accessor* cuando se intente obtener el valor del atributo `first_name`:
 
     <?php
     
@@ -47,18 +47,31 @@ Para definir un accessor, hay que crear un método `getFooAttribute` en el model
     }
     
 
-Como se puede ver, el valor original de la columna es pasado al accessor, permite manipularlo y devolverlo. Para acceder al valor del accessor, únicamente hay que acceder al atributo `first_name` en una instancia del modelo:
+Como se puede ver, el valor original de la columna es pasado al *accessor*, permite manipularlo y devolverlo. Para acceder al valor del *accessor*, únicamente hay que acceder al atributo `first_name` en una instancia del modelo:
 
     $user = App\User::find(1);
     
     $firstName = $user->first_name;
     
 
+Por supuesto, se pueden utilizar *accesors* para devolver valores computados de atributos existentes:
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+    
+
 <a name="defining-a-mutator"></a>
 
 ### Definiendo un Mutator
 
-Para definir un mutator, hay que crear un método `setFooAttribute` en el modelo donde `Foo` es el nombre "studly" de la columna a la que se desea acceder (importante mayúsculas y minúsculas). Así que ahora se va a definir un mutator para el atributo `first_name`. Eloquent llamará automáticamente a este mutator cuando se intente alterar el valor del atributo `first_name` del modelo:
+Para definir un *mutator*, hay que crear un método `setFooAttribute` en el modelo donde `Foo` es el nombre "*studly*" de la columna a la que se desea acceder (importante mayúsculas y minúsculas). Así que ahora se va a definir un *mutator* para el atributo `first_name`. Eloquent llamará automáticamente a este *mutator* cuando se intente alterar el valor del atributo `first_name` del modelo:
 
     <?php
     
@@ -88,11 +101,11 @@ El mutador recibirá el valor a modificar en el atributo, permitiendo la manipul
     $user->first_name = 'Sally';
     
 
-En este ejemplo, la función `setFirstNameAttribute` será llamada con el valor `Sally`. El mutador intentará aplicar la función `strtolower` al nombre y guardará su valor en el array interno `$attributes`.
+En este ejemplo, la función `setFirstNameAttribute` será llamada con el valor `Sally`. El *mutador* intentará aplicar la función `strtolower` al nombre y guardará su valor en el *array* interno `$attributes`.
 
 <a name="date-mutators"></a>
 
-## Mutadores de Fechas
+## *Mutators* de fechas
 
 Por defecto, Eloquent convertirá las columnas `created_at` y `updated_at` en instancias de [Carbon](https://github.com/briannesbitt/Carbon), las cuales proporcionan una gran variedad de métodos útiles y heredan de la clase nativa de PHP `DateTime`. Se puede personalizar qué campos de fecha deben ser automáticamente mutados, e incluso completamente desactivar esta opción sobrescribiendo la propiedad `$dates` del modelo:
 
@@ -117,7 +130,7 @@ Por defecto, Eloquent convertirá las columnas `created_at` y `updated_at` en in
     }
     
 
-Cuando una columna es considerada una fecha, se puede configurar su valor a un timestamp de Unix, una cadena de fecha (`Y-m-d`), una cadena date-time y por supuesto una instancia `DateTime` / `Carbon`. Las fechas serán automáticamente almacenadas correctamente en la base de datos:
+Cuando una columna se considera una fecha, se puede configurar su valor a un *timestamp de Unix*, una cadena de fecha (`Y-m-d`), una cadena *date-time* y por supuesto una instancia `DateTime` / `Carbon`. Las fechas serán automáticamente almacenadas correctamente en la base de datos:
 
     $user = App\User::find(1);
     
@@ -133,9 +146,9 @@ Como se indicó anteriormente, cuando se recuperan atributos que son listados en
     return $user->deleted_at->getTimestamp();
     
 
-#### Formatos de Fecha
+#### Formatos de fecha
 
-Por defecto, los timestamps tiene el formato `'Y-m-d H:i:s'`. Si se necesita personalizar el formato del timestamp, hay que configurar la propiedad `$dateFormat` del modelo. Esta propiedad determina como los atributos de fechas son almacenados en la base de datos, así como su formato cuando el modelo es serializado a un array o JSON:
+Por defecto, los *timestamps* tiene el formato `'Y-m-d H:i:s'`. Si se necesita personalizar el formato del *timestamp*, hay que configurar la propiedad `$dateFormat` del modelo. Esta propiedad determina como los atributos de fechas son almacenados en la base de datos, así como su formato cuando el modelo es serializado a un array o JSON:
 
     <?php
     
@@ -158,7 +171,7 @@ Por defecto, los timestamps tiene el formato `'Y-m-d H:i:s'`. Si se necesita per
 
 ## Casting de Atributos
 
-La propiedad `$casts` del modelo proporciona un método adecuado para convertir atributos a tipos de datos comunes. La propiedad `$casts` debe contener un array donde la clave es el nombre del atributo a aplicar el casting y el valor el tipo de casting a realizar. Los tipos soportados para convertir son: `integer`, `real`, `float`, `double`, `string`, `boolean`, `object`, `array`, `collection`, `date`, `datetime`, y `timestamp`.
+La propiedad `$casts` del modelo proporciona un método adecuado para convertir atributos a tipos de datos comunes. La propiedad `$casts` debe contener un array donde la clave es el nombre del atributo a aplicar el *casting* y el valor el tipo de *casting* a realizar. Los tipos soportados para convertir son: `integer`, `real`, `float`, `double`, `string`, `boolean`, `object`, `array`, `collection`, `date`, `datetime`, y `timestamp`.
 
 Por ejemplo, para convertir el atributo `is_admin`, el cual se almacena en la base de datos como un entero (`` o `1`) a un valor boobleano:
 
@@ -181,7 +194,7 @@ Por ejemplo, para convertir el atributo `is_admin`, el cual se almacena en la ba
     }
     
 
-Ahora el atributo `is_admin` siempre será convertido a tipo boolean cuando se acceda a él, incluso si el valor subyacente es almacenado en la base de datos como un entero:
+Ahora el atributo `is_admin` siempre será convertido a tipo *boolean* cuando se acceda a él, incluso si el valor subyacente es almacenado en la base de datos como un entero:
 
     $user = App\User::find(1);
     
@@ -194,7 +207,7 @@ Ahora el atributo `is_admin` siempre será convertido a tipo boolean cuando se a
 
 ### Casting Array & JSON
 
-El tipo de conversión `array` es especialmente útil cuando se trabaja con columnas que están almacenadas como JSON serializados. Por ejemplo, si la base de datos tiene un campo de tipo `TEXT` o `JSON` que contiene un JSON serializado, añadiendo el cast `array` al atributo, automáticamente deserializará el atributo a un array de PHP cuando se acceda a él en un modelo Eloquent:
+El tipo de conversión `array` es especialmente útil cuando se trabaja con columnas que están almacenadas como JSON serializados. Por ejemplo, si la base de datos tiene un campo de tipo `TEXT` o `JSON` que contiene un JSON serializado, añadiendo el *cast* `array` al atributo, automáticamente *deserializará* el atributo a un array de PHP cuando se acceda a él en un modelo Eloquent:
 
     <?php
     

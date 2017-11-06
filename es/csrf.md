@@ -1,15 +1,15 @@
-# CSRF Protection
+# Protección CSRF
 
-- [Introduction](#csrf-introduction)
-- [Excluding URIs](#csrf-excluding-uris)
+- [Introducción](#csrf-introduction)
+- [Exluyendo URIs](#csrf-excluding-uris)
 - [X-CSRF-Token](#csrf-x-csrf-token)
 - [X-XSRF-Token](#csrf-x-xsrf-token)
 
 <a name="csrf-introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel makes it easy to protect your application from [cross-site request forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) attacks. Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an authenticated user.
+Laravel hace fácil la protección de su aplicación de ataques[ *cross-site request forgery*](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF). Solicitudes de falsificación a través de sitios *Cross-site request forgeries* son un tipo de ataques maliciosos a través de los cuales comandos no autorizados son ejecutados en nombre de un usuario autenticado.
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application.
 
@@ -29,7 +29,7 @@ When building JavaScript driven applications, it is convenient to have your Java
 
 <a name="csrf-excluding-uris"></a>
 
-## Excluding URIs From CSRF Protection
+## Excluir URIs de la protección CSRF
 
 Sometimes you may wish to exclude a set of URIs from CSRF protection. For example, if you are using [Stripe](https://stripe.com) to process payments and are utilizing their webhook system, you will need to exclude your Stripe webhook handler route from CSRF protection since Stripe will not know what CSRF token to send to your routes.
 
@@ -58,7 +58,7 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
 
 ## X-CSRF-TOKEN
 
-In addition to checking for the CSRF token as a POST parameter, the `VerifyCsrfToken` middleware will also check for the `X-CSRF-TOKEN` request header. You could, for example, store the token in a HTML `meta` tag:
+Además para comprobar la prueba CSRF como parametro POST el *middleware* `VerifyCsrfToken` comprobará también el `X-CSRF-TOKEN` para las cabeceras de las peticiones. You could, for example, store the token in a HTML `meta` tag:
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     

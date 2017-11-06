@@ -1,7 +1,7 @@
 # Laravel Scout
 
-- [Introduction](#introduction)
-- [Installation](#installation) 
+- [Introducción](#introduction)
+- [Instalación](#installation) 
     - [Queueing](#queueing)
     - [Driver Prerequisites](#driver-prerequisites)
 - [Configuration](#configuration) 
@@ -276,7 +276,7 @@ Search queries will typically be performed on the index specified by the model's
 
 <a name="where-clauses"></a>
 
-### Where Clauses
+### Cláusulas Where
 
 Scout allows you to add simple "where" clauses to your search queries. Currently, these clauses only support basic numeric equality checks, and are primarily useful for scoping search queries by a tenant ID. Since a search index is not a relational database, more advanced "where" clauses are not currently supported:
 
@@ -285,19 +285,19 @@ Scout allows you to add simple "where" clauses to your search queries. Currently
 
 <a name="pagination"></a>
 
-### Pagination
+### Paginación
 
-In addition to retrieving a collection of models, you may paginate your search results using the `paginate` method. This method will return a `Paginator` instance just as if you had [paginated a traditional Eloquent query](/docs/{{version}}/pagination):
+Además de recuperar una colección de modelos, puede paginar los resultados de su búsqueda utilizando el método `paginate`. Este método devolverá una instancia `Paginator` igual que si hubiera [paginado una consulta Eloquent tradicional](/docs/{{version}}/pagination):
 
     $orders = App\Order::search('Star Trek')->paginate();
     
 
-You may specify how many models to retrieve per page by passing the amount as the first argument to the `paginate` method:
+Puede especificar cuántos modelos desea recuperar por página pasando la cantidad como primer argumento al método `paginate`:
 
     $orders = App\Order::search('Star Trek')->paginate(15);
     
 
-Once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade) just as if you had paginated a traditional Eloquent query:
+Una vez que se hayan recuperado los resultados, puede mostrarlos y colocar los enlaces de la página usando [Blade](/docs/{{version}}/blade) como si hubiera paginado una consulta Eloquent tradicional:
 
     <div class="container">
         @foreach ($orders as $order)
@@ -310,11 +310,11 @@ Once you have retrieved the results, you may display the results and render the 
 
 <a name="custom-engines"></a>
 
-## Custom Engines
+## Motores propios
 
-#### Writing The Engine
+#### Escribiendo el motor
 
-If one of the built-in Scout search engines doesn't fit your needs, you may write your own custom engine and register it with Scout. Your engine should extend the `Laravel\Scout\Engines\Engine` abstract class. This abstract class contains five methods your custom engine must implement:
+Si los buscadores Scout incorporados no se ajustan a sus necesidades, puede escribir su propio motor de búsqueda personalizado y registrarlo con Scout. Su motor debe extender la clase abstracta `Laravel\Scout\Engines\Engine`. Esta clase abstracta contiene cinco métodos que su motor debe implementar:
 
     use Laravel\Scout\Builder;
     
@@ -325,11 +325,11 @@ If one of the built-in Scout search engines doesn't fit your needs, you may writ
     abstract public function map($results, $model);
     
 
-You may find it helpful to review the implementations of these methods on the `Laravel\Scout\Engines\AlgoliaEngine` class. This class will provide you with a good starting point for learning how to implement each of these methods in your own engine.
+Puede ser útil revisar las implementaciones de estos métodos en la clase `Laravel\Scout\Engines\AlgoliaEngine`. Esta clase le proporcionará un buen punto de partida para aprender a implementar cada uno de estos métodos en su propio motor.
 
-#### Registering The Engine
+#### Registrando el motor
 
-Once you have written your custom engine, you may register it with Scout using the `extend` method of the Scout engine manager. You should call the `extend` method from the `boot` method of your `AppServiceProvider` or any other service provider used by your application. For example, if you have written a `MySqlSearchEngine`, you may register it like so:
+Una vez escrito el motor personalizado, puede registrarse con Scout usando el método `extend` del gestor del motor de Scout. Debe llamar al método `extend` desde el método `boot` de su `AppServiceProvider` o desde cualquier otro proveedor de servicios utilizado por su aplicación. Por ejemplo, si ha escrito un `MySqlSearchEngine`, puede registrarlo así:
 
     use Laravel\Scout\EngineManager;
     
@@ -346,6 +346,6 @@ Once you have written your custom engine, you may register it with Scout using t
     }
     
 
-Once your engine has been registered, you may specify it as your default Scout `driver` in your `config/scout.php` configuration file:
+Una vez que su motor ha sido registrado, puede especificarlo como `driver` Scout predeterminado en su archivo de configuración `config/scout.php`:
 
     'driver' => 'mysql',
