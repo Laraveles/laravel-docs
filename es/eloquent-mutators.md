@@ -1,11 +1,11 @@
 # Eloquent: Mutators
 
 - [Introducción](#introduction)
-- [Accessors y Mutators](#accessors-and-mutators) 
-    - [Definiendo un Accessor](#defining-an-accessor)
-    - [Definiendo un Mutator](#defining-a-mutator)
-- [Mutators de Fechas](#date-mutators)
-- [Casting de Atributos](#attribute-casting) 
+- [*Accessors* y *mutators*](#accessors-and-mutators) 
+    - [Definiendo un *accessor*](#defining-an-accessor)
+    - [Definiendo un *mutator*](#defining-a-mutator)
+- [Mutators de fechas](#date-mutators)
+- [Casting de atributos](#attribute-casting) 
     - [Casting Array & JSON](#array-and-json-casting)
 
 <a name="introduction"></a>
@@ -14,17 +14,17 @@
 
 Los *accessors* (accesores) y *mutators* (mutadores) permiten formatear los valores de los atributos de Eloquent cuando se accede a ellos o bien se establece o cambia su valor en una instancia. Por ejemplo, se puede usar [Laravel encrypter](/docs/{{version}}/encryption) para encriptar un valor mientras es almacenado en la base de datos, y luego automáticamente desencriptar el atributo cuando se acceder a él en un modelo de Eloquent.
 
-Además de poder personalizar los accessors y mutators, Eloquent permite convertir campos de fechas a instancias de [Carbon](https://github.com/briannesbitt/Carbon) o incluso de [convertir campos texto a JSON](#attribute-casting).
+Además de poder personalizar los *accessors* y *mutators*, Eloquent permite convertir campos de fechas a instancias de [Carbon](https://github.com/briannesbitt/Carbon) o incluso de [convertir campos texto a JSON](#attribute-casting).
 
 <a name="accessors-and-mutators"></a>
 
-## Accessors y Mutators
+## *Accessors* y *mutators*
 
 <a name="defining-an-accessor"></a>
 
-### Definiendo un Accessor
+### Definiendo un *accessor*
 
-Para definir un accessor, hay que crear un método `getFooAttribute` en el modelo donde `Foo` es el nombre "studly" de la columna a la que se desea acceder (importante las mayúsculas y minúsculas). En este ejemplo, se define un accessor para el atributo `first_name`. The accessor will automatically be called by Eloquent when attempting to retrieve the value of the `first_name` attribute:
+Para definir un *accessor*, hay que crear un método `getFooAttribute` en el modelo donde `Foo` es el nombre "studly" de la columna a la que se desea acceder (importante las mayúsculas y minúsculas). En este ejemplo, se define un accessor para el atributo `first_name`. Eloquent llamará automáticamente al método *accessor* cuando se intente obtener el valor del atributo `first_name`:
 
     <?php
     
@@ -71,7 +71,7 @@ Por supuesto, se pueden utilizar *accesors* para devolver valores computados de 
 
 ### Definiendo un Mutator
 
-Para definir un mutator, hay que crear un método `setFooAttribute` en el modelo donde `Foo` es el nombre "studly" de la columna a la que se desea acceder (importante mayúsculas y minúsculas). Así que ahora se va a definir un mutator para el atributo `first_name`. Eloquent llamará automáticamente a este mutator cuando se intente alterar el valor del atributo `first_name` del modelo:
+Para definir un *mutator*, hay que crear un método `setFooAttribute` en el modelo donde `Foo` es el nombre "*studly*" de la columna a la que se desea acceder (importante mayúsculas y minúsculas). Así que ahora se va a definir un *mutator* para el atributo `first_name`. Eloquent llamará automáticamente a este *mutator* cuando se intente alterar el valor del atributo `first_name` del modelo:
 
     <?php
     
@@ -101,11 +101,11 @@ El mutador recibirá el valor a modificar en el atributo, permitiendo la manipul
     $user->first_name = 'Sally';
     
 
-En este ejemplo, la función `setFirstNameAttribute` será llamada con el valor `Sally`. El mutador intentará aplicar la función `strtolower` al nombre y guardará su valor en el array interno `$attributes`.
+En este ejemplo, la función `setFirstNameAttribute` será llamada con el valor `Sally`. El *mutador* intentará aplicar la función `strtolower` al nombre y guardará su valor en el *array* interno `$attributes`.
 
 <a name="date-mutators"></a>
 
-## Mutadores de Fechas
+## *Mutators* de fechas
 
 Por defecto, Eloquent convertirá las columnas `created_at` y `updated_at` en instancias de [Carbon](https://github.com/briannesbitt/Carbon), las cuales proporcionan una gran variedad de métodos útiles y heredan de la clase nativa de PHP `DateTime`. Se puede personalizar qué campos de fecha deben ser automáticamente mutados, e incluso completamente desactivar esta opción sobrescribiendo la propiedad `$dates` del modelo:
 
