@@ -1,7 +1,7 @@
-# Hashing
+# Cifrado – *Hashing*
 
-- [Introduction](#introduction)
-- [Basic Usage](#basic-usage)
+- [Introducción](#introduction)
+- [Uso básico](#basic-usage)
 
 <a name="introduction"></a>
 
