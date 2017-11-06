@@ -11,7 +11,7 @@
 
 > {tip} Para saber más sobre como escribir plantillas en Blade, comprobar la documentación completa de [Blade](/docs/{{version}}/blade).
 
-Las vistas contienen el HTML que se sirve por cualquier aplicación y separa la lógica del controlador/aplicación de la lógica de presentación. Views are stored in the `resources/views` directory. A simple view might look something like this:
+Las vistas contienen el HTML que se sirve por cualquier aplicación y separa la lógica del controlador/aplicación de la lógica de presentación. Las vistas se almacenan en la carpeta `resources/views`. Una vista simple podría ser algo como esto:
 
     <!-- View stored in resources/views/greeting.blade.php -->
     
@@ -22,23 +22,23 @@ Las vistas contienen el HTML que se sirve por cualquier aplicación y separa la 
     </html>
     
 
-Since this view is stored at `resources/views/greeting.blade.php`, we may return it using the global `view` helper like so:
+Puesto que esta vista se almacena en `resources/views/greetings.blade.php`, se retornará utilizando la función global `view` de este modo:
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
     });
     
 
-As you can see, the first argument passed to the `view` helper corresponds to the name of the view file in the `resources/views` directory. The second argument is an array of data that should be made available to the view. In this case, we are passing the `name` variable, which is displayed in the view using [Blade syntax](/docs/{{version}}/blade).
+Como se puede observar, el primer argumento pasado al *helper* `view` corresponde al nombre del archivo ubicado en el directorio `resources/views`. El segundo parámetro es un array de datos que debe estar presente en la vista. En este caso, se le está pasando la variable `name`, la cual se muestra en la vista utilizando la [sintaxis Blade](/docs/{{version}}/blade).
 
-Of course, views may also be nested within sub-directories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.blade.php`, you may reference it like so:
+Por su puesto, las vistas pueden estar anidadas dentro de cualquier sub-directorio de la carpeta `resources/views`. La notación de "puntos" o "*dot notation*" se utiliza para hacer referencia a vistas anidadas. Por ejemplo, si una vista está almacenada en `resources/views/admin/profile.blade.php`, se puede hacer referencia a ella de la siguiente manera:
 
     return view('admin.profile', $data);
     
 
-#### Determining If A View Exists
+#### Determinar si existe una vista
 
-If you need to determine if a view exists, you may use the `View` facade. The `exists` method will return `true` if the view exists:
+Para determinar si una vista existe, se puede utilizar la facade `View`. El método `exists` retornará `true` si la vista existe:
 
     use Illuminate\Support\Facades\View;
     
@@ -47,14 +47,14 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
     }
     
 
-#### Creating The First Available View
+#### Crear la primera vista disponible
 
-Using the `first` method, you may create the first view that exists in a given array of views. This is useful if your application or package allows views to be customized or overwritten:
+Utilizando el método `first` se puede crear la primera vista que se encuentre en un array de vistas. Es útil si una aplicación o paquete permite personalizar o sobrescribir las vistas:
 
     return view()->first(['custom.admin', 'admin'], $data);
     
 
-Of course, you may also call this method via the `View` [facade](/docs/{{version}}/facades):
+Por supuesto, también se puede llamar a este método a través de la [facade](/docs/{{version}}/facades) `View`:
 
     use Illuminate\Support\Facades\View;
     
@@ -63,7 +63,7 @@ Of course, you may also call this method via the `View` [facade](/docs/{{version
 
 <a name="passing-data-to-views"></a>
 
-## Passing Data To Views
+## Pasar datos a vistas
 
 As you saw in the previous examples, you may pass an array of data to views:
 
