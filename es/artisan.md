@@ -15,7 +15,7 @@
     - [Solicitud de parámetros de entrada](#prompting-for-input)
     - [Generar la salida](#writing-output)
 - [Registro de los comandos](#registering-commands)
-- [Programmatically Executing Commands](#programmatically-executing-commands) 
+- [Ejecutar comandos de forma programática](#programmatically-executing-commands) 
     - [Ejecutar Comandos desde otros comandos](#calling-commands-from-other-commands)
 
 <a name="introduction"></a>
@@ -457,7 +457,7 @@ You may also manually register commands by adding its class name to the `$comman
 
 ## Programmatically Executing Commands
 
-Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. Se puede hacer utilizando el método `call` de la facade `Artisan`. The `call` method accepts the name of the command as the first argument, and an array of command parameters as the second argument. The exit code will be returned:
+A veces puede desear que se ejecute un comando Artisan desde fuera de la consola CLI. Por ejemplo, puede disparar un comando Artisan desde una ruta o controlador. Se puede hacer utilizando el método `call` de la facade `Artisan`. El método `call` acepta el nombre del comando como primer argumento y una matriz de parámetros como segundo argumento. El código de salida será retornado:
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [
@@ -486,7 +486,7 @@ You may also specify the connection or queue the Artisan command should be dispa
     ])->onConnection('redis')->onQueue('commands');
     
 
-#### Passing Array Values
+#### Pasar matrices como valore
 
 If your command defines an option that accepts an array, you may simply pass an array of values to that option:
 
