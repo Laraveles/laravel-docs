@@ -1,6 +1,6 @@
 # Laravel Homestead
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Installation & Setup](#installation-and-setup) 
     - [First Steps](#first-steps)
     - [Configuring Homestead](#configuring-homestead)
