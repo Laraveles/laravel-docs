@@ -1,41 +1,41 @@
-# Blade Templates
+# Plantillas Blade
 
-- [Introduction](#introduction)
-- [Template Inheritance](#template-inheritance) 
-    - [Defining A Layout](#defining-a-layout)
-    - [Extending A Layout](#extending-a-layout)
-- [Components & Slots](#components-and-slots)
-- [Displaying Data](#displaying-data) 
-    - [Blade & JavaScript Frameworks](#blade-and-javascript-frameworks)
-- [Control Structures](#control-structures) 
-    - [If Statements](#if-statements)
-    - [Switch Statements](#switch-statements)
-    - [Loops](#loops)
-    - [The Loop Variable](#the-loop-variable)
-    - [Comments](#comments)
+- [Introducción](#introduction)
+- [Herencia de plantillas](#template-inheritance) 
+    - [Definir una plantilla](#defining-a-layout)
+    - [Heredar un *layout*](#extending-a-layout)
+- [Componentes & Slots](#components-and-slots)
+- [Mostrar datos](#displaying-data) 
+    - [Blade & Frameworks JavaScript](#blade-and-javascript-frameworks)
+- [Estructuras de control](#control-structures) 
+    - [Estructuras *if*](#if-statements)
+    - [Instrucción *switch*](#switch-statements)
+    - [Bucles](#loops)
+    - [La variable *loop*](#the-loop-variable)
+    - [Comentarios](#comments)
     - [PHP](#php)
-- [Including Sub-Views](#including-sub-views) 
+- [Incluir sub-vistas](#including-sub-views) 
     - [Rendering Views For Collections](#rendering-views-for-collections)
-- [Stacks](#stacks)
-- [Service Injection](#service-injection)
-- [Extending Blade](#extending-blade) 
-    - [Custom If Statements](#custom-if-statements)
+- [Pilas – *stacks*](#stacks)
+- [Inyección de servicios](#service-injection)
+- [Extender Blade](#extending-blade) 
+    - [Estructuras *if* personalizadas](#custom-if-statements)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Blade is the simple, yet powerful templating engine provided with Laravel. Unlike other popular PHP templating engines, Blade does not restrict you from using plain PHP code in your views. In fact, all Blade views are compiled into plain PHP code and cached until they are modified, meaning Blade adds essentially zero overhead to your application. Blade view files use the `.blade.php` file extension and are typically stored in the `resources/views` directory.
+Blade es un simple pero poderoso motor de plantillas incluido con Laravel. A diferencia de otros populares motores de plantillas para PHP, Blade no limita el uso de código PHP simple en las vistas. Las vistas en Blade se compilan a código PHP y se cachean hasta que son modificadas, básicamente esto se traduce en que Blade añade sobrecarga cero a las aplicaciones. Las vistas en Blade usan la extensión `.blade.php` y normalmente se almacenan en el directorio `resources/views`.
 
 <a name="template-inheritance"></a>
 
-## Template Inheritance
+## Herencia de plantillas
 
 <a name="defining-a-layout"></a>
 
-### Defining A Layout
+### Definir una plantilla
 
-Two of the primary benefits of using Blade are *template inheritance* and *sections*. To get started, let's take a look at a simple example. First, we will examine a "master" page layout. Since most web applications maintain the same general layout across various pages, it's convenient to define this layout as a single Blade view:
+Dos de los principales beneficios del uso de Blade son la *herencia de plantillas* y las *secciones*. Para empezar, se va a revisar un sencillo ejemplo. Primero, examinaremos un *layout* "master". Puesto que la mayoría de aplicaciones web mantienen la misma estructura a través de sus diferentes páginas, es conveniente definir este *layout* como una única vista Blade:
 
     <!-- Stored in resources/views/layouts/app.blade.php -->
     
@@ -55,15 +55,15 @@ Two of the primary benefits of using Blade are *template inheritance* and *secti
     </html>
     
 
-As you can see, this file contains typical HTML mark-up. However, take note of the `@section` and `@yield` directives. The `@section` directive, as the name implies, defines a section of content, while the `@yield` directive is used to display the contents of a given section.
+Como se puede observar, este archivo contiene una estructura HTML típica. Sin embargo, se puede tomar nota de las directivas `@section` y `@yield`. La directiva `@section`, como su nombre indica, define un sección de contenido, mientras que la directiva `@yield` es utilizada para mostrar el contenido de una sección.
 
-Now that we have defined a layout for our application, let's define a child page that inherits the layout.
+Una vez que se tiene definido un *layout* para la aplicación, se puede definir una página hija que hereda de este *layout*.
 
 <a name="extending-a-layout"></a>
 
-### Extending A Layout
+### Heredar un *layout*
 
-When defining a child view, use the Blade `@extends` directive to specify which layout the child view should "inherit". Views which extend a Blade layout may inject content into the layout's sections using `@section` directives. Remember, as seen in the example above, the contents of these sections will be displayed in the layout using `@yield`:
+Cuando defina una vista hija, utilice la directiva Blade `@extends` para especificar de qué *layout* debe "heredar". Las vistas que extienden un *layout* de Blade pueden inyectar contenido en las secciones mediante las directivas `@section`. Recordar, como se ve en el ejemplo anterior, el contenido de estas secciones se mostrará el *layout* utilizando `@yield`:
 
     <!-- Stored in resources/views/child.blade.php -->
     
@@ -82,11 +82,11 @@ When defining a child view, use the Blade `@extends` directive to specify which 
     @endsection
     
 
-In this example, the `sidebar` section is utilizing the `@@parent` directive to append (rather than overwriting) content to the layout's sidebar. The `@@parent` directive will be replaced by the content of the layout when the view is rendered.
+En este ejemplo, la sección `sidebar` está utilizando la directiva `@parent` para anexar (más que sobrescribir) contenido al sidebar de la plantilla padre. La directiva `@@parent` será reemplazada por el contenido del *layout* cuando se procese la vista.
 
-> {tip} Contrary to the previous example, this `sidebar` section ends with `@endsection` instead of `@show`. The `@endsection` directive will only define a section while `@show` will define and **immediately yield** the section.
+> {tip} Contrariamente al ejemplo anterior, esta sección `sidebar` termina con `@endsection` en lugar de `@show`. La directiva `@endserction` definirá únicamente una sección mientras que `@show` definirá y **enlazará inmediatamente** la sección.
 
-Blade views may be returned from routes using the global `view` helper:
+Las vistas de Blade pueden ser devueltas desde rutas usando el *helper* global `view`:
 
     Route::get('blade', function () {
         return view('child');
@@ -95,9 +95,9 @@ Blade views may be returned from routes using the global `view` helper:
 
 <a name="components-and-slots"></a>
 
-## Components & Slots
+## Componentes & Slots
 
-Components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
+Los componentes y los slots proporcionan beneficios similares a las secciones y los *layouts*; sin embargo, algunos pueden encontrar el modelo mental de componentes y *slots* más fáciles de entender. Primero, imaginemos un componente de "alerta" reutilizable que seria util en toda nuestra aplicación:
 
     <!-- /resources/views/alert.blade.php -->
     
@@ -106,7 +106,7 @@ Components and slots provide similar benefits to sections and layouts; however, 
     </div>
     
 
-The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
+La variable `{{ $slot }}` contendrá lo que deseamos inyectar en el componente. Ahora, para construir este componente, podemos usar la directiva Blade `@component`:
 
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
