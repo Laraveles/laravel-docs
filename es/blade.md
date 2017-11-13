@@ -15,7 +15,7 @@
     - [Comentarios](#comments)
     - [PHP](#php)
 - [Incluir sub-vistas](#including-sub-views) 
-    - [Rendering Views For Collections](#rendering-views-for-collections)
+    - [Procesar vistas para colecciones](#rendering-views-for-collections)
 - [Pilas – *stacks*](#stacks)
 - [Inyección de servicios](#service-injection)
 - [Extender Blade](#extending-blade) 
@@ -463,27 +463,27 @@ Se pueden combinar bucles e inclusiones en una línea con la directiva de Blade 
     @each('view.name', $jobs, 'job')
     
 
-The first argument is the view partial to render for each element in the array or collection. The second argument is the array or collection you wish to iterate over, while the third argument is the variable name that will be assigned to the current iteration within the view. So, for example, if you are iterating over an array of `jobs`, typically you will want to access each job as a `job` variable within your view partial. The key for the current iteration will be available as the `key` variable within your view partial.
+El primer argumento es la vista parcial para representar cada elemento en el *array* o colección. El segundo argumento es el *array* o colección sobre el que se desea iterar, mientras que el tercer argumento es el nombre de la variable que se asignará a la iteración actual dentro de la vista. Así, por ejemplo, si se está iterando sobre un *array* de `jobs`, normalmente se querrá acceder a cada job como una variable `job` en la vista parcial. La clave para la iteración actual estará disponible como variable `key` dentro de su vista parcial.
 
-You may also pass a fourth argument to the `@each` directive. This argument determines the view that will be rendered if the given array is empty.
+También se puede pasar un cuarto argumento a la directiva `@each`. Este argumento determina la vista que se mostrará si el *array* está vacío.
 
     @each('view.name', $jobs, 'job', 'view.empty')
     
 
-> {note} Views rendered via `@each` do not inherit the variables from the parent view. If the child view requires these variables, you should use `@foreach` and `@include` instead.
+> {note} Las vistas mostradas mediante `@each` no heredan las variables de la vista padre. Si la vista hijo requiere estas variables, debe utilizar `@foreach` e `@include`.
 
 <a name="stacks"></a>
 
 ## Stacks
 
-Blade allows you to push to named stacks which can be rendered somewhere else in another view or layout. This can be particularly useful for specifying any JavaScript libraries required by your child views:
+Blade permite añadir elementos a *stacks* (pilas) con nombre y que se pueden renderizar en otra vista o *layout*. Esto es especialmente útil para requerir librerías JavaScript en vistas hijas:
 
     @push('scripts')
         <script src="/example.js"></script>
     @endpush
     
 
-You may push to a stack as many times as needed. To render the complete stack contents, pass the name of the stack to the `@stack` directive:
+Se pueden añadir tantos elementos al *stack* como se necesite. Para renderizar el contenido completo de un *stack*, únicamente hay que pasar el nombre del mismo a la directiva `@stack`:
 
     <head>
         <!-- Head Contents -->
@@ -494,9 +494,9 @@ You may push to a stack as many times as needed. To render the complete stack co
 
 <a name="service-injection"></a>
 
-## Service Injection
+## Inyección de servicios
 
-The `@inject` directive may be used to retrieve a service from the Laravel [service container](/docs/{{version}}/container). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
+La directiva `@inject` puede utilizarse para recuperar un servicio desde el [service container](/docs/{{version}}/container) de Laravel. El primer argumento pasado a `@inject` es el nombre de la variable en la que se ubicará el servicio, mientras que el segundo argumento es el nombre de la clase o interfaz del servicio que desea resolver:
 
     @inject('metrics', 'App\Services\MetricsService')
     
@@ -507,11 +507,11 @@ The `@inject` directive may be used to retrieve a service from the Laravel [serv
 
 <a name="extending-blade"></a>
 
-## Extending Blade
+## Extender Blade
 
-Blade allows you to define your own custom directives using the `directive` method. When the Blade compiler encounters the custom directive, it will call the provided callback with the expression that the directive contains.
+Blade le permite definir sus propias directivas personalizadas utilizando el método `directive`. Cuando el compilador Blade se encuentre con la directiva personalizada, llamará a la llamada de retorno provista con la expresión que contiene la directiva.
 
-The following example creates a `@datetime($var)` directive which formats a given `$var`, which should be an instance of `DateTime`:
+El siguiente ejemplo crea una directiva `@datetime ($var)` que formatea una variable `$var`, que debería ser una instancia de `DateTime`:
 
     <?php
     
@@ -546,18 +546,18 @@ The following example creates a `@datetime($var)` directive which formats a give
     }
     
 
-As you can see, we will chain the `format` method onto whatever expression is passed into the directive. So, in this example, the final PHP generated by this directive will be:
+Como puede ver, encadenamos el método `format` en cualquier expresión que pase a la directiva. Así, en este ejemplo, el PHP final generado por esta directiva será:
 
     <?php echo ($var)->format('m/d/Y H:i'); ?>
     
 
-> {note} After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
+> {note} Después de actualizar la lógica de una directiva Blade, tendrá que borrar todas las vistas almacenadas en caché. Esto se hace utilizando el comando Artisan `view:clear`.
 
 <a name="custom-if-statements"></a>
 
-### Custom If Statements
+### Estructuras *if* personalizadas
 
-Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
+La programación de una directiva personalizada es a veces más compleja de lo necesario cuando se definen expresiones condicionales simples y personalizadas. Por esta razón, Blade provee un método `Blade::if` que permite definir rápidamente una directiva condicional propia utilizando *Closures*. Por ejemplo, definamos una condición personalizada que compruebe el entorno de aplicación actual. Podemos hacer esto en el método `boot` de nuestro `AppServiceProvider`:
 
     use Illuminate\Support\Facades\Blade;
     
@@ -574,7 +574,7 @@ Programming a custom directive is sometimes more complex than necessary when def
     }
     
 
-Once the custom conditional has been defined, we can easily use it on our templates:
+Una vez que la estructura condicional se ha definido, es muy fácil utilizarla en nuestras plantillas:
 
     @env('local')
         // The application is in the local environment...
