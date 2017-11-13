@@ -394,7 +394,7 @@ Siguiente, [registrar el middleware de ruta](/docs/{{version}}/middleware#regist
 
 ## Añadir *Guards* personalizados
 
-Se pueden definir *guards* de autenticación propios utilizando el método `extend` de la *facade* `Auth`. You should place this call to `provider` within a [service provider](/docs/{{version}}/providers). Puesto que Laravel incluye un `AuthServiceProvider`, se puede incluir el código ahí mismo:
+Se pueden definir *guards* de autenticación propios utilizando el método `extend` de la *facade* `Auth`. You should place this call to `extend` within a [service provider](/docs/{{version}}/providers). Puesto que Laravel incluye un `AuthServiceProvider`, se puede incluir el código ahí mismo:
 
     <?php
     
