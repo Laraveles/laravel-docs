@@ -1,21 +1,21 @@
-# Hashing
+# Cifrado – *Hashing*
 
-- [Introduction](#introduction)
-- [Basic Usage](#basic-usage)
+- [Introducción](#introduction)
+- [Uso básico](#basic-usage)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-The Laravel `Hash` [facade](/docs/{{version}}/facades) provides secure Bcrypt hashing for storing user passwords. If you are using the built-in `LoginController` and `RegisterController` classes that are included with your Laravel application, they will automatically use Bcrypt for registration and authentication.
+La [facade](/docs/{{version}}/facades) `Hash` de Laravel proporciona un cifrado seguro para almacenar contraseñas de usuario. Si está utilizando las clases `LoginController` y `RegisterController` incorporadas en su aplicación Laravel, utilizarán automáticamente *Bcrypt* para el registro y la autenticación.
 
-> {tip} Bcrypt is a great choice for hashing passwords because its "work factor" is adjustable, which means that the time it takes to generate a hash can be increased as hardware power increases.
+> {tip} *Bcrypt* es una gran opción para el cifrado de contraseñas ya que su "factor de trabajo" es ajustable, lo que significa que el tiempo necesario para generar un cifrado se puede aumentar a medida que aumenta la potencia del hardware.
 
 <a name="basic-usage"></a>
 
-## Basic Usage
+## Uso básico
 
-You may hash a password by calling the `make` method on the `Hash` facade:
+Se puede cifrar una contraseña llamando al método `make` de la *facade* `Hash`:
 
     <?php
     
@@ -44,25 +44,25 @@ You may hash a password by calling the `make` method on the `Hash` facade:
     }
     
 
-The `make` method also allows you to manage the work factor of the bcrypt hashing algorithm using the `rounds` option; however, the default is acceptable for most applications:
+El método `make` también le permite administrar el factor de trabajo del algoritmo de cifrado de *bcrypt* usando la opción `rounds`; sin embargo, el valor predeterminado es aceptable para la mayoría de las aplicaciones:
 
     $hashed = Hash::make('password', [
         'rounds' => 12
     ]);
     
 
-#### Verifying A Password Against A Hash
+#### Verificar una contraseña contra un cifrado
 
-The `check` method allows you to verify that a given plain-text string corresponds to a given hash. However, if you are using the `LoginController` [included with Laravel](/docs/{{version}}/authentication), you will probably not need to use this directly, as this controller automatically calls this method:
+El método `check` permite verificar que una cadena corresponde con un cifrado concreto. Sin embargo, si está usando `LoginController` [incluido con Laravel](/docs/{{version}}/authentication), probablemente no necesitará usar esto directamente, ya que este controlador llama automáticamente a este método:
 
     if (Hash::check('plain-text', $hashedPassword)) {
         // The passwords match...
     }
     
 
-#### Checking If A Password Needs To Be Rehashed
+#### Comprobar si una contraseña require re-cifrado
 
-The `needsRehash` function allows you to determine if the work factor used by the hasher has changed since the password was hashed:
+La función `needsRehash` permite determinar si el factor de trabajo utilizado por el cifrado ha cambiado desde que se cifró la contraseña:
 
     if (Hash::needsRehash($hashed)) {
         $hashed = Hash::make('plain-text');

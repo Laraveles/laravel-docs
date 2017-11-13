@@ -1,28 +1,28 @@
 # Generación de URL
 
-- [Introduction](#introduction)
-- [The Basics](#the-basics) 
-    - [Generating Basic URLs](#generating-basic-urls)
-    - [Accessing The Current URL](#accessing-the-current-url)
-- [URLs For Named Routes](#urls-for-named-routes)
-- [URLs For Controller Actions](#urls-for-controller-actions)
-- [Default Values](#default-values)
+- [Introducción](#introduction)
+- [Conceptos básicos](#the-basics) 
+    - [Generar URLs básicas](#generating-basic-urls)
+    - [Acceder a la URL actual](#accessing-the-current-url)
+- [URL de rutas con nombre](#urls-for-named-routes)
+- [URLs a acciones de controladores](#urls-for-controller-actions)
+- [Valores por defecto](#default-values)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel provides several helpers to assist you in generating URLs for your application. Of course, these are mainly helpful when building links in your templates and API responses, or when generating redirect responses to another part of your application.
+Laravel incorpora varias funciones de asistencia en la generación de URLs. Por supuesto, son principalmente útiles para la generación de enlaces en las vistas y respuestas API, o para generar redirecciones a otra parte de la aplicación.
 
 <a name="the-basics"></a>
 
-## The Basics
+## Conceptos Básicos
 
 <a name="generating-basic-urls"></a>
 
-### Generating Basic URLs
+### Generar URLs básicas
 
-The `url` helper may be used to arbitrary URLs for your application. The generated URL will automatically use the scheme (HTTP or HTTPS) and host from the current request:
+La función `url` se puede utilizar para generar URLs de la aplicación. Estas URLs utilizarán directamente el esquema HTTP o HTTPS y host de la petición:
 
     $post = App\Post::find(1);
     
@@ -33,9 +33,9 @@ The `url` helper may be used to arbitrary URLs for your application. The generat
 
 <a name="accessing-the-current-url"></a>
 
-### Accessing The Current URL
+### Acceder a la URL actual
 
-If no path is provided to the `url` helper, a `Illuminate\Routing\UrlGenerator` instance is returned, allowing you to access information about the current URL:
+Si no se especifica un directorio a la función `url`, se retornará una instancia de `Illuminate\Routing\UrlGenerator`, permitiendo acceder a información sobre la URL actual:
 
     // Get the current URL without the query string...
     echo url()->current();
@@ -47,7 +47,7 @@ If no path is provided to the `url` helper, a `Illuminate\Routing\UrlGenerator` 
     echo url()->previous();
     
 
-Each of these methods may also be accessed via the `URL` [facade](/docs/{{version}}/facades):
+Cada uno de estos métodos se puede acceder también a través de `URL` como [facade](/docs/{{version}}/facades):
 
     use Illuminate\Support\Facades\URL;
     
@@ -56,53 +56,53 @@ Each of these methods may also be accessed via the `URL` [facade](/docs/{{versio
 
 <a name="urls-for-named-routes"></a>
 
-## URLs For Named Routes
+## URL de rutas con nombre
 
-The `route` helper may be used to generate URLs to named routes. Named routes allow you to generate URLs without being coupled to the actual URL defined on the route. Therefore, if the route's URL changes, no changes need to be made to your `route` function calls. For example, imagine your application contains a route defined like the following:
+La función `route` genera URLs a rutas con nombre. Las rutas con nombre permiten generar URLs desacopladas de la URL definida en la ruta. Por lo tanto, si la URL de la ruta cambia, no es necesario modificar las llamadas a la función `route`. Por ejemplo, imaginar una aplicación que contiene la siguiente ruta:
 
     Route::get('/post/{post}', function () {
         //
     })->name('post.show');
     
 
-To generate a URL to this route, you may use the `route` helper like so:
+Para generar una URL a esta ruta se usaría la función `route` de este modo:
 
     echo route('post.show', ['post' => 1]);
     
     // http://example.com/post/1
     
 
-You will often be generating URLs using the primary key of [Eloquent models](/docs/{{version}}/eloquent). For this reason, you may pass Eloquent models as parameter values. The `route` helper will automatically extract the model's primary key:
+A menudo se generarán URLs utilizando la clave primaria de un [modelo Eloquent](/docs/{{version}}/eloquent). Por esta razón, se pueden pasar modelos Eloquent como parámetro. La función `route` extraerá directamente la clave primaria del modelo:
 
     echo route('post.show', ['post' => $post]);
     
 
 <a name="urls-for-controller-actions"></a>
 
-## URLs For Controller Actions
+## URLs a acciones de controladores
 
-The `action` function generates a URL for the given controller action. You do not need to pass the full namespace of the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
+La función `action` genera una dirección URL para una acción determinada de un controlador. No se necesita pasar el namespace completo del controlador. En vez de eso, hay que pasar el nombre de la clase controller relativo al namespace `App\Http\Controllers`:
 
     $url = action('HomeController@index');
     
 
-If the controller method accepts route parameters, you may pass them as the second argument to the function:
+Si el método del controlador acepta parámetros de ruta, se pueden pasar como segundo argumento a la función:
 
     $url = action('UserController@profile', ['id' => 1]);
     
 
 <a name="default-values"></a>
 
-## Default Values
+## Valores por defecto
 
-For some applications, you may wish to specify request-wide default values for certain URL parameters. For example, imagine many of your routes define a `{locale}` parameter:
+Para algunas aplicaciones, se pueden especificar valores por defecto para ciertos parámetros URL. Por ejemplo, imaginar que muchas de las rutas definen un parámetro `{locale}`:
 
     Route::get('/{locale}/posts', function () {
         //
     })->name('post.index');
     
 
-It is cumbersome to always pass the `locale` every time you call the `route` helper. So, you may use the `URL::defaults` method to define a default value for this parameter that will always be applied during the current request. You may wish to call this method from a [route middleware](/docs/{{version}}/middleware#assigning-middleware-to-routes) so that you have access to the current request:
+Es tedioso ir pasando `locale` cada vez que se llama a la función `route`. Se puede utilizar el método `URL::defaults` para definir un valor por defecto para este parámetro que será aplicado siempre durante la petición actual. Se puede llamar a este método desde un [route middleware](/docs/{{version}}/middleware#assigning-middleware-to-routes) (middleware de ruta) por lo que se tendrá acceso a la petición actual:
 
     <?php
     
@@ -122,4 +122,4 @@ It is cumbersome to always pass the `locale` every time you call the `route` hel
     }
     
 
-Once the default value for the `locale` parameter has been set, you are no longer required to pass its value when generating URLs via the `route` helper.
+Una vez que el valor por defecto para `locale` se ha establecido, no será necesario pasarlo más al generar URLs a través del helper `route`.

@@ -1,85 +1,85 @@
-# Directory Structure
+# Estructura de directorios
 
-- [Introduction](#introduction)
-- [The Root Directory](#the-root-directory) 
-    - [The `app` Directory](#the-root-app-directory)
-    - [The `bootstrap` Directory](#the-bootstrap-directory)
-    - [The `config` Directory](#the-config-directory)
-    - [The `database` Directory](#the-database-directory)
-    - [The `public` Directory](#the-public-directory)
-    - [The `resources` Directory](#the-resources-directory)
-    - [The `routes` Directory](#the-routes-directory)
-    - [The `storage` Directory](#the-storage-directory)
-    - [The `tests` Directory](#the-tests-directory)
-    - [The `vendor` Directory](#the-vendor-directory)
-- [The App Directory](#the-app-directory) 
-    - [The `Console` Directory](#the-console-directory)
-    - [The `Events` Directory](#the-events-directory)
-    - [The `Exceptions` Directory](#the-exceptions-directory)
-    - [The `Http` Directory](#the-http-directory)
-    - [The `Jobs` Directory](#the-jobs-directory)
-    - [The `Listeners` Directory](#the-listeners-directory)
-    - [The `Mail` Directory](#the-mail-directory)
-    - [The `Notifications` Directory](#the-notifications-directory)
-    - [The `Policies` Directory](#the-policies-directory)
-    - [The `Providers` Directory](#the-providers-directory)
-    - [The `Rules` Directory](#the-rules-directory)
+- [Introducción](#introduction)
+- [El directorio *raíz*](#the-root-directory) 
+    - [El directorio `app`](#the-root-app-directory)
+    - [El directorio `bootstrap`](#the-bootstrap-directory)
+    - [El directorio `config`](#the-config-directory)
+    - [El directorio `database`](#the-database-directory)
+    - [El directorio `public`](#the-public-directory)
+    - [El directorio `resources`](#the-resources-directory)
+    - [El directorio `routes`](#the-routes-directory)
+    - [El directorio `storage`](#the-storage-directory)
+    - [El directorio `tests`](#the-tests-directory)
+    - [El directorio `vendor`](#the-vendor-directory)
+- [El directorio *app*](#the-app-directory) 
+    - [El directorio `Console`](#the-console-directory)
+    - [El directorio `Events`](#the-events-directory)
+    - [El directorio `Exceptions`](#the-exceptions-directory)
+    - [El directorio `Http`](#the-http-directory)
+    - [El directorio `Jobs`](#the-jobs-directory)
+    - [El directorio `Listeners`](#the-listeners-directory)
+    - [El directorio `Mail`](#the-mail-directory)
+    - [El directorio `Notifications`](#the-notifications-directory)
+    - [El directorio `Policies`](#the-policies-directory)
+    - [El directorio `Providers`](#the-providers-directory)
+    - [El directorio `Rules`](#the-rules-directory)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-The default Laravel application structure is intended to provide a great starting point for both large and small applications. Of course, you are free to organize your application however you like. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class.
+La estructura predeterminada de Laravel pretende proporcionar un punto de partida ideal tanto para grandes como para pequeñas aplicaciones. Por supuesto, se puede organizar la aplicación a placer. Laravel apenas impone restricciones sobre donde almacenar una clase - siempre y cuando *Composer* pueda cargarla.
 
-#### Where Is The Models Directory?
+#### ¿Dónde está el directorio para modelos?
 
-When getting started with Laravel, many developers are confused by the lack of a `models` directory. However, the lack of such a directory is intentional. We find the word "models" ambiguous since it means many different things to many different people. Some developers refer to an application's "model" as the totality of all of its business logic, while others refer to "models" as classes that interact with a relational database.
+Cuando se empieza con Laravel, muchos programadores se confunden al no encontrar una carpeta específica para `modelos`. Sin embargo, la falta de este directorio es intencional. La palabra *models* es ambigua puesto que puede significar cosas diferentes para gente diferente. Algunos programadores se refieren a "modelo" como la totalidad de la lógica de negocio de su aplicación, mientras que otros solo a aquella que interactúa con una base de datos relacional.
 
-For this reason, we choose to place Eloquent models in the `app` directory by default, and allow the developer to place them somewhere else if they choose.
+Es por esta razón que se establecen los modelos de Eloquent en el directorio `app` por defecto, permitiendo al programador guardarlos en cualquier otro sitio que elija.
 
 <a name="the-root-directory"></a>
 
-## The Root Directory
+## El directorio *raíz*
 
 <a name="the-root-app-directory"></a>
 
-#### The App Directory
+#### El directorio *app*
 
-The `app` directory, as you might expect, contains the core code of your application. We'll explore this directory in more detail soon; however, almost all of the classes in your application will be in this directory.
+La carpeta `app`, tal y como se puede esperar, contiene el núcleo del código de la aplicación. Se explorará este directorio en detalle a continuación; casi todas las clases de una aplicación estarán dentro de esta carpeta.
 
 <a name="the-bootstrap-directory"></a>
 
-#### The Bootstrap Directory
+#### El directorio *bootstrap*
 
-The `bootstrap` directory contains the `app.php` file which bootstraps the framework. This directory also houses a `cache` directory which contains framework generated files for performance optimization such as the route and services cache files.
+El directorio `bootstrap` contiene el archivo `app.php` el cual envuelve el framework. Esta carpeta contiene además el directorio `cache`, la cual contiene los archivos generados por el framework para mejorar su rendimiento como los archivos de caché de rutas y servicios.
 
 <a name="the-config-directory"></a>
 
-#### The Config Directory
+#### El directorio *config*
 
-The `config` directory, as the name implies, contains all of your application's configuration files. It's a great idea to read through all of these files and familiarize yourself with all of the options available to you.
+El directorio `config`, como su nombre indica, contiene todos los archivos de configuración de la aplicación. Es una buena idea revisar el contenido de todos estos archivos para familiarizarse con las opciones disponibles.
 
 <a name="the-database-directory"></a>
 
-#### The Database Directory
+#### El directorio *database*
 
-The `database` directory contains your database migration and seeds. If you wish, you may also use this directory to hold an SQLite database.
+La carpeta `database` contiene las migraciones de la base de datos y semillas. Si se desea, se puede utilizar esta carpeta para mantener una base de datos SQLite.
 
 <a name="the-public-directory"></a>
 
-#### The Public Directory
+#### El directorio *public*
 
-The `public` directory contains the `index.php` file, which is the entry point for all requests entering your application and configures autoloading. This directory also houses your assets such as images, JavaScript, and CSS.
+El directorio `public` contiene el archivo `index.php`, el cual es el punto de acceso para todas las peticiones que accedan a la aplicación y configura el *autoloading*. Este directorio contendrá también los recursos JavaScript, CSS, imágenes y otros.
 
 <a name="the-resources-directory"></a>
 
-#### The Resources Directory
+#### El directorio *resources*
 
-The `resources` directory contains your views as well as your raw, un-compiled assets such as LESS, SASS, or JavaScript. This directory also houses all of your language files.
+El directorio `resources` contiene todas las vistas, así como todos los recursos LESS, SASS, JavaSscript y otros archivos sin compilar. Este directorio también incluye los archivos de idioma.
 
 <a name="the-routes-directory"></a>
 
-#### The Routes Directory
+#### El directorio *routes*
 
 The `routes` directory contains all of the route definitions for your application. By default, several route files are included with Laravel: `web.php`, `api.php`, `console.php` and `channels.php`.
 

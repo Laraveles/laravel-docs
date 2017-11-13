@@ -1,6 +1,6 @@
-# Configuration
+# Configuración
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Configuración del entorno](#environment-configuration) 
     - [Obtener la configuración del entorno](#retrieving-environment-configuration)
     - [Determinar el entorno actual](#determining-the-current-environment)
@@ -10,7 +10,7 @@
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
 Todos los archivos de configuración del *framework* Laravel están almacenados en el directorio `config`. Cada opción está documentada, así que no dude en consultar los archivos y familiarizarse con las diferentes opciones disponibles.
 
@@ -32,7 +32,7 @@ Si usted está desarrollando con un equipo, puede continuar incluyendo un archiv
 
 ### Obtener la configuración del entorno
 
-All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. Sin embargo, usted puede utilizar el *helper* `env` para recuperar valores de esas variables en sus archivos de configuración. De hecho, si revisa los archivos de configuración de Laravel, puede observar que varias de las opciones ya usan este *helper*:
+Todas las variables listadas en este archivo se cargarán en la variable super-global de PHP `$_ENV` cada vez que la aplicación reciba una petición. Sin embargo, usted puede utilizar el *helper* `env` para recuperar valores de esas variables en sus archivos de configuración. De hecho, si revisa los archivos de configuración de Laravel, puede observar que varias de las opciones ya usan este *helper*:
 
     'debug' => env('APP_DEBUG', false),
     
@@ -59,7 +59,7 @@ También puede pasar argumentos al método `environment` para comprobar si hay c
     }
     
 
-> {tip} The current application environment detection can be overridden by a server-level `APP_ENV` environment variable. Esto puede ser útil cuando necesite compartir la misma aplicación para diferentes entornos de configuración, de modo que se puede configurar un host para que coincida con un entorno dado en las configuraciones en su servidor.
+> {tip} La detección del entorno de la aplicación actual puede ser anulada por una variable de entorno `APP_ENV` a nivel de servidor. Esto puede ser útil cuando necesite compartir la misma aplicación para diferentes entornos de configuración, de modo que se puede configurar un host para que coincida con un entorno dado en las configuraciones en su servidor.
 
 <a name="accessing-configuration-values"></a>
 
@@ -91,12 +91,12 @@ Usted normalmente debe ejecutar el comando `php artisan config:cache` como parte
 
 Cuando su aplicación está en modo de mantenimiento, una vista personalizada será mostrada para todas las peticiones en su aplicación. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o cuando se está realizando el mantenimiento. La comprobación del modo de mantenimiento es incluída en la pilam, por defecto, de *middleware* de su aplicación. Si la aplicación está en modo de mantenimiento, una excepcion `MaintenanceModeException` será lanzada con un código de estado 503.
 
-To enable maintenance mode, simply execute the `down` Artisan command:
+Para activar el modo de mantenimiento, simplemente ejecutar el comando de Artisan `down`:
 
     php artisan down
     
 
-You may also provide `message` and `retry` options to the `down` command. El valor `message` puede ser utilizado para mostrar o registrar un mensaje personalizado, mientras que el valor `retry` sera establecido como valor `Retry-After` en la cabecera HTTP:
+También se pueden proporcionar las opciones `message` y `retry` para el comando `down`. El valor `message` puede ser utilizado para mostrar o registrar un mensaje personalizado, mientras que el valor `retry` sera establecido como valor `Retry-After` en la cabecera HTTP:
 
     php artisan down --message="Upgrading Database" --retry=60
     
@@ -106,7 +106,7 @@ Para desactivar el modo de mantenimiento, utilice el comando `up`:
     php artisan up
     
 
-> {tip} You may customize the default maintenance mode template by defining your own template at `resources/views/errors/503.blade.php`.
+> {tip} Puede personalizar la plantilla del modo de mantenimiento predeterminado definiendo su propia plantilla en `resources/views/errors/503.blade.php`.
 
 #### Modo mantenimiento & colas
 
