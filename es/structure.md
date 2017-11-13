@@ -2,8 +2,8 @@
 
 - [Introduction](#introduction)
 - [The Root Directory](#the-root-directory) 
-    - [The `app` Directory](#the-root-app-directory)
-    - [The `bootstrap` Directory](#the-bootstrap-directory)
+    - [El directorio `app`](#the-root-app-directory)
+    - [El directorio `bootstrap`](#the-bootstrap-directory)
     - [The `config` Directory](#the-config-directory)
     - [The `database` Directory](#the-database-directory)
     - [The `public` Directory](#the-public-directory)
