@@ -1,27 +1,27 @@
 # Rutas
 
-- [Basic Routing](#basic-routing) 
-    - [Redirect Routes](#redirect-routes)
-    - [View Routes](#view-routes)
-- [Route Parameters](#route-parameters) 
-    - [Required Parameters](#required-parameters)
-    - [Optional Parameters](#parameters-optional-parameters)
-    - [Regular Expression Constraints](#parameters-regular-expression-constraints)
-- [Named Routes](#named-routes)
-- [Route Groups](#route-groups) 
+- [Rutas básicas](#basic-routing) 
+    - [Redirección de rutas](#redirect-routes)
+    - [Rutas con vistas](#view-routes)
+- [Rutas con parámetros](#route-parameters) 
+    - [Parámetros requeridos](#required-parameters)
+    - [Parámetros opcionales](#parameters-optional-parameters)
+    - [Expresiones regulares](#parameters-regular-expression-constraints)
+- [Nombres de rutas](#named-routes)
+- [Grupos de rutas](#route-groups) 
     - [Middleware](#route-group-middleware)
     - [Namespaces](#route-group-namespaces)
-    - [Sub-Domain Routing](#route-group-sub-domain-routing)
-    - [Route Prefixes](#route-group-prefixes)
-- [Route Model Binding](#route-model-binding) 
-    - [Implicit Binding](#implicit-binding)
-    - [Explicit Binding](#explicit-binding)
-- [Form Method Spoofing](#form-method-spoofing)
-- [Accessing The Current Route](#accessing-the-current-route)
+    - [Rutas de sub-dominios](#route-group-sub-domain-routing)
+    - [Prefijos de rutas](#route-group-prefixes)
+- [Enlazar modelos a rutas](#route-model-binding) 
+    - [Enlazado implícito](#implicit-binding)
+    - [Enlazado explícito](#explicit-binding)
+- [Falsear el método del formulario](#form-method-spoofing)
+- [Acceder a la ruta actual](#accessing-the-current-route)
 
 <a name="basic-routing"></a>
 
-## Basic Routing
+## Rutas Básicas
 
 La ruta más básica en Laravel únicamente acepta la URI y un `Closure`, ofreciendo una forma muy sencilla y expresiva de definir rutas:
 
@@ -30,20 +30,20 @@ La ruta más básica en Laravel únicamente acepta la URI y un `Closure`, ofreci
     });
     
 
-#### The Default Route Files
+#### El archivo de rutas por defecto
 
-All Laravel routes are defined in your route files, which are located in the `routes` directory. These files are automatically loaded by the framework. The `routes/web.php` file defines routes that are for your web interface. These routes are assigned the `web` middleware group, which provides features like session state and CSRF protection. The routes in `routes/api.php` are stateless and are assigned the `api` middleware group.
+Todas las rutas de Laravel se definen en los archivos que se encuentran en la carpeta `routes`. El framework carga estos archivos de forma automática. El archivo `routes/web.php` define las rutas para la interfaz web. A estas rutas se les asigna el grupo de *middleware* `web`, el cual proporciona algunas características como el estado de la sesión y la protección CSRF. Las rutas en `routes/api.php` no tienen estado y se les asigna el grupo de *middleware* `api`.
 
-For most applications, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://your-app.dev/user` in your browser:
+Para la mayoría de aplicaciones, se comenzará definiendo las rutas en el archivo `routes/web.php`. Se puede acceder a las rutas definidas en `routes/web.php` simplemente escribiendo la URI definida en el navegador. Por ejemplo, se puede acceder a la siguiente ruta simplemente accediendo a `http://tu-app.dev/user` desde el navegador:
 
     Route::get('/user', 'UsersController@index');
     
 
-Routes defined in the `routes/api.php` file are nested within a route group by the `RouteServiceProvider`. Within this group, the `/api` URI prefix is automatically applied so you do not need to manually apply it to every route in the file. You may modify the prefix and other route group options by modifying your `RouteServiceProvider` class.
+El `RouteServiceProvider` anidará las rutas definidas en `routes/api.php` bajo un grupo de rutas. Este grupo añadirá el URI `/api` como prefijo de forma automática, por lo que no es necesario definirlo en cada una de las rutas del archivo. Se puede modificar el prefijo y otras opciones del grupo modificando la clase `RouteServiceProvider`.
 
-#### Available Router Methods
+#### Métodos de rutas disponibles
 
-The router allows you to register routes that respond to any HTTP verb:
+El *router* permite registrar rutas que respondan a cualquier verbo HTTP:
 
     Route::get($uri, $callback);
     Route::post($uri, $callback);
@@ -53,7 +53,7 @@ The router allows you to register routes that respond to any HTTP verb:
     Route::options($uri, $callback);
     
 
-Sometimes you may need to register a route that responds to multiple HTTP verbs. You may do so using the `match` method. Or, you may even register a route that responds to all HTTP verbs using the `any` method:
+En ocasiones puede ser necesario una ruta que responda a varios verbos HTTP. Puede hacerse utilizando el método `match`. O incluso se puede registrar una ruta que responda a todos los verbos HTTP utilizando el método `any`:
 
     Route::match(['get', 'post'], '/', function () {
         //
@@ -64,9 +64,9 @@ Sometimes you may need to register a route that responds to multiple HTTP verbs.
     });
     
 
-#### CSRF Protection
+#### Protección CSRF
 
-Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in the `web` routes file should include a CSRF token field. Otherwise, the request will be rejected. You can read more about CSRF protection in the [CSRF documentation](/docs/{{version}}/csrf):
+Cualquier formulario HTML que apunte a una ruta `POST`, `PUT` o `DELETE` definida en el archivo de rutas `web` debe incluir un campo con un token CSRF. De lo contrario, la petición se rechazará. Se puede averiguar más sobre protección CSRF en la [documentación CSRF](/docs/{{version}}/csrf):
 
     <form method="POST" action="/profile">
         {{ csrf_field() }}
@@ -76,18 +76,18 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
 
 <a name="redirect-routes"></a>
 
-### Redirect Routes
+### Redireccionar rutas
 
-If you are defining a route that redirects to another URI, you may use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
+Para definir una ruta que redirecciona a otra URI, se puede utilizar el método `Route::redirect`. Este método evita tener que definir una ruta completa o un controlador para gestionar una simple redirección:
 
     Route::redirect('/here', '/there', 301);
     
 
 <a name="view-routes"></a>
 
-### View Routes
+### Rutas con vistas
 
-If your route only needs to return a view, you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
+Si únicamente se necesita devolver una vista desde una ruta, se puede utilizar el método `Route::view`. Al igual que el método `redirect`, este método es como un acceso directo para no tener que definir la ruta completa o un controlador. El método `view` acepta una URI como primer parámetro y un nombre de vista como segundo. Además, se le puede pasar un array de datos a la vista como tercer parámetro opcional:
 
     Route::view('/welcome', 'welcome');
     
@@ -96,33 +96,33 @@ If your route only needs to return a view, you may use the `Route::view` method.
 
 <a name="route-parameters"></a>
 
-## Route Parameters
+## Rutas con parámetros
 
 <a name="required-parameters"></a>
 
-### Required Parameters
+### Parámetros requeridos
 
-Of course, sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
+En muchas ocasiones es necesario capturar segmentos de la URI dentro de una ruta. Por ejemplo, obtener el id de usuario en la URL. Esto se puede hacer mediante la definición de parámetros de ruta:
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
     });
     
 
-You may define as many route parameters as required by your route:
+Es posible definir tantos parámetros como se requieran en la ruta:
 
     Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
         //
     });
     
 
-Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`) instead. Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
+Los parámetros de ruta se definen siempre dentro de llaves `{}` y deben contener únicamente caracteres alfabéticos y nunca contener `-` (guiones). En lugar de utilizar el guión `-` (alto), utilizar un guión bajo `_`. Los parámetros de rutas se inyectan directamente en los callback/controladores en orden – los nombres de los argumentos no afectan.
 
 <a name="parameters-optional-parameters"></a>
 
-### Optional Parameters
+### Parámetros opcionales
 
-Occasionally you may need to specify a route parameter, but make the presence of that route parameter optional. You may do so by placing a `?` mark after the parameter name. Make sure to give the route's corresponding variable a default value:
+A veces es necesario especificar un parámetro, pero la presencia de este parámetro es opcional. Se puede definir simplemente añadiendo el símbolo `?` detrás del nombre del parámetro. Asegúrese de dar a esa variable un valor por defecto en su callback/controlador:
 
     Route::get('user/{name?}', function ($name = null) {
         return $name;
@@ -135,9 +135,9 @@ Occasionally you may need to specify a route parameter, but make the presence of
 
 <a name="parameters-regular-expression-constraints"></a>
 
-### Regular Expression Constraints
+### Expresiones regulares
 
-You may constrain the format of your route parameters using the `where` method on a route instance. The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
+Es posible limitar el formato de los elementos dentro de los parámetros de una ruta usando el método `where` en una instancia de *Route*. El método `where` acepta el nombre del parámetro y la expresión regular que define como se debe limitar el parámetro:
 
     Route::get('user/{name}', function ($name) {
         //
@@ -154,9 +154,9 @@ You may constrain the format of your route parameters using the `where` method o
 
 <a name="parameters-global-constraints"></a>
 
-#### Global Constraints
+#### Restricciones globales
 
-If you would like a route parameter to always be constrained by a given regular expression, you may use the `pattern` method. You should define these patterns in the `boot` method of your `RouteServiceProvider`:
+Si se desea que un parámetro de ruta siempre este limitado por una expresión regular definida, se puede hace utilizando el método `pattern`. Estos patrones se deben definir en el método `boot` dentro del `RouteServiceProvider`:
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -171,7 +171,7 @@ If you would like a route parameter to always be constrained by a given regular 
     }
     
 
-Once the pattern has been defined, it is automatically applied to all routes using that parameter name:
+Una vez que el patrón se haya sido definido, se aplicará automáticamente a todas las rutas que utilicen ese nombre como parámetro:
 
     Route::get('user/{id}', function ($id) {
         // Only executed if {id} is numeric...
@@ -180,23 +180,23 @@ Once the pattern has been defined, it is automatically applied to all routes usi
 
 <a name="named-routes"></a>
 
-## Named Routes
+## Nombres de rutas
 
-Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route by chaining the `name` method onto the route definition:
+Las rutas con nombre permiten la generación de URL o redirecciones para rutas específicas. Se puede especificar el nombre de una ruta encadenando el método `name` a la definición de la ruta:
 
     Route::get('user/profile', function () {
         //
     })->name('profile');
     
 
-You may also specify route names for controller actions:
+También se pueden especificar nombres de rutas para acciones de controladores:
 
     Route::get('user/profile', 'UserController@showProfile')->name('profile');
     
 
-#### Generating URLs To Named Routes
+#### Generar URLs con nombres de ruta
 
-Once you have assigned a name to a given route, you may use the route's name when generating URLs or redirects via the global `route` function:
+Una vez que se ha asignado un nombre a una ruta concreta, se puede utilizar ese nombre para generar URLs o redirecciones a través del *helper* global `route`:
 
     // Generating URLs...
     $url = route('profile');
@@ -205,7 +205,7 @@ Once you have assigned a name to a given route, you may use the route's name whe
     return redirect()->route('profile');
     
 
-If the named route defines parameters, you may pass the parameters as the second argument to the `route` function. The given parameters will automatically be inserted into the URL in their correct positions:
+Si la ruta define parámetros, se pueden pasar como segundo argumento a la función `routes`. Los parámetros se insertarán automáticamente en la posición correcta de la URL:
 
     Route::get('user/{id}/profile', function ($id) {
         //
@@ -214,9 +214,9 @@ If the named route defines parameters, you may pass the parameters as the second
     $url = route('profile', ['id' => 1]);
     
 
-#### Inspecting The Current Route
+#### Inspeccionar la ruta actual
 
-If you would like to determine if the current request was routed to a given named route, you may use the `named` method on a Route instance. For example, you may check the current route name from a route middleware:
+Para determinar si la petición actual coincide con el nombre de alguna ruta, se puede utilizar el método `named` de una instancia de *Route*. Por ejemplo, se puede comprobar el nombre de la ruta actual desde un *middleware* de ruta:
 
     /**
      * Handle an incoming request.
@@ -237,15 +237,15 @@ If you would like to determine if the current request was routed to a given name
 
 <a name="route-groups"></a>
 
-## Route Groups
+## Grupos de rutas
 
-Route groups allow you to share route attributes, such as middleware or namespaces, across a large number of routes without needing to define those attributes on each individual route. Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
+Los Grupos de Rutas permiten compartir atributos de ruta, por ejemplo *middleware* o *namespaces*, a un grupo de rutas sin necesidad de definir los atributos a cada una de manera individual. Los atributos compartidos se pasan en un como array al primer parámetro del método `Route::group`.
 
 <a name="route-group-middleware"></a>
 
 ### Middleware
 
-To assign middleware to all routes within a group, you may use the `middleware` method before defining the group. Middleware are executed in the order they are listed in the array:
+Para asignar un *middleware* a todas las rutas de un grupo, se puede utilizar el método `middleware` antes de definir el grupo. Los *middleware* se ejecutarán en en el mismo orden que se pasen en el array:
 
     Route::middleware(['first', 'second'])->group(function () {
         Route::get('/', function () {
@@ -260,22 +260,22 @@ To assign middleware to all routes within a group, you may use the `middleware` 
 
 <a name="route-group-namespaces"></a>
 
-### Namespaces
+### *Namespaces*
 
-Another common use-case for route groups is assigning the same PHP namespace to a group of controllers using the `namespace` method:
+Otro caso de uso común para los grupos de rutas es el asignar un mismo *namespace* PHP a un grupo de controladores utilizando el método `namespace`:
 
     Route::namespace('Admin')->group(function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
     });
     
 
-Remember, by default, the `RouteServiceProvider` includes your route files within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix. So, you only need to specify the portion of the namespace that comes after the base `App\Http\Controllers` namespace.
+Recordar, el `RouteServiceProvider` incluye ya por defecto los archivos de ruta en un grupo con *namespace*, permitiendo registrar controladores sin tener que especificar el *nemespace* completo `App\Http\Controllers`. Así, únicamente hay que especificar la porción del *namespace* que vendrá tras el *namespace* base `App\Http\Controllers`.
 
 <a name="route-group-sub-domain-routing"></a>
 
-### Sub-Domain Routing
+### Rutas de sub-dominios
 
-Route groups may also be used to handle sub-domain routing. Sub-domains may be assigned route parameters just like route URIs, allowing you to capture a portion of the sub-domain for usage in your route or controller. The sub-domain may be specified by calling the `domain` method before defining the group:
+Los grupos de rutas se pueden utilizar para gestionar el enrutamiento de sub-dominios. A los sub-dominios se les pueden asignar parámetros al igual que a cualquier otra ruta, permitiendo capturaruna porción del sub-dominio para usarla en nuestra ruta o controlador. El sub-dominio se especifica llamando al método `domain` antes de definir el grupo:
 
     Route::domain('{account}.myapp.com')->group(function () {
         Route::get('user/{id}', function ($account, $id) {
@@ -286,9 +286,9 @@ Route groups may also be used to handle sub-domain routing. Sub-domains may be a
 
 <a name="route-group-prefixes"></a>
 
-### Route Prefixes
+### Prefijos de Rutas
 
-The `prefix` method may be used to prefix each route in the group with a given URI. For example, you may want to prefix all route URIs within the group with `admin`:
+El método `prefix` se puede utilizar para prefijar cada ruta en un grupo con una URI concreta. Por ejemplo, para añadir un prefijo a todas las URIs en el grupo `admin`:
 
     Route::prefix('admin')->group(function () {
         Route::get('users', function () {
@@ -299,26 +299,26 @@ The `prefix` method may be used to prefix each route in the group with a given U
 
 <a name="route-model-binding"></a>
 
-## Route Model Binding
+## Enlazar modelos a rutas
 
-When injecting a model ID to a route or controller action, you will often query to retrieve the model that corresponds to that ID. Laravel route model binding provides a convenient way to automatically inject the model instances directly into your routes. For example, instead of injecting a user's ID, you can inject the entire `User` model instance that matches the given ID.
+Al inyectar el ID de un modelo a una ruta o acción de controlador, normalmente se ejecutará una consulta contra la base de datos para obtener el modelo que corresponde con dicho ID. El *route model binding* ayuda a inyectar instancias de modelo de forma automática en las rutas. Por ejemplo, en lugar de inyectar el ID de usuario, se puede inyectar la instancia de modelo completa `User` que concuerda con el ID dado.
 
 <a name="implicit-binding"></a>
 
-### Implicit Binding
+### Enlazado implícito – *Implicit binding*
 
-Laravel automatically resolves Eloquent models defined in routes or controller actions whose type-hinted variable names match a route segment name. For example:
+Laravel resuelve de forma automática los modelos Eloquent que se definen en rutas o acciones de controladores cuyo parámetro coincide con el nombre de un segmento de la ruta. Por ejemplo:
 
     Route::get('api/users/{user}', function (App\User $user) {
         return $user->email;
     });
     
 
-Since the `$user` variable is type-hinted as the `App\User` Eloquent model and the variable name matches the `{user}` URI segment, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI. If a matching model instance is not found in the database, a 404 HTTP response will automatically be generated.
+Puesto que la variable `$user` se requiere como tipo de `App\User` y el nombre de la variable coincide con el segmento URI `{user}`, Laravel inyectará automáticamente la instancia de modelo que corresponda con el valor de la petición URI. Si no se encuentra el modelo en la base de datos, se generará una respuesta HTTP 404 automáticamente.
 
-#### Customizing The Key Name
+#### Personalizar el nombre de la clave
 
-If you would like model binding to use a database column other than `id` when retrieving a given model class, you may override the `getRouteKeyName` method on the Eloquent model:
+Para utilizar una columna alternativa a `id` al obtener el modelo, se puede reemplazar el método `getRouteKeyName` en el modelo Eloquent:
 
     /**
      * Get the route key for the model.
@@ -333,9 +333,9 @@ If you would like model binding to use a database column other than `id` when re
 
 <a name="explicit-binding"></a>
 
-### Explicit Binding
+### Enlazado explícito
 
-To register an explicit binding, use the router's `model` method to specify the class for a given parameter. You should define your explicit model bindings in the `boot` method of the `RouteServiceProvider` class:
+Para registrar un modelo de forma explícita, utilizar el método `model` para especificar la clase de un parámetro concreto. Se deben definir en el método `boot` del `RouteServiceProvider`:
 
     public function boot()
     {
@@ -345,20 +345,20 @@ To register an explicit binding, use the router's `model` method to specify the 
     }
     
 
-Next, define a route that contains a `{user}` parameter:
+A continuación, definir una ruta que contenga un parámetro `{user}`:
 
     Route::get('profile/{user}', function (App\User $user) {
         //
     });
     
 
-Since we have bound all `{user}` parameters to the `App\User` model, a `User` instance will be injected into the route. So, for example, a request to `profile/1` will inject the `User` instance from the database which has an ID of `1`.
+Puesto que se han enlazado todos los parámetros `{user}` al model `App\User`, se inyectará una instancia de `User` en la ruta. Por ejemplo, una petición a `profile/1` inyectará la instancia de `User` desde la base de datos que tenga un ID de `1`.
 
-If a matching model instance is not found in the database, a 404 HTTP response will be automatically generated.
+Si no se encuentra ninguna coincidencia en la base de datos, se retornará una respuesta HTTP 404 de forma automática.
 
-#### Customizing The Resolution Logic
+#### Personalizar la lógica de resolución
 
-If you wish to use your own resolution logic, you may use the `Route::bind` method. The `Closure` you pass to the `bind` method will receive the value of the URI segment and should return the instance of the class that should be injected into the route:
+Para utilizar una lógica propia de resolución, se puede utilizar el método `Route::bind`. La `Closure` que se pasa al método `bind` recibirá el valor del segmento URI y debe retornar la instancia de la clase a inyectar en la ruta:
 
     public function boot()
     {
@@ -372,9 +372,9 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
 
 <a name="form-method-spoofing"></a>
 
-## Form Method Spoofing
+## Falsear el método del formulario
 
-HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. The value sent with the `_method` field will be used as the HTTP request method:
+Los formularios HTML no soportan las acciones `PUT`, `PATCH` o `DELETE`. Por lo que al definir rutas `PUT`, `PATCH` o `DELETE` que provengan de un formulario HTML, será necesario añadir un campo oculto (hidden) `_method` en el formulario. El valor del campo `_method` se utilizará como verbo HTTP:
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">
@@ -382,16 +382,16 @@ HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining 
     </form>
     
 
-You may use the `method_field` helper to generate the `_method` input:
+Se puede utilizar el *helper* `method_field` para generar el campo `_method`:
 
     {{ method_field('PUT') }}
     
 
 <a name="accessing-the-current-route"></a>
 
-## Accessing The Current Route
+## Acceder a la ruta actual
 
-You may use the `current`, `currentRouteName`, and `currentRouteAction` methods on the `Route` facade to access information about the route handling the incoming request:
+Se pueden utilizar los métodos `current`, `currentRouteName` y `currentRouteAction` de la *facade* `Route` para acceder a información sobre la ruta que gestiona la petición actual:
 
     $route = Route::current();
     
@@ -400,4 +400,4 @@ You may use the `current`, `currentRouteName`, and `currentRouteAction` methods 
     $action = Route::currentRouteAction();
     
 
-Refer to the API documentation for both the [underlying class of the Route facade](https://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) and [Route instance](https://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) to review all accessible methods.
+Ir a la documentación del API para conocer todos los métodos disponibles de [la clase subyacente de la *facade Route*](https://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) y [la instancia Route](https://laravel.com/api/{{version}}/Illuminate/Routing/Route.html).
