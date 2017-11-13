@@ -77,7 +77,7 @@ Por defecto, las aplicaciones de Laravel nuevas contienen un componente Vue `Exa
     );
     
 
-Para utilizar el componente de su aplicación, simplemente puede colocarlo en una de sus plantillas HTML. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
+Para utilizar el componente de su aplicación, simplemente puede colocarlo en una de sus plantillas HTML. Por ejemplo, después de ejecutar el comando Artisan `make:auth` para crear las vistas de autenticación y registro de su aplicación, podría colocar el componente en la plantilla Blade `home.blade.php`:
 
     @extends('layouts.app')
     
@@ -86,17 +86,17 @@ Para utilizar el componente de su aplicación, simplemente puede colocarlo en un
     @endsection
     
 
-> {tip} Remember, you should run the `npm run dev` command each time you change a Vue component. Or, you may run the `npm run watch` command to monitor and automatically recompile your components each time they are modified.
+> {tip} Recuerde, debería ejecutar el comando `npm run dev` cada vez que cambie un componente Vue. O bien, puede ejecutar el comando `npm run watch` para monitorear y recompilar automáticamente sus componentes cada vez que se modifiquen.
 
-Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
+Por supuesto, si está interesado en aprender más sobre la escritura de componentes Vue, debe leer la [Documentación Vue](https://vuejs.org/guide/), que proporciona una visión general completa y fácil de leer de todo el framework Vue.
 
 <a name="using-react"></a>
 
-### Using React
+### Usar React
 
-If you prefer to use React to build your JavaScript application, Laravel makes it a cinch to swap the Vue scaffolding with React scaffolding. On any fresh Laravel application, you may use the `preset` command with the `react` option:
+Si usted prefiere usar React para construir su aplicación JavaScript, Laravel hace que sea fácil intercambiar el *scaffolding* Vue con el *scaffolding* React. En cualquier aplicación de Laravel nueva, puede usar el comando `preset` con la opción `react`:
 
     php artisan preset react
     
 
-This single command will remove the Vue scaffolding and replace it with React scaffolding, including an example component.
+Este comando único eliminará el *scaffolding* Vue y lo reemplazará con el *scaffolding* React, incluyendo un componente de ejemplo.
