@@ -1,29 +1,29 @@
 # Laravel Valet
 
-- [Introduction](#introduction) 
-    - [Valet Or Homestead](#valet-or-homestead)
-- [Installation](#installation) 
-    - [Upgrading](#upgrading)
-- [Serving Sites](#serving-sites) 
-    - [The "Park" Command](#the-park-command)
-    - [The "Link" Command](#the-link-command)
-    - [Securing Sites With TLS](#securing-sites)
-- [Sharing Sites](#sharing-sites)
-- [Custom Valet Drivers](#custom-valet-drivers) 
-    - [Local Drivers](#local-drivers)
-- [Other Valet Commands](#other-valet-commands)
+- [Introducción](#introduction) 
+    - [Valet o Homestead](#valet-or-homestead)
+- [Instalación](#installation) 
+    - [Actualizar](#upgrading)
+- [Servir sitios](#serving-sites) 
+    - [El comando "park"](#the-park-command)
+    - [El comando "link"](#the-link-command)
+    - [Asegurar sitios con TLS](#securing-sites)
+- [Compartir sitios](#sharing-sites)
+- [Drivers de Valet personalizados](#custom-valet-drivers) 
+    - [Drivers locales](#local-drivers)
+- [Otros comandos de Valet](#other-valet-commands)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Valet is a Laravel development environment for Mac minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. *Yeah, we like it too.*
+Valet es un entorno de desarrollo para minimalistas de Mac. No Vagrant, sin archivo `/etc/hosts`. Incluso se pueden compartir los sitios de forma pública utilizando tunes locales. *Sí, también nos gusta.*
 
-Laravel Valet configures your Mac to always run [Nginx](https://www.nginx.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.dev` domain to point to sites installed on your local machine.
+Laravel Valet configura su Mac para ejecutar [Nginx](https://www.nginx.com/) en segundo plano cuando la máquina arranca. Entonces, utilizando [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet crea un *proxy* de todas las peticiones sobre el dominio `*.dev` para apuntar a los sitios instalados en su máquina.
 
-In other words, a blazing fast Laravel development environment that uses roughly 7 MB of RAM. Valet isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
+En otras palabras, un entorno de desarrollo tremendamente potente que utiliza únicamente 7 MB de RAM. Valet no es un reemplazo para Vagrant o Homestead, sino una alternativa si se prefieren servicios básicos, alta velocidad o se está trabajando en una máquina con RAM limitada.
 
-Out of the box, Valet support includes, but is not limited to:
+Por defecto, Valet soporta, pero no limitado a:
 
 <div class="content-list">
   <ul>
@@ -79,7 +79,7 @@ Out of the box, Valet support includes, but is not limited to:
       <a href="https://statamic.com">Statamic</a>
     </li>
     <li>
-      Static HTML
+      HTML estático
     </li>
     <li>
       <a href="https://symfony.com">Symfony</a>
