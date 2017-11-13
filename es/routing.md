@@ -116,7 +116,7 @@ Es posible definir tantos parámetros como se requieran en la ruta:
     });
     
 
-Los parámetros de ruta se definen siempre dentro de llaves `{}` y deben contener únicamente caracteres alfabéticos y nunca contener `-` (guiones). En lugar de utilizar el guión `-` (alto), utilizar un guión bajo `_`. Los parámetros de rutas se inyectan directamente en los callback/controladores en orden – los nombres de los argumentos no afectan.
+Los parámetros de ruta se definen siempre dentro de llaves `{}` y deben contener únicamente caracteres alfabéticos y nunca contener `-` (guiones). Instead of using the `-` character, use an underscore (`_`). Los parámetros de rutas se inyectan directamente en los callback/controladores en orden – los nombres de los argumentos no afectan.
 
 <a name="parameters-optional-parameters"></a>
 
