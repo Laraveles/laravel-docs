@@ -446,7 +446,7 @@ Debido a que el método `load` es llamado en el método `commands` del *kernel* 
     }
     
 
-También puede registrar comandos manualmente añadiendo su nombre de clase a la propiedad `$command` de su fichero `app/Console/Kernel.php`. Cuando Artisan arranca, todos los comandos enumerados en esta propiedad serán resueltos por el [service container](/docs/{{version}}/container) y registrados con Artisan:
+You may also manually register commands by adding its class name to the `$commands` property of your `app/Console/Kernel.php` file. Cuando Artisan arranca, todos los comandos enumerados en esta propiedad serán resueltos por el [service container](/docs/{{version}}/container) y registrados con Artisan:
 
     protected $commands = [
         Commands\SendEmails::class
