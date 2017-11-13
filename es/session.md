@@ -242,7 +242,7 @@ Un driver de sesión personalizado debe implementar `SessionHanldlerInterface`. 
     
     namespace App\Extensions;
     
-    class MongoHandler implements SessionHandlerInterface
+    class MongoSessionHandler implements \SessionHandlerInterface
     {
         public function open($savePath, $sessionName) {}
         public function close() {}
@@ -253,7 +253,7 @@ Un driver de sesión personalizado debe implementar `SessionHanldlerInterface`. 
     }
     
 
-> {tip} Laravel no incluye ningún directorio para almacenar extensiones. Se pueden establecer donde convengan. En este ejemplo, se ha creado un directorio `Extensions` para almacenar el `MongoHandler`.
+> {tip} Laravel no incluye ningún directorio para almacenar extensiones. Se pueden establecer donde convengan. In this example, we have created an `Extensions` directory to house the `MongoSessionHandler`.
 
 Puesto que el propósito de estos métodos no es intuitivo, se van a revisar a continuación:
 
@@ -290,7 +290,7 @@ Una vez que se ha implementado el driver, ya se puede registrar en el framework.
     
     namespace App\Providers;
     
-    use App\Extensions\MongoSessionStore;
+    use App\Extensions\MongoSessionHandler;
     use Illuminate\Support\Facades\Session;
     use Illuminate\Support\ServiceProvider;
     
@@ -305,7 +305,7 @@ Una vez que se ha implementado el driver, ya se puede registrar en el framework.
         {
             Session::extend('mongo', function ($app) {
                 // Return implementation of SessionHandlerInterface...
-                return new MongoSessionStore;
+                return new MongoSessionHandler;
             });
         }
     

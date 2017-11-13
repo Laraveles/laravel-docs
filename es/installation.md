@@ -57,7 +57,18 @@ En primer lugar, descargar al instalador de Laravel usando composer:
     composer global require "laravel/installer"
     
 
-Asegúrese de agregar la carpeta `$HOME/.composer/vendor/bin` (o el directorio equivalente para su sistema operativo) en su $PATH, así el ejecutable de `Laravel` podrá ser encontrado por su sistema.
+Make sure to place composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
+
+<div class="content-list">
+  <ul>
+    <li>
+      MacOS: <code>$HOME/.composer/vendor/bin</code>
+    </li>
+    <li>
+      GNU / Linux Distributions: <code>$HOME/.config/composer/vendor/bin</code>
+    </li>
+  </ul>
+</div>
 
 Una vez instalado, el comando `laravel new` creará una instalación nueva de Laravel en el directorio que se especifique. Por ejemplo, `laravel new blog` creará un directorio llamado `blog` conteniendo éste una instalación limpia de Laravel con todas las dependencias instaladas:
 
@@ -114,10 +125,10 @@ También se pueden configurar pocos componentes adicionales de Laravel, tales co
       <a href="/docs/{{version}}/cache#configuration">Cache</a>
     </li>
     <li>
-      <a href="/docs/{{version}}/database#configuration">Base de datos</a>
+      <a href="/docs/{{version}}/database#configuration">Database</a>
     </li>
     <li>
-      <a href="/docs/{{version}}/session#configuration">Sesión</a>
+      <a href="/docs/{{version}}/session#configuration">Session</a>
     </li>
   </ul>
 </div>
