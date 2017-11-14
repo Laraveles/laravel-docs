@@ -698,7 +698,7 @@
     
     > {note} Al utilizar Stripe, el método `charge` acepta la cantidad a cobrar en el **menor denominador de divisa utilizado por la aplicación**. Sin embargo, al utilizar Braintree, se debe pasar la cantidad exacta al método `charge`:
     
-    If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance.
+    Para realizar un cargo "único" contra la tarjeta de crédito de un usuario suscrito, se puede utilizar el método `charge` de la instancia del modelo billable.
     
         // Stripe Accepts Charges In Cents...
         $user->charge(100);
@@ -723,7 +723,7 @@
         }
         
     
-    ### Charge With Invoice
+    ### Cargo con factura
     
     Sometimes you may need to make a one-time charge but also generate an invoice for the charge so that you may offer a PDF receipt to your customer. The `invoiceFor` method lets you do just that. For example, let's invoice the customer $5.00 for a "One Time Fee":
     
@@ -748,9 +748,9 @@
 <a name="invoices"></a>
 
     
-    ## Invoices
+    ## Facturas
     
-    You may easily retrieve an array of a billable model's invoices using the `invoices` method:
+    Se puede obtener fácilmente un *array* de facturas del modelo billable utilizando el método `invoices`:
     
         $invoices = $user->invoices();
         
@@ -758,7 +758,7 @@
         $invoices = $user->invoicesIncludingPending();
         
     
-    When listing the invoices for the customer, you may use the invoice's helper methods to display the relevant invoice information. For example, you may wish to list every invoice in a table, allowing the user to easily download any of them:
+    Cuando se listan las facturas de un cliente, se pueden utilizar los métodos *helper* para mostrar la información relevante a la facturación. Por ejemplo, se puede listar cada factura en una tabla, permitiendo al usuario descargar cualquiera de ellas:
     
         <table>
             @foreach ($invoices as $invoice)
@@ -776,9 +776,9 @@
 <a name="generating-invoice-pdfs"></a>
 
     
-    ### Generating Invoice PDFs
+    ### Generar facturas en PDF
     
-    From within a route or controller, use the `downloadInvoice` method to generate a PDF download of the invoice. This method will automatically generate the proper HTTP response to send the download to the browser:
+    Desde una ruta o controlador, utilizar el método `downloadInvoice` para generar la descarga de una factura en PDF. Este método automáticamente genera la respuesta HTTP apropiada para enviar la descarga al navegador:
     
         use Illuminate\Http\Request;
         
