@@ -2,45 +2,45 @@
 
 - [Introducción](#introduction)
 - [Instalación](#installation) 
-    - [Queueing](#queueing)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Configuration](#configuration) 
-    - [Configuring Model Indexes](#configuring-model-indexes)
-    - [Configuring Searchable Data](#configuring-searchable-data)
-- [Indexing](#indexing) 
-    - [Batch Import](#batch-import)
-    - [Adding Records](#adding-records)
-    - [Updating Records](#updating-records)
-    - [Removing Records](#removing-records)
-    - [Pausing Indexing](#pausing-indexing)
-- [Searching](#searching) 
-    - [Where Clauses](#where-clauses)
-    - [Pagination](#pagination)
-- [Custom Engines](#custom-engines)
+    - [Colas – *Queueing*](#queueing)
+    - [Prerequisitos del driver](#driver-prerequisites)
+- [Configuración](#configuration) 
+    - [Configurar el indexado de modelos](#configuring-model-indexes)
+    - [Configurar datos para la búsqueda](#configuring-searchable-data)
+- [Indexar](#indexing) 
+    - [Importación por lotes](#batch-import)
+    - [Agregar registros](#adding-records)
+    - [Actualizar registros](#updating-records)
+    - [Eliminar registros](#removing-records)
+    - [Pausar el indexado](#pausing-indexing)
+- [Buscar](#searching) 
+    - [Cláusulas *where*](#where-clauses)
+    - [Paginación](#pagination)
+- [Motores propios](#custom-engines)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel Scout provides a simple, driver based solution for adding full-text search to your [Eloquent models](/docs/{{version}}/eloquent). Using model observers, Scout will automatically keep your search indexes in sync with your Eloquent records.
+Laravel Scout proporciona una solución sencilla, basada en *drivers* para añadir la búsqueda de texto completo a sus modelos [Eloquent](/docs/{{version}}/eloquent). Usando los observadores de modelo, Scout automáticamente mantendrá sus índices de búsqueda sincronizados con sus registros Eloquent.
 
-Currently, Scout ships with an [Algolia](https://www.algolia.com/) driver; however, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
+Actualmente, Scout trabaja con un *drivers* [Algolia](https://www.algolia.com/); sin embargo, es bastante sencillo extender Scout con sus propias implementaciones de búsqueda.
 
 <a name="installation"></a>
 
-## Installation
+## Instalación
 
-First, install Scout via the Composer package manager:
+Primero, instale Scout utilizando Composer:
 
     composer require laravel/scout
     
 
-After installing Scout, you should publish the Scout configuration using the `vendor:publish` Artisan command. This command will publish the `scout.php` configuration file to your `config` directory:
+Después de instalar Scout, debe publicar la configuración usando el comando Artisan `vendor:publish`. Este comando publicará el archivo de configuración `scout.php` en su directorio `config`:
 
     php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
     
 
-Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to make searchable. This trait will register a model observer to keep the model in sync with your search driver:
+Finalmente, agregue el *trait* `Laravel\Scout\Searchable` al modelo en el que desea buscar. This trait will register a model observer to keep the model in sync with your search driver:
 
     <?php
     
@@ -57,35 +57,35 @@ Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to
 
 <a name="queueing"></a>
 
-### Queueing
+### Colas – *Queueing*
 
-While not strictly required to use Scout, you should strongly consider configuring a [queue driver](/docs/{{version}}/queues) before using the library. Running a queue worker will allow Scout to queue all operations that sync your model information to your search indexes, providing much better response times for your application's web interface.
+Aunque no es estrictamente necesario para usar Scout, considere seriamente configurar un [queue driver](/docs/{{version}}/queues) antes de usar la librería. La ejecución de un *queue driver* le permitirá a Scout poner en cola a todas las operaciones que sincronicen la información de su modelo con sus índices de búsqueda, proporcionando tiempos de respuesta mucho mejores para la interfaz web de su aplicación.
 
-Once you have configured a queue driver, set the value of the `queue` option in your `config/scout.php` configuration file to `true`:
+Una vez que haya configurado un `queue driver`, ajuste el valor de la opción `queue` en su archivo de configuración `config/scout.php` a <0>true</0>:
 
     'queue' => true,
     
 
 <a name="driver-prerequisites"></a>
 
-### Driver Prerequisites
+### Prerequisitos del driver
 
 #### Algolia
 
-When using the Algolia driver, you should configure your Algolia `id` and `secret` credentials in your `config/scout.php` configuration file. Once your credentials have been configured, you will also need to install the Algolia PHP SDK via the Composer package manager:
+Cuando utilice el *driver* Algolia, debe configurar sus credenciales Algolia `id` y `secret` en su fichero de configuración `config/scout.php`. Una vez que sus credenciales hayan sido configuradas, también necesitará instalar el SDK PHP de Algolia a través de Composer:
 
     composer require algolia/algoliasearch-client-php
     
 
 <a name="configuration"></a>
 
-## Configuration
+## Configuración
 
 <a name="configuring-model-indexes"></a>
 
-### Configuring Model Indexes
+### Configurar el indexado de modelos
 
-Each Eloquent model is synced with a given search "index", which contains all of the searchable records for that model. In other words, you can think of each index like a MySQL table. By default, each model will be persisted to an index matching the model's typical "table" name. Typically, this is the plural form of the model name; however, you are free to customize the model's index by overriding the `searchableAs` method on the model:
+Cada modelo Eloquent se sincroniza con un determinado "index" de búsqueda, que contiene todos los registros en donde se puede buscar para ese modelo. En otras palabras, puede pensar en cada índice como una tabla MySQL. De forma predeterminada, cada modelo persistirá en un índice que normalmente coincide con el nombre de la "tabla" del modelo. Normalmente, esta es la forma plural del nombre del modelo; sin embargo, se es libre de personalizar el índice anulando el método `buscableAs` en el modelo:
 
     <?php
     
@@ -112,9 +112,9 @@ Each Eloquent model is synced with a given search "index", which contains all of
 
 <a name="configuring-searchable-data"></a>
 
-### Configuring Searchable Data
+### Configurar datos para la búsqueda
 
-By default, the entire `toArray` form of a given model will be persisted to its search index. If you would like to customize the data that is synchronized to the search index, you may override the `toSearchableArray` method on the model:
+Por defecto, la forma completa del método `toArray` de un modelo se persistirá en su índice de búsqueda. Si desea personalizar los datos que se sincronizan con el índice de búsqueda, puede sustituir el método `toSearchableArray` en el modelo:
 
     <?php
     
@@ -145,22 +145,22 @@ By default, the entire `toArray` form of a given model will be persisted to its 
 
 <a name="indexing"></a>
 
-## Indexing
+## Indexar
 
 <a name="batch-import"></a>
 
-### Batch Import
+### Importación por lotes
 
-If you are installing Scout into an existing project, you may already have database records you need to import into your search driver. Scout provides an `import` Artisan command that you may use to import all of your existing records into your search indexes:
+Si está instalando Scout en un proyecto existente, es posible que ya tenga registros de base de datos que necesite importar a su controlador de búsqueda. Scout proporciona un comando Artisan `import` que puede utilizar para importar todos los registros existentes en sus índices de búsqueda:
 
     php artisan scout:import "App\Post"
     
 
 <a name="adding-records"></a>
 
-### Adding Records
+### Agregar registros
 
-Once you have added the `Laravel\Scout\Searchable` trait to a model, all you need to do is `save` a model instance and it will automatically be added to your search index. If you have configured Scout to [use queues](#queueing) this operation will be performed in the background by your queue worker:
+Una vez que haya agregado el *trait* `Laravel\Scout\Searchable` a un modelo, todo lo que necesita hacer es `save` en la instancia del modelo y automáticamente se agregará a su índice de búsqueda. Si usted ha configurado Scout para [use queues](#queueing) esta operación será realizada en segundo plano por su *queue worker*:
 
     $order = new App\Order;
     
@@ -169,7 +169,7 @@ Once you have added the `Laravel\Scout\Searchable` trait to a model, all you nee
     $order->save();
     
 
-#### Adding Via Query
+#### Agregar vía query
 
 If you would like to add a collection of models to your search index via an Eloquent query, you may chain the `searchable` method onto an Eloquent query. The `searchable` method will [chunk the results](/docs/{{version}}/eloquent#chunking-results) of the query and add the records to your search index. Again, if you have configured Scout to use queues, all of the chunks will be added in the background by your queue workers:
 
