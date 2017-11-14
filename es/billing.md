@@ -1,710 +1,790 @@
 # Laravel Cashier
 
-- [Introduction](#introduction)
-- [Configuration](#configuration) 
+- [Introducción](#introduction)
+- [Configuración](#configuration) 
     - [Stripe](#stripe-configuration)
     - [Braintree](#braintree-configuration)
-    - [Currency Configuration](#currency-configuration)
-- [Subscriptions](#subscriptions) 
-    - [Creating Subscriptions](#creating-subscriptions)
-    - [Checking Subscription Status](#checking-subscription-status)
-    - [Changing Plans](#changing-plans)
-    - [Subscription Quantity](#subscription-quantity)
-    - [Subscription Taxes](#subscription-taxes)
-    - [Cancelling Subscriptions](#cancelling-subscriptions)
-    - [Resuming Subscriptions](#resuming-subscriptions)
-    - [Updating Credit Cards](#updating-credit-cards)
-- [Subscription Trials](#subscription-trials) 
-    - [With Credit Card Up Front](#with-credit-card-up-front)
-    - [Without Credit Card Up Front](#without-credit-card-up-front)
-- [Handling Stripe Webhooks](#handling-stripe-webhooks) 
+    - [Configuración de divisas](#currency-configuration)
+- [Suscripciones](#subscriptions) 
+    - [Crear suscripciones](#creating-subscriptions)
+    - [Comprobar el estado de una suscripción](#checking-subscription-status)
+    - [Cambiar planes](#changing-plans)
+    - [Cuantía de la suscipción](#subscription-quantity)
+    - [Impuestos de la suscripción](#subscription-taxes)
+    - [Cancelar suscripciones](#cancelling-subscriptions)
+    - [Reactivar suscripciones](#resuming-subscriptions)
+    - [Actualizar tarjetas de crédito](#updating-credit-cards)
+- [Periodos de prueba de suscripciones](#subscription-trials) 
+    - [Con tarjeta de crédito](#with-credit-card-up-front)
+    - [Sin tarjeta de crédito](#without-credit-card-up-front)
+-Gestionar *Stripe Webhooks*</a> 
+    
     - [Defining Webhook Event Handlers](#defining-webhook-event-handlers)
-    - [Failed Subscriptions](#handling-failed-subscriptions)
-- [Handling Braintree Webhooks](#handling-braintree-webhooks) 
-    - [Defining Webhook Event Handlers](#defining-braintree-webhook-event-handlers)
-    - [Failed Subscriptions](#handling-braintree-failed-subscriptions)
-- [Single Charges](#single-charges)
-- [Invoices](#invoices) 
-    - [Generating Invoice PDFs](#generating-invoice-pdfs)
+    - [Suscripciones fallidas](#handling-failed-subscriptions)</li> 
+    
+    - [Gestionar *Braintree Webhooks*](#handling-braintree-webhooks) 
+        - [Defining Webhook Event Handlers](#defining-braintree-webhook-event-handlers)
+        - [Suscripciones fallidas](#handling-braintree-failed-subscriptions)
+    - [Cargos únicos](#single-charges)
+    - [Facturas](#invoices) 
+        - [Generar facturas en PDF](#generating-invoice-pdfs)</ul> 
+    
+    
 
 <a name="introduction"></a>
 
-## Introduction
-
-Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://stripe.com) and [Braintree's](https://www.braintreepayments.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading writing. In addition to basic subscription management, Cashier can handle coupons, swapping subscription, subscription "quantities", cancellation grace periods, and even generate invoice PDFs.
-
-> {note} If you're only performing "one-off" charges and do not offer subscriptions, you should not use Cashier. Instead, use the Stripe and Braintree SDKs directly.
+    
+    ## Introducción
+    
+    Laravel Cashier provee una interfaz fluida y expresiva para gestionar los servicios de cobro por suscripción de [Stripe](https://stripe.com) y [Braintree](https://www.braintreepayments.com). Gestiona prácticamente todo lo referente al código de facturación de suscripciones que tanto se teme. Además de la gestión de suscripciones básicas, Cashier maneja cupones, cambios de suscripciones, "cuantías", periodos de gracia de cancelación e incluso genera facturas PDF.
+    
+    > {note} Si únicamente se está aplicando cargos "por compra" y no se ofrece un servicio de suscripción recurrente, no se debería usar Cashier. En su lugar, utilizar los SDKs de Stripe y Braintree directamente.
+    
+    
 
 <a name="configuration"></a>
 
-## Configuration
+    
+    ## Configuración
+    
+    
 
 <a name="stripe-configuration"></a>
 
-### Stripe
-
-#### Composer
-
-First, add the Cashier package for Stripe to your dependencies:
-
-    composer require "laravel/cashier":"~7.0"
     
-
-#### Database Migrations
-
-Before using Cashier, we'll also need to [prepare the database](/docs/{{version}}/migrations). We need to add several columns to your `users` table and create a new `subscriptions` table to hold all of our customer's subscriptions:
-
-    Schema::table('users', function ($table) {
-        $table->string('stripe_id')->nullable();
-        $table->string('card_brand')->nullable();
-        $table->string('card_last_four')->nullable();
-        $table->timestamp('trial_ends_at')->nullable();
-    });
+    ### Stripe
     
-    Schema::create('subscriptions', function ($table) {
-        $table->increments('id');
-        $table->integer('user_id');
-        $table->string('name');
-        $table->string('stripe_id');
-        $table->string('stripe_plan');
-        $table->integer('quantity');
-        $table->timestamp('trial_ends_at')->nullable();
-        $table->timestamp('ends_at')->nullable();
-        $table->timestamps();
-    });
+    #### Composer
     
-
-Once the migrations have been created, run the `migrate` Artisan command.
-
-#### Billable Model
-
-Next, add the `Billable` trait to your model definition. This trait provides various methods to allow you to perform common billing tasks, such as creating subscriptions, applying coupons, and updating credit card information:
-
-    use Laravel\Cashier\Billable;
+    Primero, añadir el paquete de Cashier para Stripe a las dependencias:
     
-    class User extends Authenticatable
-    {
-        use Billable;
-    }
+        composer require "laravel/cashier":"~7.0"
+        
     
-
-#### API Keys
-
-Finally, you should configure your Stripe key in your `services.php` configuration file. You can retrieve your Stripe API keys from the Stripe control panel:
-
-    'stripe' => [
-        'model'  => App\User::class,
-        'key' => env('STRIPE_KEY'),
-        'secret' => env('STRIPE_SECRET'),
-    ],
+    #### Migraciones de BD
+    
+    Antes de utilizar Cashier, será necesario [preparar la base de datos](/docs/{{version}}/migrations). Se añadirán algunas columnas a la tabla `users` y se creará una nueva tabla `subscriptions` para almacenar todo lo relativo a las suscripciones de los clientes:
+    
+        Schema::table('users', function ($table) {
+            $table->string('stripe_id')->nullable();
+            $table->string('card_brand')->nullable();
+            $table->string('card_last_four')->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
+        });
+        
+        Schema::create('subscriptions', function ($table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->string('name');
+            $table->string('stripe_id');
+            $table->string('stripe_plan');
+            $table->integer('quantity');
+            $table->timestamp('trial_ends_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
+            $table->timestamps();
+        });
+        
+    
+    Una vez que se ha creadas las migraciones, ejecutar el comando de Artisan `migrate`.
+    
+    #### Billable Model
+    
+    A continuación, añadir el *trait* `Billable` a la definición del modelo. Este *trait* incluye varios métodos que permitirán realizar las tareas de facturación más comunes, como crear suscripciones, aplicar cupones y actualizar la información de una tarjeta de crédito:
+    
+        use Laravel\Cashier\Billable;
+        
+        class User extends Authenticatable
+        {
+            use Billable;
+        }
+        
+    
+    #### Claves API
+    
+    Finalmente hay que configurar las claves API de Stripe en el archivo de configuración `services.php`. Se pueden obtener desde el panel de control de Stripe:
+    
+        'stripe' => [
+            'model'  => App\User::class,
+            'key' => env('STRIPE_KEY'),
+            'secret' => env('STRIPE_SECRET'),
+        ],
+        
+    
     
 
 <a name="braintree-configuration"></a>
 
-### Braintree
-
-#### Braintree Caveats
-
-For many operations, the Stripe and Braintree implementations of Cashier function the same. Both services provide subscription billing with credit cards but Braintree also supports payments via PayPal. However, Braintree also lacks some features that are supported by Stripe. You should keep the following in mind when deciding to use Stripe or Braintree:
-
-<div class="content-list">
-  <ul>
-    <li>
-      Braintree supports PayPal while Stripe does not.
-    </li>
-    <li>
-      Braintree does not support the <code>increment</code> and <code>decrement</code> methods on subscriptions. This is a Braintree limitation, not a Cashier limitation.
-    </li>
-    <li>
-      Braintree does not support percentage based discounts. This is a Braintree limitation, not a Cashier limitation.
-    </li>
-  </ul>
-</div>
-
-#### Composer
-
-First, add the Cashier package for Braintree to your dependencies:
-
-    composer require "laravel/cashier-braintree":"~2.0"
     
-
-#### Service Provider
-
-Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `config/app.php` configuration file:
-
-    Laravel\Cashier\CashierServiceProvider::class
+    ### Braintree
     
-
-#### Plan Credit Coupon
-
-Before using Cashier with Braintree, you will need to define a `plan-credit` discount in your Braintree control panel. This discount will be used to properly prorate subscriptions that change from yearly to monthly billing, or from monthly to yearly billing.
-
-The discount amount configured in the Braintree control panel can be any value you wish, as Cashier will simply override the defined amount with our own custom amount each time we apply the coupon. This coupon is needed since Braintree does not natively support prorating subscriptions across subscription frequencies.
-
-#### Database Migrations
-
-Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/migrations). We need to add several columns to your `users` table and create a new `subscriptions` table to hold all of our customer's subscriptions:
-
-    Schema::table('users', function ($table) {
-        $table->string('braintree_id')->nullable();
-        $table->string('paypal_email')->nullable();
-        $table->string('card_brand')->nullable();
-        $table->string('card_last_four')->nullable();
-        $table->timestamp('trial_ends_at')->nullable();
-    });
+    #### Consideraciones
     
-    Schema::create('subscriptions', function ($table) {
-        $table->increments('id');
-        $table->integer('user_id');
-        $table->string('name');
-        $table->string('braintree_id');
-        $table->string('braintree_plan');
-        $table->integer('quantity');
-        $table->timestamp('trial_ends_at')->nullable();
-        $table->timestamp('ends_at')->nullable();
-        $table->timestamps();
-    });
+    Para muchas operaciones, las implementaciones de Cashier para Braintree y Stripe son las mismas. Ambos servicios proveen facturación por suscripción con tarjeta de crédito, pero Braintree soporta además pagos via PayPal. Además, Braintree no cuenta con algunas de las características de Stripe. Es importante tener esto en cuenta a la hora de decidir si utilizar Stripe o Braintree:
     
-
-Once the migrations have been created, simply run the `migrate` Artisan command.
-
-#### Billable Model
-
-Next, add the `Billable` trait to your model definition:
-
-    use Laravel\Cashier\Billable;
+    <div class="content-list">
+      <ul>
+        <li>
+          Braintree soporta PayPal, Stripe no.
+        </li>
+        <li>
+          Braintree no soporta los métodos <code>increment</code> y <code>decrement</code> en las suscripciones. Es una limitación de Braintree, no de Cashier.
+        </li>
+        <li>
+          Braintree no soporta descuentos basados en porcentajes. De nuevo una limitación de Braintree, no de Cashier.
+        </li>
+      </ul>
+    </div>
     
-    class User extends Authenticatable
-    {
-        use Billable;
-    }
+    #### Composer
     
-
-#### API Keys
-
-Next, You should configure the following options in your `services.php` file:
-
-    'braintree' => [
-        'model'  => App\User::class,
-        'environment' => env('BRAINTREE_ENV'),
-        'merchant_id' => env('BRAINTREE_MERCHANT_ID'),
-        'public_key' => env('BRAINTREE_PUBLIC_KEY'),
-        'private_key' => env('BRAINTREE_PRIVATE_KEY'),
-    ],
+    Primero, añadir el paquete de Cashier para Braintree a las dependencias:
     
-
-Then you should add the following Braintree SDK calls to your `AppServiceProvider` service provider's `boot` method:
-
-    \Braintree_Configuration::environment(config('services.braintree.environment'));
-    \Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
-    \Braintree_Configuration::publicKey(config('services.braintree.public_key'));
-    \Braintree_Configuration::privateKey(config('services.braintree.private_key'));
+        composer require "laravel/cashier-braintree":"~2.0"
+        
+    
+    #### Service Provider
+    
+    A continuación, registrar el archivo `Laravel\Cashier\CashierServiceProvider` como [service provider](/docs/{{version}}/providers) en el archivo de configuración `config/app.php`:
+    
+        Laravel\Cashier\CashierServiceProvider::class
+        
+    
+    #### Plan Credit Coupon
+    
+    Before using Cashier with Braintree, you will need to define a `plan-credit` discount in your Braintree control panel. This discount will be used to properly prorate subscriptions that change from yearly to monthly billing, or from monthly to yearly billing.
+    
+    The discount amount configured in the Braintree control panel can be any value you wish, as Cashier will simply override the defined amount with our own custom amount each time we apply the coupon. This coupon is needed since Braintree does not natively support prorating subscriptions across subscription frequencies.
+    
+    #### Migraciones de BD
+    
+    Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/migrations). Se añadirán algunas columnas a la tabla `users` y se creará una nueva tabla `subscriptions` para almacenar todo lo relativo a las suscripciones de los clientes:
+    
+        Schema::table('users', function ($table) {
+            $table->string('braintree_id')->nullable();
+            $table->string('paypal_email')->nullable();
+            $table->string('card_brand')->nullable();
+            $table->string('card_last_four')->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
+        });
+        
+        Schema::create('subscriptions', function ($table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->string('name');
+            $table->string('braintree_id');
+            $table->string('braintree_plan');
+            $table->integer('quantity');
+            $table->timestamp('trial_ends_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
+            $table->timestamps();
+        });
+        
+    
+    Once the migrations have been created, simply run the `migrate` Artisan command.
+    
+    #### Modelo facturable – *billable*
+    
+    Next, add the `Billable` trait to your model definition:
+    
+        use Laravel\Cashier\Billable;
+        
+        class User extends Authenticatable
+        {
+            use Billable;
+        }
+        
+    
+    #### Claves API
+    
+    Next, You should configure the following options in your `services.php` file:
+    
+        'braintree' => [
+            'model'  => App\User::class,
+            'environment' => env('BRAINTREE_ENV'),
+            'merchant_id' => env('BRAINTREE_MERCHANT_ID'),
+            'public_key' => env('BRAINTREE_PUBLIC_KEY'),
+            'private_key' => env('BRAINTREE_PRIVATE_KEY'),
+        ],
+        
+    
+    Then you should add the following Braintree SDK calls to your `AppServiceProvider` service provider's `boot` method:
+    
+        \Braintree_Configuration::environment(config('services.braintree.environment'));
+        \Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
+        \Braintree_Configuration::publicKey(config('services.braintree.public_key'));
+        \Braintree_Configuration::privateKey(config('services.braintree.private_key'));
+        
+    
     
 
 <a name="currency-configuration"></a>
 
-### Currency Configuration
-
-The default Cashier currency is United States Dollars (USD). You can change the default currency by calling the `Cashier::useCurrency` method from within the `boot` method of one of your service providers. The `useCurrency` method accepts two string parameters: the currency and the currency's symbol:
-
-    use Laravel\Cashier\Cashier;
     
-    Cashier::useCurrency('eur', '€');
+    ### Configuración de divisas
+    
+    The default Cashier currency is United States Dollars (USD). You can change the default currency by calling the `Cashier::useCurrency` method from within the `boot` method of one of your service providers. The `useCurrency` method accepts two string parameters: the currency and the currency's symbol:
+    
+        use Laravel\Cashier\Cashier;
+        
+        Cashier::useCurrency('eur', '€');
+        
+    
     
 
 <a name="subscriptions"></a>
 
-## Subscriptions
+    
+    ## Suscripciones
+    
+    
 
 <a name="creating-subscriptions"></a>
 
-### Creating Subscriptions
-
-To create a subscription, first retrieve an instance of your billable model, which typically will be an instance of `App\User`. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription:
-
-    $user = User::find(1);
     
-    $user->newSubscription('main', 'premium')->create($stripeToken);
+    ### Crear suscripciones
     
-
-The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `main` or `primary`. The second argument is the specific Stripe / Braintree plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe or Braintree.
-
-The `create` method, which accepts a Stripe credit card / source token, will begin the subscription as well as update your database with the customer ID and other relevant billing information.
-
-#### Additional User Details
-
-If you would like to specify additional customer details, you may do so by passing them as the second argument to the `create` method:
-
-    $user->newSubscription('main', 'monthly')->create($stripeToken, [
-        'email' => $email,
-    ]);
+    Para crear una suscripción, es necesaria una instancia de un modelo *Billable*, que normalmente será una instancia de `App\User`. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription:
     
-
-To learn more about the additional fields supported by Stripe or Braintree, check out Stripe's [documentation on customer creation](https://stripe.com/docs/api#create_customer) or the corresponding [Braintree documentation](https://developers.braintreepayments.com/reference/request/customer/create/php).
-
-#### Coupons
-
-If you would like to apply a coupon when creating the subscription, you may use the `withCoupon` method:
-
-    $user->newSubscription('main', 'monthly')
-         ->withCoupon('code')
-         ->create($stripeToken);
+        $user = User::find(1);
+        
+        $user->newSubscription('main', 'premium')->create($stripeToken);
+        
+    
+    The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `main` or `primary`. The second argument is the specific Stripe / Braintree plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe or Braintree.
+    
+    The `create` method, which accepts a Stripe credit card / source token, will begin the subscription as well as update your database with the customer ID and other relevant billing information.
+    
+    #### Datos de usuario adicionales
+    
+    Para especificar información adicional sobre el cliente, se puede pasar como segundo argumento al método `create`:
+    
+        $user->newSubscription('main', 'monthly')->create($stripeToken, [
+            'email' => $email,
+        ]);
+        
+    
+    To learn more about the additional fields supported by Stripe or Braintree, check out Stripe's [documentation on customer creation](https://stripe.com/docs/api#create_customer) or the corresponding [Braintree documentation](https://developers.braintreepayments.com/reference/request/customer/create/php).
+    
+    #### Cupones
+    
+    Para aplicar cupones al crear suscripciones, se puede utilizar el método `withCoupon`:
+    
+        $user->newSubscription('main', 'monthly')
+             ->withCoupon('code')
+             ->create($stripeToken);
+        
+    
     
 
 <a name="checking-subscription-status"></a>
 
-### Checking Subscription Status
-
-Once a user is subscribed to your application, you may easily check their subscription status using a variety of convenient methods. First, the `subscribed` method returns `true` if the user has an active subscription, even if the subscription is currently within its trial period:
-
-    if ($user->subscribed('main')) {
-        //
-    }
     
-
-The `subscribed` method also makes a great candidate for a [route middleware](/docs/{{version}}/middleware), allowing you to filter access to routes and controllers based on the user's subscription status:
-
-    public function handle($request, Closure $next)
-    {
-        if ($request->user() && ! $request->user()->subscribed('main')) {
-            // This user is not a paying customer...
-            return redirect('billing');
+    ### Comprobar el estado de una suscripción
+    
+    Una vez que un usuario se ha suscrito a la aplicación, se puede comprobar el estado de esta suscripción de varias formas. En primer lugar, el método `subscribed` retornará `true` si el usuario cuenta con una suscripción activa, incluso si el usuario se encuentra en el periodo de prueba:
+    
+        if ($user->subscribed('main')) {
+            //
         }
+        
     
-        return $next($request);
-    }
+    El método `subscribed` también es un gran candidato para participar en los [middleware de ruta](/docs/{{version}}/middleware), permitiendo filtrar el acceso a las rutas y controladores basadas en el estado de las suscripciones de los usuarios:
     
-
-If you would like to determine if a user is still within their trial period, you may use the `onTrial` method. This method can be useful for displaying a warning to the user that they are still on their trial period:
-
-    if ($user->subscription('main')->onTrial()) {
-        //
-    }
+        public function handle($request, Closure $next)
+        {
+            if ($request->user() && ! $request->user()->subscribed('main')) {
+                // This user is not a paying customer...
+                return redirect('billing');
+            }
+        
+            return $next($request);
+        }
+        
     
-
-The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Stripe / Braintree plan ID. In this example, we will determine if the user's `main` subscription is actively subscribed to the `monthly` plan:
-
-    if ($user->subscribedToPlan('monthly', 'main')) {
-        //
-    }
+    Para determinar si un usuario se encuentra todavía en el periodo de prueba, utilizar el método `onTrial`. Este método puede resultar útil para mostrar un mensaje de advertencia al usuario de que se encuentra aún en este periodo:
     
-
-#### Cancelled Subscription Status
-
-To determine if the user was once an active subscriber, but has cancelled their subscription, you may use the `cancelled` method:
-
-    if ($user->subscription('main')->cancelled()) {
-        //
-    }
+        if ($user->subscription('main')->onTrial()) {
+            //
+        }
+        
     
-
-You may also determine if a user has cancelled their subscription, but are still on their "grace period" until the subscription fully expires. For example, if a user cancels a subscription on March 5th that was originally scheduled to expire on March 10th, the user is on their "grace period" until March 10th. Note that the `subscribed` method still returns `true` during this time:
-
-    if ($user->subscription('main')->onGracePeriod()) {
-        //
-    }
+    The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Stripe / Braintree plan ID. In this example, we will determine if the user's `main` subscription is actively subscribed to the `monthly` plan:
+    
+        if ($user->subscribedToPlan('monthly', 'main')) {
+            //
+        }
+        
+    
+    #### Estado de suscripción cancelada
+    
+    Para saber si un usuario fue alguna vez un usuario suscrito, pero ha cancelado su suscripción, existe el método `cancelled`:
+    
+        if ($user->subscription('main')->cancelled()) {
+            //
+        }
+        
+    
+    Se puede comprobar si el usuario ha cancelado la suscripción, pero se encuentra todavía en su "periodo de gracia" hasta que la suscripción caduque completamente. Por ejemplo, si un usuario cancela la suscripción el 5 de marzo y estaba prevista a caducar el 10 de marzo, el usuario se encuentra en el "periodo de gracia" hasta el 10 de marzo. Note that the `subscribed` method still returns `true` during this time:
+    
+        if ($user->subscription('main')->onGracePeriod()) {
+            //
+        }
+        
+    
     
 
 <a name="changing-plans"></a>
 
-### Changing Plans
-
-After a user is subscribed to your application, they may occasionally want to change to a new subscription plan. To swap a user to a new subscription, pass the plan's identifier to the `swap` method:
-
-    $user = App\User::find(1);
     
-    $user->subscription('main')->swap('provider-plan-id');
+    ### Cambiar planes
     
-
-If the user is on trial, the trial period will be maintained. Also, if a "quantity" exists for the subscription, that quantity will also be maintained.
-
-If you would like to swap plans and cancel any trial period the user is currently on, you may use the `skipTrial` method:
-
-    $user->subscription('main')
-            ->skipTrial()
-            ->swap('provider-plan-id');
+    Después de que un usuario se suscriba a la aplicación, puede ocasionalmente requerir un cambio a otro plan de suscripción nuevo. To swap a user to a new subscription, pass the plan's identifier to the `swap` method:
+    
+        $user = App\User::find(1);
+        
+        $user->subscription('main')->swap('provider-plan-id');
+        
+    
+    If the user is on trial, the trial period will be maintained. Also, if a "quantity" exists for the subscription, that quantity will also be maintained.
+    
+    If you would like to swap plans and cancel any trial period the user is currently on, you may use the `skipTrial` method:
+    
+        $user->subscription('main')
+                ->skipTrial()
+                ->swap('provider-plan-id');
+        
+    
     
 
 <a name="subscription-quantity"></a>
 
-### Subscription Quantity
-
-> {note} Subscription quantities are only supported by the Stripe edition of Cashier. Braintree does not have a feature that corresponds to Stripe's "quantity".
-
-Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month **per user** on an account. To easily increment or decrement your subscription quantity, use the `incrementQuantity` and `decrementQuantity` methods:
-
-    $user = User::find(1);
     
-    $user->subscription('main')->incrementQuantity();
+    ### Cuantía de la suscipción
     
-    // Add five to the subscription's current quantity...
-    $user->subscription('main')->incrementQuantity(5);
+    > {note} Subscription quantities are only supported by the Stripe edition of Cashier. Braintree does not have a feature that corresponds to Stripe's "quantity".
     
-    $user->subscription('main')->decrementQuantity();
+    Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month **per user** on an account. To easily increment or decrement your subscription quantity, use the `incrementQuantity` and `decrementQuantity` methods:
     
-    // Subtract five to the subscription's current quantity...
-    $user->subscription('main')->decrementQuantity(5);
+        $user = User::find(1);
+        
+        $user->subscription('main')->incrementQuantity();
+        
+        // Add five to the subscription's current quantity...
+        $user->subscription('main')->incrementQuantity(5);
+        
+        $user->subscription('main')->decrementQuantity();
+        
+        // Subtract five to the subscription's current quantity...
+        $user->subscription('main')->decrementQuantity(5);
+        
     
-
-Alternatively, you may set a specific quantity using the `updateQuantity` method:
-
-    $user->subscription('main')->updateQuantity(10);
+    Alternativamente, se puede establecer una cuantía específica utilizando el método `updateQuantity`:
     
-
-The `noProrate` method may be used to update the subscription's quantity without pro-rating the charges:
-
-    $user->subscription('main')->noProrate()->updateQuantity(10);
+        $user->subscription('main')->updateQuantity(10);
+        
     
-
-For more information on subscription quantities, consult the [Stripe documentation](https://stripe.com/docs/subscriptions/quantities).
+    The `noProrate` method may be used to update the subscription's quantity without pro-rating the charges:
+    
+        $user->subscription('main')->noProrate()->updateQuantity(10);
+        
+    
+    For more information on subscription quantities, consult the [Stripe documentation](https://stripe.com/docs/subscriptions/quantities).
+    
+    
 
 <a name="subscription-taxes"></a>
 
-### Subscription Taxes
-
-To specify the tax percentage a user pays on a subscription, implement the `taxPercentage` method on your billable model, and return a numeric value between 0 and 100, with no more than 2 decimal places.
-
-    public function taxPercentage() {
-        return 20;
-    }
     
-
-The `taxPercentage` method enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries and tax rates.
-
-> {note} The `taxPercentage` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
+    ### Impuestos de la suscripción
+    
+    To specify the tax percentage a user pays on a subscription, implement the `taxPercentage` method on your billable model, and return a numeric value between 0 and 100, with no more than 2 decimal places.
+    
+        public function taxPercentage() {
+            return 20;
+        }
+        
+    
+    The `taxPercentage` method enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries and tax rates.
+    
+    > {note} The `taxPercentage` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
+    
+    
 
 <a name="cancelling-subscriptions"></a>
 
-### Cancelling Subscriptions
-
-To cancel a subscription, simply call the `cancel` method on the user's subscription:
-
-    $user->subscription('main')->cancel();
     
-
-When a subscription is cancelled, Cashier will automatically set the `ends_at` column in your database. This column is used to know when the `subscribed` method should begin returning `false`. For example, if a customer cancels a subscription on March 1st, but the subscription was not scheduled to end until March 5th, the `subscribed` method will continue to return `true` until March 5th.
-
-You may determine if a user has cancelled their subscription but are still on their "grace period" using the `onGracePeriod` method:
-
-    if ($user->subscription('main')->onGracePeriod()) {
-        //
-    }
+    ### Cancelar suscripciones
     
-
-If you wish to cancel a subscription immediately, call the `cancelNow` method on the user's subscription:
-
-    $user->subscription('main')->cancelNow();
+    Para cancelar una suscripción, simplemente utilizar el método `cancel` sobre la suscripción del usuario:
+    
+        $user->subscription('main')->cancel();
+        
+    
+    When a subscription is cancelled, Cashier will automatically set the `ends_at` column in your database. Esta columna se utiliza para saber cuando el método `subscribed` debe devolver `false`. Por ejemplo, si un usuario cancela una suscripción el 1 de marzo, pero la suscripción no estaba programada para terminar hasta el 5 de marzo, el método `subscribed` continuaría retornando `true` hasta el 5 de marzo.
+    
+    Se puede saber si un usuario ha cancelado su suscripción pero aun está en el "periodo de gracia" utilizando el método `onGracePeriod`:
+    
+        if ($user->subscription('main')->onGracePeriod()) {
+            //
+        }
+        
+    
+    If you wish to cancel a subscription immediately, call the `cancelNow` method on the user's subscription:
+    
+        $user->subscription('main')->cancelNow();
+        
+    
     
 
 <a name="resuming-subscriptions"></a>
 
-### Resuming Subscriptions
-
-If a user has cancelled their subscription and you wish to resume it, use the `resume` method. The user **must** still be on their grace period in order to resume a subscription:
-
-    $user->subscription('main')->resume();
     
-
-If the user cancels a subscription and then resumes that subscription before the subscription has fully expired, they will not be billed immediately. Instead, their subscription will simply be re-activated, and they will be billed on the original billing cycle.
+    ### Reactivar suscripciones
+    
+    If a user has cancelled their subscription and you wish to resume it, use the `resume` method. The user **must** still be on their grace period in order to resume a subscription:
+    
+        $user->subscription('main')->resume();
+        
+    
+    Si el usuario cancela una suscripción y luego la reanuda antes de que haya caducado completamente, no será facturado inmediatamente. En cambio, la suscripción será simplemente reactivada y será facturado en su ciclo de facturación original.
+    
+    
 
 <a name="updating-credit-cards"></a>
 
-### Updating Credit Cards
-
-The `updateCard` method may be used to update a customer's credit card information. This method accepts a Stripe token and will assign the new credit card as the default billing source:
-
-    $user->updateCard($stripeToken);
+    
+    ### Actualizar tarjetas de crédito
+    
+    The `updateCard` method may be used to update a customer's credit card information. This method accepts a Stripe token and will assign the new credit card as the default billing source:
+    
+        $user->updateCard($stripeToken);
+        
+    
     
 
 <a name="subscription-trials"></a>
 
-## Subscription Trials
+    
+    ## Periodos de prueba de suscripciones
+    
+    
 
 <a name="with-credit-card-up-front"></a>
 
-### With Credit Card Up Front
-
-If you would like to offer trial periods to your customers while still collecting payment method information up front, You should use the `trialDays` method when creating your subscriptions:
-
-    $user = User::find(1);
     
-    $user->newSubscription('main', 'monthly')
-                ->trialDays(10)
-                ->create($stripeToken);
+    ### Con tarjeta de crédito
     
-
-This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe / Braintree to not begin billing the customer until after this date.
-
-> {note} If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
-
-You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
-
-    if ($user->onTrial('main')) {
-        //
-    }
+    If you would like to offer trial periods to your customers while still collecting payment method information up front, You should use the `trialDays` method when creating your subscriptions:
     
-    if ($user->subscription('main')->onTrial()) {
-        //
-    }
+        $user = User::find(1);
+        
+        $user->newSubscription('main', 'monthly')
+                    ->trialDays(10)
+                    ->create($stripeToken);
+        
+    
+    This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe / Braintree to not begin billing the customer until after this date.
+    
+    > {note} If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
+    
+    You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
+    
+        if ($user->onTrial('main')) {
+            //
+        }
+        
+        if ($user->subscription('main')->onTrial()) {
+            //
+        }
+        
+    
     
 
 <a name="without-credit-card-up-front"></a>
 
-### Without Credit Card Up Front
-
-If you would like to offer trial periods without collecting the user's payment method information up front, you may simply set the `trial_ends_at` column on the user record to your desired trial ending date. This is typically done during user registration:
-
-    $user = User::create([
-        // Populate other user properties...
-        'trial_ends_at' => Carbon::now()->addDays(10),
-    ]);
     
-
-> {note} Be sure to add a [date mutator](/docs/{{version}}/eloquent-mutators#date-mutators) for `trial_ends_at` to your model definition.
-
-Cashier refers to this type of trial as a "generic trial", since it is not attached to any existing subscription. The `onTrial` method on the `User` instance will return `true` if the current date is not past the value of `trial_ends_at`:
-
-    if ($user->onTrial()) {
-        // User is within their trial period...
-    }
+    ### Sin tarjeta de crédito
     
-
-You may also use the `onGenericTrial` method if you wish to know specifically that the user is within their "generic" trial period and has not created an actual subscription yet:
-
-    if ($user->onGenericTrial()) {
-        // User is within their "generic" trial period...
-    }
+    If you would like to offer trial periods without collecting the user's payment method information up front, you may simply set the `trial_ends_at` column on the user record to your desired trial ending date. This is typically done during user registration:
     
-
-Once you are ready to create an actual subscription for the user, you may use the `newSubscription` method as usual:
-
-    $user = User::find(1);
+        $user = User::create([
+            // Populate other user properties...
+            'trial_ends_at' => Carbon::now()->addDays(10),
+        ]);
+        
     
-    $user->newSubscription('main', 'monthly')->create($stripeToken);
+    > {note} Be sure to add a [date mutator](/docs/{{version}}/eloquent-mutators#date-mutators) for `trial_ends_at` to your model definition.
+    
+    Cashier refers to this type of trial as a "generic trial", since it is not attached to any existing subscription. The `onTrial` method on the `User` instance will return `true` if the current date is not past the value of `trial_ends_at`:
+    
+        if ($user->onTrial()) {
+            // User is within their trial period...
+        }
+        
+    
+    You may also use the `onGenericTrial` method if you wish to know specifically that the user is within their "generic" trial period and has not created an actual subscription yet:
+    
+        if ($user->onGenericTrial()) {
+            // User is within their "generic" trial period...
+        }
+        
+    
+    Once you are ready to create an actual subscription for the user, you may use the `newSubscription` method as usual:
+    
+        $user = User::find(1);
+        
+        $user->newSubscription('main', 'monthly')->create($stripeToken);
+        
+    
     
 
 <a name="handling-stripe-webhooks"></a>
 
-## Handling Stripe Webhooks
-
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Stripe webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
-
-    Route::post(
-        'stripe/webhook',
-        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-    );
     
-
-> {note} Once you have registered your route, be sure to configure the webhook URL in your Stripe control panel settings.
-
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
-
-#### Webhooks & CSRF Protection
-
-Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
-
-    protected $except = [
-        'stripe/*',
-    ];
+    ## Gestionar *Stripe Webhooks*</h2> 
+    
+    Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Stripe webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+    
+        Route::post(
+            'stripe/webhook',
+            '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+        );
+        
+    
+    > {note} Once you have registered your route, be sure to configure the webhook URL in your Stripe control panel settings.
+    
+    By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+    
+    #### Webhooks & CSRF Protection
+    
+    Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+    
+        protected $except = [
+            'stripe/*',
+        ];
+        
+    
     
 
 <a name="defining-webhook-event-handlers"></a>
 
-### Defining Webhook Event Handlers
-
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Stripe webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Stripe webhook you wish to handle. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller:
-
-    <?php
     
-    namespace App\Http\Controllers;
+    ### Defining Webhook Event Handlers
     
-    use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+    Cashier automatically handles subscription cancellation on failed charges, but if you have additional Stripe webhook events you would like to handle, simply extend the Webhook controller. Los nombres de los métodos deben corresponder a la convención de Stripe, específicamente, los métodos deben contener el prefijo `handle` y utilizar la nomenclatura "camel case" del *Webhook* de Stripe a gestionar. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller:
     
-    class WebhookController extends CashierController
-    {
-        /**
-         * Handle a Stripe webhook.
-         *
-         * @param  array  $payload
-         * @return Response
-         */
-        public function handleInvoicePaymentSucceeded($payload)
+        <?php
+        
+        namespace App\Http\Controllers;
+        
+        use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+        
+        class WebhookController extends CashierController
         {
-            // Handle The Event
+            /**
+             * Handle a Stripe webhook.
+             *
+             * @param  array  $payload
+             * @return Response
+             */
+            public function handleInvoicePaymentSucceeded($payload)
+            {
+                // Handle The Event
+            }
         }
-    }
+        
+    
     
 
 <a name="handling-failed-subscriptions"></a>
 
-### Failed Subscriptions
-
-What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. As noted above, all you need to do is point a route to the controller:
-
-    Route::post(
-        'stripe/webhook',
-        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-    );
     
-
-That's it! Failed payments will be captured and handled by the controller. The controller will cancel the customer's subscription when Stripe determines the subscription has failed (normally after three failed payment attempts).
+    ### Suscripciones fallidas
+    
+    What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. As noted above, all you need to do is point a route to the controller:
+    
+        Route::post(
+            'stripe/webhook',
+            '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+        );
+        
+    
+    ¡Eso es todo! Los cobros fallidos serán capturados y gestionados por el controlador. El controlador cancelará la suscripción del cliente cuando Stripe determine que la suscripción ha fallado (normalmente tras tres intentos de cobro fallidos).
+    
+    
 
 <a name="handling-braintree-webhooks"></a>
 
-## Handling Braintree Webhooks
-
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Braintree webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
-
-    Route::post(
-        'braintree/webhook',
-        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-    );
     
-
-> {note} Once you have registered your route, be sure to configure the webhook URL in your Braintree control panel settings.
-
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Braintree settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
-
-#### Webhooks & CSRF Protection
-
-Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
-
-    protected $except = [
-        'braintree/*',
-    ];
+    ## Gestionar *Braintree Webhooks*
+    
+    Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Braintree webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+    
+        Route::post(
+            'braintree/webhook',
+            '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+        );
+        
+    
+    > {note} Once you have registered your route, be sure to configure the webhook URL in your Braintree control panel settings.
+    
+    By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Braintree settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+    
+    #### Webhooks & CSRF Protection
+    
+    Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+    
+        protected $except = [
+            'braintree/*',
+        ];
+        
+    
     
 
 <a name="defining-braintree-webhook-event-handlers"></a>
 
-### Defining Webhook Event Handlers
-
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Braintree webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Braintree webhook you wish to handle. For example, if you wish to handle the `dispute_opened` webhook, you should add a `handleDisputeOpened` method to the controller:
-
-    <?php
     
-    namespace App\Http\Controllers;
+    ### Defining Webhook Event Handlers
     
-    use Braintree\WebhookNotification;
-    use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+    Cashier automatically handles subscription cancellation on failed charges, but if you have additional Braintree webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Braintree webhook you wish to handle. For example, if you wish to handle the `dispute_opened` webhook, you should add a `handleDisputeOpened` method to the controller:
     
-    class WebhookController extends CashierController
-    {
-        /**
-         * Handle a Braintree webhook.
-         *
-         * @param  WebhookNotification  $webhook
-         * @return Response
-         */
-        public function handleDisputeOpened(WebhookNotification $notification)
+        <?php
+        
+        namespace App\Http\Controllers;
+        
+        use Braintree\WebhookNotification;
+        use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
+        
+        class WebhookController extends CashierController
         {
-            // Handle The Event
+            /**
+             * Handle a Braintree webhook.
+             *
+             * @param  WebhookNotification  $webhook
+             * @return Response
+             */
+            public function handleDisputeOpened(WebhookNotification $notification)
+            {
+                // Handle The Event
+            }
         }
-    }
+        
+    
     
 
 <a name="handling-braintree-failed-subscriptions"></a>
 
-### Failed Subscriptions
-
-What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. Just point a route to the controller:
-
-    Route::post(
-        'braintree/webhook',
-        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-    );
     
-
-That's it! Failed payments will be captured and handled by the controller. The controller will cancel the customer's subscription when Braintree determines the subscription has failed (normally after three failed payment attempts). Don't forget: you will need to configure the webhook URI in your Braintree control panel settings.
+    ### Suscripciones fallidas
+    
+    ¿Qué pasa si se caduca una tarjeta de crédito? Cashier incluye un controlador de *Webhook* que cancelará automáticamente la suscripción. Simplemente hay que apuntar la ruta al controlador:
+    
+        Route::post(
+            'braintree/webhook',
+            '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+        );
+        
+    
+    ¡Eso es todo! Los cobros fallidos serán capturados y gestionados por el controlador. The controller will cancel the customer's subscription when Braintree determines the subscription has failed (normally after three failed payment attempts). Don't forget: you will need to configure the webhook URI in your Braintree control panel settings.
+    
+    
 
 <a name="single-charges"></a>
 
-## Single Charges
-
-### Simple Charge
-
-> {note} When using Stripe, the `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**. However, when using Braintree, you should pass the full dollar amount to the `charge` method:
-
-If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance.
-
-    // Stripe Accepts Charges In Cents...
-    $user->charge(100);
     
-    // Braintree Accepts Charges In Dollars...
-    $user->charge(1);
+    ## Cargos únicos
     
-
-The `charge` method accepts an array as its second argument, allowing you to pass any options you wish to the underlying Stripe / Braintree charge creation. Consult the Stripe or Braintree documentation regarding the options available to you when creating charges:
-
-    $user->charge(100, [
-        'custom_option' => $value,
-    ]);
+    ### Cargo simple
     
-
-The `charge` method will throw an exception if the charge fails. If the charge is successful, the full Stripe / Braintree response will be returned from the method:
-
-    try {
-        $response = $user->charge(100);
-    } catch (Exception $e) {
-        //
-    }
+    > {note} Al utilizar Stripe, el método `charge` acepta la cantidad a cobrar en el **menor denominador de divisa utilizado por la aplicación**. Sin embargo, al utilizar Braintree, se debe pasar la cantidad exacta al método `charge`:
     
-
-### Charge With Invoice
-
-Sometimes you may need to make a one-time charge but also generate an invoice for the charge so that you may offer a PDF receipt to your customer. The `invoiceFor` method lets you do just that. For example, let's invoice the customer $5.00 for a "One Time Fee":
-
-    // Stripe Accepts Charges In Cents...
-    $user->invoiceFor('One Time Fee', 500);
+    Para realizar un cargo "único" contra la tarjeta de crédito de un usuario suscrito, se puede utilizar el método `charge` de la instancia del modelo billable.
     
-    // Braintree Accepts Charges In Dollars...
-    $user->invoiceFor('One Time Fee', 5);
+        // Stripe Accepts Charges In Cents...
+        $user->charge(100);
+        
+        // Braintree Accepts Charges In Dollars...
+        $user->charge(1);
+        
     
-
-The invoice will be charged immediately against the user's credit card. The `invoiceFor` method also accepts an array as its third argument, allowing you to pass any options you wish to the underlying Stripe / Braintree charge creation:
-
-    $user->invoiceFor('One Time Fee', 500, [
-        'custom-option' => $value,
-    ]);
+    The `charge` method accepts an array as its second argument, allowing you to pass any options you wish to the underlying Stripe / Braintree charge creation. Consult the Stripe or Braintree documentation regarding the options available to you when creating charges:
     
-
-> {note} The `invoiceFor` method will create a Stripe invoice which will retry failed billing attempts. If you do not want invoices to retry failed charges, you will need to close them using the Stripe API after the first failed charge.
+        $user->charge(100, [
+            'custom_option' => $value,
+        ]);
+        
+    
+    The `charge` method will throw an exception if the charge fails. If the charge is successful, the full Stripe / Braintree response will be returned from the method:
+    
+        try {
+            $response = $user->charge(100);
+        } catch (Exception $e) {
+            //
+        }
+        
+    
+    ### Cargo con factura
+    
+    Sometimes you may need to make a one-time charge but also generate an invoice for the charge so that you may offer a PDF receipt to your customer. The `invoiceFor` method lets you do just that. For example, let's invoice the customer $5.00 for a "One Time Fee":
+    
+        // Stripe Accepts Charges In Cents...
+        $user->invoiceFor('One Time Fee', 500);
+        
+        // Braintree Accepts Charges In Dollars...
+        $user->invoiceFor('One Time Fee', 5);
+        
+    
+    The invoice will be charged immediately against the user's credit card. The `invoiceFor` method also accepts an array as its third argument, allowing you to pass any options you wish to the underlying Stripe / Braintree charge creation:
+    
+        $user->invoiceFor('One Time Fee', 500, [
+            'custom-option' => $value,
+        ]);
+        
+    
+    > {note} The `invoiceFor` method will create a Stripe invoice which will retry failed billing attempts. If you do not want invoices to retry failed charges, you will need to close them using the Stripe API after the first failed charge.
+    
+    
 
 <a name="invoices"></a>
 
-## Invoices
-
-You may easily retrieve an array of a billable model's invoices using the `invoices` method:
-
-    $invoices = $user->invoices();
     
-    // Include pending invoices in the results...
-    $invoices = $user->invoicesIncludingPending();
+    ## Facturas
     
-
-When listing the invoices for the customer, you may use the invoice's helper methods to display the relevant invoice information. For example, you may wish to list every invoice in a table, allowing the user to easily download any of them:
-
-    <table>
-        @foreach ($invoices as $invoice)
-            <tr>
-                <td>{{ $invoice->date()->toFormattedDateString() }}</td>
-                <td>{{ $invoice->total() }}</td>
-                <td><a href="/user/invoice/{{ $invoice->id }}">Download</a></td>
-            </tr>
-        @endforeach
-    </table>
+    Se puede obtener fácilmente un *array* de facturas del modelo billable utilizando el método `invoices`:
+    
+        $invoices = $user->invoices();
+        
+        // Include pending invoices in the results...
+        $invoices = $user->invoicesIncludingPending();
+        
+    
+    Cuando se listan las facturas de un cliente, se pueden utilizar los métodos *helper* para mostrar la información relevante a la facturación. Por ejemplo, se puede listar cada factura en una tabla, permitiendo al usuario descargar cualquiera de ellas:
+    
+        <table>
+            @foreach ($invoices as $invoice)
+                <tr>
+                    <td>{{ $invoice->date()->toFormattedDateString() }}</td>
+                    <td>{{ $invoice->total() }}</td>
+                    <td><a href="/user/invoice/{{ $invoice->id }}">Download</a></td>
+                </tr>
+            @endforeach
+        </table>
+        
+    
     
 
 <a name="generating-invoice-pdfs"></a>
 
-### Generating Invoice PDFs
-
-From within a route or controller, use the `downloadInvoice` method to generate a PDF download of the invoice. This method will automatically generate the proper HTTP response to send the download to the browser:
-
-    use Illuminate\Http\Request;
     
-    Route::get('user/invoice/{invoice}', function (Request $request, $invoiceId) {
-        return $request->user()->downloadInvoice($invoiceId, [
-            'vendor'  => 'Your Company',
-            'product' => 'Your Product',
-        ]);
-    });
+    ### Generar facturas en PDF
+    
+    Desde una ruta o controlador, utilizar el método `downloadInvoice` para generar la descarga de una factura en PDF. Este método automáticamente genera la respuesta HTTP apropiada para enviar la descarga al navegador:
+    
+        use Illuminate\Http\Request;
+        
+        Route::get('user/invoice/{invoice}', function (Request $request, $invoiceId) {
+            return $request->user()->downloadInvoice($invoiceId, [
+                'vendor'  => 'Your Company',
+                'product' => 'Your Product',
+            ]);
+        });
