@@ -216,7 +216,7 @@ The generated class will be placed in the `app/Http/Requests` directory. If this
     }
     
 
-Entonces, ¿cómo se evalúan las reglas de validación? Todo lo que se necesita es colocar el request dentro del metodo del controlador. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
+Entonces, ¿cómo son evaluadas las reglas de validación? Todo lo que usted necesita hacer es especificar el tipo de la petición en su método controlador. La solicitud entrante del formulario es validada antes de que se llame al método del controlador, lo que significa que no necesita abarrotar su controlador con la lógica de validación:
 
     /**
      * Store the incoming blog post.
@@ -230,7 +230,7 @@ Entonces, ¿cómo se evalúan las reglas de validación? Todo lo que se necesita
     }
     
 
-If validation fails, a redirect response will be generated to send the user back to their previous location. Los errores también se mostrarán en la sesión para que estén disponibles para su visualización. Si el request era una solicitud AJAX, se devolverá una respuesta HTTP con un código de estado 422 al usuario incluyendo una representación en formato JSON de los errores de validación.
+Si la validación falla, se generará automáticamente una respuesta de redirección que envia al usuario de vuelta a su anterior localización. Los errores también se mostrarán en la sesión para que estén disponibles para su visualización. Si el request era una solicitud AJAX, se devolverá una respuesta HTTP con un código de estado 422 al usuario incluyendo una representación en formato JSON de los errores de validación.
 
 #### Adding After Hooks To Form Requests
 
