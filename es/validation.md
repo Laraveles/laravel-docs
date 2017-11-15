@@ -147,7 +147,7 @@ De nuevo, observe que no teníamos que vincular explícitamente los mensajes de 
 
 > {tip} La variable `$errors` esta ligada a la vista a través del *middleware* `Illuminate\View\Middleware\ShareErrorsFromSession` el cual es proporcionado por el grupo de *middlewares* `web`. **Cuando este middleware es aplicado, la variable `$errors` estará siempre disponible en sus vistas**, permitiendo asumir convenientemente que la variable `$errors` siempre está definida y se puede ser usada con seguridad.
 
-So, in our example, the user will be redirected to our controller's `create` method when validation fails, allowing us to display the error messages in the view:
+Así, en el ejemplo, el usuario será redirigido al método `create` de nuestro controlador cuando falle la validación, lo que nos permite mostrar los mensajes de error en la vista:
 
     <!-- /resources/views/post/create.blade.php -->
     
@@ -168,9 +168,9 @@ So, in our example, the user will be redirected to our controller's `create` met
 
 <a name="a-note-on-optional-fields"></a>
 
-### A Note On Optional Fields
+### Nota sobre los campos opcionales
 
-By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. Por ejemplo:
+By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. A causa de esto, a menudo, necesitará marcar la solicitud de campos "opcionales" como `nullable` si no quiere que el validador los considerelos valores `nulos (null)` como inválidos. A causa de esto, puede que necesitase colocar la regla <0>nullable</0> a los campos "opcionales" si no desea que el validador considere valores <0>null</0> como no válidos. For example:
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -183,9 +183,9 @@ In this example, we are specifying that the `publish_at` field may be either `nu
 
 <a name="quick-ajax-requests-and-validation"></a>
 
-#### AJAX Requests & Validation
+#### Peticiones AJAX & Validación
 
-In this example, we used a traditional form to send data to the application. However, many applications use AJAX requests. When using the `validate` method during an AJAX request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. This JSON response will be sent with a 422 HTTP status code.
+In this example, we used a traditional form to send data to the application. Sin embargo, muchas aplicaciones utilizan peticiones AJAX. When using the `validate` method during an AJAX request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. Esta respuesta JSON se enviará con un código de estado HTTP 422.
 
 <a name="form-request-validation"></a>
 
@@ -195,7 +195,7 @@ In this example, we used a traditional form to send data to the application. How
 
 ### Creating Form Requests
 
-Para escenarios mas complejos, se pueden crear "form request". Los Form Request son clases para las peticiones que contienen la lógica de la validación. To create a form request class, use the `make:request` Artisan CLI command:
+Para escenarios de validación mas complejos, se pueden crear "peticiones de formularios" ("form request"). Las peticiones de formularios son clases que contienen la lógica de la validación. To create a form request class, use the `make:request` Artisan CLI command:
 
     php artisan make:request StoreBlogPost
     
