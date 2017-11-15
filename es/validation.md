@@ -34,11 +34,11 @@ Laravel incluye varias propuestas para validar la entrada de datos de su aplicac
 
 ## Validation Quickstart
 
-Para saber más sobre las características de las potentes reglas de validación, veremos un ejemplo completo para validar un formulario y mostrar los mensajes de error al usuario.
+Para saber más sobre las características de las potentes reglas de validación, puede echar un vistazo a un ejemplo completo para validar un formulario y mostrar los mensajes de error al usuario.
 
 <a name="quick-defining-the-routes"></a>
 
-### Definir las Rutas
+### Definir las rutas
 
 En primer lugar, hay que asumir que se tienen definidas las siguientes rutas en el archivo `routes/web.php`:
 
