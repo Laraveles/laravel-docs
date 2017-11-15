@@ -230,11 +230,11 @@ Entonces, ¿cómo son evaluadas las reglas de validación? Todo lo que usted nec
     }
     
 
-Si la validación falla, se generará automáticamente una respuesta de redirección que envia al usuario de vuelta a su anterior localización. Los errores también se mostrarán en la sesión para que estén disponibles para su visualización. Si el request era una solicitud AJAX, se devolverá una respuesta HTTP con un código de estado 422 al usuario incluyendo una representación en formato JSON de los errores de validación.
+Si la validación falla, se generará automáticamente una respuesta de redirección que envia al usuario de vuelta a su anterior localización. Los errores también se mostrarán "temporalmente" en la sesión así que están para su visualización. Si la petición era era una solicitud AJAX, se devolverá al usuario una respuesta HTTP con un código de estado 422 incluyendo una representación en formato JSON de los errores de validación.
 
-#### Adding After Hooks To Form Requests
+#### Agregando *Hooks* después de las peticiones de formulario
 
-If you would like to add an "after" hook to a form request, you may use the `withValidator` method. This method receives the fully constructed validator, allowing you to call any of its methods before the validation rules are actually evaluated:
+Si se desea agregar un *hook* "posterior" a una petición de formulario (form request), puede usar el método `withValidator`. Este método recibe el validador totalmente construido, permitiéndole llamar a cualquiera de sus métodos antes que las reglas de validación sean realmente evaluadas:
 
     /**
      * Configure the validator instance.
@@ -254,9 +254,9 @@ If you would like to add an "after" hook to a form request, you may use the `wit
 
 <a name="authorizing-form-requests"></a>
 
-### Authorizing Form Requests
+### Autorizacion de las peticiones de formulario
 
-The form request class also contains an `authorize` method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, you may determine if a user actually owns a blog comment they are attempting to update:
+Las clases *form request* tambien contienen un metodo `authorize`. Dentro de este método, usted puede comprobar si el usuario autenticado tiene realmente el permiso para actualizar un recurso determinado. Por ejemplo, usted puede determinar si un usuario es, realmente, dueño de un comentario de un *blog* que esta intentando actualizar:
 
     /**
      * Determine if the user is authorized to make this request.
@@ -271,14 +271,14 @@ The form request class also contains an `authorize` method. Within this method, 
     }
     
 
-Since all form requests extend the base Laravel request class, we may use the `user` method to access the currently authenticated user. Also note the call to the `route` method in the example above. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below:
+Dado que todos los *Form Requests* extienden de la clase base *Request* de Laravel, se puede utilizar el método `user` para acceder al usuario autenticado. Also note the call to the `route` method in the example above. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below:
 
     Route::post('comment/{comment}');
     
 
 If the `authorize` method returns `false`, a HTTP response with a 403 status code will automatically be returned and your controller method will not execute.
 
-Si el plan es tener una lógica de autorización en otra parte de la aplicación, simplemente se coloca return `true` en el método `authorize`:
+Si su plan es tener una lógica de autorización en otra parte de la aplicación, simplemente retorne `true` en el método `authorize`:
 
     /**
      * Determine if the user is authorized to make this request.
