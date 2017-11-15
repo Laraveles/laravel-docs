@@ -1,59 +1,59 @@
-# Validation
+# Validación
 
-- [Introduction](#introduction)
-- [Validation Quickstart](#validation-quickstart) 
-    - [Defining The Routes](#quick-defining-the-routes)
-    - [Creating The Controller](#quick-creating-the-controller)
-    - [Writing The Validation Logic](#quick-writing-the-validation-logic)
-    - [Displaying The Validation Errors](#quick-displaying-the-validation-errors)
-    - [A Note On Optional Fields](#a-note-on-optional-fields)
-- [Form Request Validation](#form-request-validation) 
-    - [Creating Form Requests](#creating-form-requests)
-    - [Authorizing Form Requests](#authorizing-form-requests)
-    - [Customizing The Error Messages](#customizing-the-error-messages)
-- [Manually Creating Validators](#manually-creating-validators) 
-    - [Automatic Redirection](#automatic-redirection)
-    - [Named Error Bags](#named-error-bags)
-    - [After Validation Hook](#after-validation-hook)
-- [Working With Error Messages](#working-with-error-messages) 
-    - [Custom Error Messages](#custom-error-messages)
-- [Available Validation Rules](#available-validation-rules)
-- [Conditionally Adding Rules](#conditionally-adding-rules)
-- [Validating Arrays](#validating-arrays)
-- [Custom Validation Rules](#custom-validation-rules) 
-    - [Using Rule Objects](#using-rule-objects)
-    - [Using Extensions](#using-extensions)
+- [Introducción](#introduction)
+- [Comienzo rápido para la validación](#validation-quickstart) 
+    - [Definir las rutas](#quick-defining-the-routes)
+    - [Crear el controlador](#quick-creating-the-controller)
+    - [Definir la lógica de validación](#quick-writing-the-validation-logic)
+    - [Mostrar los errores de validación](#quick-displaying-the-validation-errors)
+    - [Nota sobre los campos opcionales](#a-note-on-optional-fields)
+- [Validación de la solicitud del formulario (*Form Request*)](#form-request-validation) 
+    - [Creación de la solicitud del formulario](#creating-form-requests)
+    - [Autorizacion de las solicitudes de formulario](#authorizing-form-requests)
+    - [Personalizar los mensajes de error](#customizing-the-error-messages)
+- [Crear validadores manualmente](#manually-creating-validators) 
+    - [Redirección automática](#automatic-redirection)
+    - [Nombrar a los contendores de errores](#named-error-bags)
+    - [*Hook* después de la validación](#after-validation-hook)
+- [Gestionar mensajes de error](#working-with-error-messages) 
+    - [Mensajes de error personalizados](#custom-error-messages)
+- [Reglas de validación disponibles](#available-validation-rules)
+- [Agregar reglas condicionales](#conditionally-adding-rules)
+- [Validación de matrices](#validating-arrays)
+- [Reglas de validación personalizadas](#custom-validation-rules) 
+    - [Utilizar objetos de reglas](#using-rule-objects)
+    - [Utilizar extensiones](#using-extensions)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel incluye varias propuestas para validar la entrada de datos de su aplicación. By default, Laravel's base controller class uses a `ValidatesRequests` trait which provides a convenient method to validate incoming HTTP request with a variety of powerful validation rules.
+Laravel provides several different approaches to validate your application's incoming data. Por defecto, la clase base del controlador de Laravel utiliza el *contrato (trait)* `ValidatesRequests` el cuál provee un método para validar la petición HTTP entrante con una gran variedad de reglas de validación muy potentes.
 
 <a name="validation-quickstart"></a>
 
-## Validation Quickstart
+## Comienzo rápido con la validación
 
-Para saber más sobre las características de las potentes reglas de validación, puede echar un vistazo a un ejemplo completo para validar un formulario y mostrar los mensajes de error al usuario.
+To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user.
 
 <a name="quick-defining-the-routes"></a>
 
-### Definir las rutas
+### Defining The Routes
 
-En primer lugar, hay que asumir que se tienen definidas las siguientes rutas en el archivo `routes/web.php`:
+First, let's assume we have the following routes defined in our `routes/web.php` file:
 
     Route::get('post/create', 'PostController@create');
     
     Route::post('post', 'PostController@store');
     
 
-Por supuesto, la ruta `GET` mostrará un formulario al usuario para crear un nuevo post en un blog, mientas que la ruta `POST` almacenará ese post en la base de datos.
+Of course, the `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
 
 <a name="quick-creating-the-controller"></a>
 
-### Crear el Controlador
+### Creating The Controller
 
-A continuación, veamos un controlador muy simple que gestiona estas rutas. Se dejará el método `store` vacío por el momento:
+Next, let's take a look at a simple controller that handles these routes. We'll leave the `store` method empty for now:
 
     <?php
     
@@ -89,11 +89,11 @@ A continuación, veamos un controlador muy simple que gestiona estas rutas. Se d
 
 <a name="quick-writing-the-validation-logic"></a>
 
-### Definir la Lógica de Validación
+### Escribiendo la lógica de validación
 
-Ya estamos listos para incluir la lógica para validar el nuevo post en el método `store`. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. Si la regla de validación pasa, el código continuará ejecutándose normalmente; sin embargo, si la regla falla, se lanzará una excepción y la respuesta apropiada se enviará automáticamente al usuario. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
+Now we are ready to fill in our `store` method with the logic to validate the new blog post. Para hacer esto, usaremos el método `validate` proporcionado por el objeto `Illuminate\Http\Request`. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. En el caso de una petición HTTP tradicional, se generará una respuesta de redirección, mientras que para peticiones AJAX se enviará una respuesta en formato JSON.
 
-Para entender mejor el método `validate`, desarrollemos el método `store`:
+Para entender mejor el método `validate`, veamos el interior del método `store`:
 
     /**
      * Store a new blog post.
@@ -112,7 +112,7 @@ Para entender mejor el método `validate`, desarrollemos el método `store`:
     }
     
 
-As you can see, we simply pass the desired validation rules into the `validate` method. De nuevo, si la validación falla, se generará una respuesta automáticamente. Si la validación pasa, el controlador continuará ejecutándose con normalidad.
+Como se puede observar, simplemente se pasamos las reglas de validación deseadas al método `validate`. De nuevo, si la validación falla, se generará una respuesta automáticamente. Si la validación pasa, el controlador continuará ejecutándose con normalidad.
 
 #### Stopping On First Validation Failure
 
