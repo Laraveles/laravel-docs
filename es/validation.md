@@ -351,7 +351,7 @@ If you do not want to use the `validate` method on the request, you may create a
     }
     
 
-El primer argumento pasado al método `make` es la data a validar, el segundo argumento es la regla de validación que debe ser aplicada a esta data.
+El primer argumento pasado al método `make` son los datos a validar. El segundo argumento es la regla de validación que debería ser aplicada a los datos.
 
 After checking if the request validation failed, you may use the `withErrors` method to flash the error messages to the session. Cuando se usa ese método, la variable `$erros` es automáticamente compartida con las vistas después de la redirección, permitiendo mostrarlos fácilmente de nuevo al usuario. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
 
