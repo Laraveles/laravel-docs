@@ -1,11 +1,11 @@
 # Instalación
 
 - [Instalación](#installation) 
-    - [Requisitos del Servidor](#server-requirements)
+    - [Requisitos del servidor](#server-requirements)
     - [Instalar Laravel](#installing-laravel)
     - [Configuración](#configuration)
-- [Configuración del Servidor Web](#web-server-configuration) 
-    - [URL Amigables](#pretty-urls)
+- [Configuración del servidor Web](#web-server-configuration) 
+    - [URL amigables](#pretty-urls)
 
 <a name="installation"></a>
 
@@ -15,9 +15,9 @@
 
 <a name="server-requirements"></a>
 
-### Requisitos del Servidor
+### Requisitos del servidor
 
-El *framework* Laravel tiene unos pocos requerimientos de sistema. Por supuesto estos requisitos son satisfechos por la máquina virtual [Laravel Homestead](/docs/{{version}}/homestead), por lo que es altamente recomendable utilizar *Homestead* como su entorno de desarrollo local para Laravel.
+El *framework* Laravel tiene unos pocos requerimientos de sistema. Por supuesto estos requisitos son satisfechos por la máquina virtual *[Laravel Homestead](/docs/{{version}}/homestead)*, por lo que es muy recomendable utilizar *Homestead* como su entorno de desarrollo local para Laravel.
 
 No obstante si no está utilizando Homestead, necesitará asegurarse que el servidor cumple con los siguientes requermientos:
 
@@ -48,7 +48,7 @@ No obstante si no está utilizando Homestead, necesitará asegurarse que el serv
 
 ### Instalar Laravel
 
-Laravel utiliza [Composer](https://getcomposer.org) para gestionar sus dependencias. Por lo tanto, antes de utilizar Laravel, asegurese de tener Composer instalado en su máquina.
+Laravel utiliza [Composer](https://getcomposer.org) para gestionar sus dependencias. Por lo tanto, antes de utilizar Laravel, asegurese de tener instalado Composer en su máquina.
 
 #### A través del Instalador de Laravel
 
