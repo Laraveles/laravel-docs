@@ -28,13 +28,13 @@
 
 ## Introducción
 
-Laravel provides several different approaches to validate your application's incoming data. Por defecto, la clase base del controlador de Laravel utiliza el *contrato (trait)* `ValidatesRequests` el cuál provee un método para validar la petición HTTP entrante con una gran variedad de reglas de validación muy potentes.
+Laravel incluye varias propuestas para validar la entrada de datos de su aplicación. Por defecto, la clase base del controlador de Laravel utiliza el *contrato (trait)* `ValidatesRequests` el cuál provee un método para validar la petición HTTP entrante con una gran variedad de reglas de validación muy potentes.
 
 <a name="validation-quickstart"></a>
 
 ## Comienzo rápido con la validación
 
-To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user.
+Para saber más sobre las características de las potentes reglas de validación, puede echar un vistazo a un ejemplo completo para validar un formulario y mostrar los mensajes de error al usuario.
 
 <a name="quick-defining-the-routes"></a>
 
@@ -128,7 +128,7 @@ In this example, if the `unique` rule on the `title` attribute fails, the `max` 
 
 #### Consideraciones sobre los atributos anidados
 
-If your HTTP request contains "nested" parameters, you may specify them in your validation rules using "dot" syntax:
+Si su petición HTTP contiene parámetros "anidados", puede especificarlos en las reglas de validación utilizando la notación de "puntos":
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -139,9 +139,11 @@ If your HTTP request contains "nested" parameters, you may specify them in your 
 
 <a name="quick-displaying-the-validation-errors"></a>
 
-### Displaying The Validation Errors
+### Mostrar los errores de validación
 
-Ahora, ¿qué sucede si los parámetros de validación entrantes no pasan las reglas de validación? Como se mencionó anteriormente, Laravel redireccionará automáticamente al usuario a su ubicación anterior. In addition, all of the validation errors will automatically be [flashed to the session](/docs/{{version}}/session#flash-data).
+Ahora, ¿qué sucede si los parámetros de validación entrantes no pasan las reglas de validación? Como se mencionó anteriormente, Laravel redireccionará automáticamente al usuario a su ubicación anterior. Además, todos los errores de validación serán *flashed* automáticamente a la [session](/docs/{{version}}/session#flash-data). 
+
+> {note} Cuando se habla de flash, es en relación a un modo de guardar los errores en la sesión, y éstos serán eliminados cuando sean accedidos o esa sesión sea renovada.
 
 De nuevo, observe que no teníamos que vincular explícitamente los mensajes de error a la vista en nuestra ruta `GET`. Esto se debe a que Laravel comprobará si hay errores en los datos de la sesión y automáticamente lso enlazará a la vista si los datos están disponibles. La variable `$errors` será una instancia de `Illuminate\Support\MessageBag`. Para más información sobre cómo trabajar con este objeto, [eche un vistazo a su documentación](#working-with-error-messages).
 
@@ -170,7 +172,7 @@ Así, en el ejemplo, el usuario será redirigido al método `create` de nuestro 
 
 ### Nota sobre los campos opcionales
 
-By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. A causa de esto, a menudo, necesitará marcar la solicitud de campos "opcionales" como `nullable` si no quiere que el validador los considerelos valores `nulos (null)` como inválidos. A causa de esto, puede que necesitase colocar la regla <0>nullable</0> a los campos "opcionales" si no desea que el validador considere valores <0>null</0> como no válidos. For example:
+Por defecto, Laravel incluye los *middleware* `TrimStrings` y `ConvertEmptyStringsToNull` en la pila global de *middlewares</en>. Estos *middlewares* son enumerados en la pila por la clase `App\Http\Kernel`. A causa de esto, a menudo, necesitará marcar la solicitud de campos "opcionales" como `nullable` si no quiere que el validador los considerelos valores `nulos (null)` como inválidos. A causa de esto, puede que necesitase colocar la regla <0>nullable</0> a los campos "opcionales" si no desea que el validador considere valores <0>null</0> como no válidos. For example:</p> 
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -179,28 +181,28 @@ By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` m
     ]);
     
 
-In this example, we are specifying that the `publish_at` field may be either `null` or a valid date representation. If the `nullable` modifier is not added to the rule definition, the validator would consider `null` an invalid date.
+En este ejemplo, estamos especificando que el campo `publish_at` puede ser `null` o la representación de una fecha válida. Si el modificador `nullable` no es añadido a la definición de la regla, el validador se consideraría `null` como una fecha invalida.
 
 <a name="quick-ajax-requests-and-validation"></a>
 
 #### Peticiones AJAX & Validación
 
-In this example, we used a traditional form to send data to the application. Sin embargo, muchas aplicaciones utilizan peticiones AJAX. When using the `validate` method during an AJAX request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. Esta respuesta JSON se enviará con un código de estado HTTP 422.
+En este ejemplo, utilizamos un formulario tradicional para enviar datos a la aplicación. Sin embargo, muchas aplicaciones utilizan peticiones AJAX. Cuando usamos el método `validate` durante una petición AJAX, Laravel no generará automáticamente una respuesta de redirección. En su lugar, genera una respuesta JSON conteniendo todos los errores de validación. Esta respuesta JSON se enviará con un código de estado HTTP 422.
 
 <a name="form-request-validation"></a>
 
-## Form Request Validation
+## Validación de peticiones (Form Request)
 
 <a name="creating-form-requests"></a>
 
-### Creating Form Requests
+### Creación de peticiones de formularios
 
-Para escenarios de validación mas complejos, se pueden crear "peticiones de formularios" ("form request"). Las peticiones de formularios son clases que contienen la lógica de la validación. To create a form request class, use the `make:request` Artisan CLI command:
+Para escenarios de validación mas complejos, se pueden crear "peticiones de formularios" ("form request"). Las peticiones de formularios son clases que contienen la lógica de la validación. Para crear una clase del tipo *form request*, utilice el comando Artisan `make:request` desde su consola:
 
     php artisan make:request StoreBlogPost
     
 
-The generated class will be placed in the `app/Http/Requests` directory. If this directory does not exist, it will be created when you run the `make:request` command. Let's add a few validation rules to the `rules` method:
+La clase generada será guardadad en el directorio `app/Http/Requests`. Si el directorio no existe, será creado automáticamente cuando ejecute el comando `make:request`. Agretemos unas pocas reglas de validación al método `rules`:
 
     /**
      * Get the validation rules that apply to the request.
