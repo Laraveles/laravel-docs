@@ -1193,14 +1193,14 @@ Otra de las maneras de registrar reglas de validación personalizadas es utiliza
 
 El *Closure* del validador personalizado recibe cuatro argumentos: el nombre del `$attribute` a validar, el `$value` del atributo, un *array* de los `$parameters` que son pasados a la regla, y una instancia de `Validator`.
 
-You may also pass a class and method to the `extend` method instead of a Closure:
+También se puede pasar una clase y método al método `extend` en lugar de un *Closure*:
 
     Validator::extend('foo', 'FooValidator@validate');
     
 
-#### Defining The Error Message
+#### Definir el mensaje de error
 
-You will also need to define an error message for your custom rule. You can do so either using an inline custom message array or by adding an entry in the validation language file. This message should be placed in the first level of the array, not within the `custom` array, which is only for attribute-specific error messages:
+Hay que definir un mensaje de error para la regla personalizada. Se puede hacer o pasando un mensaje concreto en el *array* o añadiendo una nueva entrada en el archivo de validación de lenguaje. Este mensaje debe incluirse en el primer nivel del *array*, nunca dentro del *array* `custom`, el cual es únicamente para mensajes de error de atributos específicos:
 
     "foo" => "Your input was invalid!",
     
@@ -1209,7 +1209,7 @@ You will also need to define an error message for your custom rule. You can do s
     // The rest of the validation error messages...
     
 
-When creating a custom validation rule, you may sometimes need to define custom place-holder replacements for error messages. You may do so by creating a custom Validator as described above then making a call to the `replacer` method on the `Validator` facade. You may do this within the `boot` method of a [service provider](/docs/{{version}}/providers):
+Cuando se crea una nueva regla de validación, a veces es necesario definir reemplazos personalizados para los mensajes de error. Esto se puede hacer añadiendo un Validator personalizado como se describe a continuación y llamando al método `replacer` de la *facade* `Validator`. Esto se podría incluir en el método `boot` de un [service provider](/docs/{{version}}/providers):
 
     /**
      * Bootstrap any application services.
@@ -1226,9 +1226,9 @@ When creating a custom validation rule, you may sometimes need to define custom 
     }
     
 
-#### Implicit Extensions
+#### Extensiones implícitas
 
-By default, when an attribute being validated is not present or contains an empty value as defined by the [`required`](#rule-required) rule, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against a `null` value:
+Por defecto, cuando se intenta validar un atributo que no está presente o contiene un valor vacío como se define en la regla [`required`](#rule-required), las reglas de validacion normales, incluidas las extensiones, no se ejecutan. Por ejemplo, la regla [`unique`](#rule-unique) no se ejecutara con un valor `null`:
 
     $rules = ['name' => 'unique'];
     
@@ -1237,11 +1237,11 @@ By default, when an attribute being validated is not present or contains an empt
     Validator::make($input, $rules)->passes(); // true
     
 
-For a rule to run even when an attribute is empty, the rule must imply that the attribute is required. To create such an "implicit" extension, use the `Validator::extendImplicit()` method:
+Para que una regla se ejecute incluso cuando un atributo está vacío, la regla debe presuponer que el atributo es requerido. Para crear una extensión "implícita", utilizar el método `Validator::extendImplicit()`:
 
     Validator::extendImplicit('foo', function ($attribute, $value, $parameters, $validator) {
         return $value == 'foo';
     });
     
 
-> {note} An "implicit" extension only *implies* that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
+> {note} Note: Una extensión "implícita" únicamente *implica* que el atributo es requerido. Si se valida o no un atributo vacío queda a merced del usuario.
