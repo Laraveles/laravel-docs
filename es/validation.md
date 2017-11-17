@@ -361,7 +361,7 @@ Después de comprobar si la solicitud de validación falló, usted puede usar el
 
 ### Redirección automática
 
-Si desea crear una instancia del validador de manera manual y aun así aprovechar el re-direccionamiento automático ofrecido por el método `validate` de las peticiones, puede llamar el método `validate` en la instancia de tipo *validator*. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
+Si desea crear una instancia del validador de manera manual y aun así aprovechar el re-direccionamiento automático ofrecido por el método `validate` de las peticiones, puede llamar el método `validate` en la instancia de tipo *validator*. De tal manera que si la validación falla, el usuario automáticamente sera redirigido, o en caso de que sea una petición AJAX, se retornara una respuesta en JSON:
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -371,24 +371,24 @@ Si desea crear una instancia del validador de manera manual y aun así aprovecha
 
 <a name="named-error-bags"></a>
 
-### Named Error Bags
+### Nombrar a los *Error Bags*
 
-If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors, allowing you to retrieve the error messages for a specific form. Simply pass a name as the second argument to `withErrors`:
+Si se tiene múltiples formularios en una sola pagina, es posible querer darle nombre a los errores de `MessageBag`, lo que le permite recuperar los mensajes de error para un formulario específico. Esto se hace pasando un nombre como segundo argumento del método `withErrors`:
 
     return redirect('register')
                 ->withErrors($validator, 'login');
     
 
-You may then access the named `MessageBag` instance from the `$errors` variable:
+Se puede acceder al nombre de la instancia de `MessageBag` desde la variable `$errors`:
 
     {{ $errors->login->first('email') }}
     
 
 <a name="after-validation-hook"></a>
 
-### After Validation Hook
+### *Hook* después de la validación
 
-The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation and even add more error messages to the message collection. To get started, use the `after` method on a validator instance:
+El validador también permite adjuntar *callbacks* para que se ejecuten después de que la validación se haya completado. Esto le permite realizar fácilmente una validación adicional e incluso agregar más mensajes de error a la colección de mensajes. Para usarlo, se utiliza el método `after` en una instancia del validador:
 
     $validator = Validator::make(...);
     
@@ -405,47 +405,47 @@ The validator also allows you to attach callbacks to be run after validation is 
 
 <a name="working-with-error-messages"></a>
 
-## Working With Error Messages
+## Gestionar mensajes de error
 
-After calling the `errors` method on a `Validator` instance, you will receive an `Illuminate\Support\MessageBag` instance, which has a variety of convenient methods for working with error messages. The `$errors` variable that is automatically made available to all views is also an instance of the `MessageBag` class.
+Después de llamar al método `errors` en una instancia `Validator`, se recibirá una instancia de `Illuminate\Support\MessageBag`, que tiene una variedad de métodos convenientes para trabajar con los mensajes de error. La variable `$errors` se encuentra disponible en todas las vista como una instancia de la clase `MessageBag`.
 
-#### Retrieving The First Error Message For A Field
+#### Recuperar el primer mensaje de error para un campo
 
-To retrieve the first error message for a given field, use the `first` method:
+Para recuperar el primer mensaje de error de un campo se utiliza el método `first`:
 
     $errors = $validator->errors();
     
     echo $errors->first('email');
     
 
-#### Retrieving All Error Messages For A Field
+#### Recuperar todos los mensajes de error para un campo
 
-If you need to retrieve an array of all the messages for a given field, use the `get` method:
+Si se desea recuperar un *array* de todos los mensajes para un campo determinado, se utiliza el método `get`:
 
     foreach ($errors->get('email') as $message) {
         //
     }
     
 
-If you are validating an array form field, you may retrieve all of the messages for each of the array elements using the `*` character:
+Si está validando un campo de formulario del tipo *array*, se pueden recuperar todos los mensajes para cada uno de los elementos del mismo utilizando el carácter `*`:
 
     foreach ($errors->get('attachments.*') as $message) {
         //
     }
     
 
-#### Retrieving All Error Messages For All Fields
+#### Recuperar los mensajes de error para todos los campos
 
-To retrieve an array of all messages for all fields, use the `all` method:
+Para recuperar todos los mensajes de error se utiliza el método `all`:
 
     foreach ($errors->all() as $message) {
         //
     }
     
 
-#### Determining If Messages Exist For A Field
+#### Verificar si existen mensajes para un campo
 
-The `has` method may be used to determine if any error messages exist for a given field:
+El método `has` determinara si existe algún mensaje de error para el campo determinado:
 
     if ($errors->has('email')) {
         //
@@ -454,9 +454,9 @@ The `has` method may be used to determine if any error messages exist for a give
 
 <a name="custom-error-messages"></a>
 
-### Custom Error Messages
+### Mensajes de error personalizados
 
-If needed, you may use custom error messages for validation instead of the defaults. There are several ways to specify custom messages. First, you may pass the custom messages as the third argument to the `Validator::make` method:
+Si es necesario, se pueden personalizar los mensajes de error de las validaciones en lugar de mostrar los que vienen por defecto. Hay varias maneras de especificar mensajes personalizados. La primera, es pasar los mensajes como tercer argumento del método `Validator::make`:
 
     $messages = [
         'required' => 'The :attribute field is required.',
@@ -465,7 +465,7 @@ If needed, you may use custom error messages for validation instead of the defau
     $validator = Validator::make($input, $rules, $messages);
     
 
-In this example, the `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. Por ejemplo:
+En el ejemplo, se utiliza el *place-holder* `:attribute` que es reemplazado por el nombre del campo que se esta validando. Se pueden utilizar otros tipos de *place-holders* en los mensajes de validación. Por ejemplo:
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
@@ -475,9 +475,9 @@ In this example, the `:attribute` place-holder will be replaced by the actual na
     ];
     
 
-#### Specifying A Custom Message For A Given Attribute
+#### Especificar un mensaje de personalizado para un atributo
 
-Sometimes you may wish to specify a custom error messages only for a specific field. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
+Cuando se necesita, es posible personalizar un mensaje de error para un campo especifico. Se puede utilizar la notación "dot" o por "puntos". Se indica el nombre del atributo primero, seguido de la regla de validación:
 
     $messages = [
         'email.required' => 'We need to know your e-mail address!',
@@ -486,9 +486,9 @@ Sometimes you may wish to specify a custom error messages only for a specific fi
 
 <a name="localization"></a>
 
-#### Specifying Custom Messages In Language Files
+#### Especificar un mensaje personalizado en los archivos de lenguaje
 
-In most cases, you will probably specify your custom messages in a language file instead of passing them directly to the `Validator`. To do so, add your messages to `custom` array in the `resources/lang/xx/validation.php` language file.
+En la mayoría de los casos, probablemente quiera especificar el mensaje personalizado en el archivo de lenguaje en lugar de pasarlo directamente al `Validator`. Para hacerlo, se deben agregar los mensajes dentro del *array* `custom` del archivo de lenguaje ubicado en `resources/lang/xx/validation.php`.
 
     'custom' => [
         'email' => [
@@ -497,9 +497,9 @@ In most cases, you will probably specify your custom messages in a language file
     ],
     
 
-#### Specifying Custom Attributes In Language Files
+#### Especificar un atributo personalizado en los archivos de lenguaje
 
-If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
+Si se desea cambiar la porción del mensaje de la validación correspondiente a `:attribute` para reemplazarlo con un nombre de atributo personalizado, se puede especificar el mismo en el *array* `attributes` del archivo de lenguaje `resources/lang/xx/validation.php`:
 
     'attributes' => [
         'email' => 'email address',
@@ -508,9 +508,9 @@ If you would like the `:attribute` portion of your validation message to be repl
 
 <a name="available-validation-rules"></a>
 
-## Available Validation Rules
+## Reglas de validación disponibles
 
-Below is a list of all available validation rules and their function:
+A continuación se muestra una lista de todas las reglas de validación disponibles con su función:
 
 <style>
     .collection-method-list > p {
@@ -533,24 +533,24 @@ Below is a list of all available validation rules and their function:
 
 #### accepted
 
-The field under validation must be *yes*, *on*, *1*, or *true*. This is useful for validating "Terms of Service" acceptance.
+El campo a validar debe contener *yes*, *no*, *1* o *true*. Puede ser útil para validar la aceptación de "Términos de servicio".
 
 <a name="rule-active-url"></a>
 
 #### active_url
 
-The field under validation must have a valid A or AAAA record according to the `dns_get_record` PHP function.
+El campo a validar debe contener un registro *A* o *AAAA* válido de acuerdo con la función de PHP `dns_get_record`.
 
 <a name="rule-after"></a>
 
 #### after:*date*
 
-The field under validation must be a value after a given date. The dates will be passed into the `strtotime` PHP function:
+El campo a validar debe contener un valor posterior a una fecha concreta. Las fechas se pasarán a la función de PHP `strtotime`:
 
     'start_date' => 'required|date|after:tomorrow'
     
 
-Instead of passing a date string to be evaluated by `strtotime`, you may specify another field to compare against the date:
+En lugar de pasar una fecha para ser evaluada por `strtotime`, se puede especificar otro campo con el que comparar la fecha:
 
     'finish_date' => 'required|date|after:start_date'
     
@@ -559,115 +559,115 @@ Instead of passing a date string to be evaluated by `strtotime`, you may specify
 
 #### after*or\_equal:_date*
 
-The field under validation must be a value after or equal to the given date. For more information, see the [after](#rule-after) rule.
+El campo bajo validación debe ser un valor posterior o igual a la fecha dada. Para obtener más información, consulte la regla [after](#rule-after).
 
 <a name="rule-alpha"></a>
 
 #### alpha
 
-The field under validation must be entirely alphabetic characters.
+El campo a validar debe contener únicamente caracteres alfabéticos.
 
 <a name="rule-alpha-dash"></a>
 
 #### alpha_dash
 
-The field under validation may have alpha-numeric characters, as well as dashes and underscores.
+El campo a validar debe contener caracteres alfa-numéricos, así como guiones altos y bajos.
 
 <a name="rule-alpha-num"></a>
 
 #### alpha_num
 
-The field under validation must be entirely alpha-numeric characters.
+El campo a validar debe contener únicamente caracteres alfa-numéricos.
 
 <a name="rule-array"></a>
 
 #### array
 
-The field under validation must be a PHP `array`.
+El campo a validar debe ser un `array` PHP.
 
 <a name="rule-before"></a>
 
 #### before:*date*
 
-The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function.
+El campo a validar debe contener una fecha anterior a la fecha dada. Las fechas serán pasadas a la función `strtotime` de PHP.
 
 <a name="rule-before-or-equal"></a>
 
 #### before*or\_equal:_date*
 
-The field under validation must be a value preceding or equal to the given date. The dates will be passed into the PHP `strtotime` function.
+El campo a validar debe contener una fecha anterior a la fecha dada. Las fechas serán pasadas a la función `strtotime` de PHP.
 
 <a name="rule-between"></a>
 
 #### between:*min*,*max*
 
-The field under validation must have a size between the given *min* and *max*. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+El campo a validar debe tener un tamaño entre *min* y *max*. Cadenas, caracteres numéricos, *arrays* y archivos se evalúan de la misma forma que la regla [`size`](#rule-size).
 
 <a name="rule-boolean"></a>
 
 #### boolean
 
-The field under validation must be able to be cast as a boolean. Accepted input are `true`, `false`, `1`, ``, `"1"`, and `"0"`.
+El campo a validar debe poder ser transformado a un valor booleano. Los valores aceptados son `true`, `false`, `1`, ``, `"1"`, y `"0"`.
 
 <a name="rule-confirmed"></a>
 
 #### confirmed
 
-The field under validation must have a matching field of `foo_confirmation`. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input.
+El campo a validar debe coincidir con el campo `foo_confirmation`. Por ejemplo, si el campo fuera `password`, se debería proporcionar además un campo `password_confirmation`.
 
 <a name="rule-date"></a>
 
 #### date
 
-The field under validation must be a valid date according to the `strtotime` PHP function.
+El campo a validar debe contener una fecha válida de acuerdo con la función de PHP `strtotime`.
 
 <a name="rule-date-equals"></a>
 
 #### date_equals:*date*
 
-The field under validation must be equal to the given date. The dates will be passed into the PHP `strtotime` function.
+El campo a validar debe contener una fecha igual a la fecha dada. Las fechas serán pasadas a la función `strtotime` de PHP.
 
 <a name="rule-date-format"></a>
 
 #### date_format:*format*
 
-The field under validation must match the given *format*. You should use **either** `date` or `date_format` when validating a field, not both.
+El campo a validar debe cumplir el *format* dado. Se puede usar **either** `date` o `date_format` cuando se valida un campo, no ambos.
 
 <a name="rule-different"></a>
 
 #### different:*field*
 
-The field under validation must have a different value than *field*.
+El campo a validar debe contener un valor diferente a *field*.
 
 <a name="rule-digits"></a>
 
 #### digits:*value*
 
-The field under validation must be *numeric* and must have an exact length of *value*.
+El campo a validar debe ser *numérico* y una longitud exacta de *value*.
 
 <a name="rule-digits-between"></a>
 
 #### digits_between:*min*,*max*
 
-The field under validation must have a length between the given *min* and *max*.
+El campo a validar debe tener un tamaño entre *min* y *max*.
 
 <a name="rule-dimensions"></a>
 
 #### dimensions
 
-The file under validation must be an image meeting the dimension constraints as specified by the rule's parameters:
+El archivo bajo validación debe ser una imagen que cumpla con las restricciones de dimensión especificadas dentro los parámetros de la regla:
 
     'avatar' => 'dimensions:min_width=100,min_height=200'
     
 
-Available constraints are: *min\_width*, *max\_width*, *min\_height*, *max\_height*, *width*, *height*, *ratio*.
+Las restricciones disponibles son: *min\_width*, *max\_width*, *min\_height*, *max\_height*, *width*, *height*, *ratio*.
 
-A *ratio* constraint should be represented as width divided by height. This can be specified either by a statement like `3/2` or a float like `1.5`:
+El *ratio* debe representarse como el ancho dividido por la altura. Esto puede especificarse mediante una declaración como `3/2` o un flotante como `1.5 `:
 
     'avatar' => 'dimensions:ratio=3/2'
     
 
-Since this rule requires several arguments, you may use the `Rule::dimensions` method to fluently construct the rule:
+Dado que esta regla requiere varios argumentos, se puede utilizar el método `Rule::dimensions` para construir la regla con fluidez:
 
     use Illuminate\Validation\Rule;
     
@@ -683,7 +683,7 @@ Since this rule requires several arguments, you may use the `Rule::dimensions` m
 
 #### distinct
 
-When working with arrays, the field under validation must not have any duplicate values.
+Cuando se trabaja con *arrays*, el campo a validar no debe tener valores duplicados.
 
     'foo.*.id' => 'distinct'
     
@@ -692,30 +692,30 @@ When working with arrays, the field under validation must not have any duplicate
 
 #### email
 
-The field under validation must be formatted as an e-mail address.
+El campo a validar debe contener un valor formateado como una dirección de correo electrónico.
 
 <a name="rule-exists"></a>
 
 #### exists:*table*,*column*
 
-The field under validation must exist on a given database table.
+El campo a validar debe existir en una tabla de la base de datos.
 
 #### Basic Usage Of Exists Rule
 
     'state' => 'exists:states'
     
 
-#### Specifying A Custom Column Name
+#### Especificar un nombre de columna
 
     'state' => 'exists:states,abbreviation'
     
 
-Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name using "dot" syntax:
+Ocasionalmente, se puede necesitar especificar la conexión a base de datos a usar para la query de `exists`. Esto se puede lograr colocando antes del nombre de la tabla el nombre de la conexión, utilizando la sintaxis "dot" o por "punto":
 
     'email' => 'exists:connection.staff,email'
     
 
-If you would like to customize the query executed by the validation rule, you may use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit them:
+Si se desea personalizar la *consulta* que se ejecuta con la regla de validación, se puede usar la clase `Rule` para definir la regla. En el ejemplo, se especifican las reglas de validación como un *array* en lugar de utilizar el carácter `|` para delimitarlas:
 
     use Illuminate\Validation\Rule;
     
@@ -733,19 +733,19 @@ If you would like to customize the query executed by the validation rule, you ma
 
 #### file
 
-The field under validation must be a successfully uploaded file.
+El campo a validar debe ser un archivo cargado con éxito.
 
 <a name="rule-filled"></a>
 
 #### filled
 
-The field under validation must not be empty when it is present.
+El campo a validar no debe estar vacío cuando se encuentra presente.
 
 <a name="rule-image"></a>
 
 #### image
 
-The file under validation must be an image (jpeg, png, bmp, gif, or svg)
+El archivo a validar debe ser una imagen (jpeg, png, bmp, gif o svg)
 
 <a name="rule-in"></a>
 
@@ -767,83 +767,83 @@ The field under validation must be included in the given list of values. Since t
 
 #### in_array:*anotherfield*
 
-The field under validation must exist in *anotherfield*'s values.
+En el campo a validar debe existir valores en *anotherfield*.
 
 <a name="rule-integer"></a>
 
 #### integer
 
-The field under validation must be an integer.
+El campo a validar debe ser un entero.
 
 <a name="rule-ip"></a>
 
 #### ip
 
-The field under validation must be an IP address.
+El campo a validar debe contener una dirección IP.
 
 #### ipv4
 
-The field under validation must be an IPv4 address.
+El campo a validar debe contener una dirección IPv4.
 
 #### ipv6
 
-The field under validation must be an IPv6 address.
+El campo a validar debe contener una dirección IPv6.
 
 <a name="rule-json"></a>
 
 #### json
 
-The field under validation must be a valid JSON string.
+El campo a validar debe contener una cadena JSON válida.
 
 <a name="rule-max"></a>
 
 #### max:*value*
 
-The field under validation must be less than or equal to a maximum *value*. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+El campo a validar debe ser inferior o igual que un máximo *value*. Cadenas, caracteres numéricos, *arrays* y archivos se evalúan de la misma forma que la regla [`size`](#rule-size).
 
 <a name="rule-mimetypes"></a>
 
 #### mimetypes:*text/plain*,...
 
-The file under validation must match one of the given MIME types:
+El campo a validar debe coincidir con uno de los tipos de MIME que se declaren:
 
     'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
     
 
-To determine the MIME type of the uploaded file, the file's contents will be read and the framework will attempt to guess the MIME type, which may be different from the client provided MIME type.
+Para determinar el tipo de MIME del archivo cargado, se leerán los contenidos del archivo y el framework intentará adivinar el tipo MIME, que puede ser diferente del tipo MIME proporcionado por el cliente.
 
 <a name="rule-mimes"></a>
 
 #### mimes:*foo*,*bar*,...
 
-The file under validation must have a MIME type corresponding to one of the listed extensions.
+El archivo a validar debe contener un tipo MIME que corresponda a una de las extensiones listadas.
 
-#### Basic Usage Of MIME Rule
+#### Uso básico de la regla MIME
 
     'photo' => 'mimes:jpeg,bmp,png'
     
 
-Even though you only need to specify the extensions, this rule actually validates against the MIME type of the file by reading the file's contents and guessing its MIME type.
+Aunque solo hay que especificar las extensiones, la regla realmente valida utilizando los tipos MIME del archivo leyendo el contenido del archivo y averiguando su tipo MIME.
 
-A full listing of MIME types and their corresponding extensions may be found at the following location: <https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types>
+La lista completa de tipos MIME y sus extensiones correspondientes se puede encontrar en el siguiente enlace: [http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="rule-min"></a>
 
 #### min:*value*
 
-The field under validation must have a minimum *value*. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+El campo a validar debe contener un valor mínimo de *value*. Cadenas de texto, números, *arrays* y archivos se evalúan del mismo modo que la regla [`size`](#rule-size).
 
 <a name="rule-nullable"></a>
 
 #### nullable
 
-The field under validation may be `null`. This is particularly useful when validating primitive such as strings and integers that can contain `null` values.
+El campo a validar permite valores `null`. Esto es particularmente útil cuando se validan primitivas, como cadenas y enteros que pueden contener valores `null`.
 
 <a name="rule-not-in"></a>
 
 #### not_in:*foo*,*bar*,...
 
-The field under validation must not be included in the given list of values. The `Rule::notIn` method may be used to fluently construct the rule:
+El campo a validar no debe estar incluido dentro del listado de valores. El método `Rule::notIn` se puede usar para escribir con fluidez la validación:
 
     use Illuminate\Validation\Rule;
     
@@ -859,41 +859,41 @@ The field under validation must not be included in the given list of values. The
 
 #### numeric
 
-The field under validation must be numeric.
+El campo a validar debe ser numérico.
 
 <a name="rule-present"></a>
 
 #### present
 
-The field under validation must be present in the input data but can be empty.
+El campo bajo validación debe estar presente en los datos de entrada pero puede estar vacío.
 
 <a name="rule-regex"></a>
 
 #### regex:*pattern*
 
-The field under validation must match the given regular expression.
+El campo a validar debe coincidir con la expresión regular pasada.
 
-**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
+**Nota:** Cuando se utiliza el patrón `regex`, es posible que sea necesario especificar las reglas en un *array* en lugar de utilizar los delimitadores |, especialmente si la expresión regular contiene este carácter.
 
 <a name="rule-required"></a>
 
 #### required
 
-The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
+El campo a validar debe estar presente en los datos proporcionados y nunca vacío. El campo se considera "vacío" si se cumple alguna de las siguientes condiciones:
 
 <div class="content-list">
   <ul>
     <li>
-      The value is <code>null</code>.
+      El valor es <code>null</code>.
     </li>
     <li>
-      The value is an empty string.
+      El valor es una cadena vacía.
     </li>
     <li>
-      The value is an empty array or empty <code>Countable</code> object.
+      El valor es un <em>array</em> vacío o un objeto <code>Countable</code> vacío.
     </li>
     <li>
-      The value is an uploaded file with no path.
+      El valor es un archivo subido sin directorio.
     </li>
   </ul>
 </div>
@@ -902,85 +902,85 @@ The field under validation must be present in the input data and not empty. A fi
 
 #### required_if:*anotherfield*,*value*,...
 
-The field under validation must be present and not empty if the *anotherfield* field is equal to any *value*.
+El campo a validar debe estar presente y no estar vació si el campo *anotherfield* es igual a algún *value*.
 
 <a name="rule-required-unless"></a>
 
 #### required_unless:*anotherfield*,*value*,...
 
-The field under validation must be present and not empty unless the *anotherfield* field is equal to any *value*.
+El campo a validar debe estar presente y no estar vacío a no ser que el campo *anotherfield* sea igual a algún *value*.
 
 <a name="rule-required-with"></a>
 
 #### required_with:*foo*,*bar*,...
 
-The field under validation must be present and not empty *only if* any of the other specified fields are present.
+El campo a validar debe estar presente y no vacío *únicamente si* alguno de los otros campos están presentes.
 
 <a name="rule-required-with-all"></a>
 
 #### required_with_all:*foo*,*bar*,...
 
-The field under validation must be present and not empty *only if* all of the other specified fields are present.
+El campo a validar debe estar presente y no vacío *únicamente si* todos los otros campos están presentes.
 
 <a name="rule-required-without"></a>
 
 #### required_without:*foo*,*bar*,...
 
-The field under validation must be present and not empty *only when* any of the other specified fields are not present.
+El campo a validar debe estar presente y no vacío *únicamente cuando* alguno de los otros campos no están presentes.
 
 <a name="rule-required-without-all"></a>
 
 #### required_without_all:*foo*,*bar*,...
 
-The field under validation must be present and not empty *only when* all of the other specified fields are not present.
+El campo a validar debe estar presente y no vacío *únicamente cuando* todos campos no estén presentes.
 
 <a name="rule-same"></a>
 
 #### same:*field*
 
-The given *field* must match the field under validation.
+El campo *field* debe coincidir con el campo a validar.
 
 <a name="rule-size"></a>
 
 #### size:*value*
 
-The field under validation must have a size matching the given *value*. For string data, *value* corresponds to the number of characters. For numeric data, *value* corresponds to a given integer value. For an array, *size* corresponds to the `count` of the array. For files, *size* corresponds to the file size in kilobytes.
+El campo a validar debe tener un tamaño *value*. Para cadenas, *value* corresponde al número de caracteres. Para datos numéricos, *value* corresponde con un valor entero. Para un *array*, *size* corresponde al `count` del *array*. Para archivos, *size* corresponde al tamaño en kilobytes.
 
 <a name="rule-string"></a>
 
 #### string
 
-The field under validation must be a string. If you would like to allow the field to also be `null`, you should assign the `nullable` rule to the field.
+El campo de la validación debe ser una cadena de texto. Si se desea que el campo permita valores `null`, se debe asignar la regla `nullable` al campo.
 
 <a name="rule-timezone"></a>
 
 #### timezone
 
-The field under validation must be a valid timezone identifier according to the `timezone_identifiers_list` PHP function.
+El campo a validar debe corresponderse con alguno de los identificadores de zona horaria según la función de PHP `timezone_identifiers_list`.
 
 <a name="rule-unique"></a>
 
 #### unique:*table*,*column*,*except*,*idColumn*
 
-The field under validation must be unique in a given database table. If the `column` option is not specified, the field name will be used.
+El campo a validar debe contener un valor único en una tabla de la base de datos. Si la opción `columna` no se especifica, se utilizará el nombre del campo.
 
-**Specifying A Custom Column Name:**
+**Especificar un nombre de columna:**
 
     'email' => 'unique:users,email_address'
     
 
-**Custom Database Connection**
+**Seleccionar conexión de base de datos**
 
-Occasionally, you may need to set a custom connection for database queries made by the Validator. As seen above, setting `unique:users` as a validation rule will use the default database connection to query the database. To override this, specify the connection and the table name using "dot" syntax:
+En ocasiones, puede ser necesario establecer la conexión a utilizar para las consultas realizadas por el Validator en la base de datos. Como en el ejemplo anterior, establecer `unique:users` como una regla de validación utilizará la conexión por defector para consultar la base de datos. Para reemplazar esto, especificar la conexión y el nombre de la tabla utilizando sintaxis de "puntos" o "dot notation":
 
     'email' => 'unique:connection.users,email_address'
     
 
-**Forcing A Unique Rule To Ignore A Given ID:**
+**Forzar una regla *unique* para ignorar un ID:**
 
-Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address.
+A veces es necesario ignorar un ID concreto en una comprobación *unique*. Por ejemplo, considerar una pantalla de "actualización de perfil" que incluye el nombre de usuario, e-mail y ubicación. Por supuesto, hay que verificar que la dirección de e-mail es única. Sin embargo, si el usuario solo cambia el campo nombre y no el campo e-mail, no será correcto si se lanza un error de validación por que el usuario es el propietario de esa dirección de e-mail.
 
-To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
+Para indicar al validador que ignore el ID de usuario, se utilizará la clase `Rule` para definir la regla de forma fluida. En este ejemplo, se especificarán además las reglas de validación como *array* en lugar de utilizar el carácter `|` para delimitar las reglas:
 
     use Illuminate\Validation\Rule;
     
@@ -992,14 +992,14 @@ To instruct the validator to ignore the user's ID, we'll use the `Rule` class to
     ]);
     
 
-If your table uses a primary key column name other than `id`, you may specify the name of the column when calling the `ignore` method:
+Si la tabla usa una clave primaria distinta a `id`, se puede especificar el nombre de la columna llamando al método `ignore`:
 
     'email' => Rule::unique('users')->ignore($user->id, 'user_id')
     
 
 **Agregar cláusulas *Where* adicionales:**
 
-You may also specify additional query constraints by customizing the query using the `where` method. For example, let's add a constraint that verifies the `account_id` is `1`:
+Se pueden especificar además cláusulas adicionales personalizando la consulta utilizando el método `where`. Por ejemplo, añadir una cláusula que verifique que el `account_id` es `1`:
 
     'email' => Rule::unique('users')->where(function ($query) {
         return $query->where('account_id', 1);
@@ -1010,28 +1010,28 @@ You may also specify additional query constraints by customizing the query using
 
 #### url
 
-The field under validation must be a valid URL.
+El campo a validar debe ser una URL valida.
 
 <a name="conditionally-adding-rules"></a>
 
-## Conditionally Adding Rules
+## Agregar reglas condicionales
 
-#### Validating When Present
+#### Validar únicamente si esta presente
 
-In some situations, you may wish to run validation checks against a field **only** if that field is present in the input array. To quickly accomplish this, add the `sometimes` rule to your rule list:
+En algunos casos, se pueden ejecutar validaciones a campos **únicamente** si ese campo está presente en los datos de entrada. Para ello, añadir la regla `sometimes` a la lista de reglas:
 
     $v = Validator::make($data, [
         'email' => 'sometimes|required|email',
     ]);
     
 
-In the example above, the `email` field will only be validated if it is present in the `$data` array.
+En el ejemplo anterior, el campo `email` será validado únicamente si está presente en el *array* `$data`.
 
-> {tip} If you are attempting to validate a field that should always be present but may be empty, check out [this note on optional fields](#a-note-on-optional-fields)
+> {tip} Si se intenta validar un campo que debe estar siempre presente pero puede estar vacío, revisar [esta nota para campos opcionales](#a-note-on-optional-fields).
 
-#### Complex Conditional Validation
+#### Validación condicional compleja
 
-Sometimes you may wish to add validation rules based on more complex conditional logic. For example, you may wish to require a given field only if another field has a greater value than 100. Or, you may need two fields to have a given value only when another field is present. Adding these validation rules doesn't have to be a pain. First, create a `Validator` instance with your *static rules* that never change:
+A veces es necesario agregar reglas de validación basadas en lógica condicional más compleja. Por ejemplo, se puede requerir un campo si otro posee un valor mayor a 100. O, tal vez que un campo posea un valor concreto únicamente cuando otro campo está presente. Añadir estas reglas de validación debería ser sencillo. Primero, crear la instancia `Validator` con las *reglas estáticas* que no cambiarán:
 
     $v = Validator::make($data, [
         'email' => 'required|email',
@@ -1039,34 +1039,34 @@ Sometimes you may wish to add validation rules based on more complex conditional
     ]);
     
 
-Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game resale shop, or maybe they just enjoy collecting. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
+Supongamos que nuestra aplicación es para coleccionistas de vídeo juegos. Si el coleccionista se registra en la aplicación y posee más de 100 juegos, requeriremos que explique por qué tiene tantos juegos. Por ejemplo, tal vez sea una tienda de reventa de juegos, o quizás simplemente disfruten de la colección. Para añadir condicionalmente este requerimiento, se puede utilizar el método `sometimes` de la instancia `Validator`.
 
     $v->sometimes('reason', 'required|max:500', function ($input) {
         return $input->games >= 100;
     });
     
 
-The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. The second argument is the rules we want to add. If the `Closure` passed as the third argument returns `true`, the rules will be added. This method makes it a breeze to build complex conditional validations. You may even add conditional validations for several fields at once:
+El primer argumento pasado al método `sometimes` será el nombre del campo a validar de forma condicional. El segundo argumento serán las reglas de este campo. El tercer parámetro será un `Closure` que retornará `true` si las reglas deben tenerse en cuenta. Este método hace que crear validaciones condicionales complejas resulte muy sencillo. Se pueden añadir validaciones condicionales para varios campos a la vez:
 
     $v->sometimes(['reason', 'cost'], 'required', function ($input) {
         return $input->games >= 100;
     });
     
 
-> {tip} The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used to access your input and files.
+> {tip} El parámetro `$input` pasado al `Closure` será una instancia de `Illuminate\Support\Fluent` y se puede utilizar para acceder a los datos de entrada y archivos.
 
 <a name="validating-arrays"></a>
 
 ## Validación de Arrays
 
-Validating array based form input fields doesn't have to be a pain. You may use "dot notation" to validate attributes within an array. For example, if the incoming HTTP request contains a `photos[profile]` field, you may validate it like so:
+Validar un *array* basado en campos de un formulario no debería ser complicado. Se puede usar "dot notation" para validar atributos que sean *array*. Por ejemplo, si la petición HTTP contiene en campo `photos[profile]`, se puede validar de la siguiente forma:
 
     $validator = Validator::make($request->all(), [
         'photos.profile' => 'required|image',
     ]);
     
 
-You may also validate each element of an array. For example, to validate that each e-mail in a given array input field is unique, you may do the following:
+También se puede validar cada elemento de un *array*. Por ejemplo, para validar que cada correo electrónico en un campo determinado del *array* es único, se puede hacer lo siguiente:
 
     $validator = Validator::make($request->all(), [
         'person.*.email' => 'email|unique:users',
@@ -1074,7 +1074,7 @@ You may also validate each element of an array. For example, to validate that ea
     ]);
     
 
-Likewise, you may use the `*` character when specifying your validation messages in your language files, making it a breeze to use a single validation message for array based fields:
+Del mismo modo, se puede usar el carácter `*` para especificar los mensajes de validación en los archivos de idioma, por lo que es muy fácil utilizar un solo mensaje de validación para campos basados en *array*:
 
     'custom' => [
         'person.*.email' => [
@@ -1085,18 +1085,18 @@ Likewise, you may use the `*` character when specifying your validation messages
 
 <a name="custom-validation-rules"></a>
 
-## Custom Validation Rules
+## Reglas de validación personalizadas
 
 <a name="using-rule-objects"></a>
 
-### Using Rule Objects
+### Usando objetos *Rule*
 
-Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using rule objects. To generate a new rule object, you may use the `make:rule` Artisan command. Let's use this command to generate a rule that verifies a string is uppercase. Laravel will place the new rule in the `app/Rules` directory:
+Laravel incluye varias reglas de validación muy útiles; sin embargo, se pueden especificar reglas propias. Una de los métodos para registrar las reglas de validación personalizadas es usando los *rule objects*. Para generar un nuevo *rule object*, se puede usar el comando `make:rule` de Artisan. Se usara este comando para generar una regla que verifique que una cadena esté en mayúscula. Laravel ubicara la nueva regla en el directorio `app/Rules`:
 
     php artisan make:rule Uppercase
     
 
-Once the rule has been created, we are ready to define its behavior. A rule object contains two methods: `passes` and `message`. The `passes` method receives the attribute value and name, and should return `true` or `false` depending on whether the attribute value is valid or not. The `message` method should return the validation error message that should be used when validation fails:
+Una vez que el objeto ha sido creado, se puede definir su comportamiento. Un *rule object* contiene dos métodos: `passes` y `message`. El método `passes` recibe el valor del atributo y el nombre, y retorna `true` o `false` dependiendo si el valor del atributo es válido o no. El método `message` retorna el mensaje de error de la validación que debe ser usado cuando la misma falla:
 
     <?php
     
@@ -1130,7 +1130,7 @@ Once the rule has been created, we are ready to define its behavior. A rule obje
     }
     
 
-Of course, you may call the `trans` helper from your `message` method if you would like to return an error message from your translation files:
+Por supuesto, se puede usar el helper `trans` desde su método `message` si desea devolver un mensaje de error desde los archivos de traducción:
 
     /**
      * Get the validation error message.
@@ -1143,7 +1143,7 @@ Of course, you may call the `trans` helper from your `message` method if you wou
     }
     
 
-Once the rule has been defined, you may attach it to a validator by passing an instance of the rule object with your other validation rules:
+Una vez que se ha definido una regla, se puede asociar al validador pasando una instancia del *rule object* junto a las otras reglas:
 
     use App\Rules\Uppercase;
     
@@ -1154,9 +1154,9 @@ Once the rule has been defined, you may attach it to a validator by passing an i
 
 <a name="using-extensions"></a>
 
-### Using Extensions
+### Utilizar extensiones
 
-Another method of registering custom validation rules is using the `extend` method on the `Validator` [facade](/docs/{{version}}/facades). Let's use this method within a [service provider](/docs/{{version}}/providers) to register a custom validation rule:
+Otra de las maneras de registrar reglas de validación personalizadas es utilizando el método `extend` del [facade](/docs/{{version}}/facades) `Validator`. Utilizaremos este método en un [service provider](/docs/{{version}}/providers) para registrar una regla de validación personalizada:
 
     <?php
     
@@ -1191,16 +1191,16 @@ Another method of registering custom validation rules is using the `extend` meth
     }
     
 
-The custom validator Closure receives four arguments: the name of the `$attribute` being validated, the `$value` of the attribute, an array of `$parameters` passed to the rule, and the `Validator` instance.
+El *Closure* del validador personalizado recibe cuatro argumentos: el nombre del `$attribute` a validar, el `$value` del atributo, un *array* de los `$parameters` que son pasados a la regla, y una instancia de `Validator`.
 
-You may also pass a class and method to the `extend` method instead of a Closure:
+También se puede pasar una clase y método al método `extend` en lugar de un *Closure*:
 
     Validator::extend('foo', 'FooValidator@validate');
     
 
-#### Defining The Error Message
+#### Definir el mensaje de error
 
-You will also need to define an error message for your custom rule. You can do so either using an inline custom message array or by adding an entry in the validation language file. This message should be placed in the first level of the array, not within the `custom` array, which is only for attribute-specific error messages:
+Hay que definir un mensaje de error para la regla personalizada. Se puede hacer o pasando un mensaje concreto en el *array* o añadiendo una nueva entrada en el archivo de validación de lenguaje. Este mensaje debe incluirse en el primer nivel del *array*, nunca dentro del *array* `custom`, el cual es únicamente para mensajes de error de atributos específicos:
 
     "foo" => "Your input was invalid!",
     
@@ -1209,7 +1209,7 @@ You will also need to define an error message for your custom rule. You can do s
     // The rest of the validation error messages...
     
 
-When creating a custom validation rule, you may sometimes need to define custom place-holder replacements for error messages. You may do so by creating a custom Validator as described above then making a call to the `replacer` method on the `Validator` facade. You may do this within the `boot` method of a [service provider](/docs/{{version}}/providers):
+Cuando se crea una nueva regla de validación, a veces es necesario definir reemplazos personalizados para los mensajes de error. Esto se puede hacer añadiendo un Validator personalizado como se describe a continuación y llamando al método `replacer` de la *facade* `Validator`. Esto se podría incluir en el método `boot` de un [service provider](/docs/{{version}}/providers):
 
     /**
      * Bootstrap any application services.
@@ -1226,9 +1226,9 @@ When creating a custom validation rule, you may sometimes need to define custom 
     }
     
 
-#### Implicit Extensions
+#### Extensiones implícitas
 
-By default, when an attribute being validated is not present or contains an empty value as defined by the [`required`](#rule-required) rule, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against a `null` value:
+Por defecto, cuando se intenta validar un atributo que no está presente o contiene un valor vacío como se define en la regla [`required`](#rule-required), las reglas de validacion normales, incluidas las extensiones, no se ejecutan. Por ejemplo, la regla [`unique`](#rule-unique) no se ejecutara con un valor `null`:
 
     $rules = ['name' => 'unique'];
     
@@ -1237,11 +1237,11 @@ By default, when an attribute being validated is not present or contains an empt
     Validator::make($input, $rules)->passes(); // true
     
 
-For a rule to run even when an attribute is empty, the rule must imply that the attribute is required. To create such an "implicit" extension, use the `Validator::extendImplicit()` method:
+Para que una regla se ejecute incluso cuando un atributo está vacío, la regla debe presuponer que el atributo es requerido. Para crear una extensión "implícita", utilizar el método `Validator::extendImplicit()`:
 
     Validator::extendImplicit('foo', function ($attribute, $value, $parameters, $validator) {
         return $value == 'foo';
     });
     
 
-> {note} An "implicit" extension only *implies* that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
+> {note} Note: Una extensión "implícita" únicamente *implica* que el atributo es requerido. Si se valida o no un atributo vacío queda a merced del usuario.
