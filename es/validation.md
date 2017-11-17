@@ -361,7 +361,7 @@ Después de comprobar si la solicitud de validación falló, usted puede usar el
 
 ### Redirección automática
 
-Si desea crear una instancia del validador de manera manual y aun así aprovechar el re-direccionamiento automático ofrecido por el método `validate` de las peticiones, puede llamar el método `validate` en la instancia de tipo *validator*. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
+Si desea crear una instancia del validador de manera manual y aun así aprovechar el re-direccionamiento automático ofrecido por el método `validate` de las peticiones, puede llamar el método `validate` en la instancia de tipo *validator*. De tal manera que si la validación falla, el usuario automáticamente sera redirigido, o en caso de que sea una petición AJAX, se retornara una respuesta en JSON:
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -371,24 +371,24 @@ Si desea crear una instancia del validador de manera manual y aun así aprovecha
 
 <a name="named-error-bags"></a>
 
-### Named Error Bags
+### Nombrar a los *Error Bags*
 
-If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors, allowing you to retrieve the error messages for a specific form. Simply pass a name as the second argument to `withErrors`:
+Si se tiene múltiples formularios en una sola pagina, es posible querer darle nombre a los errores de `MessageBag`, lo que le permite recuperar los mensajes de error para un formulario específico. Esto se hace pasando un nombre como segundo argumento del método `withErrors`:
 
     return redirect('register')
                 ->withErrors($validator, 'login');
     
 
-You may then access the named `MessageBag` instance from the `$errors` variable:
+Se puede acceder al nombre de la instancia de `MessageBag` desde la variable `$errors`:
 
     {{ $errors->login->first('email') }}
     
 
 <a name="after-validation-hook"></a>
 
-### After Validation Hook
+### *Hook* después de la validación
 
-The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation and even add more error messages to the message collection. To get started, use the `after` method on a validator instance:
+El validador también permite adjuntar *callbacks* para que se ejecuten después de que la validación se haya completado. Esto le permite realizar fácilmente una validación adicional e incluso agregar más mensajes de error a la colección de mensajes. Para usarlo, se utiliza el método `after` en una instancia del validador:
 
     $validator = Validator::make(...);
     
@@ -405,47 +405,47 @@ The validator also allows you to attach callbacks to be run after validation is 
 
 <a name="working-with-error-messages"></a>
 
-## Working With Error Messages
+## Gestionar mensajes de error
 
-After calling the `errors` method on a `Validator` instance, you will receive an `Illuminate\Support\MessageBag` instance, which has a variety of convenient methods for working with error messages. The `$errors` variable that is automatically made available to all views is also an instance of the `MessageBag` class.
+Después de llamar al método `errors` en una instancia `Validator`, se recibirá una instancia de `Illuminate\Support\MessageBag`, que tiene una variedad de métodos convenientes para trabajar con los mensajes de error. La variable `$errors` se encuentra disponible en todas las vista como una instancia de la clase `MessageBag`.
 
-#### Retrieving The First Error Message For A Field
+#### Recuperar el primer mensaje de error para un campo
 
-To retrieve the first error message for a given field, use the `first` method:
+Para recuperar el primer mensaje de error de un campo se utiliza el método `first`:
 
     $errors = $validator->errors();
     
     echo $errors->first('email');
     
 
-#### Retrieving All Error Messages For A Field
+#### Recuperar todos los mensajes de error para un campo
 
-If you need to retrieve an array of all the messages for a given field, use the `get` method:
+Si se desea recuperar un *array* de todos los mensajes para un campo determinado, se utiliza el método `get`:
 
     foreach ($errors->get('email') as $message) {
         //
     }
     
 
-If you are validating an array form field, you may retrieve all of the messages for each of the array elements using the `*` character:
+Si está validando un campo de formulario del tipo *array*, se pueden recuperar todos los mensajes para cada uno de los elementos del mismo utilizando el carácter `*`:
 
     foreach ($errors->get('attachments.*') as $message) {
         //
     }
     
 
-#### Retrieving All Error Messages For All Fields
+#### Recuperar los mensajes de error para todos los campos
 
-To retrieve an array of all messages for all fields, use the `all` method:
+Para recuperar todos los mensajes de error se utiliza el método `all`:
 
     foreach ($errors->all() as $message) {
         //
     }
     
 
-#### Determining If Messages Exist For A Field
+#### Verificar si existen mensajes para un campo
 
-The `has` method may be used to determine if any error messages exist for a given field:
+El método `has` determinara si existe algún mensaje de error para el campo determinado:
 
     if ($errors->has('email')) {
         //
@@ -454,9 +454,9 @@ The `has` method may be used to determine if any error messages exist for a give
 
 <a name="custom-error-messages"></a>
 
-### Custom Error Messages
+### Mensajes de error personalizados
 
-If needed, you may use custom error messages for validation instead of the defaults. There are several ways to specify custom messages. First, you may pass the custom messages as the third argument to the `Validator::make` method:
+Si es necesario, se pueden personalizar los mensajes de error de las validaciones en lugar de mostrar los que vienen por defecto. Hay varias maneras de especificar mensajes personalizados. La primera, es pasar los mensajes como tercer argumento del método `Validator::make`:
 
     $messages = [
         'required' => 'The :attribute field is required.',
@@ -465,7 +465,7 @@ If needed, you may use custom error messages for validation instead of the defau
     $validator = Validator::make($input, $rules, $messages);
     
 
-In this example, the `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. Por ejemplo:
+En el ejemplo, se utiliza el *place-holder* `:attribute` que es reemplazado por el nombre del campo que se esta validando. You may also utilize other place-holders in validation messages. Por ejemplo:
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
