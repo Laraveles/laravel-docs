@@ -76,7 +76,7 @@ Antes de utilizar Cashier, será necesario [preparar la base de datos](/docs/{{v
 
 Una vez que se ha creadas las migraciones, ejecutar el comando de Artisan `migrate`.
 
-#### Billable Model
+#### Modelo facturable – *billable*
 
 A continuación, añadir el *trait* `Billable` a la definición del modelo. Este *trait* incluye varios métodos que permitirán realizar las tareas de facturación más comunes, como crear suscripciones, aplicar cupones y actualizar la información de una tarjeta de crédito:
 
@@ -205,7 +205,7 @@ Then you should add the following Braintree SDK calls to your `AppServiceProvide
 
 ### Configuración de divisas
 
-The default Cashier currency is United States Dollars (USD). You can change the default currency by calling the `Cashier::useCurrency` method from within the `boot` method of one of your service providers. The `useCurrency` method accepts two string parameters: the currency and the currency's symbol:
+La moneda por defecto de Cashier son dólares Estadounidenses (USD). Se puede cambiar la moneda por defecto llamando al método `Cashier::useCurrency` desde el método `boot` de uno de los *service providers*. El método `useCurrency` acepta dos cadenas como parámetros: la moneda y su símbolo:
 
     use Laravel\Cashier\Cashier;
     

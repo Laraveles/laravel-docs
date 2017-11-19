@@ -95,29 +95,29 @@ Por supuesto, las opciones más robustas para desarrollo local son [Homestead](/
 
 ### Configuración
 
-#### Directorio *Public*
+#### Directorio *public*
 
 Después de instalar Laravel, debería configurar la raíz de su servidor web para que apunte al directorio `public`. El archivo `index.php` en este directorio sirve como *front controller* para todas las peticiones HTTP que entren en su aplicación.
 
-#### Ficheros de Configuración
+#### Ficheros de configuración
 
 Todos los archivos de configuración de Laravel Framework se encuentran en el directorio `config`. Cada opción está documentada, por lo que es más que recomendable navegar entre los diferentes archivos y conocer las diferentes opciones.
 
-#### Permisos de Directorios
+#### Permisos de directorios
 
 Después de instalar Laravel, puede ser necesario configurar algunos permisos. Los directorios dentro de `storage` y de `bootstrap/cache` deberían tener permisos de escritura para el usuario del servidor web o Laravel no funcionará. Si se utiliza la máquina virtual [Homestead](/docs/{{version}}/homestead), estos permisos ya deben estar configurados.
 
-#### Clave de la Aplicación
+#### Clave de la aplicación
 
 Lo siguiente que se debe hacer una vez instalado Laravel es establecer la clave de aplicación a una cadena aleatoria. Si se instala Laravel utilizando Composer o el instalador Laravel, esta clave se habrá generado automáticamente a través del comando `php artisan key:generate`.
 
 Normalmente, esta cadena debe contener 32 caracteres de longitud. Esta clave se debe establecer en el archivo de entorno `.env`. Si no se ha renombrado el archivo `.env.example` a `.env`, debe hacerse ahora. **¡Si no se establece la clave de aplicación, las sesiones de usuario y otros datos codificados no serán seguros!**
 
-#### Configuración Adicional
+#### Configuración adicional
 
 Laravel no necesita casi ninguna otra configuración para comenzar. ¡Ya puede empezar a programar! Sin embargo, puede querer revisar el archivo `config/app.php` y su documentación. Contiene varias opciones como `timezone` y `locale` que podrías desear cambiar en función de su aplicación.
 
-También se pueden configurar pocos componentes adicionales de Laravel, tales como:
+También se pueden configurar algunos componentes adicionales de Laravel, tales como:
 
 <div class="content-list">
   <ul>
@@ -135,11 +135,11 @@ También se pueden configurar pocos componentes adicionales de Laravel, tales co
 
 <a name="web-server-configuration"></a>
 
-## Configuración del Servidor Web
+## Configuración del servidor Web
 
 <a name="pretty-urls"></a>
 
-### URL Amigables
+### URL amigables
 
 #### Apache
 
