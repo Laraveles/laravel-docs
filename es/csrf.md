@@ -11,7 +11,7 @@
 
 Laravel hace fácil la protección de su aplicación de ataques[ *cross-site request forgery*](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF). Solicitudes de falsificación a través de sitios *Cross-site request forgeries* son un tipo de ataques maliciosos a través de los cuales comandos no autorizados son ejecutados en nombre de un usuario autenticado.
 
-Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application.
+Laravel genera automáticamente una prueba *token* CSRF para cada sesión de usuario activo administrado por la aplicación. Esta prueba se utiliza para verificar que el usuario autenticado es el que realmente hace las peticiones a la aplicación.
 
 Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that the CSRF protection middleware can validate the request. You may use the `csrf_field` helper to generate the token field:
 
