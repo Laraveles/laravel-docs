@@ -82,7 +82,7 @@ También se puede instalar Laravel ejecutando el comando de Composer `create-pro
     composer create-project --prefer-dist laravel/laravel blog
     
 
-#### Servidor de Desarrollo Local
+#### Servidor de desarrollo local
 
 Si se tiene PHP instalado localmente y desea utilizar el servidor de desarrollo *built-in* (incluido) en PHP para su aplicación, puede utilizar el comando Artisan `serve`. Este comando arrancará un servidor de desarrollo accesible en `http://localhost:8000`:
 

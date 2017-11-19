@@ -331,7 +331,7 @@ If you would like to swap plans and cancel any trial period the user is currentl
 
 > {note} Subscription quantities are only supported by the Stripe edition of Cashier. Braintree does not have a feature that corresponds to Stripe's "quantity".
 
-Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month **per user** on an account. To easily increment or decrement your subscription quantity, use the `incrementQuantity` and `decrementQuantity` methods:
+A veces las suscripciones dependen de la "cuantía". Por ejemplo, la aplicación puede cargar $10 al mes **por usuario** en una cuenta. Para incrementar o disminuir la cuantía de la suscripción, utilizar los métodos `incrementQuantity` y `decrementQuantity`:
 
     $user = User::find(1);
     
@@ -351,12 +351,12 @@ Alternativamente, se puede establecer una cuantía específica utilizando el mé
     $user->subscription('main')->updateQuantity(10);
     
 
-The `noProrate` method may be used to update the subscription's quantity without pro-rating the charges:
+El método `noProrate` se puede utilizar para actualizar la cuantía de la suscripción sin prorratear los cargos:
 
     $user->subscription('main')->noProrate()->updateQuantity(10);
     
 
-For more information on subscription quantities, consult the [Stripe documentation](https://stripe.com/docs/subscriptions/quantities).
+Para más información sobre las cuantías de suscripción, consultar la [documentación de Stripe](https://stripe.com/docs/subscriptions/quantities).
 
 <a name="subscription-taxes"></a>
 
@@ -633,7 +633,7 @@ Para realizar un cargo "único" contra la tarjeta de crédito de un usuario susc
     $user->charge(1);
     
 
-The `charge` method accepts an array as its second argument, allowing you to pass any options you wish to the underlying Stripe / Braintree charge creation. Consult the Stripe or Braintree documentation regarding the options available to you when creating charges:
+El método `charge` acepta un *array* como segundo argumento, permitiendo pasar cualquier opción que se desee a la creación del cargo de Stripe/Braintree. Consultar la documentación de Stripe o Braintree para conocer las opciones disponibles en la creación de cargos:
 
     $user->charge(100, [
         'custom_option' => $value,
