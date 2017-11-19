@@ -137,13 +137,13 @@ A continuación, registrar el archivo `Laravel\Cashier\CashierServiceProvider` c
 
 #### Plan Credit Coupon
 
-Before using Cashier with Braintree, you will need to define a `plan-credit` discount in your Braintree control panel. This discount will be used to properly prorate subscriptions that change from yearly to monthly billing, or from monthly to yearly billing.
+Antes de utilizar Cashier con Braintree, es necesario definir un descuento `plan-credit` en el panel de control de Braintree. Este descuento se utilizará para prorratear las suscripciones que cambian desde la suscripción anual a la mensual o viceversa.
 
-The discount amount configured in the Braintree control panel can be any value you wish, as Cashier will simply override the defined amount with our own custom amount each time we apply the coupon. This coupon is needed since Braintree does not natively support prorating subscriptions across subscription frequencies.
+La cantidad configurada en el panel de control de Braintree puede ser cualquier valor, ya que Cashier reemplazará la cantidad definida con la cantidad configurada cada vez que se aplique el cupón. Este cupón es necesario ya que Braintree no soporta de forma nativa el prorrateo de suscripciones entre frecuencias de suscripción.
 
 #### Migraciones de BD
 
-Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/migrations). Se añadirán algunas columnas a la tabla `users` y se creará una nueva tabla `subscriptions` para almacenar todo lo relativo a las suscripciones de los clientes:
+Antes de usar Cashier, será necesario [preparar la base de datos](/docs/{{version}}/migrations). Se añadirán algunas columnas a la tabla `users` y se creará una nueva tabla `subscriptions` para almacenar todo lo relativo a las suscripciones de los clientes:
 
     Schema::table('users', function ($table) {
         $table->string('braintree_id')->nullable();
@@ -166,11 +166,11 @@ Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/mig
     });
     
 
-Once the migrations have been created, simply run the `migrate` Artisan command.
+Una vez que se han creado las migraciones, simplemente ejecutar el comando de Artisan `migrate`.
 
 #### Modelo facturable – *billable*
 
-Next, add the `Billable` trait to your model definition:
+A continuación, añadir el *trait* `Billable` a la definición del modelo:
 
     use Laravel\Cashier\Billable;
     
