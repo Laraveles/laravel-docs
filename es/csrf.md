@@ -13,7 +13,7 @@ Laravel hace fácil la protección de su aplicación de ataques[ *cross-site req
 
 Laravel genera automáticamente una prueba *token* CSRF para cada sesión de usuario activo administrado por la aplicación. Esta prueba se utiliza para verificar que el usuario autenticado es el que realmente hace las peticiones a la aplicación.
 
-Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that the CSRF protection middleware can validate the request. You may use the `csrf_field` helper to generate the token field:
+Cada vez que defina un formulario HTML en su aplicación usted debería incluír un campo prueba CSRF oculto en el formulario para que la protección *middleware* pueda validar la peticición. Usted puede utilizar la función de ayuda `csrf_field` para generar el campo con la prueba:
 
     <form method="POST" action="/profile">
         {{ csrf_field() }}
@@ -21,19 +21,19 @@ Anytime you define a HTML form in your application, you should include a hidden 
     </form>
     
 
-The `VerifyCsrfToken` [middleware](/docs/{{version}}/middleware), which is included in the `web` middleware group, will automatically verify that the token in the request input matches the token stored in the session.
+El *middleware* `VerifyCsrfToken` el cuál está incluído en el grupo de *middlewares* web, automaticamente verificará que la prueba en la petición de entrada concuerda con la almacenada en la sesión.
 
-#### CSRF Tokens & JavaScript
+#### Pruebas CSRF y JavasScript
 
-When building JavaScript driven applications, it is convenient to have your JavaScript HTTP library automatically attach the CSRF token to every outgoing request. By default, the `resources/assets/js/bootstrap.js` file registers the value of the `csrf-token` meta tag with the Axios HTTP library. If you are not using this library, you will need to manually configure this behavior for your application.
+Cudno construye aplicaciones conducidas por JavaScript, es conveniente que su librería JavaScript de HTTP adjunte automáticamente la prueba CSRF a cada petición de salida. Por defecto, el fichero `resources/assets/js/bootstrap.js` registra el valor de la meta etiqueta `prueba csrf` con la librería de HTTP Axios. Si usted no está utilizando esta librería, necesitará configurar manualmente este comportamiento para su aplicación.
 
 <a name="csrf-excluding-uris"></a>
 
 ## Excluir URIs de la protección CSRF
 
-Sometimes you may wish to exclude a set of URIs from CSRF protection. For example, if you are using [Stripe](https://stripe.com) to process payments and are utilizing their webhook system, you will need to exclude your Stripe webhook handler route from CSRF protection since Stripe will not know what CSRF token to send to your routes.
+A veces puede desear excluír un conjunto de URIs de la protección CSRF. Por ejemplo, si usted está usando [Stripe](https://stripe.com) para procesar pagos y está utilizando su sistema de enganche web, necesitará exluír la ruta del manejador del enganche web de la protección CSRF ya que Stripe no conocerá la prueba CRSF que debe envíar a sus rutas.
 
-Typically, you should place these kinds of routes outside of the `web` middleware group that the `RouteServiceProvider` applies to all routes in the `routes/web.php` file. However, you may also exclude the routes by adding their URIs to the `$except` property of the `VerifyCsrfToken` middleware:
+Normalmente, usted debería situar este tipo de cosas en rutas fuera de su grupo *middleware* web que el `RouteServiceProvider` aplica a todas las rutas en el fichero `routes/web.php`. No obstante, usted puede también excluír las rutas agregandolas a la propiedad `$except` del *middleware* `VerifyCsrfToken`:
 
     <?php
     
@@ -58,12 +58,12 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
 
 ## X-CSRF-TOKEN
 
-Además para comprobar la prueba CSRF como parametro POST el *middleware* `VerifyCsrfToken` comprobará también el `X-CSRF-TOKEN` para las cabeceras de las peticiones. You could, for example, store the token in a HTML `meta` tag:
+Además para comprobar la prueba CSRF como parametro POST el *middleware* `VerifyCsrfToken` comprobará también el `X-CSRF-TOKEN` para las cabeceras de las peticiones. Podría, por ejemplo, almacenar la prueba en una `meta` etiqueta HTML:
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
 
-Then, once you have created the `meta` tag, you can instruct a library like jQuery to automatically add the token to all request headers. This provides simple, convenient CSRF protection for your AJAX based applications:
+Entonces, una vez haya creado la `meta` etiqueta, usted puede indicar a una librería como Jquery como agregar automáticamente el token a todas las cabeceras de las peticiones. Esto proporciona una protección CSRF simple y conveniente para sus aplicaciones basadas en AJAX:
 
     $.ajaxSetup({
         headers: {
@@ -72,12 +72,12 @@ Then, once you have created the `meta` tag, you can instruct a library like jQue
     });
     
 
-> {tip} By default, the `resources/assets/js/bootstrap.js` file registers the value of the `csrf-token` meta tag with the Axios HTTP library. If you are not using this library, you will need to manually configure this behavior for your application.
+> {tip} Por defecto, el fichero `resources/assets/js/bootstrap.js` registra el valor de la meta etiqueta `crsf-token` con la librería HTTP Axios. Si no está utilizando esta librería, usted necesitará configurar manualmente este comportamiento para su aplicación.
 
 <a name="csrf-x-xsrf-token"></a>
 
 ## X-XSRF-TOKEN
 
-Laravel stores the current CSRF token in a `XSRF-TOKEN` cookie that is included with each response generated by the framework. You can use the cookie value to set the `X-XSRF-TOKEN` request header.
+Laravel almacena la prueba CSRF en la *cookie* `XSRF-TOKEN` que es incluída con cada respuesta generada por el framework. Puede utilizar la *cookie* para establecer la cabecera de la petición `X-XSRF-TOKEN`.
 
-This cookie is primarily sent as a convenience since some JavaScript frameworks and libraries, like Angular and Axios, automatically place its value in the `X-XSRF-TOKEN` header.
+Esta *cookie* es primordialmente enviada por conveniencia para algunos frameworks de JavaScript u librerías como Angular y Axios, sitúa automáticamente su valor en la cabecera `X-XSRF-TOKEN`.
