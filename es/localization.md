@@ -1,4 +1,4 @@
-# Localization
+# Localización – *Locale*
 
 - [Introducción](#introduction)
 - [Definición de cadenas de traducción](#defining-translation-strings) 
@@ -130,12 +130,12 @@ Si se desea, se pueden establecer parámetros en las cadenas de traducción. Tod
     'welcome' => 'Welcome, :name',
     
 
-To replace the place-holders when retrieving a translation string, pass an array of replacements as the second argument to the `__` function:
+Para reemplazar los marcadores de posición cuando se recupera una cadena de traducción, pase una matriz de reemplazos como segundo argumento a la función `__`:
 
     echo __('messages.welcome', ['name' => 'dayle']);
     
 
-If your place-holder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
+Si su parámetro contiene todas las letras mayúsculas, o sólo tiene su primera letra en mayúscula, el valor traducido será en mayúsculas y minúsculas:
 
     'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
     'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
@@ -143,27 +143,27 @@ If your place-holder contains all capital letters, or only has its first letter 
 
 <a name="pluralization"></a>
 
-### Pluralization
+### Pluralización
 
-Pluralization is a complex problem, as different languages have a variety of complex rules for pluralization. By using a "pipe" character, you may distinguish singular and plural forms of a string:
+La pluralización es un problema complejo, pues diferentes idiomas tienen diferentes reglas de pluralización. Utilizando el caracter "pipe" (tubería o barra vertical), se puede distinguir entre la forma singular y plural de una cadena:
 
     'apples' => 'There is one apple|There are many apples',
     
 
-You may even create more complex pluralization rules which specify translation strings for multiple number ranges:
+Incluso puede crear reglas de pluralización más complejas que especifiquen cadenas de traducción para múltiples rangos de números:
 
     'apples' => '{0} There are none|[1,19] There are some|[20,*] There are many',
     
 
-After defining a translation string that has pluralization options, you may use the `trans_choice` function to retrieve the line for a given "count". In this example, since the count is greater than one, the plural form of the translation string is returned:
+Después de definir una cadena de traducción que tenga opciones de pluralización, puede utilizar la función `trans_choice` para recuperar la línea para un "conteo" determinado. En este ejemplo, puesto que el contador es mayor que uno, se retornará la forma plural:
 
     echo trans_choice('messages.apples', 10);
     
 
 <a name="overriding-package-language-files"></a>
 
-## Overriding Package Language Files
+## Sobrescribir archivos de idioma de los paquetes
 
-Some packages may ship with their own language files. Instead of changing the package's core files to tweak these lines, you may override them by placing files in the `resources/lang/vendor/{package}/{locale}` directory.
+Algunos paquetes incluyen sus propios archivos de idioma. En lugar de cambiar los archivos centrales del paquete para ajustar estas líneas, puede anularlas colocando archivos en el directorio `resources/lang/vendor/{package}/{locale}`.
 
-So, for example, if you need to override the English translation strings in `messages.php` for a package named `skyrim/hearthfire`, you should place a language file at: `resources/lang/vendor/hearthfire/en/messages.php`. Within this file, you should only define the translation strings you wish to override. Any translation strings you don't override will still be loaded from the package's original language files.
+Así, por ejemplo, si necesita anular las cadenas de traducción al inglés en `messages.php` para un paquete llamado `skyrim/hearthfire`, debería colocar un archivo de idioma en: `resources/lang/vendor/hearthfire/en/messages.php`. Dentro de este fichero, sólo debe definir las cadenas de traducción que desea anular. Cualquier cadena de traducción que no sobreescriba se cargará desde los archivos de idioma originales del paquete.
