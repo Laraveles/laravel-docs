@@ -614,7 +614,7 @@ Cashier automatically handles subscription cancellation on failed charges, but i
     );
     
 
-¡Eso es todo! Los cobros fallidos serán capturados y gestionados por el controlador. The controller will cancel the customer's subscription when Braintree determines the subscription has failed (normally after three failed payment attempts). Don't forget: you will need to configure the webhook URI in your Braintree control panel settings.
+¡Eso es todo! Los cobros fallidos serán capturados y gestionados por el controlador. El controlador cancelará la suscripción del cliente cuando Braintree determine que la suscripción ha fallado (normalmente tras tres intentos fallidos de cobro). No olvidar: será necesario configurar la URI del *webhook* en el panel de control de Braintree.
 
 <a name="single-charges"></a>
 
@@ -640,7 +640,7 @@ El método `charge` acepta un *array* como segundo argumento, permitiendo pasar 
     ]);
     
 
-The `charge` method will throw an exception if the charge fails. If the charge is successful, the full Stripe / Braintree response will be returned from the method:
+El método `charge` lanzará una excepción si el cargo falla. Si el cargo es satisfactorio, se retornará la respuesta Stripe/Braintree completa:
 
     try {
         $response = $user->charge(100);
