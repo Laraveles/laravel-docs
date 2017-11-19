@@ -193,7 +193,7 @@ Next, You should configure the following options in your `services.php` file:
     ],
     
 
-Then you should add the following Braintree SDK calls to your `AppServiceProvider` service provider's `boot` method:
+Ahora hay que añadir las siguientes llamadas al SDK de Braintree al método `boot` del `AppServiceProvider`:
 
     \Braintree_Configuration::environment(config('services.braintree.environment'));
     \Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
@@ -220,14 +220,14 @@ La moneda por defecto de Cashier son dólares Estadounidenses (USD). Se puede ca
 
 ### Crear suscripciones
 
-Para crear una suscripción, es necesaria una instancia de un modelo *Billable*, que normalmente será una instancia de `App\User`. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription:
+Para crear una suscripción, es necesaria una instancia de un modelo *Billable*, que normalmente será una instancia de `App\User`. Una vez que se ha recuperado la instancia del modelo, se pude utilizar el método `newSubscription` para crear la suscripción del modelo:
 
     $user = User::find(1);
     
     $user->newSubscription('main', 'premium')->create($stripeToken);
     
 
-The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `main` or `primary`. The second argument is the specific Stripe / Braintree plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe or Braintree.
+El primer argumento pasado al método `newSubscription` corresponde al nombre de la suscripción. Si la aplicación únicamente ofrece una sola suscripción, se pude llamar a este método `main` o `primary`. El segundo argumento es el plan específico de Stripe/Braintree al que se está suscribiendo el usuario. Este valor debe corresponder con el identificador del plan en Stripe o Braintree.
 
 The `create` method, which accepts a Stripe credit card / source token, will begin the subscription as well as update your database with the customer ID and other relevant billing information.
 
