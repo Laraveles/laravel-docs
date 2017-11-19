@@ -229,7 +229,7 @@ Para crear una suscripción, es necesaria una instancia de un modelo *Billable*,
 
 El primer argumento pasado al método `newSubscription` corresponde al nombre de la suscripción. Si la aplicación únicamente ofrece una sola suscripción, se pude llamar a este método `main` o `primary`. El segundo argumento es el plan específico de Stripe/Braintree al que se está suscribiendo el usuario. Este valor debe corresponder con el identificador del plan en Stripe o Braintree.
 
-The `create` method, which accepts a Stripe credit card / source token, will begin the subscription as well as update your database with the customer ID and other relevant billing information.
+El método `create`, el cual acepta el token de una tarjeta de crédito/fondo de Stripe, comenzará la suscripción así como actualizará la base de datos con el ID del cliente y otra información relevante de facturación.
 
 #### Datos de usuario adicionales
 
@@ -240,7 +240,7 @@ Para especificar información adicional sobre el cliente, se puede pasar como se
     ]);
     
 
-To learn more about the additional fields supported by Stripe or Braintree, check out Stripe's [documentation on customer creation](https://stripe.com/docs/api#create_customer) or the corresponding [Braintree documentation](https://developers.braintreepayments.com/reference/request/customer/create/php).
+Para saber más sobre los campos adicionales que soporta Stripe o Braintree, comprobar la [documentación sobre creación de clientes](https://stripe.com/docs/api#create_customer) de Stripe o la sección correspondiente de [Braintree](https://developers.braintreepayments.com/reference/request/customer/create/php).
 
 #### Cupones
 
@@ -282,7 +282,7 @@ Para determinar si un usuario se encuentra todavía en el periodo de prueba, uti
     }
     
 
-The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Stripe / Braintree plan ID. In this example, we will determine if the user's `main` subscription is actively subscribed to the `monthly` plan:
+El método `suscribedToPlan` se puede utilizar para determinar si el usuario está suscrito a un plan concreto de Stripe/Braintree basado en el ID del plan. En este ejemplo, se determinará si la suscripción `main` del usuario está activamente suscrita al plan `monthly`:
 
     if ($user->subscribedToPlan('monthly', 'main')) {
         //
@@ -309,16 +309,16 @@ Se puede comprobar si el usuario ha cancelado la suscripción, pero se encuentra
 
 ### Cambiar planes
 
-Después de que un usuario se suscriba a la aplicación, puede ocasionalmente requerir un cambio a otro plan de suscripción nuevo. To swap a user to a new subscription, pass the plan's identifier to the `swap` method:
+Después de que un usuario se suscriba a la aplicación, puede ocasionalmente requerir un cambio a otro plan de suscripción nuevo. Para cambiar un usuario a otra suscripción, pasar el identificador del plan al método `swap`:
 
     $user = App\User::find(1);
     
     $user->subscription('main')->swap('provider-plan-id');
     
 
-If the user is on trial, the trial period will be maintained. Also, if a "quantity" exists for the subscription, that quantity will also be maintained.
+Si el usuario está en periodo de prueba, se mantendrá. Además, si existe una "cuantía" para la suscripción, esa cantidad se mantendrá.
 
-If you would like to swap plans and cancel any trial period the user is currently on, you may use the `skipTrial` method:
+Para cambiar un plan y además cancelar el periodo de prueba en el que se encuentre el usuario, se puede usar el método `skipTrial`:
 
     $user->subscription('main')
             ->skipTrial()
@@ -329,7 +329,7 @@ If you would like to swap plans and cancel any trial period the user is currentl
 
 ### Cuantía de la suscipción
 
-> {note} Subscription quantities are only supported by the Stripe edition of Cashier. Braintree does not have a feature that corresponds to Stripe's "quantity".
+> {note} Las cantidades de suscripción solo están soportadas en la versión de Stripe de Cashier. Braintree no tiene una característica que corresponda con "cantidad" como Stripe.
 
 A veces las suscripciones dependen de la "cuantía". Por ejemplo, la aplicación puede cargar $10 al mes **por usuario** en una cuenta. Para incrementar o disminuir la cuantía de la suscripción, utilizar los métodos `incrementQuantity` y `decrementQuantity`:
 
