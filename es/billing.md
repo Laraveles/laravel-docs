@@ -18,10 +18,10 @@
     - [Con tarjeta de crédito](#with-credit-card-up-front)
     - [Sin tarjeta de crédito](#without-credit-card-up-front)
 - [Gestionar *Stripe Webhooks*](#handling-stripe-webhooks) 
-    - [Defining Webhook Event Handlers](#defining-webhook-event-handlers)
+    - [Definir gestores de eventos para *webhooks*](#defining-webhook-event-handlers)
     - [Suscripciones fallidas](#handling-failed-subscriptions)
 - [Gestionar *Braintree Webhooks*](#handling-braintree-webhooks) 
-    - [Defining Webhook Event Handlers](#defining-braintree-webhook-event-handlers)
+    - [Definir gestores de eventos para *webhooks*](#defining-braintree-webhook-event-handlers)
     - [Suscripciones fallidas](#handling-braintree-failed-subscriptions)
 - [Cargos únicos](#single-charges)
 - [Facturas](#invoices) 
@@ -497,11 +497,11 @@ Ambos, Stripe y Braintree pueden notificar a la aplicación de una gran variedad
 
 > {note} Una vez que se ha registrado la ruta, asegúrese de configurar la *webhook URL* en la configuración del panel de control de Stripe.
 
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+Por defecto, este controlador gestionará automáticamente la cancelación de suscripciones que tienen demasiados cargos fallidos (tal y como se defina en la configuración de Stripe); sin embargo, como pronto se descubrirá, se puede extender este controlador para gestionar cualquier evento *webhook* que sea necesario.
 
-#### Webhooks & CSRF Protection
+#### *Webhooks* & protección CSRF
 
-Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+Puesto que los *webhooks* de Stripe necesitan sortear la [protección CSRF](/docs/{{version}}/csrf) de Laravel, asegúrese de añadir la URI como una excepción en el *middleware* `VerifyCsrfToken` o listar la ruta fuera del grupo de *middleware* `web`:
 
     protected $except = [
         'stripe/*',
@@ -510,9 +510,9 @@ Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version
 
 <a name="defining-webhook-event-handlers"></a>
 
-### Defining Webhook Event Handlers
+### Definir gestores de eventos para *webhooks*
 
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Stripe webhook events you would like to handle, simply extend the Webhook controller. Los nombres de los métodos deben corresponder a la convención de Stripe, específicamente, los métodos deben contener el prefijo `handle` y utilizar la nomenclatura "camel case" del *Webhook* de Stripe a gestionar. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller:
+Cashier gestiona automáticamente la cancelación de suscripciones cuando hay cargos fallidos, pero si hay algún *webhook* de Stripe adicional que se desee gestionar, simplemente hay que extender el *WebhookController*. Los nombres de los métodos deben corresponder a la convención de Stripe, específicamente, los métodos deben contener el prefijo `handle` y utilizar la nomenclatura "camel case" del *Webhook* de Stripe a gestionar. Por ejemplo, para gestionar el *webhook* `invoice.payment_succeeded`, se debe añadir el método ` handleInvoicePaymentSucceeded` al controlador:
 
     <?php
     
@@ -539,7 +539,7 @@ Cashier automatically handles subscription cancellation on failed charges, but i
 
 ### Suscripciones fallidas
 
-What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. As noted above, all you need to do is point a route to the controller:
+¿Qué ocurre si expira la tarjeta de un cliente? Sin problema - Cashier incluye un *WebhookController* que cancela la suscripción del cliente. As noted above, all you need to do is point a route to the controller:
 
     Route::post(
         'stripe/webhook',
@@ -553,7 +553,7 @@ What if a customer's credit card expires? No worries - Cashier includes a Webhoo
 
 ## Gestionar *Braintree Webhooks*
 
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Braintree webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+Ambos, Stripe y Braintree pueden notificar a la aplicación de una gran variedad de eventos a través de *webhooks*. Para gestionar los *webhooks* de Braintree, defina una ruta que apunte al *webhook controller* de Cashier. Este controlador gestionará todas las peticiones entrantes de *webhooks* y las lanzará al método del controlador apropiado:
 
     Route::post(
         'braintree/webhook',
@@ -561,13 +561,13 @@ Both Stripe and Braintree can notify your application of a variety of events via
     );
     
 
-> {note} Once you have registered your route, be sure to configure the webhook URL in your Braintree control panel settings.
+> {note} Una vez que se ha registrado la ruta, asegúrese de configurar la URL del *webhook* en la configuración del panel de control de Braintree.
 
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Braintree settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+Por defecto, este controlador gestionará automáticamente la cancelación de suscripciones que tienen demasiados cargos fallidos (tal y como se defina en la configuración de Braintree); sin embargo, como pronto descubrirá, se puede extender este controlador para gestionar cualquier evento *webhook* que sea necesario.
 
-#### Webhooks & CSRF Protection
+#### *Webhooks* & protección CSRF
 
-Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+Puesto que los *webhooks* de Braintree necesitan sortear la [protección CSRF](/docs/{{version}}/csrf) de Laravel, asegúrese de añadir la URI como una excepción en el *middleware* `VerifyCsrfToken` o listar la ruta fuera del grupo de *middleware* `web`:
 
     protected $except = [
         'braintree/*',
@@ -576,9 +576,9 @@ Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{vers
 
 <a name="defining-braintree-webhook-event-handlers"></a>
 
-### Defining Webhook Event Handlers
+### Definir gestores de eventos para *webhooks*
 
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Braintree webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Braintree webhook you wish to handle. For example, if you wish to handle the `dispute_opened` webhook, you should add a `handleDisputeOpened` method to the controller:
+Cashier gestiona automáticamente la cancelación de suscripciones cuando hay cargos fallidos, pero si hay algún *webhook* de Stripe adicional que se desee gestionar, simplemente hay que extender el *WebhookController*. El nombre del método debe corresponderse con la convención de Cashier, los métodos deben contener el prefijo `handle` y en modo "camel case" el nombre del *webhook* de Braintree que desee gestionar. Por ejemplo, para gestionar el *webhook* `dispute_opened`, debe añadir el siguiente método al controlador `handleDisputeOpened`:
 
     <?php
     
