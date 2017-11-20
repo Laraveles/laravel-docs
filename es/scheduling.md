@@ -17,22 +17,22 @@
 
 En el pasado, es posible que haya generado una entrada Cron para cada tarea que necesite programar en su servidor. Sin embargo, esto puede convertirse rápidamente en una molestia, porque su programador de tareas ya no está en su origen y debe usar SSH en su servidor para agregar entradas adicionales de Cron.
 
-Laravel's command scheduler allows you to fluently and expressively define your command schedule within Laravel itself. When using the scheduler, only a single Cron entry is needed on your server. Your task schedule is defined in the `app/Console/Kernel.php` file's `schedule` method. To help you get started, a simple example is defined within the method.
+El programador de comandos de Laravel le permite definir con fluidez y expresividad su programación de comandos dentro del propio Laravel. Cuando utilice el programador, sólo se necesita una única entrada Cron en su servidor. La tarea programada se define en el método `schedule` en el archivo `app/Console/Kernel.php`. Para ayudarle a empezar, se incluye un ejemplo sencillo con el método.
 
-### Starting The Scheduler
+### Iniciando el programador
 
-When using the scheduler, you only need to add the following Cron entry to your server. If you do not know how to add Cron entries to your server, consider using a service such as [Laravel Forge](https://forge.laravel.com) which can manage the Cron entries for you:
+Cuando utilice el programador, sólo necesita añadir la siguiente entrada Cron a su servidor. Si no sabe cómo agregar entradas Cron a su servidor, considere utilizar un servicio como [Laravel Forge](https://forge.laravel.com) que puede administrar las entradas Cron por usted:
 
     * * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
     
 
-This Cron will call the Laravel command scheduler every minute. When the `schedule:run` command is executed, Laravel will evaluate your scheduled tasks and runs the tasks that are due.
+Este Cron llamará al programador de Laravel cada minuto. Cuando se ejecuta el comando `schedule:run`, Laravel evaluará las tareas programadas y ejecutará las que se deben ejecutar.
 
 <a name="defining-schedules"></a>
 
-## Defining Schedules
+## Definición de tiempos
 
-You may define all of your scheduled tasks in the `schedule` method of the `App\Console\Kernel` class. To get started, let's look at an example of scheduling a task. In this example, we will schedule a `Closure` to be called every day at midnight. Within the `Closure` we will execute a database query to clear a table:
+Puede definir todas las tareas en el método de `schedule` de la clase `App\Console\Kernel`. Para comenzar, veamos un ejemplo de coordinar una tarea. En este ejemplo, coordinamos un `Closure` que se llamará todos los días a medianoche. Dentro del `Closure` ejecutaremos una consulta de base de datos para borrar una tabla:
 
     <?php
     
@@ -70,9 +70,9 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
 
 <a name="scheduling-artisan-commands"></a>
 
-### Scheduling Artisan Commands
+### Programación de comandos de Artisan
 
-In addition to scheduling Closure calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class:
+Además de programar *Closures*, también puede programar [comandos de Artisan](/docs/{{version}}/artisan) y comandos del sistema operativo. Por ejemplo, puede usar el método `command` para programar un comando Artisan usando el nombre o la clase del comando:
 
     $schedule->command('emails:send --force')->daily();
     
@@ -81,49 +81,49 @@ In addition to scheduling Closure calls, you may also schedule [Artisan commands
 
 <a name="scheduling-queued-jobs"></a>
 
-### Scheduling Queued Jobs
+### Programación de colas de trabajo
 
-The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues). This method provides a convenient way to schedule jobs without using the `call` method to manually create Closures to queue the job:
+El método `job` se puede utilizar para programar un [trabajo en cola (queued job)](/docs/{{version}}/queues). Este método proporciona una manera conveniente de programar trabajos sin usar el método `call` para crear cierres manuales al colocarlo en la cola:
 
     $schedule->job(new Heartbeat)->everyFiveMinutes();
     
 
 <a name="scheduling-shell-commands"></a>
 
-### Scheduling Shell Commands
+### Programación de comandos del terminal
 
-The `exec` method may be used to issue a command to the operating system:
+El método `exec` puede usarse para enviar una orden al sistema operativo:
 
     $schedule->exec('node /home/forge/script.js')->daily();
     
 
 <a name="schedule-frequency-options"></a>
 
-### Schedule Frequency Options
+### Opciones de frecuencia de la programación
 
-Of course, there are a variety of schedules you may assign to your task:
+Por supuesto, hay una variedad de horarios que usted puede asignar a su tarea:
 
-| Method                               | Description                                      |
-| ------------------------------------ | ------------------------------------------------ |
-| `->cron('* * * * * *');`          | Run the task on a custom Cron schedule           |
-| `->everyMinute();`                | Run the task every minute                        |
-| `->everyFiveMinutes();`           | Run the task every five minutes                  |
-| `->everyTenMinutes();`            | Run the task every ten minutes                   |
-| `->everyFifteenMinutes();`        | Run the task every fifteen minutes               |
-| `->everyThirtyMinutes();`         | Run the task every thirty minutes                |
-| `->hourly();`                     | Run the task every hour                          |
-| `->hourlyAt(17);`                 | Run the task every hour at 17 mins past the hour |
-| `->daily();`                      | Run the task every day at midnight               |
-| `->dailyAt('13:00');`             | Run the task every day at 13:00                  |
-| `->twiceDaily(1, 13);`            | Run the task daily at 1:00 & 13:00               |
-| `->weekly();`                     | Run the task every week                          |
-| `->monthly();`                    | Run the task every month                         |
-| `->monthlyOn(4, '15:00');`        | Run the task every month on the 4th at 15:00     |
-| `->quarterly();`                  | Run the task every quarter                       |
-| `->yearly();`                     | Run the task every year                          |
-| `->timezone('America/New_York');` | Set the timezone                                 |
+| Método                               | Descripción                                                              |
+| ------------------------------------ | ------------------------------------------------------------------------ |
+| `->cron('* * * * * *');`          | Ejecutar la tarea en un cronograma personalizado de Cron                 |
+| `->everyMinute();`                | Ejecutar la tarea cada minuto                                            |
+| `->everyFiveMinutes();`           | Ejecutar la tarea cada cinco minutos                                     |
+| `->everyTenMinutes();`            | Ejecutar la tarea cada diez minutos                                      |
+| `->everyFifteenMinutes();`        | Ejecutar la tarea cada quince minutos                                    |
+| `->everyThirtyMinutes();`         | Ejecutar la tarea cada treinta minutos                                   |
+| `->hourly();`                     | Ejecutar la tarea cada hora                                              |
+| `->hourlyAt(17);`                 | Ejecutar la tarea cada hora a los 17 minutos después de la hora en punto |
+| `->daily();`                      | Ejecutar la tarea todos los días a medianoche                            |
+| `->dailyAt('13:00');`             | Ejecutar la tarea todos los días a las 13:00                             |
+| `->twiceDaily(1, 13);`            | Ejecutar la tarea diariamente a la 1:00 y a las 13:00                    |
+| `->weekly();`                     | Ejecutar la tarea cada semana                                            |
+| `->monthly();`                    | Ejecutar la tarea cada mes                                               |
+| `->monthlyOn(4, '15:00');`        | Ejecutar la tarea cada mes el día 4 a las 15:00                          |
+| `->quarterly();`                  | Ejecutar la tarea cada trimestre                                         |
+| `->yearly();`                     | Ejecutar la tarea cada año                                               |
+| `->timezone('America/New_York');` | Configurar la zona horaria                                               |
 
-These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, to schedule a command to run weekly on Monday:
+Estos métodos pueden combinarse con restricciones adicionales para crear programas aún más ajustados que sólo funcionan en ciertos días de la semana. Por ejemplo, para programar un comando que se ejecute semanalmente el lunes:
 
     // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
@@ -138,71 +138,71 @@ These methods may be combined with additional constraints to create even more fi
               ->between('8:00', '17:00');
     
 
-Below is a list of the additional schedule constraints:
+A continuación se muestra una lista de las restricciones adicionales del horario:
 
-| Method                        | Description                                       |
-| ----------------------------- | ------------------------------------------------- |
-| `->weekdays();`            | Limit the task to weekdays                        |
-| `->sundays();`             | Limit the task to Sunday                          |
-| `->mondays();`             | Limit the task to Monday                          |
-| `->tuesdays();`            | Limit the task to Tuesday                         |
-| `->wednesdays();`          | Limit the task to Wednesday                       |
-| `->thursdays();`           | Limit the task to Thursday                        |
-| `->fridays();`             | Limit the task to Friday                          |
-| `->saturdays();`           | Limit the task to Saturday                        |
-| `->between($start, $end);` | Limit the task to run between start and end times |
-| `->when(Closure);`         | Limit the task based on a truth test              |
+| Método                        | Descripción                                                    |
+| ----------------------------- | -------------------------------------------------------------- |
+| `->weekdays();`            | Limita la tarea a días de la semana                            |
+| `->sundays();`             | Limita la tarea al domingo                                     |
+| `->mondays();`             | Limita la tarea al lunes                                       |
+| `->tuesdays();`            | Limita la tarea al martes                                      |
+| `->wednesdays();`          | Limita la tarea al miércoles                                   |
+| `->thursdays();`           | Limita la tarea al jueves                                      |
+| `->fridays();`             | Limita la tarea al viernes                                     |
+| `->saturdays();`           | Limita la tarea al sábado                                      |
+| `->between($start, $end);` | Limita la tarea a ejecutarse entre las horas de inicio y final |
+| `->when(Closure);`         | Limita la tarea basada en una prueba de verdad                 |
 
-#### Between Time Constraints
+#### Restricciones de tiempo
 
-The `between` method may be used to limit the execution of a task based on the time of day:
+Se puede utilizar el método `between` para limitar la ejecución de una tarea basada en la hora del día:
 
     $schedule->command('reminders:send')
                         ->hourly()
                         ->between('7:00', '22:00');
     
 
-Similarly, the `unlessBetween` method can be used to exclude the execution of a task for a period of time:
+Del mismo modo, el método `unlessBetween` puede utilizarse para excluir la ejecución de una tarea durante un período de tiempo:
 
     $schedule->command('reminders:send')
                         ->hourly()
                         ->unlessBetween('23:00', '4:00');
     
 
-#### Truth Test Constraints
+#### Restricciones con pruebas de verdad
 
-The `when` method may be used to limit the execution of a task based on the result of a given truth test. In other words, if the given `Closure` returns `true`, the task will execute as long as no other constraining conditions prevent the task from running:
+El método `when` puede utilizarse para limitar la ejecución de una tarea basada en el resultado de una prueba de verdad dada. En otras palabras, si el `Closure` devuelve `true`, la tarea se ejecutará siempre y cuando ninguna otra condición de restricción impida que la tarea se ejecute:
 
     $schedule->command('emails:send')->daily()->when(function () {
         return true;
     });
     
 
-The `skip` method may be seen as the inverse of `when`. If the `skip` method returns `true`, the scheduled task will not be executed:
+El método `skip` puede verse como el inverso de `when`. Si el método `skip` devuelve `true`, la tarea programada no se ejecutará:
 
     $schedule->command('emails:send')->daily()->skip(function () {
         return true;
     });
     
 
-When using chained `when` methods, the scheduled command will only execute if all `when` conditions return `true`.
+Cuando se utilizan métodos encadenados `when`, el comando programado sólo se ejecutará si todos devuelven `true`.
 
 <a name="preventing-task-overlaps"></a>
 
-### Preventing Task Overlaps
+### Prevención de solapamientos de tareas
 
-By default, scheduled tasks will be run even if the previous instance of the task is still running. To prevent this, you may use the `withoutOverlapping` method:
+De forma predeterminada, las tareas programadas se ejecutarán aunque la instancia anterior de la tarea siga en ejecución. Para evitarlo, puede utilizar el método `withoutOverlapping`:
 
     $schedule->command('emails:send')->withoutOverlapping();
     
 
-In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) will be run every minute if it is not already running. The `withoutOverlapping` method is especially useful if you have tasks that vary drastically in their execution time, preventing you from predicting exactly how long a given task will take.
+En este ejemplo, el [comando Artisan](/docs/{{version}}/artisan) `emails:send` se ejecutará cada minuto si no está funcionando. El método `withoutOverlapping` es especialmente útil si tiene tareas que varían drásticamente en su tiempo de ejecución, impidiéndole predecir exactamente cuánto tiempo tomará una tarea dada.
 
 <a name="maintenance-mode"></a>
 
-### Maintenance Mode
+### Modo de mantenimiento
 
-Laravel's scheduled tasks will not run when Laravel is in [maintenance mode](/docs/{{version}}/configuration#maintenance-mode), since we don't want your tasks to interfere with any unfinished maintenance you may be performing on your server. However, if you would like to force a task to run even in maintenance mode, you may use the `evenInMaintenanceMode` method:
+Las tareas programadas de Laravel no se ejecutarán cuando Laravel está en [modo mantenimiento](/docs/{{version}}/configuration#maintenance-mode), ya que no es deseable que las tareas interfieran con cualquier mantenimiento inacabado que pueda estar realizándose en el servidor. Sin embargo, si desea forzar una tarea para que se ejecute incluso en modo de mantenimiento, puede utilizar el método `evenInMaintenanceMode`:
 
     $schedule->command('emails:send')->evenInMaintenanceMode();
     
