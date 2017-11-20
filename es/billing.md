@@ -452,7 +452,7 @@ You may determine if the user is within their trial period using either the `onT
 
 ### Sin tarjeta de crédito
 
-If you would like to offer trial periods without collecting the user's payment method information up front, you may simply set the `trial_ends_at` column on the user record to your desired trial ending date. This is typically done during user registration:
+Si se desea ofrecer periodos de prueba sin almacenar previamente el método de pago del usuario, simplemente establecer el valor de la columna `trial_ends_at` en el registro del usuario a la fecha de finalización deseada. Esto se hace normalmente en el proceso de registro:
 
     $user = User::create([
         // Populate other user properties...
@@ -460,23 +460,23 @@ If you would like to offer trial periods without collecting the user's payment m
     ]);
     
 
-> {note} Be sure to add a [date mutator](/docs/{{version}}/eloquent-mutators#date-mutators) for `trial_ends_at` to your model definition.
+> {note} Asegúrese de añadir un [date mutator](/docs/{{version}}/eloquent-mutators#date-mutators) para `trial_ends_at` en la definición del modelo.
 
-Cashier refers to this type of trial as a "generic trial", since it is not attached to any existing subscription. The `onTrial` method on the `User` instance will return `true` if the current date is not past the value of `trial_ends_at`:
+Cashier se refiere a este tipo de periodo de prueba como "periodo de prueba genérico", puesto que no está asociado a ninguna suscripción. El método `onTrial` de la instancia `User` retornará `true` si la fecha actual no es posterior a `trial_ends_at`:
 
     if ($user->onTrial()) {
         // User is within their trial period...
     }
     
 
-You may also use the `onGenericTrial` method if you wish to know specifically that the user is within their "generic" trial period and has not created an actual subscription yet:
+También se puede utilizar el método `onGenericTrial` si se desea conocer específicamente que el usuario está en el periodo de prueba "genérico" y no ha creado una suscripción todavía:
 
     if ($user->onGenericTrial()) {
         // User is within their "generic" trial period...
     }
     
 
-Once you are ready to create an actual subscription for the user, you may use the `newSubscription` method as usual:
+Una vez que se está listo para crear una suscripción para el usuario, se puede utilizar el método `newSubscription` normalmente:
 
     $user = User::find(1);
     
@@ -487,7 +487,7 @@ Once you are ready to create an actual subscription for the user, you may use th
 
 ## Gestionar *Stripe Webhooks*</h2> 
 
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Stripe webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+Ambos, Stripe y Braintree pueden notificar a la aplicación de una gran variedad de eventos a través de *webhooks*. Para gestionar los *Stripe webhooks*, definir una ruta que apunte al *webhook controller* de Cashier. Este controlador gestionará todas las peticiones entrantes de *webhooks* y las lanzará al método del controlador apropiado:
 
     Route::post(
         'stripe/webhook',
@@ -495,7 +495,7 @@ Both Stripe and Braintree can notify your application of a variety of events via
     );
     
 
-> {note} Once you have registered your route, be sure to configure the webhook URL in your Stripe control panel settings.
+> {note} Una vez que se ha registrado la ruta, asegúrese de configurar la *webhook URL* en la configuración del panel de control de Stripe.
 
 By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
 
