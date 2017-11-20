@@ -309,10 +309,12 @@ The `dd` method dumps the collection's items and ends execution of the script:
     $collection->dd();
     
     /*
-        array:2 [
-            0 => "John Doe"
-            1 => "Jane Doe"
-        ]
+        Collection {
+            #items: array:2 [
+                0 => "John Doe"
+                1 => "Jane Doe"
+            ]
+        }
     */
     
 
