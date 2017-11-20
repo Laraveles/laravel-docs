@@ -135,7 +135,7 @@ A continuación, registrar el archivo `Laravel\Cashier\CashierServiceProvider` c
     Laravel\Cashier\CashierServiceProvider::class
     
 
-#### Plan Credit Coupon
+#### Cupones de crédito
 
 Antes de utilizar Cashier con Braintree, es necesario definir un descuento `plan-credit` en el panel de control de Braintree. Este descuento se utilizará para prorratear las suscripciones que cambian desde la suscripción anual a la mensual o viceversa.
 
@@ -182,7 +182,7 @@ A continuación, añadir el *trait* `Billable` a la definición del modelo:
 
 #### Claves API
 
-Next, You should configure the following options in your `services.php` file:
+A continuación, debe configurar las siguientes opciones en el archivo `services.php`:
 
     'braintree' => [
         'model'  => App\User::class,
@@ -391,7 +391,7 @@ Se puede saber si un usuario ha cancelado su suscripción pero aun está en el "
     }
     
 
-If you wish to cancel a subscription immediately, call the `cancelNow` method on the user's subscription:
+Para cancelar una suscripción inmediatamente, llamar al método `cancelNow` en la suscripción del usuario:
 
     $user->subscription('main')->cancelNow();
     
@@ -400,7 +400,7 @@ If you wish to cancel a subscription immediately, call the `cancelNow` method on
 
 ### Reactivar suscripciones
 
-If a user has cancelled their subscription and you wish to resume it, use the `resume` method. The user **must** still be on their grace period in order to resume a subscription:
+Si un usuario ha cancelado su suscripción y desea renaudarla, utilizar el método `resume`. El usuario **debe** estar en su *periodo de gracia* para renaudar una suscripción:
 
     $user->subscription('main')->resume();
     
@@ -411,7 +411,7 @@ Si el usuario cancela una suscripción y luego la reanuda antes de que haya cadu
 
 ### Actualizar tarjetas de crédito
 
-The `updateCard` method may be used to update a customer's credit card information. This method accepts a Stripe token and will assign the new credit card as the default billing source:
+El método `updateCard` se puede usar para actualizar la información de la tarjeta de crédito. Este método acepta un *token* de Stripe y asignará la nueva tarjeta como fuente de facturación por defecto:
 
     $user->updateCard($stripeToken);
     
@@ -433,11 +433,11 @@ If you would like to offer trial periods to your customers while still collectin
                 ->create($stripeToken);
     
 
-This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe / Braintree to not begin billing the customer until after this date.
+Este método establecerá la fecha de finalización del periodo de prueba de prueba en el registro de la suscripción de la base de datos, así como configurará Stripe/Braintree de no facturar al cliente hasta pasada esa fecha.
 
-> {note} If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
+> {note} Si la suscripción del cliente no se cancela antes del final del periodo de prueba, se les facturará tan pronto como esta expire, por lo que asegúrese de notificar a sus usuarios que su periodo de prueba ha terminado.
 
-You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
+Se puede determinar si un usuario está en periodo de prueba con el método `onTrial` de la instancia del usuario o el método `onTrial` de la instancia de la suscripción. The two examples below are identical:
 
     if ($user->onTrial('main')) {
         //
@@ -539,7 +539,7 @@ Cashier gestiona automáticamente la cancelación de suscripciones cuando hay ca
 
 ### Suscripciones fallidas
 
-¿Qué ocurre si expira la tarjeta de un cliente? Sin problema - Cashier incluye un *WebhookController* que cancela la suscripción del cliente. As noted above, all you need to do is point a route to the controller:
+¿Qué ocurre si expira la tarjeta de un cliente? Sin problema - Cashier incluye un *WebhookController* que cancela la suscripción del cliente. Lo único que hay que hacer es apuntar una ruta al controlador:
 
     Route::post(
         'stripe/webhook',
