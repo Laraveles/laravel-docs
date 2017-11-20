@@ -1,4 +1,4 @@
-# HTTP Redirects
+# Redirecciones HTTP
 
 - [Creating Redirects](#creating-redirects)
 - [Redirecting To Named Routes](#redirecting-named-routes)
