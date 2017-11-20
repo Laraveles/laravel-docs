@@ -1,21 +1,21 @@
-# Task Scheduling
+# Programación de Tareas – *Task Scheduling*
 
-- [Introduction](#introduction)
-- [Defining Schedules](#defining-schedules) 
-    - [Scheduling Artisan Commands](#scheduling-artisan-commands)
-    - [Scheduling Queued Jobs](#scheduling-queued-jobs)
-    - [Scheduling Shell Commands](#scheduling-shell-commands)
-    - [Schedule Frequency Options](#schedule-frequency-options)
-    - [Preventing Task Overlaps](#preventing-task-overlaps)
-    - [Maintenance Mode](#maintenance-mode)
-- [Task Output](#task-output)
-- [Task Hooks](#task-hooks)
+- [Introducción](#introduction)
+- [Definición de tiempos](#defining-schedules) 
+    - [Programación de comandos de Artisan](#scheduling-artisan-commands)
+    - [Programación de colas de trabajo](#scheduling-queued-jobs)
+    - [Programación de comandos del terminal](#scheduling-shell-commands)
+    - [Opciones de frecuencia de la programación](#schedule-frequency-options)
+    - [Prevención de solapamientos de tareas](#preventing-task-overlaps)
+    - [Modo de mantenimiento](#maintenance-mode)
+- [Salida generada](#task-output)
+- [*Hooks* de tareas](#task-hooks)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-In the past, you may have generated a Cron entry for each task you needed to schedule on your server. However, this can quickly become a pain, because your task schedule is no longer in source control and you must SSH into your server to add additional Cron entries.
+En el pasado, es posible que haya generado una entrada Cron para cada tarea que necesite programar en su servidor. Sin embargo, esto puede convertirse rápidamente en una molestia, porque su programador de tareas ya no está en su origen y debe usar SSH en su servidor para agregar entradas adicionales de Cron.
 
 Laravel's command scheduler allows you to fluently and expressively define your command schedule within Laravel itself. When using the scheduler, only a single Cron entry is needed on your server. Your task schedule is defined in the `app/Console/Kernel.php` file's `schedule` method. To help you get started, a simple example is defined within the method.
 

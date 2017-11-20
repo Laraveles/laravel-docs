@@ -18,10 +18,10 @@
     - [Con tarjeta de crédito](#with-credit-card-up-front)
     - [Sin tarjeta de crédito](#without-credit-card-up-front)
 - [Gestionar *Stripe Webhooks*](#handling-stripe-webhooks) 
-    - [Defining Webhook Event Handlers](#defining-webhook-event-handlers)
+    - [Definir gestores de eventos para *webhooks*](#defining-webhook-event-handlers)
     - [Suscripciones fallidas](#handling-failed-subscriptions)
 - [Gestionar *Braintree Webhooks*](#handling-braintree-webhooks) 
-    - [Defining Webhook Event Handlers](#defining-braintree-webhook-event-handlers)
+    - [Definir gestores de eventos para *webhooks*](#defining-braintree-webhook-event-handlers)
     - [Suscripciones fallidas](#handling-braintree-failed-subscriptions)
 - [Cargos únicos](#single-charges)
 - [Facturas](#invoices) 
@@ -135,7 +135,7 @@ A continuación, registrar el archivo `Laravel\Cashier\CashierServiceProvider` c
     Laravel\Cashier\CashierServiceProvider::class
     
 
-#### Plan Credit Coupon
+#### Cupones de crédito
 
 Antes de utilizar Cashier con Braintree, es necesario definir un descuento `plan-credit` en el panel de control de Braintree. Este descuento se utilizará para prorratear las suscripciones que cambian desde la suscripción anual a la mensual o viceversa.
 
@@ -182,7 +182,7 @@ A continuación, añadir el *trait* `Billable` a la definición del modelo:
 
 #### Claves API
 
-Next, You should configure the following options in your `services.php` file:
+A continuación, debe configurar las siguientes opciones en el archivo `services.php`:
 
     'braintree' => [
         'model'  => App\User::class,
@@ -362,16 +362,16 @@ Para más información sobre las cuantías de suscripción, consultar la [docume
 
 ### Impuestos de la suscripción
 
-To specify the tax percentage a user pays on a subscription, implement the `taxPercentage` method on your billable model, and return a numeric value between 0 and 100, with no more than 2 decimal places.
+Para definir el porcentaje de impuestos que paga un usuario en una suscripción, utilizar el método `taxPercentage` del modelo *billable* y retornar un valor numérico entre 0 y 100 con no mas de 2 decimales.
 
     public function taxPercentage() {
         return 20;
     }
     
 
-The `taxPercentage` method enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries and tax rates.
+El método `taxPercentage` permite sumar impuestos en una base modelo-a-modelo, la cual puede ser útil para usuarios que abarcan varios países y reglas de impuestos.
 
-> {note} The `taxPercentage` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
+> {note} El método `taxPercentage` aplica únicamente a los cargos por suscripción. Si se utiliza Cashier para "pagos únicos", será necesario especificar los impuestos en el momento del cobro.
 
 <a name="cancelling-subscriptions"></a>
 
@@ -382,7 +382,7 @@ Para cancelar una suscripción, simplemente utilizar el método `cancel` sobre l
     $user->subscription('main')->cancel();
     
 
-When a subscription is cancelled, Cashier will automatically set the `ends_at` column in your database. Esta columna se utiliza para saber cuando el método `subscribed` debe devolver `false`. Por ejemplo, si un usuario cancela una suscripción el 1 de marzo, pero la suscripción no estaba programada para terminar hasta el 5 de marzo, el método `subscribed` continuaría retornando `true` hasta el 5 de marzo.
+Cuando se cancela una suscripción, Cashier establece el valor de `ends_at` de forma automática en la base de datos. Esta columna se utiliza para saber cuando el método `subscribed` debe devolver `false`. Por ejemplo, si un usuario cancela una suscripción el 1 de marzo, pero la suscripción no estaba programada para terminar hasta el 5 de marzo, el método `subscribed` continuaría retornando `true` hasta el 5 de marzo.
 
 Se puede saber si un usuario ha cancelado su suscripción pero aun está en el "periodo de gracia" utilizando el método `onGracePeriod`:
 
@@ -391,7 +391,7 @@ Se puede saber si un usuario ha cancelado su suscripción pero aun está en el "
     }
     
 
-If you wish to cancel a subscription immediately, call the `cancelNow` method on the user's subscription:
+Para cancelar una suscripción inmediatamente, llamar al método `cancelNow` en la suscripción del usuario:
 
     $user->subscription('main')->cancelNow();
     
@@ -400,7 +400,7 @@ If you wish to cancel a subscription immediately, call the `cancelNow` method on
 
 ### Reactivar suscripciones
 
-If a user has cancelled their subscription and you wish to resume it, use the `resume` method. The user **must** still be on their grace period in order to resume a subscription:
+Si un usuario ha cancelado su suscripción y desea renaudarla, utilizar el método `resume`. El usuario **debe** estar en su *periodo de gracia* para renaudar una suscripción:
 
     $user->subscription('main')->resume();
     
@@ -411,7 +411,7 @@ Si el usuario cancela una suscripción y luego la reanuda antes de que haya cadu
 
 ### Actualizar tarjetas de crédito
 
-The `updateCard` method may be used to update a customer's credit card information. This method accepts a Stripe token and will assign the new credit card as the default billing source:
+El método `updateCard` se puede usar para actualizar la información de la tarjeta de crédito. Este método acepta un *token* de Stripe y asignará la nueva tarjeta como fuente de facturación por defecto:
 
     $user->updateCard($stripeToken);
     
@@ -433,11 +433,11 @@ If you would like to offer trial periods to your customers while still collectin
                 ->create($stripeToken);
     
 
-This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe / Braintree to not begin billing the customer until after this date.
+Este método establecerá la fecha de finalización del periodo de prueba de prueba en el registro de la suscripción de la base de datos, así como configurará Stripe/Braintree de no facturar al cliente hasta pasada esa fecha.
 
-> {note} If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
+> {note} Si la suscripción del cliente no se cancela antes del final del periodo de prueba, se les facturará tan pronto como esta expire, por lo que asegúrese de notificar a sus usuarios que su periodo de prueba ha terminado.
 
-You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
+Se puede determinar si un usuario está en periodo de prueba con el método `onTrial` de la instancia del usuario o el método `onTrial` de la instancia de la suscripción. The two examples below are identical:
 
     if ($user->onTrial('main')) {
         //
@@ -452,7 +452,7 @@ You may determine if the user is within their trial period using either the `onT
 
 ### Sin tarjeta de crédito
 
-If you would like to offer trial periods without collecting the user's payment method information up front, you may simply set the `trial_ends_at` column on the user record to your desired trial ending date. This is typically done during user registration:
+Si se desea ofrecer periodos de prueba sin almacenar previamente el método de pago del usuario, simplemente establecer el valor de la columna `trial_ends_at` en el registro del usuario a la fecha de finalización deseada. Esto se hace normalmente en el proceso de registro:
 
     $user = User::create([
         // Populate other user properties...
@@ -460,23 +460,23 @@ If you would like to offer trial periods without collecting the user's payment m
     ]);
     
 
-> {note} Be sure to add a [date mutator](/docs/{{version}}/eloquent-mutators#date-mutators) for `trial_ends_at` to your model definition.
+> {note} Asegúrese de añadir un [date mutator](/docs/{{version}}/eloquent-mutators#date-mutators) para `trial_ends_at` en la definición del modelo.
 
-Cashier refers to this type of trial as a "generic trial", since it is not attached to any existing subscription. The `onTrial` method on the `User` instance will return `true` if the current date is not past the value of `trial_ends_at`:
+Cashier se refiere a este tipo de periodo de prueba como "periodo de prueba genérico", puesto que no está asociado a ninguna suscripción. El método `onTrial` de la instancia `User` retornará `true` si la fecha actual no es posterior a `trial_ends_at`:
 
     if ($user->onTrial()) {
         // User is within their trial period...
     }
     
 
-You may also use the `onGenericTrial` method if you wish to know specifically that the user is within their "generic" trial period and has not created an actual subscription yet:
+También se puede utilizar el método `onGenericTrial` si se desea conocer específicamente que el usuario está en el periodo de prueba "genérico" y no ha creado una suscripción todavía:
 
     if ($user->onGenericTrial()) {
         // User is within their "generic" trial period...
     }
     
 
-Once you are ready to create an actual subscription for the user, you may use the `newSubscription` method as usual:
+Una vez que se está listo para crear una suscripción para el usuario, se puede utilizar el método `newSubscription` normalmente:
 
     $user = User::find(1);
     
@@ -487,7 +487,7 @@ Once you are ready to create an actual subscription for the user, you may use th
 
 ## Gestionar *Stripe Webhooks*</h2> 
 
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Stripe webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+Ambos, Stripe y Braintree pueden notificar a la aplicación de una gran variedad de eventos a través de *webhooks*. Para gestionar los *Stripe webhooks*, definir una ruta que apunte al *webhook controller* de Cashier. Este controlador gestionará todas las peticiones entrantes de *webhooks* y las lanzará al método del controlador apropiado:
 
     Route::post(
         'stripe/webhook',
@@ -495,13 +495,13 @@ Both Stripe and Braintree can notify your application of a variety of events via
     );
     
 
-> {note} Once you have registered your route, be sure to configure the webhook URL in your Stripe control panel settings.
+> {note} Una vez que se ha registrado la ruta, asegúrese de configurar la *webhook URL* en la configuración del panel de control de Stripe.
 
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+Por defecto, este controlador gestionará automáticamente la cancelación de suscripciones que tienen demasiados cargos fallidos (tal y como se defina en la configuración de Stripe); sin embargo, como pronto se descubrirá, se puede extender este controlador para gestionar cualquier evento *webhook* que sea necesario.
 
-#### Webhooks & CSRF Protection
+#### *Webhooks* & protección CSRF
 
-Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+Puesto que los *webhooks* de Stripe necesitan sortear la [protección CSRF](/docs/{{version}}/csrf) de Laravel, asegúrese de añadir la URI como una excepción en el *middleware* `VerifyCsrfToken` o listar la ruta fuera del grupo de *middleware* `web`:
 
     protected $except = [
         'stripe/*',
@@ -510,9 +510,9 @@ Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version
 
 <a name="defining-webhook-event-handlers"></a>
 
-### Defining Webhook Event Handlers
+### Definir gestores de eventos para *webhooks*
 
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Stripe webhook events you would like to handle, simply extend the Webhook controller. Los nombres de los métodos deben corresponder a la convención de Stripe, específicamente, los métodos deben contener el prefijo `handle` y utilizar la nomenclatura "camel case" del *Webhook* de Stripe a gestionar. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller:
+Cashier gestiona automáticamente la cancelación de suscripciones cuando hay cargos fallidos, pero si hay algún *webhook* de Stripe adicional que se desee gestionar, simplemente hay que extender el *WebhookController*. Los nombres de los métodos deben corresponder a la convención de Stripe, específicamente, los métodos deben contener el prefijo `handle` y utilizar la nomenclatura "camel case" del *Webhook* de Stripe a gestionar. Por ejemplo, para gestionar el *webhook* `invoice.payment_succeeded`, se debe añadir el método ` handleInvoicePaymentSucceeded` al controlador:
 
     <?php
     
@@ -539,7 +539,7 @@ Cashier automatically handles subscription cancellation on failed charges, but i
 
 ### Suscripciones fallidas
 
-What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. As noted above, all you need to do is point a route to the controller:
+¿Qué ocurre si expira la tarjeta de un cliente? Sin problema - Cashier incluye un *WebhookController* que cancela la suscripción del cliente. Lo único que hay que hacer es apuntar una ruta al controlador:
 
     Route::post(
         'stripe/webhook',
@@ -553,7 +553,7 @@ What if a customer's credit card expires? No worries - Cashier includes a Webhoo
 
 ## Gestionar *Braintree Webhooks*
 
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Braintree webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+Ambos, Stripe y Braintree pueden notificar a la aplicación de una gran variedad de eventos a través de *webhooks*. Para gestionar los *webhooks* de Braintree, defina una ruta que apunte al *webhook controller* de Cashier. Este controlador gestionará todas las peticiones entrantes de *webhooks* y las lanzará al método del controlador apropiado:
 
     Route::post(
         'braintree/webhook',
@@ -561,13 +561,13 @@ Both Stripe and Braintree can notify your application of a variety of events via
     );
     
 
-> {note} Once you have registered your route, be sure to configure the webhook URL in your Braintree control panel settings.
+> {note} Una vez que se ha registrado la ruta, asegúrese de configurar la URL del *webhook* en la configuración del panel de control de Braintree.
 
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Braintree settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+Por defecto, este controlador gestionará automáticamente la cancelación de suscripciones que tienen demasiados cargos fallidos (tal y como se defina en la configuración de Braintree); sin embargo, como pronto descubrirá, se puede extender este controlador para gestionar cualquier evento *webhook* que sea necesario.
 
-#### Webhooks & CSRF Protection
+#### *Webhooks* & protección CSRF
 
-Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+Puesto que los *webhooks* de Braintree necesitan sortear la [protección CSRF](/docs/{{version}}/csrf) de Laravel, asegúrese de añadir la URI como una excepción en el *middleware* `VerifyCsrfToken` o listar la ruta fuera del grupo de *middleware* `web`:
 
     protected $except = [
         'braintree/*',
@@ -576,9 +576,9 @@ Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{vers
 
 <a name="defining-braintree-webhook-event-handlers"></a>
 
-### Defining Webhook Event Handlers
+### Definir gestores de eventos para *webhooks*
 
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Braintree webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Braintree webhook you wish to handle. For example, if you wish to handle the `dispute_opened` webhook, you should add a `handleDisputeOpened` method to the controller:
+Cashier gestiona automáticamente la cancelación de suscripciones cuando hay cargos fallidos, pero si hay algún *webhook* de Stripe adicional que se desee gestionar, simplemente hay que extender el *WebhookController*. El nombre del método debe corresponderse con la convención de Cashier, los métodos deben contener el prefijo `handle` y en modo "camel case" el nombre del *webhook* de Braintree que desee gestionar. Por ejemplo, para gestionar el *webhook* `dispute_opened`, debe añadir el siguiente método al controlador `handleDisputeOpened`:
 
     <?php
     
