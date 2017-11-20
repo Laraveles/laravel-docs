@@ -362,16 +362,16 @@ Para más información sobre las cuantías de suscripción, consultar la [docume
 
 ### Impuestos de la suscripción
 
-To specify the tax percentage a user pays on a subscription, implement the `taxPercentage` method on your billable model, and return a numeric value between 0 and 100, with no more than 2 decimal places.
+Para definir el porcentaje de impuestos que paga un usuario en una suscripción, utilizar el método `taxPercentage` del modelo *billable* y retornar un valor numérico entre 0 y 100 con no mas de 2 decimales.
 
     public function taxPercentage() {
         return 20;
     }
     
 
-The `taxPercentage` method enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries and tax rates.
+El método `taxPercentage` permite sumar impuestos en una base modelo-a-modelo, la cual puede ser útil para usuarios que abarcan varios países y reglas de impuestos.
 
-> {note} The `taxPercentage` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
+> {note} El método `taxPercentage` aplica únicamente a los cargos por suscripción. Si se utiliza Cashier para "pagos únicos", será necesario especificar los impuestos en el momento del cobro.
 
 <a name="cancelling-subscriptions"></a>
 
@@ -382,7 +382,7 @@ Para cancelar una suscripción, simplemente utilizar el método `cancel` sobre l
     $user->subscription('main')->cancel();
     
 
-When a subscription is cancelled, Cashier will automatically set the `ends_at` column in your database. Esta columna se utiliza para saber cuando el método `subscribed` debe devolver `false`. Por ejemplo, si un usuario cancela una suscripción el 1 de marzo, pero la suscripción no estaba programada para terminar hasta el 5 de marzo, el método `subscribed` continuaría retornando `true` hasta el 5 de marzo.
+Cuando se cancela una suscripción, Cashier establece el valor de `ends_at` de forma automática en la base de datos. Esta columna se utiliza para saber cuando el método `subscribed` debe devolver `false`. Por ejemplo, si un usuario cancela una suscripción el 1 de marzo, pero la suscripción no estaba programada para terminar hasta el 5 de marzo, el método `subscribed` continuaría retornando `true` hasta el 5 de marzo.
 
 Se puede saber si un usuario ha cancelado su suscripción pero aun está en el "periodo de gracia" utilizando el método `onGracePeriod`:
 
