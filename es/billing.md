@@ -424,7 +424,7 @@ El método `updateCard` se puede usar para actualizar la información de la tarj
 
 ### Con tarjeta de crédito
 
-If you would like to offer trial periods to your customers while still collecting payment method information up front, you should use the `trialDays` method when creating your subscriptions:
+Si desea ofrecer periodos de prueba para sus clientes mientras que consigue su información de pago, debe utilizar el método `trialDays` al crear las suscripciones:
 
     $user = User::find(1);
     
