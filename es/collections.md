@@ -731,7 +731,7 @@ El método `has` determina si una clave existe en la colección:
 
 #### `implode()` {#collection-method}
 
-The `implode` method joins the items in a collection. Its arguments depend on the type of items in the collection. Si la colección contiene *arrays* u objetos, se debe pasar la clave de los atributos a unir y la cadena de "unión" que se establecerá entre los valores:
+El método `implode` unirá los elementos en una colección. Sus argumentos dependen del tipo de elementos en la colección. Si la colección contiene *arrays* u objetos, se debe pasar la clave de los atributos a unir y la cadena de "unión" que se establecerá entre los valores:
 
     $collection = collect([
         ['account_id' => 1, 'product' => 'Desk'],

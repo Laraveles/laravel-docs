@@ -64,7 +64,7 @@ Now, when a request matches the specified route URI, the `show` method on the `U
 
 <a name="controllers-and-namespaces"></a>
 
-### Controllers & Namespaces
+### Controladores & Namespaces
 
 It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
 

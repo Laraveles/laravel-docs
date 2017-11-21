@@ -65,7 +65,7 @@ Asegurese de colocar el directorio del proveedor en su `$PATH` para hacerlo acce
       MacOS: <code>$HOME/.composer/vendor/bin</code>
     </li>
     <li>
-      GNU / Linux Distributions: <code>$HOME/.config/composer/vendor/bin</code>
+      Distribuciones GNU / Linux: <code>$HOME/.config/composer/vendor/bin</code>
     </li>
   </ul>
 </div>
