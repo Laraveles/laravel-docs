@@ -253,7 +253,7 @@ Un driver de sesión personalizado debe implementar `SessionHanldlerInterface`. 
     }
     
 
-> {tip} Laravel no incluye ningún directorio para almacenar extensiones. Se pueden establecer donde convengan. In this example, we have created an `Extensions` directory to house the `MongoSessionHandler`.
+> {tip} Laravel no incluye ningún directorio para almacenar extensiones. Se pueden establecer donde convengan. En este ejemplo, se ha creado un directorio `Extensiones` para alojar el `MongoSessionHandler`.
 
 Puesto que el propósito de estos métodos no es intuitivo, se van a revisar a continuación:
 
@@ -282,7 +282,7 @@ Puesto que el propósito de estos métodos no es intuitivo, se van a revisar a c
 
 <a name="registering-the-driver"></a>
 
-#### Registrar el Driver
+#### Registrar el driver
 
 Una vez que se ha implementado el driver, ya se puede registrar en el framework. Para añadir drivers de sesión adicionales a Laravel, se puede utilizar el método `extend` de la `Session` [facade](/docs/{{version}}/facades). Se debe llamar al método `extend` desde el método `boot` de un [service provider](/docs/{{version}}/providers). Se podría hacer desde el `AppServiceProvider` existente o crear uno nuevo:
 
