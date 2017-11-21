@@ -319,30 +319,30 @@ Some authentication assertions were renamed for better consistency with the rest
 <div class="content-list">
   <ul>
     <li>
-      <code>seeIsAuthenticated</code> was renamed to <code>assertAuthenticated</code>.
+      <code>seeIsAuthenticated</code> ha sido renombrado como <code>assertAuthenticated</code>.
     </li>
     <li>
-      <code>dontSeeIsAuthenticated</code> was renamed to <code>assertGuest</code>.
+      <code>dontSeeIsAuthenticated</code> ha sido renombrado como <code>assertGuest</code>.
     </li>
     <li>
-      <code>seeIsAuthenticatedAs</code> was renamed to <code>assertAuthenticatedAs</code>.
+      <code>seeIsAuthenticatedAs</code> ha sido renombrado como <code>assertAuthenticatedAs</code>.
     </li>
     <li>
-      <code>seeCredentials</code> was renamed to <code>assertCredentials</code>.
+      <code>seeCredentials</code> ha sido renombrado como <code>assertCredentials</code>.
     </li>
     <li>
-      <code>dontSeeCredentials</code> was renamed to <code>assertInvalidCredentials</code>.
+      <code>dontSeeCredentials</code> ha sido renombrado como <code>assertInvalidCredentials</code>.
     </li>
   </ul>
 </div>
 
 #### Mail Fake
 
-If you are using the `Mail` fake to determine if a mailable was **queued** during a request, you should now use `Mail::assertQueued` instead of `Mail::assertSent`. This distinction allows you to specifically assert that the mail was queued for background sending and not sent during the request itself.
+Si está usando el *fake* `Mail` para determinar si un *mailable* fue enviado a la cola (***queued***) durante una solicitud, ahora debería usar `Mail::assertQueued` en lugar de `Mail::assertSent`. Esta distinción le permite afirmar específicamente que el correo se ha puesto en cola para el envío en *background* y no se ha enviado durante la propia solicitud.
 
 #### Tinker
 
-Laravel Tinker now supports omitting namespaces when referring to your application classes. This feature requires an optimized Composer class-map, so you should add the `optimize-autoloader` directive to the `config` section of your `composer.json` file:
+Laravel Tinker ahora soporta omitir namespaces al referirse a las clases de su aplicación. Esta característica requiere un mapa optimizado de la clase Composer, por lo que debe añadir la directiva `optimize-autoloader` a la sección `config` de su archivo `composer.json`:
 
     "config": {
         ...
@@ -350,41 +350,41 @@ Laravel Tinker now supports omitting namespaces when referring to your applicati
     }
     
 
-### Translation
+### Traducción
 
-#### The `LoaderInterface`
+#### La `LoaderInterface`
 
-The `Illuminate\Translation\LoaderInterface` interface has been moved to `Illuminate\Contracts\Translation\Loader`.
+La interfaz `Illuminate\Translation\LoaderInterface` ha sido movida a `Illuminate\Contracts\Translation\Loader`.
 
-### Validation
+### Validación
 
-#### Validator Methods
+#### Metodos de validacion
 
-All of the validator's validation methods are now `public` instead of `protected`.
+Todos los métodos de validación del validador son `public` en lugar de `protected`.
 
-### Views
+### Vistas
 
-#### Dynamic "With" Variable Names
+#### Nombre de variables dinámicas con "With"
 
 When allowing the dynamic `__call` method to share variables with a view, these variables will automatically use "camel" case. For example, given the following:
 
     return view('pool')->withMaximumVotes(100);
     
 
-The `maximumVotes` variable may be accessed in the template like so:
+La variable `maximumVotes` puede ser accedida de esta manera en la plantilla:
 
     {{ $maximumVotes }}
     
 
-#### `@php` Blade Directive
+#### Directiva Blade `@php`
 
-The `@php` blade directive no longer accepts inline tags. Instead, use the full form of the directive:
+La directiva blade `@php` ya no acepta etiquetas en línea. En su lugar, utilice la forma completa de la directiva:
 
     @php
         $teamMember = true;
     @endphp
     
 
-### Miscellaneous
+### Varios
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.4...master) and choose which updates are important to you.
+También le animamos a que vea los cambios en el [Repositorio GitHub](https://github.com/laravel/laravel) `laravel/laravel`. Aunque muchos de estos cambios no son necesarios, es posible que desee mantener estos archivos sincronizados con su aplicación. Algunos de estos cambios se cubrirán en esta guía de actualización, pero otros, como los cambios en los archivos de configuración o los comentarios, no lo serán. Puede ver fácilmente los cambios con la [herramienta de comparación de GitHub](https://github.com/laravel/laravel/compare/5.4...master) y elegir qué actualizaciones le son importantes.
