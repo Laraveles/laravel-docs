@@ -324,7 +324,7 @@ Si no quiere terminar con la ejecución del script, utilice el método [`dump`](
 
 #### `diff()` {#collection-method}
 
-The `diff` method compares the collection against another collection or a plain PHP `array` based on its values. This method will return the values in the original collection that are not present in the given collection:
+El método `diff` compara la colección con otra colección o un `array` de PHP nativo basado en sus valores. Esto método retornará los valores de la colección original que no estén presentes en la colección dada:
 
     $collection = collect([1, 2, 3, 4, 5]);
     
@@ -339,7 +339,7 @@ The `diff` method compares the collection against another collection or a plain 
 
 #### `diffAssoc()` {#collection-method}
 
-The `diffAssoc` method compares the collection against another collection or a plain PHP `array` based on its keys and values. This method will return the key / value pairs in the original collection that are not present in the given collection:
+El método `diffAssoc` compara la colección con otra colección o un `array` de PHP nativo basado en sus claves y valores. Este método retornará el par de clave/valor en la colección original que no están presentes en la colección dada:
 
     $collection = collect([
         'color' => 'orange',
@@ -363,7 +363,7 @@ The `diffAssoc` method compares the collection against another collection or a p
 
 #### `diffKeys()` {#collection-method}
 
-The `diffKeys` method compares the collection against another collection or a plain PHP `array` based on its keys. This method will return the key / value pairs in the original collection that are not present in the given collection:
+El método `diffKeys` compara la colección con otra colección o un `array` de PHP nativo basado en sus claves. Este método retornará el par de clave/valor en la colección original que no están presentes en la colección dada:
 
     $collection = collect([
         'one' => 10,
@@ -389,7 +389,7 @@ The `diffKeys` method compares the collection against another collection or a pl
 
 #### `dump()` {#collection-method}
 
-The `dump` method dumps the collection's items:
+El método `dump` vuelca el contenido de los elementos de la colección:
 
     $collection = collect(['John Doe', 'Jane Doe']);
     
@@ -405,20 +405,20 @@ The `dump` method dumps the collection's items:
     */
     
 
-If you want to stop executing the script after dumping the collection, use the [`dd`](#method-dd) method instead.
+Si se desea dejar de ejecutar un *script* tras volcar la colección, utilizar el método [`dd`](#method-dd) en su lugar.
 
 <a name="method-each"></a>
 
 #### `each()` {#collection-method}
 
-The `each` method iterates over the items in the collection and passes each item to a callback:
+El método `each` itera sobre los elementos de la colección y pasa cada uno de ellos por un *callback*:
 
     $collection = $collection->each(function ($item, $key) {
         //
     });
     
 
-If you would like to stop iterating through the items, you may return `false` from your callback:
+Para detener la iteración de elementos, se puede devolver `false` desde el *callback*:
 
     $collection = $collection->each(function ($item, $key) {
         if (/* some condition */) {
@@ -431,7 +431,7 @@ If you would like to stop iterating through the items, you may return `false` fr
 
 #### `eachSpread()` {#collection-method}
 
-The `eachSpread` method iterates over the collection's items, passing each nested item value into the given callback:
+El método `eachSpread` itera sobre los elementos de la colección, pasando el valor de cada elemento hijo al *callback* dado:
 
     $collection = collect([['John Doe', 35], ['Jane Doe', 33]]);
     
@@ -440,7 +440,7 @@ The `eachSpread` method iterates over the collection's items, passing each neste
     });
     
 
-You may stop iterating through the items by returning `false` from the callback:
+Se puede detener la iteración de elementos retornando `false` desde el *callback*:
 
     $collection->eachSpread(function ($name, $age) {
         return false;
@@ -451,7 +451,7 @@ You may stop iterating through the items by returning `false` from the callback:
 
 #### `every()` {#collection-method}
 
-The `every` method may be used to verify that all elements of a collection pass a given truth test:
+El método `every` se puede utilizar para verificar que todos los elementos de una colección pasan una prueba de verdad:
 
     collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
@@ -481,7 +481,7 @@ El inverso del método `except` es el método [only](#method-only).
 
 #### `filter()` {#collection-method}
 
-The `filter` method filters the collection using the given callback, keeping only those items that pass a given truth test:
+El método `filter` filtra la colección utilizando un *callback*, únicamente manteniendo aquellos elementos que pasan una prueba de verdad:
 
     $collection = collect([1, 2, 3, 4]);
     
@@ -494,7 +494,7 @@ The `filter` method filters the collection using the given callback, keeping onl
     // [3, 4]
     
 
-If no callback is supplied, all entries of the collection that are equivalent to `false` will be removed:
+Si no se proporciona un *callback</em, todas las entradas de la colección que sean equivalentes a `false` serán eliminadas:</p> 
 
     $collection = collect([1, 2, 3, null, false, '', 0, []]);
     
