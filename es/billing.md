@@ -424,7 +424,7 @@ El método `updateCard` se puede usar para actualizar la información de la tarj
 
 ### Con tarjeta de crédito
 
-If you would like to offer trial periods to your customers while still collecting payment method information up front, You should use the `trialDays` method when creating your subscriptions:
+If you would like to offer trial periods to your customers while still collecting payment method information up front, you should use the `trialDays` method when creating your subscriptions:
 
     $user = User::find(1);
     
@@ -437,7 +437,7 @@ Este método establecerá la fecha de finalización del periodo de prueba de pru
 
 > {note} Si la suscripción del cliente no se cancela antes del final del periodo de prueba, se les facturará tan pronto como esta expire, por lo que asegúrese de notificar a sus usuarios que su periodo de prueba ha terminado.
 
-Se puede determinar si un usuario está en periodo de prueba con el método `onTrial` de la instancia del usuario o el método `onTrial` de la instancia de la suscripción. The two examples below are identical:
+Se puede determinar si un usuario está en periodo de prueba con el método `onTrial` de la instancia del usuario o el método `onTrial` de la instancia de la suscripción. Los dos ejemplos a continuación son idénticos:
 
     if ($user->onTrial('main')) {
         //
