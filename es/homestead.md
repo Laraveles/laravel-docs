@@ -36,7 +36,7 @@ Laravel Homestead es una *Vagrant box* oficial que le provee de un maravilloso e
 
 Homestead se ejecuta en cualquier sistema Windows, Mac o Linux, e incluye el servidor web Nginx, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node, y todas las otras herramientas que necesita para desarrollar maravillosas aplicaciones Laravel.
 
-> {note} Si está utilizando Windows, usted podría encesitar activar la virtualización por *hardware* (VT-x). Normalmente, ésta puede activarse a través de su BIOS. Si usted está utilizando Hyper-V en una sistema UEFI, además puede necesitar desactivar Hyper-V para acceder a VT-x.
+> {note} Si está utilizando Windows, podría encesitar activar la virtualización por *hardware* (VT-x). Normalmente, ésta puede activarse a través de su BIOS. Si está utilizando Hyper-V en una sistema UEFI, además puede necesitar desactivar Hyper-V para acceder a VT-x.
 
 <a name="included-software"></a>
 
@@ -117,7 +117,7 @@ Si este comando falla, asegurse de que su instalación de Vagrant está actualiz
 
 #### Instalando Homestead
 
-Usted puede instalar Homestead simplemente clonando el repositorio. Considere clonar el repositorio dentro de una carpeta llamada `Homestead` en su directorio *home*, así la Homestead *box* servirá como host para todos sus projectos Laravel:
+Puede instalar Homestead simplemente clonando el repositorio. Considere clonar el repositorio dentro de una carpeta llamada `Homestead` en su directorio *home*, así la Homestead *box* servirá como host para todos sus projectos Laravel:
 
     cd ~
     
@@ -184,7 +184,7 @@ Para activar [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), sól
 
 > {note} Cuando utilice NFS, debería considerar instalar el complemento [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs). Este complemento mantendrá los permisos de usuario y grupo correctos para los ficheros y directorios dentro de *Homestead box*.
 
-Usted puede pasar cualquiera de las opciones soportadas por las [carpetas sincronizadas](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) de Vagrant enumerándolas en la sección de `opciones`:
+Puede pasar cualquiera de las opciones soportadas por las [carpetas sincronizadas](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) de Vagrant enumerándolas en la sección de `opciones`:
 
     folders:
     
@@ -206,11 +206,11 @@ Usted puede pasar cualquiera de las opciones soportadas por las [carpetas sincro
           to: /home/vagrant/code/Laravel/public
     
 
-Si usted cambia la propiedad `sites` después de provisionar *Homestead box*, debería volver a ejecutar `vagrant reload --provision` para actualizar la configuración de Nginx en la máquina virtual.
+Si cambia la propiedad `sites` después de provisionar *Homestead box*, debería volver a ejecutar `vagrant reload --provision` para actualizar la configuración de Nginx en la máquina virtual.
 
 #### El archivo Hosts
 
-Usted debe agregar los "dominios" para sus sitios web en Nginx en el fichero `hosts` en su máquina. El fichero `hosts` redireccionará las peticiones para sus sitios Homestead hacia su máquina Homestead. En Mac y Linux, este archivo esta ubicado en `/etc/hosts`. En Windows el archivo se encuentra ubicado en `C:\Windows\System32\drivers\etc\hosts`. Las líneas que se deben añadir al archivo deben parecerse a las siguientes:
+Debe agregar los "dominios" para sus sitios web en Nginx en el fichero `hosts` en su máquina. El fichero `hosts` redireccionará las peticiones para sus sitios Homestead hacia su máquina Homestead. En Mac y Linux, este archivo esta ubicado en `/etc/hosts`. En Windows el archivo se encuentra ubicado en `C:\Windows\System32\drivers\etc\hosts`. Las líneas que se deben añadir al archivo deben parecerse a las siguientes:
 
     192.168.10.10  homestead.test
     
@@ -232,9 +232,9 @@ Para apagar la máquina, puede utilizar el comando `vagrant destroy --force`.
 
 ### Instalación por proyecto
 
-En lugar de instalar Homestead de manera global y compartir el mismo *Homestead box* entre todos sus proyectos, puede configurar una instancia de Homestead para cada proyecto que usted gestione. Instalando Homested para cada proyecto podrá beneficiarse si desea entregar el fichero `Vagrantfile` con su proyecto, permitiendo a otros trabajar en el proyecto usando simplemente `vagrant up`.
+En lugar de instalar Homestead de manera global y compartir el mismo *Homestead box* entre todos sus proyectos, puede configurar una instancia de Homestead para cada proyecto que gestione. Instalando Homested para cada proyecto podrá beneficiarse si desea entregar el fichero `Vagrantfile` con su proyecto, permitiendo a otros trabajar en el proyecto usando simplemente `vagrant up`.
 
-Para instalar Homestead directamente en su proyecto, requiere la utilización de Composer:
+Para instalar Homestead directamente en su proyecto, se requiere la utilización de Composer:
 
     composer require laravel/homestead --dev
     
@@ -271,7 +271,7 @@ Si prefiere utilizar MariaDB en lugar de MySQL, puede agregar la opción `mariad
 
 ### Instalación de *Elasticsearch*
 
-Para instalar *ElasticSearch*, agrege la opción `elasticsearch` a su fichero `Homestead.yaml`. La instalación por defecto creará un cluster llamado 'homestead' y reservará para él 2Gb de memoria. Usted no debería proporcionarle a *Elasticsearch* más de la mitad de la memoria destianda a su sistema operativo, asegurese que su máquina *Homestead* tiene al menos 4Gb de memoria:
+Para instalar *ElasticSearch*, agrege la opción `elasticsearch` a su fichero `Homestead.yaml`. La instalación por defecto creará un cluster llamado 'homestead' y reservará para él 2Gb de memoria. No debería proporcionarle a *Elasticsearch* más de la mitad de la memoria destianda a su sistema operativo, asegurese que su máquina *Homestead* tiene al menos 4Gb de memoria:
 
     box: laravel/homestead
     ip: "192.168.10.10"
@@ -285,13 +285,13 @@ Para instalar *ElasticSearch*, agrege la opción `elasticsearch` a su fichero `H
 
 ### Alias
 
-Usted podrá agregar alias *Bash* a su máquina *Homestead* modificando el fichero `aliases` dentro de su directorio Homestead:
+Podrá agregar alias *Bash* a su máquina *Homestead* modificando el fichero `aliases` dentro de su directorio Homestead:
 
     alias c='clear'
     alias ..='cd ..'
     
 
-Despues de haber actualizado el fichero `aliases`, usted debería recargar la máquina *Homestead* usando el comando `vagrant reload --provision`. Esto asegurará que sus nuevos alias están disponibles en la máquina.
+Despues de haber actualizado el fichero `aliases`, debería recargar la máquina *Homestead* usando el comando `vagrant reload --provision`. Esto asegurará que sus nuevos alias están disponibles en la máquina.
 
 <a name="daily-usage"></a>
 
@@ -301,7 +301,7 @@ Despues de haber actualizado el fichero `aliases`, usted debería recargar la m�
 
 ### Accediendo globalmente a *Homestead*
 
-A veces usted puede necesitar arrancar su máquina *Homestead* `vagrant up` desde cualquier parte de su sistema. Para conseguir esto en sistemas Mac / Linux agregando una función *Bash* a su perfil *Bash*. En Windows, usted puede realizar esto agregando un fichero "batch" a su `PATH`. Estos *scripts* le permitirán ejecutar cualquier comando Vagrant desde cualquier sitio en su sistema y automaticamente apuntará a su instalación *Homestead*:
+A veces puede necesitar arrancar su máquina *Homestead* `vagrant up` desde cualquier parte de su sistema. Para conseguir esto en sistemas Mac / Linux agregando una función *Bash* a su perfil *Bash*. En Windows, puede realizar esto agregando un fichero "batch" a su `PATH`. Estos *scripts* le permitirán ejecutar cualquier comando Vagrant desde cualquier sitio en su sistema y automaticamente apuntará a su instalación *Homestead*:
 
 #### Mac / Linux
 
@@ -310,7 +310,7 @@ A veces usted puede necesitar arrancar su máquina *Homestead* `vagrant up` desd
     }
     
 
-Asegurese de cambiar el camino `~Homestead` en la función por la situación de su instalación actual de *Homestead*. Una vez la función esté instalada, usted podrá ejecutar comandos como `homestead up` o `homestead ssh` desde cualquier parte de su sistema.
+Asegurese de cambiar el camino `~Homestead` en la función por la situación de su instalación actual de *Homestead*. Una vez la función esté instalada, podrá ejecutar comandos como `homestead up` o `homestead ssh` desde cualquier parte de su sistema.
 
 #### Windows
 
@@ -328,15 +328,15 @@ Cree un fichero batch `homestead.bat`, en cualquier parte de su máquina, con el
     set homesteadVagrant=
     
 
-Aseguresé de cambiar el camino de ejemplo `C:\Homestead` en el *script* a la situación actual de su instalación *Homestead*. Después de crear el fichero, agrege la situación a su `PATH`. Usted puede ahora ejecutar comandos como `homestead up` o `homestead ssh` desde cualquier parte de su sistema.
+Aseguresé de cambiar el camino de ejemplo `C:\Homestead` en el *script* a la situación actual de su instalación *Homestead*. Después de crear el fichero, agrege la situación a su `PATH`. Puede ahora ejecutar comandos como `homestead up` o `homestead ssh` desde cualquier parte de su sistema.
 
 <a name="connecting-via-ssh"></a>
 
 ### Conectándo a través de SSH
 
-Usted puede, usando SSH, entrar a su máquina virtual introduciendo en su terminal el comando `vagrant ssh` desde el directorio *Homestead*.
+Puede, usando SSH, entrar a su máquina virtual introduciendo en su terminal el comando `vagrant ssh` desde el directorio *Homestead*.
 
-Pero usted probablemente necesitará frecuentemente entrar a su máquina utilizando SSH, considere agregar la "función" descrita a con anterioridad a su máquina anfritrión para usarla rápidamente.
+Pero probablemente necesitará frecuentemente entrar a su máquina utilizando SSH, considere agregar la "función" descrita a con anterioridad a su máquina anfritrión para usarla rápidamente.
 
 <a name="connecting-to-databases"></a>
 
@@ -344,15 +344,15 @@ Pero usted probablemente necesitará frecuentemente entrar a su máquina utiliza
 
 La base de datos `homestead` está configurada para los sistemas MySQL y PostgreSQL desde el inicio. Para su conveniencia, el fichero `.env` configura el *framework* para utilizar esta base de datos desde el inicio.
 
-Para conectar con su base de datos MySQL o PostgreSQL desde su cliente de base de datos en su sistema anfitrión, usted debería conectar a `127.0.0.1` y el puerto `33060` (MySQL) o `54320` (PostgreSQL). El nombre de usuario y contraseña para ambas bases de datos es `homestead` / `secret`.
+Para conectar con su base de datos MySQL o PostgreSQL desde su cliente de base de datos en su sistema anfitrión, debería conectar a `127.0.0.1` y el puerto `33060` (MySQL) o `54320` (PostgreSQL). El nombre de usuario y contraseña para ambas bases de datos es `homestead` / `secret`.
 
-> {note} Usted debería solo usar estos puertos no estándar cuando conecte con bases de datos desde su máquina anfitrión. Usted utilizará los puertos por defecto 3306 y 5432 en su configuración laravel de la base de datos dado que Laravel está ejecutándose *dentro* de una máquina virtual.
+> {note} Debería solo usar estos puertos no estándar cuando conecte con bases de datos desde su máquina anfitrión. Utilizará los puertos por defecto 3306 y 5432 en su configuración Laravel de la base de datos dado que Laravel está ejecutándose *dentro* de una máquina virtual.
 
 <a name="adding-additional-sites"></a>
 
 ### Añadiendo *Sitios* adicionales
 
-Una vez su entorno *Homestead* está aprovisionado y corriendo, usted puede querer agregar *sitios Nginx* adicionales para sus aplicaciones Laravel. Usted puede ejecutar cuantas instalaciones Laravel desee en un entorno único de *Homestead*. Para agregar *sitios* adicionales, simplemente agreguelos a su fichero `Homestead`:
+Una vez su entorno *Homestead* está aprovisionado y corriendo, puede querer agregar *sitios Nginx* adicionales para sus aplicaciones Laravel. Puede ejecutar cuantas instalaciones Laravel desee en un entorno único de *Homestead*. Para agregar *sitios* adicionales, simplemente agreguelos a su fichero `Homestead`:
 
     sites:
     
@@ -362,7 +362,7 @@ Una vez su entorno *Homestead* está aprovisionado y corriendo, usted puede quer
           to: /home/vagrant/code/another/public
     
 
-Si *Vagrant* no está gestionando su fichero "hosts" automáticamente, usted además deberá añadir el nuevo *sitio* a ese fichero:
+Si *Vagrant* no está gestionando su fichero "hosts" automáticamente, además deberá añadir el nuevo *sitio* a ese fichero:
 
     192.168.10.10  homestead.test
     192.168.10.10  another.test
@@ -389,7 +389,7 @@ Los tipos de *sitios* disponibles son: `apache`, `laravel` (el defecto), `proxy`
 
 #### Parametros del *sitio*
 
-Usted puede agregar *Nginx* valores `fastcgi_param` adicionales a su *sitio* a través de la directiva de *sitio* `params`. Por ejemplo, nosotros agregamos un parámetro `FOO` con el valor de `BAR`:
+Puede agregar a *Nginx* valores `fastcgi_param` adicionales a su *sitio* a través de la directiva de *sitio* `params`. Por ejemplo, nosotros agregamos un parámetro `FOO` con el valor de `BAR`:
 
     sites:
     
@@ -478,19 +478,19 @@ Si desea, se pueden redirigir puertos adicionales a la box de Vagrant, así como
 
 ### Compartiendo tu entorno
 
-A veces usted puede desear compartir lo que está trabajando con otros compañeros o con un cliente. Vagrant integra un sistema que a través de `vagrant share` soporta esto, no obstante, esto no funcionará si usted tiene multiples *sitios* configurados en su fichero `Homestead.yaml`.
+A veces puede desear compartir lo que está trabajando con otros compañeros o con un cliente. Vagrant integra un sistema que a través de `vagrant share` soporta esto, no obstante, esto no funcionará si tiene multiples *sitios* configurados en su fichero `Homestead.yaml`.
 
-Para resolver este problema, *Homestead* incluye su propio comando `share`. Para empezar, conecte a través de SSH con su máquina *Homestead* con el comando `vagrant ssh` y ejecute `share homestead.test`. Esto compartirá el *sitio* `homestead.test` desde su fichero de configuración `Homestead.yaml`. Por supuesto, usted puede sustituir `homestead.test` por cualquiera de los otros sitios configurados:
+Para resolver este problema, *Homestead* incluye su propio comando `share`. Para empezar, conecte a través de SSH con su máquina *Homestead* con el comando `vagrant ssh` y ejecute `share homestead.test`. Esto compartirá el *sitio* `homestead.test` desde su fichero de configuración `Homestead.yaml`. Por supuesto, puede sustituir `homestead.test` por cualquiera de los otros sitios configurados:
 
     share homestead.test
     
 
-Después de ejecutar el comando, usted verá aparecer una pantalla *Ngrok* conteniendo el registro de actividad y las URLs públicamente accesibles para el *sitio* compartido. Si usted quisiera especificar una region especifica, subdominio o cualquier otra opción *Ngrok* en tiempo de ejecución, usted puede agregarlas a su comando `share`:
+Después de ejecutar el comando, verá aparecer una pantalla *Ngrok* conteniendo el registro de actividad y las URLs públicamente accesibles para el *sitio* compartido. Si quisiera especificar una region especifica, subdominio o cualquier otra opción *Ngrok* en tiempo de ejecución, puede agregarlas a su comando `share`:
 
     share homestead.test -region=eu -subdomain=laravel
     
 
-> {note} Recuerde que *Vagrant* es inherentemente inseguroy usted está exponiendo su máquina virtual a Internet cuando ejecuta el comando `share`.
+> {note} Recuerde que *Vagrant* es inherentemente inseguroy está exponiendo su máquina virtual a Internet cuando ejecuta el comando `share`.
 
 <a name="multiple-php-versions"></a>
 
@@ -498,7 +498,7 @@ Después de ejecutar el comando, usted verá aparecer una pantalla *Ngrok* conte
 
 > {nota} esta característica es compatible sólo con *Nginx*.
 
-*Homestead* 6 presenta el soporta para multiples versiones de *PHP* en la misma máquina virtual. Usted puede especificar que version de *PHP* se usa para un determinado *sitio* en el fichero `Homestead.yaml`. Las versiones de PHP disponibles son: "5.6", "7.0", "7.1" y "7.2":
+*Homestead* 6 presenta el soporta para multiples versiones de *PHP* en la misma máquina virtual. Puede especificar que version de *PHP* se usa para un determinado *sitio* en el fichero `Homestead.yaml`. Las versiones de PHP disponibles son: "5.6", "7.0", "7.1" y "7.2":
 
     sites:
     
@@ -507,7 +507,7 @@ Después de ejecutar el comando, usted verá aparecer una pantalla *Ngrok* conte
           php: "5.6"
     
 
-Además, usted puede utilizar cualquiera de las versiones soportadas usando la línea de comandos (CLI):
+Además, puede utilizar cualquiera de las versiones soportadas usando la línea de comandos (CLI):
 
     php5.6 artisan list
     php7.0 artisan list
@@ -519,7 +519,7 @@ Además, usted puede utilizar cualquiera de las versiones soportadas usando la l
 
 ## Interfaces de red
 
-La propiedad `networks` de `Homestead.yaml` configura los interfaces de red para su entorno *Homestead*. Usted puede configurar tantos interfaces como sean necesarios:
+La propiedad `networks` de `Homestead.yaml` configura los interfaces de red para su entorno *Homestead*. Puede configurar tantos interfaces como sean necesarios:
 
     networks:
     
@@ -548,14 +548,14 @@ Para activar [DHCP](https://www.vagrantup.com/docs/networking/public_network.htm
 
 ## Actualizando *Homestead*
 
-Usted puede actualizar *Homestead* en dos simples pasos. Primero, usted debería de actualizar la caja *Vagrant* utilizando el comando `vagrant box update`:
+Puede actualizar *Homestead* en dos simples pasos. Primero, debería de actualizar la caja *Vagrant* utilizando el comando `vagrant box update`:
 
     vagrant box update
     
 
-A continuación, usted necesita actaualizar el código fuente de *Homestead*. Si usted clonó el repositorio, puede simplemente ejecutar `git pull origin master` en el mismo sitio donde clono originalmente el repositorio.
+A continuación, necesita actaualizar el código fuente de *Homestead*. Si clonó el repositorio, puede simplemente ejecutar `git pull origin master` en el mismo sitio donde clono originalmente el repositorio.
 
-Si usted tiene instalado *Homestead* a través de su fichero `composer.json` del proyecto, usted debe asegurarse éste contiene `"laravel/homestead": "^6"`, y actualizar sus dependencias:
+Si tiene instalado *Homestead* a través de su fichero `composer.json` del proyecto, debe asegurarse éste contiene `"laravel/homestead": "^6"`, y actualizar sus dependencias:
 
     composer update
     
@@ -564,9 +564,9 @@ Si usted tiene instalado *Homestead* a través de su fichero `composer.json` del
 
 ## Versiones antiguas
 
-> {tip} Si usted necesita una versión antigua de PHP compruebe la documentación de [multiples versiones PHP](#multiple-php-versions) antes de intentar utilizar una versión antigua de *Homestead*.
+> {tip} Si necesita una versión antigua de PHP compruebe la documentación de [multiples versiones PHP](#multiple-php-versions) antes de intentar utilizar una versión antigua de *Homestead*.
 
-Usted puede sobreescribir fácilmente la versión de la caja que utiliza *Homestead* agregando la siguiente línea al fichero `Homestead.yaml`:
+Puede sobreescribir fácilmente la versión del *box* que utiliza *Homestead* agregando la siguiente línea al fichero `Homestead.yaml`:
 
     version: 0.6.0
     
@@ -581,7 +581,7 @@ Un ejemplo:
     provider: virtualbox
     
 
-Cuando usted utiliza una versión antigua de la caja de *Homestead* necesita combinarla con una versión compatible del código fuente de *Homestead*. A continuación se muestra una tabla que muestra las versiones compatibles de la caja, qué versión del código fuente de *Homestead* usar y la versión de PHP proporcionada:
+Cuando utiliza una versión antigua de la caja de *Homestead* necesita combinarla con una versión compatible del código fuente de *Homestead*. A continuación se muestra una tabla que muestra las versiones compatibles de la caja, qué versión del código fuente de *Homestead* usar y la versión de PHP proporcionada:
 
 |             | Versiones *Homestead* | Versiones *Box* |
 | ----------- | --------------------- | --------------- |
@@ -599,7 +599,7 @@ Cuando usted utiliza una versión antigua de la caja de *Homestead* necesita com
 
 ### VirtualBox
 
-Por defecto, *Homestead* configura la configuración `natdnshostresolver` a `on`. Esto permite a *Homestead* utilizar las configuración del DNS de su sistema operativo anfitrión. Si usted quisiera sobreeescribir este comportamiento, agregue las siguientes líneas a su fichero `Homestead.yaml`:
+Por defecto, *Homestead* configura la configuración `natdnshostresolver` a `on`. Esto permite a *Homestead* utilizar las configuración del DNS de su sistema operativo anfitrión. Si quisiera sobreeescribir este comportamiento, agregue las siguientes líneas a su fichero `Homestead.yaml`:
 
     provider: virtualbox
     natdnshostresolver: off
