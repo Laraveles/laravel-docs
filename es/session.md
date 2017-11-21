@@ -42,12 +42,12 @@ El la opción de configuración `driver` define el lugar donde se almacenará la
       <code>memcached</code> / <code>redis</code> - las sesiones se almacenan en uno de estos veloces almacenamientos basados en cache.
     </li>
     <li>
-      <code>array</code> - las sesiones se almacenan en un array PHP y no se persistirán.
+      <code>array</code> - las sesiones se almacenan en un <em>array</em> PHP y no se persistirán.
     </li>
   </ul>
 </div>
 
-> {tip} El driver array se utiliza en [testing](/docs/{{version}}/testing) y previene la persistencia de los datos de sesión.
+> {tip} El driver *array* se utiliza en [testing](/docs/{{version}}/testing) y previene la persistencia de los datos de sesión.
 
 <a name="driver-prerequisites"></a>
 
@@ -178,7 +178,7 @@ Para guardar datos en la sesión, se utiliza normalmente el método `put` o el *
 
 #### Añadir datos a *arrays* en la sesión
 
-El método `push` se utiliza para incluir un nuevo valor en un elemento de la sesión que sea un array. Por ejemplo, si la clave `user.teams` contiene un array de nombres, se puede añadir un nuevo valor al array así:
+El método `push` se utiliza para incluir un nuevo valor en un elemento de la sesión que sea un *array*. Por ejemplo, si la clave `user.teams` contiene un *array* de nombres, se puede añadir un nuevo valor al *array* así:
 
     $request->session()->push('user.teams', 'developers');
     
