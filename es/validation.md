@@ -700,7 +700,7 @@ El campo a validar debe contener un valor formateado como una dirección de corr
 
 El campo a validar debe existir en una tabla de la base de datos.
 
-#### Basic Usage Of Exists Rule
+#### Uso básico de la regla exists
 
     'state' => 'exists:states'
     
@@ -751,7 +751,7 @@ El archivo a validar debe ser una imagen (jpeg, png, bmp, gif o svg)
 
 #### in:*foo*,*bar*,...
 
-The field under validation must be included in the given list of values. Since this rule often requires you to `implode` an array, the `Rule::in` method may be used to fluently construct the rule:
+El campo a validar debe incluir alguno de los valores listados. Como esta regla a menudo requiere el `implode` de un *array*, `Rule::in` puede usarse para construir la regla con fluidez:
 
     use Illuminate\Validation\Rule;
     
