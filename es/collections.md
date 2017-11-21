@@ -261,7 +261,7 @@ El método `count` retorna el total de elementos en la colección:
 
 #### `crossJoin()` {#collection-method}
 
-The `crossJoin` method cross joins the collection's values among the given arrays or collections, returning a Cartesian product with all possible permutations:
+El método `crossJoin` mezclará los valores de la colección con el *array* o colección dado, retornando un producto cartesiano con todas las permutaciones posibles:
 
     $collection = collect([1, 2]);
     
