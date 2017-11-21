@@ -1,6 +1,6 @@
 # Database: Pagination
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Basic Usage](#basic-usage) 
     - [Paginating Query Builder Results](#paginating-query-builder-results)
     - [Paginating Eloquent Results](#paginating-eloquent-results)
