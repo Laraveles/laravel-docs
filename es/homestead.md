@@ -210,7 +210,7 @@ Si cambia la propiedad `sites` después de provisionar *Homestead box*, debería
 
 #### El archivo Hosts
 
-You must add the "domains" for your Nginx sites to the `hosts` file on your machine. El fichero `hosts` redireccionará las peticiones para sus sitios Homestead hacia su máquina Homestead. En Mac y Linux, este archivo esta ubicado en `/etc/hosts`. En Windows el archivo se encuentra ubicado en `C:\Windows\System32\drivers\etc\hosts`. Las líneas que se deben añadir al archivo deben parecerse a las siguientes:
+Debe agregar los "dominios" para sus sitios web en Nginx en el fichero `hosts` en su máquina. El fichero `hosts` redireccionará las peticiones para sus sitios Homestead hacia su máquina Homestead. En Mac y Linux, este archivo esta ubicado en `/etc/hosts`. En Windows el archivo se encuentra ubicado en `C:\Windows\System32\drivers\etc\hosts`. Las líneas que se deben añadir al archivo deben parecerse a las siguientes:
 
     192.168.10.10  homestead.test
     
@@ -285,7 +285,7 @@ Para instalar *ElasticSearch*, agrege la opción `elasticsearch` a su fichero `H
 
 ### Alias
 
-You may add Bash aliases to your Homestead machine by modifying the `aliases` file within your Homestead directory:
+Podrá agregar alias *Bash* a su máquina *Homestead* modificando el fichero `aliases` dentro de su directorio Homestead:
 
     alias c='clear'
     alias ..='cd ..'
@@ -328,13 +328,13 @@ Cree un fichero batch `homestead.bat`, en cualquier parte de su máquina, con el
     set homesteadVagrant=
     
 
-Aseguresé de cambiar el camino de ejemplo `C:\Homestead` en el *script* a la situación actual de su instalación *Homestead*. Después de crear el fichero, agrege la situación a su `PATH`. You may then run commands like `homestead up` or `homestead ssh` from anywhere on your system.
+Aseguresé de cambiar el camino de ejemplo `C:\Homestead` en el *script* a la situación actual de su instalación *Homestead*. Después de crear el fichero, agrege la situación a su `PATH`. Puede ahora ejecutar comandos como `homestead up` o `homestead ssh` desde cualquier parte de su sistema.
 
 <a name="connecting-via-ssh"></a>
 
 ### Conectándo a través de SSH
 
-You can SSH into your virtual machine by issuing the `vagrant ssh` terminal command from your Homestead directory.
+Puede, usando SSH, entrar a su máquina virtual introduciendo en su terminal el comando `vagrant ssh` desde el directorio *Homestead*.
 
 Pero probablemente necesitará frecuentemente entrar a su máquina utilizando SSH, considere agregar la "función" descrita a con anterioridad a su máquina anfritrión para usarla rápidamente.
 
@@ -352,7 +352,7 @@ Para conectar con su base de datos MySQL o PostgreSQL desde su cliente de base d
 
 ### Añadiendo *Sitios* adicionales
 
-Una vez su entorno *Homestead* está aprovisionado y corriendo, puede querer agregar *sitios Nginx* adicionales para sus aplicaciones Laravel. You can run as many Laravel installations as you wish on a single Homestead environment. Para agregar *sitios* adicionales, simplemente agreguelos a su fichero `Homestead`:
+Una vez su entorno *Homestead* está aprovisionado y corriendo, puede querer agregar *sitios Nginx* adicionales para sus aplicaciones Laravel. Puede ejecutar cuantas instalaciones Laravel desee en un entorno único de *Homestead*. Para agregar *sitios* adicionales, simplemente agreguelos a su fichero `Homestead`:
 
     sites:
     
@@ -389,7 +389,7 @@ Los tipos de *sitios* disponibles son: `apache`, `laravel` (el defecto), `proxy`
 
 #### Parametros del *sitio*
 
-You may add additional Nginx `fastcgi_param` values to your site via the `params` site directive. Por ejemplo, nosotros agregamos un parámetro `FOO` con el valor de `BAR`:
+Puede agregar a *Nginx* valores `fastcgi_param` adicionales a su *sitio* a través de la directiva de *sitio* `params`. Por ejemplo, nosotros agregamos un parámetro `FOO` con el valor de `BAR`:
 
     sites:
     
@@ -498,7 +498,7 @@ Después de ejecutar el comando, verá aparecer una pantalla *Ngrok* conteniendo
 
 > {nota} esta característica es compatible sólo con *Nginx*.
 
-*Homestead* 6 presenta el soporta para multiples versiones de *PHP* en la misma máquina virtual. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. Las versiones de PHP disponibles son: "5.6", "7.0", "7.1" y "7.2":
+*Homestead* 6 presenta el soporta para multiples versiones de *PHP* en la misma máquina virtual. Puede especificar que version de *PHP* se usa para un determinado *sitio* en el fichero `Homestead.yaml`. Las versiones de PHP disponibles son: "5.6", "7.0", "7.1" y "7.2":
 
     sites:
     
@@ -519,7 +519,7 @@ Además, puede utilizar cualquiera de las versiones soportadas usando la línea 
 
 ## Interfaces de red
 
-The `networks` property of the `Homestead.yaml` configures network interfaces for your Homestead environment. You may configure as many interfaces as necessary:
+La propiedad `networks` de `Homestead.yaml` configura los interfaces de red para su entorno *Homestead*. Puede configurar tantos interfaces como sean necesarios:
 
     networks:
     
@@ -548,7 +548,7 @@ Para activar [DHCP](https://www.vagrantup.com/docs/networking/public_network.htm
 
 ## Actualizando *Homestead*
 
-You can update Homestead in two simple steps. First, you should update the Vagrant box using the `vagrant box update` command:
+Puede actualizar *Homestead* en dos simples pasos. Primero, debería de actualizar la caja *Vagrant* utilizando el comando `vagrant box update`:
 
     vagrant box update
     
@@ -566,7 +566,7 @@ Si tiene instalado *Homestead* a través de su fichero `composer.json` del proye
 
 > {tip} Si necesita una versión antigua de PHP compruebe la documentación de [multiples versiones PHP](#multiple-php-versions) antes de intentar utilizar una versión antigua de *Homestead*.
 
-Usted puede sobreescribir fácilmente la versión de la caja que utiliza *Homestead* agregando la siguiente línea al fichero `Homestead.yaml`:
+Puede sobreescribir fácilmente la versión del *box* que utiliza *Homestead* agregando la siguiente línea al fichero `Homestead.yaml`:
 
     version: 0.6.0
     
