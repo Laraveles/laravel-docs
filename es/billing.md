@@ -298,7 +298,7 @@ Para saber si un usuario fue alguna vez un usuario suscrito, pero ha cancelado s
     }
     
 
-Se puede comprobar si el usuario ha cancelado la suscripción, pero se encuentra todavía en su "periodo de gracia" hasta que la suscripción caduque completamente. Por ejemplo, si un usuario cancela la suscripción el 5 de marzo y estaba prevista a caducar el 10 de marzo, el usuario se encuentra en el "periodo de gracia" hasta el 10 de marzo. Note that the `subscribed` method still returns `true` during this time:
+Se puede comprobar si el usuario ha cancelado la suscripción, pero se encuentra todavía en su "periodo de gracia" hasta que la suscripción caduque completamente. Por ejemplo, si un usuario cancela la suscripción el 5 de marzo y estaba prevista a caducar el 10 de marzo, el usuario se encuentra en el "periodo de gracia" hasta el 10 de marzo. Tenga en cuenta que el método `subscribed` todavía retornará `true` en este momento:
 
     if ($user->subscription('main')->onGracePeriod()) {
         //
