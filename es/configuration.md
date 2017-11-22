@@ -24,7 +24,7 @@ Para hacer esto más fácil, Laravel utiliza la librería de PHP [DotEnv](https:
 
 Su fichero `.env` no debería ser incorporado al control de versiones de su aplicación, pues cada desarrollador / servidor que utiliza la aplicación podría requerir una configuración de entorno diferente. Además, esto supondría un riesgo de seguridad en caso de que un intruso acceda a su repositorio de control de versiones, ya que cualquier credencial sensible quedaría expuesta.
 
-Si usted está desarrollando con un equipo, puede continuar incluyendo un archivo `.env.example` con su aplicación. Estableciendo valores de ejemplo en el archivo de configuración de ejemplo, otros desarrolladores en su equipo pueden ver claramente que variables de entorno son necesarias para ejecutar su aplicación. Usted también puede crear un archivo `.env.testing`. This file will override the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+Si usted está desarrollando con un equipo, puede continuar incluyendo un archivo `.env.example` con su aplicación. Estableciendo valores de ejemplo en el archivo de configuración de ejemplo, otros desarrolladores en su equipo pueden ver claramente que variables de entorno son necesarias para ejecutar su aplicación. Usted también puede crear un archivo `.env.testing`. Este archivo reemplazará el `.env` al ejecutar los *tests* de PHPUnit o ejecutar los comandos de Artisan con la opción `--env=testing`.
 
 > {tip} Cualquier variable en su archivo `.env` puede ser reemplazada por variables de entorno externas a nivel de servidor o de sistema.
 
