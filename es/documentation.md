@@ -1,5 +1,5 @@
 - ## Prólogo 
-    - [Release Notes](/docs/{{version}}/releases)
+    - [Notas de la versión](/docs/{{version}}/releases)
     - [Guía de actualización](/docs/{{version}}/upgrade)
     - [Guía de contribución](/docs/{{version}}/contributions)
     - [API Documentation](/api/{{version}})
@@ -16,7 +16,7 @@
     - [Service Providers](/docs/{{version}}/providers)
     - [Facades](/docs/{{version}}/facades)
     - [Contratos](/docs/{{version}}/contracts)
-- ## The Basics 
+- ## Lo básico 
     - [Rutas](/docs/{{version}}/routing)
     - [Middleware](/docs/{{version}}/middleware)
     - [Protección CSRF](/docs/{{version}}/csrf)
@@ -30,7 +30,7 @@
     - [Errores & Logging](/docs/{{version}}/errors)
 - ## Frontend 
     - [Plantillas Blade](/docs/{{version}}/blade)
-    - [Localization](/docs/{{version}}/localization)
+    - [Localización – *Locale*](/docs/{{version}}/localization)
     - [Frontend Scaffolding](/docs/{{version}}/frontend)
     - [Compiling Assets](/docs/{{version}}/mix)
 - ## Security 
@@ -40,35 +40,35 @@
     - [Encriptado](/docs/{{version}}/encryption)
     - [Cifrado](/docs/{{version}}/hashing)
     - [Restablecer contraseña](/docs/{{version}}/passwords)
-- ## Digging Deeper 
+- ## En profundidad 
     - [Consola Artisan](/docs/{{version}}/artisan)
     - [Broadcasting](/docs/{{version}}/broadcasting)
     - [Cache](/docs/{{version}}/cache)
     - [Colecciones](/docs/{{version}}/collections)
     - [Eventos](/docs/{{version}}/events)
-    - [File Storage](/docs/{{version}}/filesystem)
-    - [Helpers](/docs/{{version}}/helpers)
+    - [Almacenamiento de archivos](/docs/{{version}}/filesystem)
+    - [*Helpers*](/docs/{{version}}/helpers)
     - [Correo](/docs/{{version}}/mail)
     - [Notificaciones](/docs/{{version}}/notifications)
     - [Desarrollo de paquetes](/docs/{{version}}/packages)
     - [Colas](/docs/{{version}}/queues)
-    - [Task Scheduling](/docs/{{version}}/scheduling)
-- ## Database 
-    - [Getting Started](/docs/{{version}}/database)
+    - [Programación de tareas](/docs/{{version}}/scheduling)
+- ## Base de datos 
+    - [Primeros pasos](/docs/{{version}}/database)
     - [Query Builder](/docs/{{version}}/queries)
     - [Paginación](/docs/{{version}}/pagination)
     - [Migraciones](/docs/{{version}}/migrations)
-    - [Seeding](/docs/{{version}}/seeding)
+    - [Semillas](/docs/{{version}}/seeding)
     - [Redis](/docs/{{version}}/redis)
 - ## Eloquent ORM 
-    - [Getting Started](/docs/{{version}}/eloquent)
-    - [Relationships](/docs/{{version}}/eloquent-relationships)
+    - [Primeros pasos](/docs/{{version}}/eloquent)
+    - [Relaciones](/docs/{{version}}/eloquent-relationships)
     - [Colecciones](/docs/{{version}}/eloquent-collections)
     - [Mutators](/docs/{{version}}/eloquent-mutators)
     - [API Resources](/docs/{{version}}/eloquent-resources)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
 - ## Testing 
-    - [Getting Started](/docs/{{version}}/testing)
+    - [Primeros pasos](/docs/{{version}}/testing)
     - [HTTP Tests](/docs/{{version}}/http-tests)
     - [Browser Tests](/docs/{{version}}/dusk)
     - [Base de datos](/docs/{{version}}/database-testing)
