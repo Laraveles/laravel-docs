@@ -17,56 +17,56 @@
     - [Generación del mensaje](#generating-the-message)
     - [Construir el mensaje](#writing-the-message)
     - [Personalización de los componentes](#customizing-the-components)
-- [Database Notifications](#database-notifications) 
-    - [Prerequisites](#database-prerequisites)
-    - [Formatting Database Notifications](#formatting-database-notifications)
-    - [Accessing The Notifications](#accessing-the-notifications)
-    - [Marking Notifications As Read](#marking-notifications-as-read)
-- [Broadcast Notifications](#broadcast-notifications) 
-    - [Prerequisites](#broadcast-prerequisites)
-    - [Formatting Broadcast Notifications](#formatting-broadcast-notifications)
-    - [Listening For Notifications](#listening-for-notifications)
-- [SMS Notifications](#sms-notifications) 
-    - [Prerequisites](#sms-prerequisites)
-    - [Formatting SMS Notifications](#formatting-sms-notifications)
-    - [Customizing The "From" Number](#customizing-the-from-number)
-    - [Routing SMS Notifications](#routing-sms-notifications)
-- [Slack Notifications](#slack-notifications) 
-    - [Prerequisites](#slack-prerequisites)
-    - [Formatting Slack Notifications](#formatting-slack-notifications)
-    - [Slack Attachments](#slack-attachments)
-    - [Routing Slack Notifications](#routing-slack-notifications)
-- [Notification Events](#notification-events)
-- [Custom Channels](#custom-channels)
+- [Notificaciones de base de datos](#database-notifications) 
+    - [Requisitos previos](#database-prerequisites)
+    - [Formatear notificaciones de bases de datos](#formatting-database-notifications)
+    - [Acceso a notificaciones](#accessing-the-notifications)
+    - [Marcar notificaciones como leidas](#marking-notifications-as-read)
+- [Transmitir notificaciones](#broadcast-notifications) 
+    - [Requisitos previos](#broadcast-prerequisites)
+    - [Formatear notificaciones de difusión (*broadcasting*)](#formatting-broadcast-notifications)
+    - [Cómo escuchar notificaciones](#listening-for-notifications)
+- [Notificaciones por SMS](#sms-notifications) 
+    - [Requisitos previos](#sms-prerequisites)
+    - [Formatear notificaciones SMS](#formatting-sms-notifications)
+    - [Personalizar el número de origen](#customizing-the-from-number)
+    - [Enrutar notificaciones SMS](#routing-sms-notifications)
+- [Notificaciones de Slack](#slack-notifications) 
+    - [Requisitos previos](#slack-prerequisites)
+    - [Formatear notificaciones de Slack](#formatting-slack-notifications)
+    - [Adjuntos en Slack](#slack-attachments)
+    - [Enrutar notificaciones de Slack](#routing-slack-notifications)
+- [Eventos de notificaciones](#notification-events)
+- [Canales personalizados](#custom-channels)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-In addition to support for [sending email](/docs/{{version}}/mail), Laravel provides support for sending notifications across a variety of delivery channels, including mail, SMS (via [Nexmo](https://www.nexmo.com/)), and [Slack](https://slack.com). Notifications may also be stored in a database so they may be displayed in your web interface.
+Además del soporte para [enviar correo electrónico](/docs/{{version}}/mail), Laravel proporciona soporte para el envío de notificaciones a través de una variedad de canales de entrega, incluyendo correo, SMS (via [Nexmo](https://www.nexmo.com/)), y [Slack](https://slack.com). Las notificaciones también pueden almacenarse en una base de datos para que se muestren en su web.
 
-Typically, notifications should be short, informational messages that notify users of something that occurred in your application. For example, if you are writing a billing application, you might send an "Invoice Paid" notification to your users via the email and SMS channels.
+Normalmente, las notificaciones deben ser breves, mensajes informativos que avisan a los usuarios de algo que ocurrió en su aplicación. Por ejemplo, si está escribiendo una aplicación de facturación, puede enviar una notificación de "factura pagada" a sus usuarios a través de los canales de correo electrónico y SMS.
 
 <a name="creating-notifications"></a>
 
-## Creating Notifications
+## Crear notificaciones
 
-In Laravel, each notification is represented by a single class (typically stored in the `app/Notifications` directory). Don't worry if you don't see this directory in your application, it will be created for you when you run the `make:notification` Artisan command:
+En Laravel, cada notificación está representada por una única clase (normalmente almacenada en el directorio `app/Notifications`). No hay que preocuparse si no se encuentra el directorio, se creará al ejecutar el comando de Artisan `make:notification`:
 
     php artisan make:notification InvoicePaid
     
 
-This command will place a fresh notification class in your `app/Notifications` directory. Each notification class contains a `via` method and a variable number of message building methods (such as `toMail` or `toDatabase`) that convert the notification to a message optimized for that particular channel.
+Este comando colocará una nueva clase de notificación en el directorio `app/Notifications`. Cada clase de notificación contiene un método `via` y un número variable de métodos de creación de mensajes (como `toMail` o `toDatabase`) que convierten la notificación en un mensaje optimizado para ese canal en particular.
 
 <a name="sending-notifications"></a>
 
-## Sending Notifications
+## Enviar notificaciones
 
 <a name="using-the-notifiable-trait"></a>
 
-### Using The Notifiable Trait
+### Uso del *trait Notifiable*
 
-Notifications may be sent in two ways: using the `notify` method of the `Notifiable` trait or using the `Notification` [facade](/docs/{{version}}/facades). First, let's explore using the trait:
+Las notificaciones se pueden enviar de dos formas: usando el método `notify` del *trait* `Notifiable` o usando la *facade* `Notification`. Primero, exploremos usando el método del *trait*:
 
     <?php
     
@@ -81,33 +81,33 @@ Notifications may be sent in two ways: using the `notify` method of the `Notifia
     }
     
 
-This trait is utilized by the default `App\User` model and contains one method that may be used to send notifications: `notify`. The `notify` method expects to receive a notification instance:
+Este *trait* se incluye en el modelo `App\User` por defecto y contiene un método que puede usarse para enviar notificaciones: `notify`. El método `notify` espera recibir una instancia de una notificación:
 
     use App\Notifications\InvoicePaid;
     
     $user->notify(new InvoicePaid($invoice));
     
 
-> {tip} Remember, you may use the `Illuminate\Notifications\Notifiable` trait on any of your models. You are not limited to only including it on your `User` model.
+> {tip} Recuerde que puede utilizar el *trait* `Illuminate\Notifications\Notifiable` en cualquiera de sus modelos. No se limite a incluirlo únicamente en su modelo `User`.
 
 <a name="using-the-notification-facade"></a>
 
-### Using The Notification Facade
+### Uso de la *facade Notification*
 
-Alternativamente, puede enviar notificaciones a través de la [facade](/docs/{{version}}/facades) `Notification`. Esto es útil principalmente cuando necesita enviar una notificación a varias entidades notificables, como una colección de usuarios. To send notifications using the facade, pass all of the notifiable entities and the notification instance to the `send` method:
+Alternativamente, puede enviar notificaciones a través de la [facade](/docs/{{version}}/facades) `Notification`. Esto es útil principalmente cuando necesita enviar una notificación a varias entidades notificables, como una colección de usuarios. Para enviar notificaciones utilizando la *facade*, pase todas las entidades notificables y la instancia de notificación al método `send`:
 
     Notification::send($users, new InvoicePaid($invoice));
     
 
 <a name="specifying-delivery-channels"></a>
 
-### Specifying Delivery Channels
+### Especificación de canales de entrega
 
-Every notification class has a `via` method that determines on which channels the notification will be delivered. Out of the box, notifications may be sent on the `mail`, `database`, `broadcast`, `nexmo`, and `slack` channels.
+Cada clase de notificación tiene un método `via` que determina en qué canales se entregará la notificación. De serie, las notificaciones se pueden enviar a los canales `mail`, `database`, `broadcast`, `nexmo` y `slack`.
 
-> {tip} If you would like to use other delivery channels such as Telegram or Pusher, check out the community driven [Laravel Notification Channels website](http://laravel-notification-channels.com).
+> {tip} Si desea utilizar otros canales de entrega como Telegram o Pusher, consulte el sitio web [Laravel Notification Channels website](http://laravel-notification-channels.com).
 
-The `via` method receives a `$notifiable` instance, which will be an instance of the class to which the notification is being sent. You may use `$notifiable` to determine which channels the notification should be delivered on:
+El método `via` recibe una instancia `$notifiable`, que será una instancia de la clase a la que se envía la notificación. Puede utilizar `$notifiable` para determinar en qué canales se debe entregar la notificación:
 
     /**
      * Get the notification's delivery channels.
@@ -123,11 +123,11 @@ The `via` method receives a `$notifiable` instance, which will be an instance of
 
 <a name="queueing-notifications"></a>
 
-### Queueing Notifications
+### Cola de notificaciones
 
-> {note} Before queueing notifications you should configure your queue and [start a worker](/docs/{{version}}/queues).
+> {note} Antes de hacer la cola de notificaciones, debe configurarla e [iniciar un *worker*](/docs/{{version}}/queues).
 
-Sending notifications can take time, especially if the channel needs an external API call to deliver the notification. To speed up your application's response time, let your notification be queued by adding the `ShouldQueue` interface and `Queueable` trait to your class. The interface and trait are already imported for all notifications generated using `make:notification`, so you may immediately add them to your notification class:
+El envío de notificaciones puede tomar tiempo, especialmente si el canal necesita una llamada externa de una API para entregar la notificación. Para acelerar el tiempo de respuesta de su aplicación, deje que su notificación se coloque en la cola añadiendo la interfaz `ShouldQueue` y el *trait* `Queueable` a su clase. La interfaz y el *trait* ya se importan para todas las notificaciones generadas con `make:notification`, por lo que pueden añadirse inmediatamente a la clase de notificación:
 
     <?php
     
@@ -145,7 +145,7 @@ Sending notifications can take time, especially if the channel needs an external
     }
     
 
-Once the `ShouldQueue` interface has been added to your notification, you may send the notification like normal. Laravel will detect the `ShouldQueue` interface on the class and automatically queue the delivery of the notification:
+Una vez que la interfaz `ShouldQueue` haya sido agregada, puede enviar la notificación normalmente. Laravel will detect the `ShouldQueue` interface on the class and automatically queue the delivery of the notification:
 
     $user->notify(new InvoicePaid($invoice));
     
