@@ -1,28 +1,28 @@
-# Encryption
+# Encriptación
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Using The Encrypter](#using-the-encrypter)
+- [Introducción](#introduction)
+- [Configuración](#configuration)
+- [Cómo usar el encriptador](#using-the-encrypter)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel's encrypter uses OpenSSL to provide AES-256 and AES-128 encryption. You are strongly encouraged to use Laravel's built-in encryption facilities and not attempt to roll your own "home grown" encryption algorithms. All of Laravel's encrypted values are signed using a message authentication code (MAC) so that their underlying value can not be modified once encrypted.
+El encriptador de Laravel utiliza OpenSSL para proporcionar encriptación AES-256 y AES-128. Se le recomienda encarecidamente que utilice las funciones de encriptación incorporadas de Laravel y que no intente utilizar sus propios algoritmos de encriptación "caseros". Todos los valores encriptados de Laravel son firmados usando un código de autenticación de mensaje (MAC) para que su valor subyacente no pueda ser modificado una vez encriptado.
 
 <a name="configuration"></a>
 
-## Configuration
+## Configuración
 
-Before using Laravel's encrypter, you must set a `key` option in your `config/app.php` configuration file. You should use the `php artisan key:generate` command to generate this key since this Artisan command will use PHP's secure random bytes generator to build your key. If this value is not properly set, all values encrypted by Laravel will be insecure.
+Antes de usar el encriptador de Laravel, debe establecer una opción `key` en su archivo de configuración `config/app.php`. Debe usar el comando Artisan `php artisan key:generate` para generar esta clave ya que este comando usará el generador seguro de bytes aleatorios de PHP para construir su clave. Si este valor no se establece correctamente, los valores cifrados por Laravel serán inseguros.
 
 <a name="using-the-encrypter"></a>
 
-## Using The Encrypter
+## Cómo usar el encriptador
 
-#### Encrypting A Value
+#### Cifrar un valor
 
-You may encrypt a value using the `encrypt` helper. All encrypted values are encrypted using OpenSSL and the `AES-256-CBC` cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string:
+Puede encriptar un valor usando el *helper* `encrypt`. Todos los valores se encriptan utilizando OpenSSL y el algoritmo de cifrado `AES-256-CBC`. Además, todos los valores cifrados se firman con un código de autenticación de mensaje (MAC) para detectar cualquier modificación de la cadena cifrada:
 
     <?php
     
@@ -52,9 +52,9 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
     }
     
 
-#### Encrypting Without Serialization
+#### Encriptación sin serialización
 
-Encrypted values are passed through `serialize` during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data. If you would like to encrypt and decrypt values without serialization, you may use the `encryptString` and `decryptString` methods of the `Crypt` facade:
+Los valores codificados se transmiten a través de `serialize` durante el encriptado, lo que permite la encriptación de objetos y matrices. Por lo tanto, los clientes no PHP que reciban valores cifrados necesitarán usar `unserialize` para los datos. Si desea encriptar y desencriptar valores sin serialización, puede utilizar los métodos `encryptString` y `decryptString` de la *facade* `Crypt`:
 
     use Illuminate\Support\Facades\Crypt;
     
@@ -63,9 +63,9 @@ Encrypted values are passed through `serialize` during encryption, which allows 
     $decrypted = Crypt::decryptString($encrypted);
     
 
-#### Decrypting A Value
+#### Desencriptar un valor
 
-You may decrypt values using the `decrypt` helper. If the value can not be properly decrypted, such as when the MAC is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
+Puede desencriptar valores utilizando el *helper* `decrypt`. Si no se puede desencriptar correctamente, como cuando la MAC es inválida, se lanzará una `Illuminate\Contracts\Encryption\DecryptException`:
 
     use Illuminate\Contracts\Encryption\DecryptException;
     
