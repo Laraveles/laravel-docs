@@ -1,20 +1,20 @@
-# Encryption
+# Encriptación
 
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Using The Encrypter](#using-the-encrypter)
+- [Introducción](#introduction)
+- [Configuración](#configuration)
+- [Cómo usar el encriptador](#using-the-encrypter)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel's encrypter uses OpenSSL to provide AES-256 and AES-128 encryption. You are strongly encouraged to use Laravel's built-in encryption facilities and not attempt to roll your own "home grown" encryption algorithms. All of Laravel's encrypted values are signed using a message authentication code (MAC) so that their underlying value can not be modified once encrypted.
+El encriptador de Laravel utiliza OpenSSL para proporcionar encriptación AES-256 y AES-128. Se le recomienda encarecidamente que utilice las funciones de encriptación incorporadas de Laravel y que no intente utilizar sus propios algoritmos de encriptación "caseros". Todos los valores encriptados de Laravel son firmados usando un código de autenticación de mensaje (MAC) para que su valor subyacente no pueda ser modificado una vez encriptado.
 
 <a name="configuration"></a>
 
-## Configuration
+## Configuración
 
-Before using Laravel's encrypter, you must set a `key` option in your `config/app.php` configuration file. You should use the `php artisan key:generate` command to generate this key since this Artisan command will use PHP's secure random bytes generator to build your key. If this value is not properly set, all values encrypted by Laravel will be insecure.
+Antes de usar el encriptador de Laravel, debe establecer una opción `key` en su archivo de configuración `config/app.php`. Debe usar el comando Artisan `php artisan key:generate` para generar esta clave ya que este comando usará el generador seguro de bytes aleatorios de PHP para construir su clave. If this value is not properly set, all values encrypted by Laravel will be insecure.
 
 <a name="using-the-encrypter"></a>
 
