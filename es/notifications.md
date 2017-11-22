@@ -1,22 +1,22 @@
-# Notifications
+# Notificaciones
 
-- [Introduction](#introduction)
-- [Creating Notifications](#creating-notifications)
-- [Sending Notifications](#sending-notifications) 
-    - [Using The Notifiable Trait](#using-the-notifiable-trait)
-    - [Using The Notification Facade](#using-the-notification-facade)
-    - [Specifying Delivery Channels](#specifying-delivery-channels)
-    - [Queueing Notifications](#queueing-notifications)
-    - [On-Demand Notifications](#on-demand-notifications)
-- [Mail Notifications](#mail-notifications) 
-    - [Formatting Mail Messages](#formatting-mail-messages)
-    - [Customizing The Recipient](#customizing-the-recipient)
-    - [Customizing The Subject](#customizing-the-subject)
-    - [Customizing The Templates](#customizing-the-templates)
-- [Markdown Mail Notifications](#markdown-mail-notifications) 
-    - [Generating The Message](#generating-the-message)
-    - [Writing The Message](#writing-the-message)
-    - [Customizing The Components](#customizing-the-components)
+- [Introducción](#introduction)
+- [Crear notificaciones](#creating-notifications)
+- [Enviar notificaciones](#sending-notifications) 
+    - [Uso del *trait Notifiable*](#using-the-notifiable-trait)
+    - [Uso de la *facade Notification*](#using-the-notification-facade)
+    - [Especificar de canales de entrega](#specifying-delivery-channels)
+    - [Cola de notificaciones](#queueing-notifications)
+    - [Notificaciones bajo demanda](#on-demand-notifications)
+- [Notificación por correo electrónico](#mail-notifications) 
+    - [Formatear mensajes de correo electrónico](#formatting-mail-messages)
+    - [Personalizar el destinatario](#customizing-the-recipient)
+    - [Personalizar el tema](#customizing-the-subject)
+    - [Personalizar plantillas (*templates*)](#customizing-the-templates)
+- [Notificaciones de correo Markdown](#markdown-mail-notifications) 
+    - [Generación del mensaje](#generating-the-message)
+    - [Construir el mensaje](#writing-the-message)
+    - [Personalización de los componentes](#customizing-the-components)
 - [Database Notifications](#database-notifications) 
     - [Prerequisites](#database-prerequisites)
     - [Formatting Database Notifications](#formatting-database-notifications)
@@ -94,7 +94,7 @@ This trait is utilized by the default `App\User` model and contains one method t
 
 ### Using The Notification Facade
 
-Alternatively, you may send notifications via the `Notification` [facade](/docs/{{version}}/facades). This is useful primarily when you need to send a notification to multiple notifiable entities such as a collection of users. To send notifications using the facade, pass all of the notifiable entities and the notification instance to the `send` method:
+Alternativamente, puede enviar notificaciones a través de la [facade](/docs/{{version}}/facades) `Notification`. Esto es útil principalmente cuando necesita enviar una notificación a varias entidades notificables, como una colección de usuarios. To send notifications using the facade, pass all of the notifiable entities and the notification instance to the `send` method:
 
     Notification::send($users, new InvoicePaid($invoice));
     
