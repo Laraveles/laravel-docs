@@ -312,20 +312,20 @@ De forma predeterminada, el asunto del correo electrónico es el nombre de la cl
 
 ### Personalizar plantillas (*templates*)
 
-You can modify the HTML and plain-text template used by mail notifications by publishing the notification package's resources. After running this command, the mail notification templates will be located in the `resources/views/vendor/notifications` directory:
+Puede modificar la plantilla HTML y de texto plano utilizada en las notificaciones por correo electrónico publicando los recursos del paquete de notificación. Después de ejecutar este comando, las plantillas de notificación de correo se ubicarán en el directorio `resources/views/vendor/notifications`:
 
     php artisan vendor:publish --tag=laravel-notifications
     
 
 <a name="markdown-mail-notifications"></a>
 
-## Markdown Mail Notifications
+## Notificaciones de correo de Markdown
 
-Markdown mail notifications allow you to take advantage of the pre-built templates of mail notifications, while giving you more freedom to write longer, customized messages. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart.
+Las notificaciones de correo de Markdown le permiten aprovechar las plantillas prediseñadas de las notificaciones de correo electrónico, mientras que dan más libertad para escribir mensajes más largos y personalizados. Dado que los mensajes están escritos en Markdown, Laravel es capaz de generar plantillas HTML amigables para los mensajes, mientras que genera a su vez una contraparte de texto plano.
 
 <a name="generating-the-message"></a>
 
-### Generating The Message
+### Generación del mensaje
 
 To generate a notification with a corresponding Markdown template, you may use the `--markdown` option of the `make:notification` Artisan command:
 
