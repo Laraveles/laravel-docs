@@ -2,16 +2,16 @@
     - [Notas de la versión](/docs/{{version}}/releases)
     - [Guía de actualización](/docs/{{version}}/upgrade)
     - [Guía de contribución](/docs/{{version}}/contributions)
-    - [API Documentation](/api/{{version}})
-- ## Getting Started 
+    - [Documentación API](/api/{{version}})
+- ## Primeros pasos 
     - [Instalación](/docs/{{version}}/installation)
     - [Configuración](/docs/{{version}}/configuration)
-    - [Directory Structure](/docs/{{version}}/structure)
+    - [Estructura de Directorios](/docs/{{version}}/structure)
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
-    - [Deployment](/docs/{{version}}/deployment)
-- ## Architecture Concepts 
-    - [Request Lifecycle](/docs/{{version}}/lifecycle)
+    - [Despliegue – *Deployment*](/docs/{{version}}/deployment)
+- ## Conceptos de arquitectura 
+    - [Ciclo de vida de la petición](/docs/{{version}}/lifecycle)
     - [Service Container](/docs/{{version}}/container)
     - [Service Providers](/docs/{{version}}/providers)
     - [Facades](/docs/{{version}}/facades)
@@ -32,17 +32,17 @@
     - [Plantillas Blade](/docs/{{version}}/blade)
     - [Localización – *Locale*](/docs/{{version}}/localization)
     - [Frontend Scaffolding](/docs/{{version}}/frontend)
-    - [Compiling Assets](/docs/{{version}}/mix)
-- ## Security 
+    - [Compilar *assets*](/docs/{{version}}/mix)
+- ## Seguridad 
     - [Autenticación](/docs/{{version}}/authentication)
-    - [API Authentication](/docs/{{version}}/passport)
+    - [Autenticación de API](/docs/{{version}}/passport)
     - [Autorización](/docs/{{version}}/authorization)
     - [Encriptado](/docs/{{version}}/encryption)
     - [Cifrado](/docs/{{version}}/hashing)
     - [Restablecer contraseña](/docs/{{version}}/passwords)
 - ## En profundidad 
     - [Consola Artisan](/docs/{{version}}/artisan)
-    - [Broadcasting](/docs/{{version}}/broadcasting)
+    - [Difusión – *Broadcasting*](/docs/{{version}}/broadcasting)
     - [Cache](/docs/{{version}}/cache)
     - [Colecciones](/docs/{{version}}/collections)
     - [Eventos](/docs/{{version}}/events)
@@ -64,13 +64,13 @@
     - [Primeros pasos](/docs/{{version}}/eloquent)
     - [Relaciones](/docs/{{version}}/eloquent-relationships)
     - [Colecciones](/docs/{{version}}/eloquent-collections)
-    - [Mutators](/docs/{{version}}/eloquent-mutators)
-    - [API Resources](/docs/{{version}}/eloquent-resources)
-    - [Serialization](/docs/{{version}}/eloquent-serialization)
+    - [Mutadores – *Mutators*](/docs/{{version}}/eloquent-mutators)
+    - [Recursos API](/docs/{{version}}/eloquent-resources)
+    - [Serialización](/docs/{{version}}/eloquent-serialization)
 - ## Testing 
     - [Primeros pasos](/docs/{{version}}/testing)
-    - [HTTP Tests](/docs/{{version}}/http-tests)
-    - [Browser Tests](/docs/{{version}}/dusk)
+    - [Tests HTTP](/docs/{{version}}/http-tests)
+    - [Tests de navegador](/docs/{{version}}/dusk)
     - [Base de datos](/docs/{{version}}/database-testing)
     - [Mocking](/docs/{{version}}/mocking)
 - ## Paquetes oficiales 
