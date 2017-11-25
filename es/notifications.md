@@ -327,12 +327,12 @@ Las notificaciones de correo de Markdown le permiten aprovechar las plantillas p
 
 ### Generación del mensaje
 
-To generate a notification with a corresponding Markdown template, you may use the `--markdown` option of the `make:notification` Artisan command:
+Para generar una notificación con una plantilla de Markdown correspondiente, puede utilizar la opción `--markdown` del comando Artisan `make:notification`:
 
     php artisan make:notification InvoicePaid --markdown=mail.invoice.paid
     
 
-Like all other mail notifications, notifications that use Markdown templates should define a `toMail` method on their notification class. However, instead of using the `line` and `action` methods to construct the notification, use the `markdown` method to specify the name of the Markdown template that should be used:
+Al igual que todas las demás notificaciones de correo, las notificaciones que utilizan plantillas de Markdown deben definir un método `toMail` en su clase. Sin embargo, en lugar de utilizar los métodos `line` y `action` para construir la notificación, utilice el método `markdown` para especificar el nombre de la plantilla Markdown que debe utilizarse:
 
     /**
      * Get the mail representation of the notification.
@@ -352,9 +352,9 @@ Like all other mail notifications, notifications that use Markdown templates sho
 
 <a name="writing-the-message"></a>
 
-### Writing The Message
+### Construir el mensaje
 
-Markdown mail notifications use a combination of Blade components and Markdown syntax which allow you to easily construct notifications while leveraging Laravel's pre-crafted notification components:
+Las notificaciones de correo de Markdown utilizan una combinación de componentes Blade y sintaxis de Markdown que le permiten construir fácilmente notificaciones aprovechando los componentes predefinidos de Laravel:
 
     @component('mail::message')
     # Invoice Paid
@@ -370,27 +370,27 @@ Markdown mail notifications use a combination of Blade components and Markdown s
     @endcomponent
     
 
-#### Button Component
+#### Componente *button*
 
-The button component renders a centered button link. The component accepts two arguments, a `url` and an optional `color`. Supported colors are `blue`, `green`, and `red`. You may add as many button components to a notification as you wish:
+El componente *button* muestra un enlace como oun botón centrado. El componente acepta dos argumentos, `url` y un `color` opcional. Los colores admitidos son azul, verde y rojo (`blue`, `green`, and `red`). Puede añadir tantos componentes *button* a una notificación como desee:
 
     @component('mail::button', ['url' => $url, 'color' => 'green'])
     View Invoice
     @endcomponent
     
 
-#### Panel Component
+#### Componente *panel*
 
-The panel component renders the given block of text in a panel that has a slightly different background color than the rest of the notification. This allows you to draw attention to a given block of text:
+El componente *panel* representa el bloque de texto dado en un panel que tiene un color de fondo ligeramente diferente al del resto de la notificación. Esto le permite llamar la atención sobre un bloque de texto dado:
 
     @component('mail::panel')
     This is the panel content.
     @endcomponent
     
 
-#### Table Component
+#### Componente *table*
 
-The table component allows you to transform a Markdown table into an HTML table. The component accepts the Markdown table as its content. Table column alignment is supported using the default Markdown table alignment syntax:
+El componente *table* le permite transformar una tabla Markdown en una tabla HTML. El componente acepta la tabla de Markdown como contenido. La alineación de la columna de la tabla se soporta utilizando la sintaxis de alineación de la tabla Markdown por defecto:
 
     @component('mail::table')
     | Laravel       | Table         | Example  |
@@ -402,18 +402,18 @@ The table component allows you to transform a Markdown table into an HTML table.
 
 <a name="customizing-the-components"></a>
 
-### Customizing The Components
+### Personalización de los componentes
 
-You may export all of the Markdown notification components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag:
+Puede exportar todos los componentes de notificación Markdown a su propia aplicación para personalizarlos. Para exportar los componentes, utilice el comando Artisan `vendor:publish` para publicar la etiqueta `laravel-mail`:
 
     php artisan vendor:publish --tag=laravel-mail
     
 
-This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `markdown` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
+Este comando publicará los componentes de correo de Markdown en el directorio `resources/views/vendor/mail`. El directorio `mail` contendrá un directorio `html` y un directorio `markdown`, cada uno de los cuales contendrá sus respectivas representaciones de cada componente disponible. Es libre de personalizar estos componentes como quiera.
 
-#### Customizing The CSS
+#### Personalizar el CSS
 
-After exporting the components, the `resources/views/vendor/mail/html/themes` directory will contain a `default.css` file. You may customize the CSS in this file and your styles will automatically be in-lined within the HTML representations of your Markdown notifications.
+Después de exportar los componentes, el directorio `resources/views/vendor/mail/html/themes` contendrá un archivo `default.css`. Puede personalizar el CSS en este archivo y sus estilos estarán automáticamente incrustados dentro de las representaciones HTML de sus notificaciones Markdown.
 
 > {tip} If you would like to build an entirely new theme for the Markdown components, simply write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
 
