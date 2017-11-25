@@ -487,7 +487,7 @@ Si desea recuperar sólo las notificaciones "no leídas", puede utilizar la rela
 
 ### Marcar notificaciones como leidas
 
-Normalmente, querrá marcar una notificación como "leída" cuando un usuario la vea. The `Illuminate\Notifications\Notifiable` trait provides a `markAsRead` method, which updates the `read_at` column on the notification's database record:
+Normalmente, querrá marcar una notificación como "leída" cuando un usuario la vea. El *trait* `Illuminate\Notificaciones\Notificables` proporciona un método `markAsRead`, que actualiza la columna `read_at` en el registro de la base de datos de notificación:
 
     $user = App\User::find(1);
     
@@ -496,38 +496,38 @@ Normalmente, querrá marcar una notificación como "leída" cuando un usuario la
     }
     
 
-However, instead of looping through each notification, you may use the `markAsRead` method directly on a collection of notifications:
+Sin embargo, en lugar de pasar por cada notificación, puede utilizar el método `markAsRead` directamente en una colección de notificaciones:
 
     $user->unreadNotifications->markAsRead();
     
 
-You may also use a mass-update query to mark all of the notifications as read without retrieving them from the database:
+También puede utilizar una consulta de actualización en masa para marcar todas las notificaciones como leídas sin recuperarlas de la base de datos:
 
     $user = App\User::find(1);
     
     $user->unreadNotifications()->update(['read_at' => Carbon::now()]);
     
 
-Of course, you may `delete` the notifications to remove them from the table entirely:
+Por supuesto, puede borrar las notificaciones para eliminarlas completamente de la tabla:
 
     $user->notifications()->delete();
     
 
 <a name="broadcast-notifications"></a>
 
-## Broadcast Notifications
+## Transmitir notificaciones
 
 <a name="broadcast-prerequisites"></a>
 
-### Prerequisites
+### Requisitos previos
 
-Before broadcasting notifications, you should configure and be familiar with Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services. Event broadcasting provides a way to react to server-side fired Laravel events from your JavaScript client.
+Antes de hacer difusión (*broadcasting*) de las notificaciones, deberá configurar y familiarizarse con los servicios de [difusión de eventos](/docs/{{version}}/broadcasting) de Laravel. La difusión de eventos proporciona una forma de reaccionar a eventos lanzados por Laravel del lado del servidor desde su cliente JavaScript.
 
 <a name="formatting-broadcast-notifications"></a>
 
-### Formatting Broadcast Notifications
+### Formatear notificaciones de difusión (*broadcasting*)
 
-The `broadcast` channel broadcasts notifications using Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services, allowing your JavaScript client to catch notifications in realtime. If a notification supports broadcasting, you should define a `toBroadcast` method on the notification class. This method will receive a `$notifiable` entity and should return a `BroadcastMessage` instance. The returned data will be encoded as JSON and broadcast to your JavaScript client. Let's take a look at an example `toBroadcast` method:
+El canal `broadcast` difunde notificaciones usando el servicio de [difusión de eventos](/docs/{{version}}/broadcasting) permitiendo a su cliente JavaScript responder a las notificaciones en tiempo real. Si una notificación soporta difusión (*broadcasting*), deberá definir un método `toBroadcast` en la clase de notificación. Este método recibirá una entidad `$notifiable` y deberá devolver una instancia de `BroadcastMessage`. Los datos devueltos serán codificados como JSON y se entregaran a tu cliente JavaScript. Veamos un ejemplo del método `toBroadcast`:
 
     use Illuminate\Notifications\Messages\BroadcastMessage;
     
@@ -546,9 +546,9 @@ The `broadcast` channel broadcasts notifications using Laravel's [event broadcas
     }
     
 
-#### Broadcast Queue Configuration
+#### Configuración de la cola de difusión (*Broadcast Queue*)
 
-All broadcast notifications are queued for broadcasting. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
+Todas las notificaciones *broadcast* se colocan en una cola para su difusión. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
 
     return (new BroadcastMessage($data))
                     ->onConnection('sqs')
