@@ -327,12 +327,12 @@ Las notificaciones de correo de Markdown le permiten aprovechar las plantillas p
 
 ### Generación del mensaje
 
-To generate a notification with a corresponding Markdown template, you may use the `--markdown` option of the `make:notification` Artisan command:
+Para generar una notificación con una plantilla de Markdown correspondiente, puede utilizar la opción `--markdown` del comando Artisan `make:notification`:
 
     php artisan make:notification InvoicePaid --markdown=mail.invoice.paid
     
 
-Like all other mail notifications, notifications that use Markdown templates should define a `toMail` method on their notification class. However, instead of using the `line` and `action` methods to construct the notification, use the `markdown` method to specify the name of the Markdown template that should be used:
+Al igual que todas las demás notificaciones de correo, las notificaciones que utilizan plantillas de Markdown deben definir un método `toMail` en su clase. Sin embargo, en lugar de utilizar los métodos `line` y `action` para construir la notificación, utilice el método `markdown` para especificar el nombre de la plantilla Markdown que debe utilizarse:
 
     /**
      * Get the mail representation of the notification.
@@ -352,9 +352,9 @@ Like all other mail notifications, notifications that use Markdown templates sho
 
 <a name="writing-the-message"></a>
 
-### Writing The Message
+### Construir el mensaje
 
-Markdown mail notifications use a combination of Blade components and Markdown syntax which allow you to easily construct notifications while leveraging Laravel's pre-crafted notification components:
+Las notificaciones de correo de Markdown utilizan una combinación de componentes Blade y sintaxis de Markdown que le permiten construir fácilmente notificaciones aprovechando los componentes predefinidos de Laravel:
 
     @component('mail::message')
     # Invoice Paid
@@ -370,27 +370,27 @@ Markdown mail notifications use a combination of Blade components and Markdown s
     @endcomponent
     
 
-#### Button Component
+#### Componente *button*
 
-The button component renders a centered button link. The component accepts two arguments, a `url` and an optional `color`. Supported colors are `blue`, `green`, and `red`. You may add as many button components to a notification as you wish:
+El componente *button* muestra un enlace como oun botón centrado. El componente acepta dos argumentos, `url` y un `color` opcional. Los colores admitidos son azul, verde y rojo (`blue`, `green`, and `red`). Puede añadir tantos componentes *button* a una notificación como desee:
 
     @component('mail::button', ['url' => $url, 'color' => 'green'])
     View Invoice
     @endcomponent
     
 
-#### Panel Component
+#### Componente *panel*
 
-The panel component renders the given block of text in a panel that has a slightly different background color than the rest of the notification. This allows you to draw attention to a given block of text:
+El componente *panel* representa el bloque de texto dado en un panel que tiene un color de fondo ligeramente diferente al del resto de la notificación. Esto le permite llamar la atención sobre un bloque de texto dado:
 
     @component('mail::panel')
     This is the panel content.
     @endcomponent
     
 
-#### Table Component
+#### Componente *table*
 
-The table component allows you to transform a Markdown table into an HTML table. The component accepts the Markdown table as its content. Table column alignment is supported using the default Markdown table alignment syntax:
+El componente *table* le permite transformar una tabla Markdown en una tabla HTML. El componente acepta la tabla de Markdown como contenido. La alineación de la columna de la tabla se soporta utilizando la sintaxis de alineación de la tabla Markdown por defecto:
 
     @component('mail::table')
     | Laravel       | Table         | Example  |
@@ -402,32 +402,32 @@ The table component allows you to transform a Markdown table into an HTML table.
 
 <a name="customizing-the-components"></a>
 
-### Customizing The Components
+### Personalización de los componentes
 
-You may export all of the Markdown notification components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag:
+Puede exportar todos los componentes de notificación Markdown a su propia aplicación para personalizarlos. Para exportar los componentes, utilice el comando Artisan `vendor:publish` para publicar la etiqueta `laravel-mail`:
 
     php artisan vendor:publish --tag=laravel-mail
     
 
-This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `markdown` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
+Este comando publicará los componentes de correo de Markdown en el directorio `resources/views/vendor/mail`. El directorio `mail` contendrá un directorio `html` y un directorio `markdown`, cada uno de los cuales contendrá sus respectivas representaciones de cada componente disponible. Es libre de personalizar estos componentes como quiera.
 
-#### Customizing The CSS
+#### Personalizar el CSS
 
-After exporting the components, the `resources/views/vendor/mail/html/themes` directory will contain a `default.css` file. You may customize the CSS in this file and your styles will automatically be in-lined within the HTML representations of your Markdown notifications.
+Después de exportar los componentes, el directorio `resources/views/vendor/mail/html/themes` contendrá un archivo `default.css`. Puede personalizar el CSS en este archivo y sus estilos estarán automáticamente incrustados dentro de las representaciones HTML de sus notificaciones Markdown.
 
-> {tip} If you would like to build an entirely new theme for the Markdown components, simply write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
+> {tip} Si desea crear un tema completamente nuevo para los componentes de Markdown, simplemente escriba un nuevo archivo CSS dentro del directorio `html/themes` y cambie la opción `theme` de su archivo de configuración `mail`.
 
 <a name="database-notifications"></a>
 
-## Database Notifications
+## Notificaciones de base de datos
 
 <a name="database-prerequisites"></a>
 
-### Prerequisites
+### Requisitos previos
 
-The `database` notification channel stores the notification information in a database table. This table will contain information such as the notification type as well as custom JSON data that describes the notification.
+El canal de notificación `database` almacena la información en una tabla de base de datos. Esta tabla contendrá información como el tipo de notificación y los datos JSON personalizados que describen la notificación.
 
-You can query the table to display the notifications in your application's user interface. But, before you can do that, you will need to create a database table to hold your notifications. You may use the `notifications:table` command to generate a migration with the proper table schema:
+Puede consultar la tabla para mostrar las notificaciones en la interfaz de usuario de la aplicación. Pero, antes de que pueda hacerlo, necesitará crear una tabla de base de datos para guardar sus notificaciones. Puede utilizar el comando `notifications:table` para generar una migración con el esquema de tabla adecuado:
 
     php artisan notifications:table
     
@@ -436,9 +436,9 @@ You can query the table to display the notifications in your application's user 
 
 <a name="formatting-database-notifications"></a>
 
-### Formatting Database Notifications
+### Formatear notificaciones de bases de datos
 
-If a notification supports being stored in a database table, you should define a `toDatabase` or `toArray` method on the notification class. This method will receive a `$notifiable` entity and should return a plain PHP array. The returned array will be encoded as JSON and stored in the `data` column of your `notifications` table. Let's take a look at an example `toArray` method:
+Si una notificación soporta que se almacene en una tabla de la base de datos, debe definir un método `toDatabase` o `toArray` en la clase de notificación. Este método recibirá una entidad `$notifiable` y debería devolver un *array* PHP simple. El *array* devuelto se transformará a JSON y se guardará en la columna `data` de la tabla `notifications`. Let's take a look at an example `toArray` method:
 
     /**
      * Get the array representation of the notification.
@@ -455,15 +455,15 @@ If a notification supports being stored in a database table, you should define a
     }
     
 
-#### `toDatabase` Vs. `toArray`
+#### `toDatabase` versus `toArray`
 
-The `toArray` method is also used by the `broadcast` channel to determine which data to broadcast to your JavaScript client. If you would like to have two different array representations for the `database` and `broadcast` channels, you should define a `toDatabase` method instead of a `toArray` method.
+El método `toArray` también se utiliza por el canal `broadcast` para determinar qué datos transmitir a su cliente JavaScript. Si desea tener dos representaciones de *array* diferentes para los canales `database` y `broadcast`, debe definir un método `toDatabase` en lugar de un método `toArray`.
 
 <a name="accessing-the-notifications"></a>
 
-### Accessing The Notifications
+### Acceso a notificaciones
 
-Once notifications are stored in the database, you need a convenient way to access them from your notifiable entities. The `Illuminate\Notifications\Notifiable` trait, which is included on Laravel's default `App\User` model, includes a `notifications` Eloquent relationship that returns the notifications for the entity. To fetch notifications, you may access this method like any other Eloquent relationship. By default, notifications will be sorted by the `created_at` timestamp:
+Una vez que las notificaciones se almacenan en la base de datos, necesita una forma conveniente de acceder a ellas desde sus entidades *notifiables*. El *trait* `Illuminate\Notifications\Notifiable`, que se incluye en el modelo predeterminado de `App\User`, incluye una relación Eloquent con `notifications` que devuelve las notificaciones de la entidad. Para obtener notificaciones, puede acceder a este método como cualquier otra relación Eloquent. De forma predeterminada, las notificaciones se ordenarán por el campo de fecha `created_at`:
 
     $user = App\User::find(1);
     
@@ -472,7 +472,7 @@ Once notifications are stored in the database, you need a convenient way to acce
     }
     
 
-If you want to retrieve only the "unread" notifications, you may use the `unreadNotifications` relationship. Again, these notifications will be sorted by the `created_at` timestamp:
+Si desea recuperar sólo las notificaciones "no leídas", puede utilizar la relación `unreadNotifications`. De nuevo, estas notificaciones se clasificarán por el campo de fecha `created_at`:
 
     $user = App\User::find(1);
     
@@ -481,13 +481,13 @@ If you want to retrieve only the "unread" notifications, you may use the `unread
     }
     
 
-> {tip} To access your notifications from your JavaScript client, you should define a notification controller for your application which returns the notifications for a notifiable entity, such as the current user. You may then make an HTTP request to that controller's URI from your JavaScript client.
+> {tip} Para acceder a las notificaciones desde su cliente JavaScript, debe definir un controlador para su aplicación que devuelva las notificaciones de una entidad *notifiable*, como el usuario actual. A continuación, puede realizar una solicitud HTTP a la URI de ese controlador desde su cliente JavaScript.
 
 <a name="marking-notifications-as-read"></a>
 
-### Marking Notifications As Read
+### Marcar notificaciones como leidas
 
-Typically, you will want to mark a notification as "read" when a user views it. The `Illuminate\Notifications\Notifiable` trait provides a `markAsRead` method, which updates the `read_at` column on the notification's database record:
+Normalmente, querrá marcar una notificación como "leída" cuando un usuario la vea. El *trait* `Illuminate\Notificaciones\Notificables` proporciona un método `markAsRead`, que actualiza la columna `read_at` en el registro de la base de datos de notificación:
 
     $user = App\User::find(1);
     
@@ -496,38 +496,38 @@ Typically, you will want to mark a notification as "read" when a user views it. 
     }
     
 
-However, instead of looping through each notification, you may use the `markAsRead` method directly on a collection of notifications:
+Sin embargo, en lugar de pasar por cada notificación, puede utilizar el método `markAsRead` directamente en una colección de notificaciones:
 
     $user->unreadNotifications->markAsRead();
     
 
-You may also use a mass-update query to mark all of the notifications as read without retrieving them from the database:
+También puede utilizar una consulta de actualización en masa para marcar todas las notificaciones como leídas sin recuperarlas de la base de datos:
 
     $user = App\User::find(1);
     
     $user->unreadNotifications()->update(['read_at' => Carbon::now()]);
     
 
-Of course, you may `delete` the notifications to remove them from the table entirely:
+Por supuesto, puede borrar las notificaciones para eliminarlas completamente de la tabla:
 
     $user->notifications()->delete();
     
 
 <a name="broadcast-notifications"></a>
 
-## Broadcast Notifications
+## Transmitir notificaciones
 
 <a name="broadcast-prerequisites"></a>
 
-### Prerequisites
+### Requisitos previos
 
-Before broadcasting notifications, you should configure and be familiar with Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services. Event broadcasting provides a way to react to server-side fired Laravel events from your JavaScript client.
+Antes de hacer difusión (*broadcasting*) de las notificaciones, deberá configurar y familiarizarse con los servicios de [difusión de eventos](/docs/{{version}}/broadcasting) de Laravel. La difusión de eventos proporciona una forma de reaccionar a eventos lanzados por Laravel del lado del servidor desde su cliente JavaScript.
 
 <a name="formatting-broadcast-notifications"></a>
 
-### Formatting Broadcast Notifications
+### Formatear notificaciones de difusión (*broadcasting*)
 
-The `broadcast` channel broadcasts notifications using Laravel's [event broadcasting](/docs/{{version}}/broadcasting) services, allowing your JavaScript client to catch notifications in realtime. If a notification supports broadcasting, you should define a `toBroadcast` method on the notification class. This method will receive a `$notifiable` entity and should return a `BroadcastMessage` instance. The returned data will be encoded as JSON and broadcast to your JavaScript client. Let's take a look at an example `toBroadcast` method:
+El canal `broadcast` difunde notificaciones usando el servicio de [difusión de eventos](/docs/{{version}}/broadcasting) permitiendo a su cliente JavaScript responder a las notificaciones en tiempo real. Si una notificación soporta difusión (*broadcasting*), deberá definir un método `toBroadcast` en la clase de notificación. Este método recibirá una entidad `$notifiable` y deberá devolver una instancia de `BroadcastMessage`. Los datos devueltos serán codificados como JSON y se entregaran a tu cliente JavaScript. Veamos un ejemplo del método `toBroadcast`:
 
     use Illuminate\Notifications\Messages\BroadcastMessage;
     
@@ -546,9 +546,9 @@ The `broadcast` channel broadcasts notifications using Laravel's [event broadcas
     }
     
 
-#### Broadcast Queue Configuration
+#### Configuración de la cola de difusión (*Broadcast Queue*)
 
-All broadcast notifications are queued for broadcasting. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
+Todas las notificaciones *broadcast* se colocan en una cola para su difusión. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
 
     return (new BroadcastMessage($data))
                     ->onConnection('sqs')
