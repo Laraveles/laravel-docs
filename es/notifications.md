@@ -438,7 +438,7 @@ Puede consultar la tabla para mostrar las notificaciones en la interfaz de usuar
 
 ### Formatear notificaciones de bases de datos
 
-Si una notificación soporta que se almacene en una tabla de la base de datos, debe definir un método `toDatabase` o `toArray` en la clase de notificación. Este método recibirá una entidad `$notifiable` y debería devolver un *array* PHP simple. El *array* devuelto se transformará a JSON y se guardará en la columna `data` de la tabla `notifications`. Let's take a look at an example `toArray` method:
+Si una notificación soporta que se almacene en una tabla de la base de datos, debe definir un método `toDatabase` o `toArray` en la clase de notificación. Este método recibirá una entidad `$notifiable` y debería devolver un *array* PHP simple. El *array* devuelto se transformará a JSON y se guardará en la columna `data` de la tabla `notifications`. Veamos un ejemplo del método `toArray`:
 
     /**
      * Get the array representation of the notification.
@@ -548,14 +548,14 @@ El canal `broadcast` difunde notificaciones usando el servicio de [difusión de 
 
 #### Configuración de la cola de difusión (*Broadcast Queue*)
 
-Todas las notificaciones *broadcast* se colocan en una cola para su difusión. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
+Todas las notificaciones *broadcast* se colocan en una cola para su difusión. Si desea configurar la conexión de colas (*queue connection*) o el nombre de cola que se utiliza para la operación de *broadcast*, puede utilizar los métodos `onConnection` y `onQueue` de `BroadcastMessage`:
 
     return (new BroadcastMessage($data))
                     ->onConnection('sqs')
                     ->onQueue('broadcasts');
     
 
-> {tip} In addition to the data you specify, broadcast notifications will also contain a `type` field containing the class name of the notification.
+> {tip} Además de los datos que especifique, las notificaciones *broadcast* también contendrán un campo `type` que contendrá el nombre de clase de la notificación.
 
 <a name="listening-for-notifications"></a>
 
@@ -719,7 +719,7 @@ También necesitará configurar una integración ["Incoming Webhook"](https://ap
 
 <a name="formatting-slack-notifications"></a>
 
-### Formatting Slack Notifications
+### Formatear notificaciones de Slack
 
 Si una notificación soporta el envío de un mensaje a Slack, debe definir un método `toSlack` en la clase. Este método recibirá una entidad `$notifiable` y devolverá una instancia de `Illuminate\Notifications\Messages\MailMessage`. Los mensajes de Slack pueden contener texto así como un "archivo adjunto" que formatea texto adicional o una *array* de campos. Veamos un ejemplo básico de `toSlack`:
 
@@ -839,7 +839,7 @@ El ejemplo anterior creará un mensaje de Slack que se parecerá al siguiente:
 
 #### Markdown Attachment Content
 
-If some of your attachment fields contain Markdown, you may use the `markdown` method to instruct Slack to parse and display the given attachment fields as Markdown formatted text. The values accepted by this method are: `pretext`, `text`, and / or `fields`. For more information about Slack attachment formatting, check out the [Slack API documentation](https://api.slack.com/docs/message-formatting#message_formatting):
+Si algunos de los campos de datos adjuntos contienen Markdown, puede utilizar el método `markdown` para indicar a Slack que analice y muestre los campos de datos adjuntos como texto con formato Markdown. Los valores aceptados por este método son: `pretext`, `text`, y / o `fields`. Para obtener más información sobre el formato de Slack para adjuntar archivos consulte la documentación [Slack API documentation](https://api.slack.com/docs/message-formatting#message_formatting):
 
     /**
      * Get the Slack representation of the notification.
