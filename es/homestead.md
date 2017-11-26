@@ -553,9 +553,9 @@ Puede actualizar *Homestead* en dos simples pasos. Primero, debería de actualiz
     vagrant box update
     
 
-A continuación, necesita actaualizar el código fuente de *Homestead*. Si clonó el repositorio, puede simplemente ejecutar `git pull origin master` en el mismo sitio donde clono originalmente el repositorio.
+A continuación, necesita actualizar el código fuente de *Homestead*. Si clonó el repositorio, puede simplemente ejecutar `git pull origin master` en el mismo sitio donde clonó originalmente el repositorio.
 
-Si tiene instalado *Homestead* a través de su fichero `composer.json` del proyecto, debe asegurarse éste contiene `"laravel/homestead": "^6"`, y actualizar sus dependencias:
+Si tiene instalado *Homestead* a través de su fichero `composer.json` del proyecto, debe asegurarse que éste contiene `"laravel/homestead": "^6"`, y actualizar sus dependencias:
 
     composer update
     
@@ -599,7 +599,7 @@ Cuando utiliza una versión antigua de la caja de *Homestead* necesita combinarl
 
 ### VirtualBox
 
-Por defecto, *Homestead* configura la configuración `natdnshostresolver` a `on`. Esto permite a *Homestead* utilizar las configuración del DNS de su sistema operativo anfitrión. Si quisiera sobreeescribir este comportamiento, agregue las siguientes líneas a su fichero `Homestead.yaml`:
+Por defecto, *Homestead* establece la configuración `natdnshostresolver` a `on`. Esto permite a *Homestead* utilizar las configuración del DNS de su sistema operativo anfitrión. Si quisiera sobreeescribir este comportamiento, agregue las siguientes líneas a su fichero `Homestead.yaml`:
 
     provider: virtualbox
     natdnshostresolver: off
