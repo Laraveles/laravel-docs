@@ -1,16 +1,16 @@
-# Eloquent: Collections
+# Eloquent: Colecciones
 
-- [Introduction](#introduction)
-- [Available Methods](#available-methods)
-- [Custom Collections](#custom-collections)
+- [Introducción](#introduction)
+- [Métodos disponibles](#available-methods)
+- [Colecciones personalizadas](#custom-collections)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-All multi-result sets returned by Eloquent are instances of the `Illuminate\Database\Eloquent\Collection` object, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends the Laravel [base collection](/docs/{{version}}/collections), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models.
+Todos los conjuntos multi-resultado que devuelve Eloquent son instancias de `Illuminate\Database\Eloquent\Collection`, incluyendo los resultados que se obtienen a través del método `get` o que se acceden a través de una relación. La colección Eloquent hereda de [Collection](/docs/{{version}}/collections), por lo que hereda docenas de métodos que se utilizarán para trabajar de forma fluida con el *array* de modelos Eloquent subyacente.
 
-Of course, all collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:
+Por supuesto, todas las colecciones sirven además como "iteradores", permitiendo iterar sobre ellas como si fueran *arrays* de PHP normales:
 
     $users = App\User::where('active', 1)->get();
     
@@ -19,7 +19,7 @@ Of course, all collections also serve as iterators, allowing you to loop over th
     }
     
 
-However, collections are much more powerful than arrays and expose a variety of map / reduce operations that may be chained using an intuitive interface. For example, let's remove all inactive models and gather the first name for each remaining user:
+Sin embargo, las colecciones son mucho más potentes que los *arrays* y exponen una gran variedad de operaciones de mapeo / reducción que pueden ser encadenadas utilizando una interfaz muy intuitiva. Por ejemplo, para eliminar todos los modelos inactivos y obtener el nombre de cada usuario restante:
 
     $users = App\User::where('active', 1)->get();
     
@@ -31,15 +31,15 @@ However, collections are much more powerful than arrays and expose a variety of 
     });
     
 
-> {note} While most Eloquent collection methods return a new instance of an Eloquent collection, the `pluck`, `keys`, `zip`, `collapse`, `flatten` and `flip` methods return a [base collection](/docs/{{version}}/collections) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be automatically cast to a base collection.
+> {note} Mientras que la mayoría de los métodos de las colecciones Eloquent devuelven una nueva instancia de la colección, los métodos `pluck`, `keys`, `zip`, `collapse`, `flatten` y `flip` retornan una instancia de la [colección base](/docs/{{version}}/collections). Así mismo, si una operación `map` retorna una colección que no contiene ningún modelo Eloquent, será automáticamente convertida a una colección normal.
 
 <a name="available-methods"></a>
 
-## Available Methods
+## Métodos disponibles
 
-### The Base Collection
+### La colección base
 
-All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections) object; therefore, they inherit all of the powerful methods provided by the base collection class:
+Todas las colecciones Eloquent heredan del objeto [colección de Laravel](/docs/{{version}}/collections); por tanto, heredan todos los potentes métodos que provee esta clase base:
 
 <style>
     #collection-method-list > p {
@@ -60,9 +60,9 @@ All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/
 
 <a name="custom-collections"></a>
 
-## Custom Collections
+## Colecciones personalizadas
 
-If you need to use a custom `Collection` object with your own extension methods, you may override the `newCollection` method on your model:
+Para utilizar un objeto `Collection` personalizado con métodos propios, se puede reemplazar el método `newCollection` del modelo:
 
     <?php
     
@@ -86,4 +86,4 @@ If you need to use a custom `Collection` object with your own extension methods,
     }
     
 
-Once you have defined a `newCollection` method, you will receive an instance of your custom collection anytime Eloquent returns a `Collection` instance of that model. If you would like to use a custom collection for every model in your application, you should override the `newCollection` method on a base model class that is extended by all of your models.
+Una vez definido el método `newCollection`, se obtendrá una instancia de esta colección personalizada cada vez que Eloquent retorne una instancia `Collection` de ese modelo. Para utilizar una colección personalizada para cada modelo de la aplicación, debe sobrescribir el método `newCollection` en un modelo base que debe heredarse por el resto de modelos.
