@@ -18,7 +18,7 @@ Todos los archivos de configuración del *framework* Laravel están almacenados 
 
 ## Configuración del entorno
 
-A menudo es útil tener diferentes valores de configuración basados en el entorno donde se ejecute la aplicación. Por ejemplo, usted puede desear utilizar un majeador de *cache* diferente local diferente que el que se utiliza en su servidor de producción.
+A menudo es útil tener diferentes valores de configuración basados en el entorno donde se ejecute la aplicación. Por ejemplo, se puede utilizar un controlador de *cache* local diferente que el que se utiliza en el servidor de producción.
 
 Para hacer esto más fácil, Laravel utiliza la librería de PHP [DotEnv](https://github.com/vlucas/phpdotenv) de Vance Lucas. En una instalación nueva de Laravel, el directorio raíz de la aplicación contendrá un archivo `.env.example`. Si usted instala Laravel través de *Composer*, este archivo automáticamente será renombrado como `.env`. De lo contrario, usted debe renombrarlo manualmente.
 
@@ -89,14 +89,14 @@ Usted normalmente debe ejecutar el comando `php artisan config:cache` como parte
 
 ## Modo mantenimiento
 
-Cuando su aplicación está en modo de mantenimiento, una vista personalizada será mostrada para todas las peticiones en su aplicación. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o cuando se está realizando el mantenimiento. La comprobación del modo de mantenimiento es incluída en la pilam, por defecto, de *middleware* de su aplicación. Si la aplicación está en modo de mantenimiento, una excepcion `MaintenanceModeException` será lanzada con un código de estado 503.
+Cuando su aplicación está en modo de mantenimiento, una vista personalizada será mostrada para todas las peticiones en su aplicación. Esto hace muy sencillo "desactivar" la aplicación mientras se está actualizando o cuando se está realizando el mantenimiento. La comprobación del modo de mantenimiento está en la pila, por defecto, de *middleware* de su aplicación. Si la aplicación está en modo de mantenimiento, una excepción `MaintenanceModeException` será lanzada con un código de estado 503.
 
 Para activar el modo de mantenimiento, simplemente ejecutar el comando de Artisan `down`:
 
     php artisan down
     
 
-También se pueden proporcionar las opciones `message` y `retry` para el comando `down`. El valor `message` puede ser utilizado para mostrar o registrar un mensaje personalizado, mientras que el valor `retry` sera establecido como valor `Retry-After` en la cabecera HTTP:
+También se pueden proporcionar las opciones `message` y `retry` para el comando `down`. El valor `message` puede ser utilizado para mostrar o registrar un mensaje personalizado, mientras que el valor `retry` será establecido como valor `Retry-After` en la cabecera HTTP:
 
     php artisan down --message="Upgrading Database" --retry=60
     
