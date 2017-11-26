@@ -893,9 +893,9 @@ To route Slack notifications to the proper location, define a `routeNotification
 
 <a name="notification-events"></a>
 
-## Notification Events
+## Eventos de notificación
 
-When a notification is sent, the `Illuminate\Notifications\Events\NotificationSent` event is fired by the notification system. This contains the "notifiable" entity and the notification instance itself. You may register listeners for this event in your `EventServiceProvider`:
+Cuando se envía una notificación, el sistema de notificaciones activa el evento `Illuminate\Notifications\Events\NotificationSent`. Contiene la entidad "notifiable" y la propia instancia de notificación. Se pueden registrar escuchas para este evento en `EventServiceProvider`:
 
     /**
      * The event listener mappings for the application.
@@ -909,7 +909,7 @@ When a notification is sent, the `Illuminate\Notifications\Events\NotificationSe
     ];
     
 
-> {tip} After registering listeners in your `EventServiceProvider`, use the `event:generate` Artisan command to quickly generate listener classes.
+> {tip} Después de registrar a los escuchas en su `EventServiceProvider`, utilice el comando Artisan `event:generate` para generar rápidamente los *listeners* para estos eventos.
 
 Within an event listener, you may access the `notifiable`, `notification`, and `channel` properties on the event to learn more about the notification recipient or the notification itself:
 
@@ -929,9 +929,9 @@ Within an event listener, you may access the `notifiable`, `notification`, and `
 
 <a name="custom-channels"></a>
 
-## Custom Channels
+## Canal personalizado
 
-Laravel ships with a handful of notification channels, but you may want to write your own drivers to deliver notifications via other channels. Laravel makes it simple. To get started, define a class that contains a `send` method. The method should receive two arguments: a `$notifiable` and a `$notification`:
+Laravel incluye varios canales de notificación, pero posible programar sus propios *drivers* para entregar notificaciones a través de otros canales. Laravel lo hace sencillo. Para empezar, defina una clase que contenga un método `send`. El método debe recibir dos argumentos: `$notifiable` y `$notification`:
 
     <?php
     
@@ -957,7 +957,7 @@ Laravel ships with a handful of notification channels, but you may want to write
     }
     
 
-Once your notification channel class has been defined, you may simply return the class name from the `via` method of any of your notifications:
+Una vez que su clase de canal de notificación ha sido definida, simplemente puede devolver el nombre de la clase desde el método `via` de cualquiera de sus notificaciones:
 
     <?php
     
