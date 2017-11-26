@@ -1,44 +1,44 @@
 # Errors & Logging
 
-- [Introduction](#introduction)
-- [Configuration](#configuration) 
-    - [Error Detail](#error-detail)
-    - [Log Storage](#log-storage)
-    - [Log Severity Levels](#log-severity-levels)
-    - [Custom Monolog Configuration](#custom-monolog-configuration)
-- [The Exception Handler](#the-exception-handler) 
+- [Introducción](#introduction)
+- [Configuración](#configuration) 
+    - [Detalles de errores](#error-detail)
+    - [Almacenamiento del Log](#log-storage)
+    - [Niveles de gravedad del Log](#log-severity-levels)
+    - [Configuración de *Monolog* personalizada](#custom-monolog-configuration)
+- [El gestor de excepciones](#the-exception-handler) 
     - [Report Method](#report-method)
     - [Render Method](#render-method)
-    - [Reportable & Renderable Exceptions](#renderable-exceptions)
-- [HTTP Exceptions](#http-exceptions) 
-    - [Custom HTTP Error Pages](#custom-http-error-pages)
+    - [Excepciones reportables & renderizables](#renderable-exceptions)
+- [Excepciones HTTP](#http-exceptions) 
+    - [Páginas de error HTTP personalizadas](#custom-http-error-pages)
 - [Logging](#logging)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-When you start a new Laravel project, error and exception handling is already configured for you. The `App\Exceptions\Handler` class is where all exceptions triggered by your application are logged and then rendered back to the user. We'll dive deeper into this class throughout this documentation.
+Al comenzar un nuevo proyecto con Laravel, la gestión de errores y excepciones viene ya configurada. La clase `App\Excepciones\Handler` es donde todas las excepciones activadas por su aplicación se registran y se devuelven al usuario. Profundizaremos en esta clase a lo largo de esta documentación.
 
-For logging, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolog) library, which provides support for a variety of powerful log handlers. Laravel configures several of these handlers for you, allowing you to choose between a single log file, rotating log files, or writing error information to the system log.
+Para *logging*, Laravel utiliza la biblioteca [Monolog](https://github.com/Seldaek/monolog), que proporciona soporte para una variedad de potentes gestores de *log*. Laravel configura varios de estos gestores, lo que le permite elegir entre un único archivo de *log*, archivos de *log* rotativos o escribir la información de errores en el *log* del sistema.
 
 <a name="configuration"></a>
 
-## Configuration
+## Configuración
 
 <a name="error-detail"></a>
 
-### Error Detail
+### Detalles de errores
 
-The `debug` option in your `config/app.php` configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the `APP_DEBUG` environment variable, which is stored in your `.env` file.
+La opción `debug` en su archivo de configuración `config/app.php` determina la cantidad de información sobre un error se debe mostrar al usuario. De forma predeterminada, esta opción está configurada para respetar el valor de la variable de entorno `APP_DEBUG`, que se almacena en su archivo `.env`.
 
-For local development, you should set the `APP_DEBUG` environment variable to `true`. In your production environment, this value should always be `false`. If the value is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.
+Para el desarrollo local, debe establecer la variable `APP_DEBUG` de entorno en `true`. En su entorno de producción, este valor siempre debe ser `false`. Si el valor se ajusta a `true` en producción, corre el riesgo de exponer los valores de configuración sensibles a los usuarios finales de la aplicación.
 
 <a name="log-storage"></a>
 
 ### Log Storage
 
-Out of the box, Laravel supports writing log information to `single` files, `daily` files, the `syslog`, and the `errorlog`. To configure which storage mechanism Laravel uses, you should modify the `log` option in your `config/app.php` configuration file. For example, if you wish to use daily log files instead of a single file, you should set the `log` value in your `app` configuration file to `daily`:
+De serie, Laravel soporta la escritura de *logs* en archivos `individuales`, archivos `diarios`, el `syslog`, y el `errorlog`. Para configurar qué mecanismo de almacenamiento utiliza Laravel, debe modificar la opción de `log` en su archivo de configuración `config/app.php`. Por ejemplo, si desea utilizar archivos de *log* diarios en lugar de un único archivo, debería establecer el valor de `log` en su archivo de configuración de `app` a `daily`:
 
     'log' => 'daily'
     
