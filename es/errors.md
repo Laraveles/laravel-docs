@@ -45,29 +45,29 @@ De serie, Laravel soporta la escritura de *logs* en archivos `individuales`, arc
 
 #### Maximum Daily Log Files
 
-When using the `daily` log mode, Laravel will only retain five days of log files by default. If you want to adjust the number of retained files, you may add a `log_max_files` configuration value to your `app` configuration file:
+Cuando se utiliza el modo de registro `daily`, Laravel sólo conserva cinco días de archivos de *log* por defecto. Si desea ajustar el número de archivos retenidos, puede añadir un valor de configuración `log_max_files` a su archivo de configuración `app`:
 
     'log_max_files' => 30
     
 
 <a name="log-severity-levels"></a>
 
-### Log Severity Levels
+### Niveles de gravedad del *log*
 
-When using Monolog, log messages may have different levels of severity. By default, Laravel writes all log levels to storage. However, in your production environment, you may wish to configure the minimum severity that should be logged by adding the `log_level` option to your `app.php` configuration file.
+Al usar *Monolog*, los mensajes de registro pueden tener diferentes niveles de gravedad. Por defecto, Laravel guarda la información de cualquier nivel de *log*. Sin embargo, en su entorno de producción, es posible que desee configurar la gravedad mínima que se debe registrar añadiendo la opción `log_level` al archivo de configuración `app.php`.
 
-Once this option has been configured, Laravel will log all levels greater than or equal to the specified severity. For example, a default `log_level` of `error` will log **error**, **critical**, **alert**, and **emergency** messages:
+Una vez configurada la opción, Laravel registrará todos los niveles mayores o iguales a la gravedad especificada. Por ejemplo, un `log_nivel` de `error` registrará mensajes de **error**, **críticos**, **alerta** y **emergencia**:
 
     'log_level' => env('APP_LOG_LEVEL', 'error'),
     
 
-> {tip} Monolog recognizes the following severity levels - from least severe to most severe: `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency`.
+> {tip} Monolog reconoce los siguientes niveles de gravedad - de menos severo a más severo: `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency`.
 
 <a name="custom-monolog-configuration"></a>
 
-### Custom Monolog Configuration
+### Configuración de *Monolog* personalizada
 
-If you would like to have complete control over how Monolog is configured for your application, you may use the application's `configureMonologUsing` method. You should place a call to this method in your `bootstrap/app.php` file right before the `$app` variable is returned by the file:
+Para tener un control completo sobre la configuración de *Monolog*, se puede utilizar el método `configureMonologUsing` de la aplicación. Este método se debe llamar en el archivo `bootstrap/app.php` justo antes de donde el archivo retorna la variable `$app`:
 
     $app->configureMonologUsing(function ($monolog) {
         $monolog->pushHandler(...);
@@ -76,24 +76,24 @@ If you would like to have complete control over how Monolog is configured for yo
     return $app;
     
 
-#### Customizing The Channel Name
+#### Personalizar el nombre del canal
 
-By default, Monolog is instantiated with name that matches the current environment, such as `production` or `local`. To change this value, add the `log_channel` option to your `app.php` configuration file:
+Por defecto, *Monolog* se instala con un nombre que coincide con el entorno actual, como `production` o `local`. Para cambiar este valor, añada la opción `log_channel` a su archivo de configuración `app.php`:
 
     'log_channel' => env('APP_LOG_CHANNEL', 'my-app-name'),
     
 
 <a name="the-exception-handler"></a>
 
-## The Exception Handler
+## El gestor de excepciones
 
 <a name="report-method"></a>
 
-### The Report Method
+### El método *report*
 
-All exceptions are handled by the `App\Exceptions\Handler` class. This class contains two methods: `report` and `render`. We'll examine each of these methods in detail. The `report` method is used to log exceptions or send them to an external service like [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, the `report` method simply passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
+Todas las excepciones se gestionan por la clase `App\Exceptions\Handler`. Esta clase contiene dos métodos: `report` y `render`. Se examinarán en detalle. El método `report` se utiliza para registrar excepciones o enviarlas a un servicio externo como [Bugsnag](https://bugsnag.com) o [Sentry](https://github.com/getsentry/sentry-laravel). Por defecto, el método `report` simplemente pasa la excepción a la clase base donde la excepción se añade al *log*. Sin embargo, se pueden añadir al *log* tantas excepciones como se desee.
 
-For example, if you need to report different types of exceptions in different ways, you may use the PHP `instanceof` comparison operator:
+Por ejemplo, para reportar diferentes tipos de excepciones de modos diferentes, se puede utilizar el operador de comparación `instanceof`:
 
     /**
      * Report or log an exception.
@@ -113,9 +113,9 @@ For example, if you need to report different types of exceptions in different wa
     }
     
 
-#### The `report` Helper
+#### El helper `report`
 
-Sometimes you may need to report an exception but continue handling the current request. The `report` helper function allows you to quickly report an exception using your exception handler's `report` method without rendering an error page:
+A veces es posible que necesite reportar una excepción pero continuar manejando la solicitud actual. El helper `report` le permite notificar rápidamente una excepción utilizando el método `report` del gestor de excepciones sin mostrar una página de error:
 
     public function isValid($value)
     {
@@ -129,9 +129,9 @@ Sometimes you may need to report an exception but continue handling the current 
     }
     
 
-#### Ignoring Exceptions By Type
+#### Ignorar excepciones por tipo
 
-The `$dontReport` property of the exception handler contains an array of exception types that will not be logged. For example, exceptions resulting from 404 errors, as well as several other types of errors, are not written to your log files. You may add other exception types to this array as needed:
+La propiedad `$dontReport` del gestor de excepciones contiene un *array* de excepciones que no deben ser registradas. Por ejemplo, las excepciones resultantes de errores 404, así como otros tipos de errores, no se escriben en los ficheros *log*. Puede agregar otros tipos de excepciones a este *array* según sea necesario:
 
     /**
      * A list of the exception types that should not be reported.
@@ -149,9 +149,9 @@ The `$dontReport` property of the exception handler contains an array of excepti
 
 <a name="render-method"></a>
 
-### The Render Method
+### El método *render*
 
-The `render` method is responsible for converting a given exception into an HTTP response that should be sent back to the browser. By default, the exception is passed to the base class which generates a response for you. However, you are free to check the exception type or return your own custom response:
+El método `render` es responsable de convertir una excepción en una respuesta HTTP que debe enviarse al navegador. Por defecto, la excepción se pasa a la clase base que genera una respuesta automática. Sin embargo, se puede comprobar el tipo de la excepción o retornar una respuesta diferente:
 
     /**
      * Render an exception into an HTTP response.
@@ -172,9 +172,9 @@ The `render` method is responsible for converting a given exception into an HTTP
 
 <a name="renderable-exceptions"></a>
 
-### Reportable & Renderable Exceptions
+### Excepciones *reportables* & *renderizables*
 
-Instead of type-checking exceptions in the exception handler's `report` and `render` methods, you may define `report` and `render` methods directly on your custom exception. When these methods exist, they will be called automatically by the framework:
+En lugar de comprobar el tipo de excepciones en los métodos `report` y `render` del gestor de excepciones, puede definir métodos `report` y `render` directamente en su excepción personalizada. Si estos métodos existen, el framework los llamará automáticamente:
 
     <?php
     
@@ -209,9 +209,9 @@ Instead of type-checking exceptions in the exception handler's `report` and `ren
 
 <a name="http-exceptions"></a>
 
-## HTTP Exceptions
+## Excepciones HTTP
 
-Some exceptions describe HTTP error codes from the server. For example, this may be a "page not found" error (404), an "unauthorized error" (401) or even a developer generated 500 error. In order to generate such a response from anywhere in your application, you may use the `abort` helper:
+Algunas excepciones describen códigos de error HTTP desde el servidor. Por ejemplo, un error "page not found" (404), un "unauthorized error" (401) o incluso un error 500 generado manualmente. Para generar una respuesta de este tipo desde cualquier punto de su aplicación, puede utilizar el helper `abort`:
 
     abort(404);
     
