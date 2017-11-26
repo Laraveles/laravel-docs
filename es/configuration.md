@@ -89,7 +89,7 @@ Usted normalmente debe ejecutar el comando `php artisan config:cache` como parte
 
 ## Modo mantenimiento
 
-Cuando su aplicación está en modo de mantenimiento, una vista personalizada será mostrada para todas las peticiones en su aplicación. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o cuando se está realizando el mantenimiento. La comprobación del modo de mantenimiento es incluída en la pilam, por defecto, de *middleware* de su aplicación. Si la aplicación está en modo de mantenimiento, una excepcion `MaintenanceModeException` será lanzada con un código de estado 503.
+Cuando su aplicación está en modo de mantenimiento, una vista personalizada será mostrada para todas las peticiones en su aplicación. Esto hace muy sencillo "desactivar" la aplicación mientras se esta actualizando o cuando se está realizando el mantenimiento. La comprobación del modo de mantenimiento es incluída en la pila, por defecto, de *middleware* de su aplicación. Si la aplicación está en modo de mantenimiento, una excepción `MaintenanceModeException` será lanzada con un código de estado 503.
 
 Para activar el modo de mantenimiento, simplemente ejecutar el comando de Artisan `down`:
 
