@@ -48,7 +48,7 @@ No obstante si no está utilizando Homestead, necesitará asegurarse que el serv
 
 ### Instalar Laravel
 
-Laravel utiliza [Composer](https://getcomposer.org) para gestionar sus dependencias. Por lo tanto, antes de utilizar Laravel, asegurese de tener instalado Composer en su máquina.
+Laravel utiliza [Composer](https://getcomposer.org) para gestionar sus dependencias. Por lo tanto, antes de utilizar Laravel, asegúrese de tener instalado Composer en su máquina.
 
 #### A través del Instalador de Laravel
 
