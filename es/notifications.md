@@ -438,7 +438,7 @@ Puede consultar la tabla para mostrar las notificaciones en la interfaz de usuar
 
 ### Formatear notificaciones de bases de datos
 
-Si una notificación soporta que se almacene en una tabla de la base de datos, debe definir un método `toDatabase` o `toArray` en la clase de notificación. Este método recibirá una entidad `$notifiable` y debería devolver un *array* PHP simple. El *array* devuelto se transformará a JSON y se guardará en la columna `data` de la tabla `notifications`. Let's take a look at an example `toArray` method:
+Si una notificación soporta que se almacene en una tabla de la base de datos, debe definir un método `toDatabase` o `toArray` en la clase de notificación. Este método recibirá una entidad `$notifiable` y debería devolver un *array* PHP simple. El *array* devuelto se transformará a JSON y se guardará en la columna `data` de la tabla `notifications`. Veamos un ejemplo del método `toArray`:
 
     /**
      * Get the array representation of the notification.
@@ -548,20 +548,20 @@ El canal `broadcast` difunde notificaciones usando el servicio de [difusión de 
 
 #### Configuración de la cola de difusión (*Broadcast Queue*)
 
-Todas las notificaciones *broadcast* se colocan en una cola para su difusión. If you would like to configure the queue connection or queue name that is used to the queue the broadcast operation, you may use the `onConnection` and `onQueue` methods of the `BroadcastMessage`:
+Todas las notificaciones *broadcast* se colocan en una cola para su difusión. Si desea configurar la conexión de colas (*queue connection*) o el nombre de cola que se utiliza para la operación de *broadcast*, puede utilizar los métodos `onConnection` y `onQueue` de `BroadcastMessage`:
 
     return (new BroadcastMessage($data))
                     ->onConnection('sqs')
                     ->onQueue('broadcasts');
     
 
-> {tip} In addition to the data you specify, broadcast notifications will also contain a `type` field containing the class name of the notification.
+> {tip} Además de los datos que especifique, las notificaciones *broadcast* también contendrán un campo `type` que contendrá el nombre de clase de la notificación.
 
 <a name="listening-for-notifications"></a>
 
-### Listening For Notifications
+### Cómo capturar notificaciones
 
-Notifications will broadcast on a private channel formatted using a `{notifiable}.{id}` convention. So, if you are sending a notification to a `App\User` instance with an ID of `1`, the notification will be broadcast on the `App.User.1` private channel. When using [Laravel Echo](/docs/{{version}}/broadcasting), you may easily listen for notifications on a channel using the `notification` helper method:
+Las notificaciones serán difundidas en un canal privado formateado usando la convención `{notifiable}.{id}`. Por tanto, si envía una notificación a una instancia de `App\User` con un ID de `1`, la notificación será difundida sobre el canal privado `App.User.1`. Cuando use [Laravel Echo](/docs/{{version}}/broadcasting) podrá escuchar fácilmente a las notificaciones en un canal usando el *helper* `notification`:
 
     Echo.private('App.User.' + userId)
         .notification((notification) => {
@@ -569,9 +569,9 @@ Notifications will broadcast on a private channel formatted using a `{notifiable
         });
     
 
-#### Customizing The Notification Channel
+#### Personalizar el canal de notificación
 
-If you would like to customize which channels a notifiable entity receives its broadcast notifications on, you may define a `receivesBroadcastNotificationsOn` method on the notifiable entity:
+Si desea personalizar los canales en los cuales una entidad *notifiable* recibirá sus notificaciones de difusión (*broadcast notifications*), deberá definir un método `receivesBroadcastNotificationsOn` en la entidad *notifiable*:
 
     <?php
     
@@ -599,13 +599,13 @@ If you would like to customize which channels a notifiable entity receives its b
 
 <a name="sms-notifications"></a>
 
-## SMS Notifications
+## Notificaciones por SMS
 
 <a name="sms-prerequisites"></a>
 
-### Prerequisites
+### Requisitos previos
 
-Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com/). Before you can send notifications via Nexmo, you need to install the `nexmo/client` Composer package and add a few configuration options to your `config/services.php` configuration file. You may copy the example configuration below to get started:
+El envío de notificaciones SMS en Laravel se opera por [Nexmo](https://www.nexmo.com/). Antes de que pueda enviar notificaciones a través de Nexmo, necesita instalar el paquete de Composer `nexmo/client` y añadir algunas opciones de configuración a su archivo `config/services.php`. Puede copiar el ejemplo de configuración a continuación para comenzar:
 
     'nexmo' => [
         'key' => env('NEXMO_KEY'),
@@ -614,13 +614,13 @@ Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com
     ],
     
 
-The `sms_from` option is the phone number that your SMS messages will be sent from. You should generate a phone number for your application in the Nexmo control panel.
+La opción `sms_from` es el número de teléfono desde el que se enviarán sus mensajes SMS. Debe generar un número de teléfono para su aplicación en el panel de control de Nexmo.
 
 <a name="formatting-sms-notifications"></a>
 
-### Formatting SMS Notifications
+### Formatear notificaciones SMS
 
-If a notification supports being sent as a SMS, you should define a `toNexmo` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\NexmoMessage` instance:
+Si una notificación soporta el ser enviada como SMS, debe definir un método `toNexmo` en la clase de notificación. Este método recibirá una entidad `$notifiable` y deberá devolver una instancia de `Illuminate\Notifications\Messages\NexmoMessage`:
 
     /**
      * Get the Nexmo / SMS representation of the notification.
@@ -635,9 +635,9 @@ If a notification supports being sent as a SMS, you should define a `toNexmo` me
     }
     
 
-#### Unicode Content
+#### Contenido Unicode
 
-If your SMS message will contain unicode characters, you should call the `unicode` method when constructing the `NexmoMessage` instance:
+Si su mensaje SMS contiene caracteres unicode, debe llamar al método `unicode` al construir la instancia `NexmoMessage`:
 
     /**
      * Get the Nexmo / SMS representation of the notification.
@@ -655,9 +655,9 @@ If your SMS message will contain unicode characters, you should call the `unicod
 
 <a name="customizing-the-from-number"></a>
 
-### Customizing The "From" Number
+### Personalizar el número de origen
 
-If you would like to send some notifications from a phone number that is different from the phone number specified in your `config/services.php` file, you may use the `from` method on a `NexmoMessage` instance:
+Si desea enviar algunas notificaciones desde un número de teléfono diferente al especificado en su archivo `config/services.php`, puede utilizar el método `from` en una instancia `NexmoMessage`:
 
     /**
      * Get the Nexmo / SMS representation of the notification.
@@ -675,9 +675,9 @@ If you would like to send some notifications from a phone number that is differe
 
 <a name="routing-sms-notifications"></a>
 
-### Routing SMS Notifications
+### Enrutar notificaciones SMS
 
-When sending notifications via the `nexmo` channel, the notification system will automatically look for a `phone_number` attribute on the notifiable entity. If you would like to customize the phone number the notification is delivered to, define a `routeNotificationForNexmo` method on the entity:
+Al enviar notificaciones a través del canal `nexmo`, el sistema de notificaciones buscará automáticamente un atributo `phone_number` en la entidad *notifiable*. Si desea personalizar el número de teléfono al que se envía la notificación, defina un método `routeNotificationForNexmo` en la entidad:
 
     <?php
     
@@ -704,24 +704,24 @@ When sending notifications via the `nexmo` channel, the notification system will
 
 <a name="slack-notifications"></a>
 
-## Slack Notifications
+## Notificaciones de Slack
 
 <a name="slack-prerequisites"></a>
 
-### Prerequisites
+### Requisitos previos
 
-Before you can send notifications via Slack, you must install the Guzzle HTTP library via Composer:
+Antes de poder enviar notificaciones a través de Slack, debe instalar la librería *Guzzle HTTP* a través de Composer:
 
     composer require guzzlehttp/guzzle
     
 
-You will also need to configure an ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) integration for your Slack team. This integration will provide you with a URL you may use when [routing Slack notifications](#routing-slack-notifications).
+También necesitará configurar una integración ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) en su equipo de Slack. Esta integración le proporcionará una URL que puede utilizar para [erutar las notificaciones de Slack](#routing-slack-notifications).
 
 <a name="formatting-slack-notifications"></a>
 
-### Formatting Slack Notifications
+### Formatear notificaciones de Slack
 
-If a notification supports being sent as a Slack message, you should define a `toSlack` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\SlackMessage` instance. Slack messages may contain text content as well as an "attachment" that formats additional text or an array of fields. Let's take a look at a basic `toSlack` example:
+Si una notificación soporta el envío de un mensaje a Slack, debe definir un método `toSlack` en la clase. Este método recibirá una entidad `$notifiable` y devolverá una instancia de `Illuminate\Notifications\Messages\MailMessage`. Los mensajes de Slack pueden contener texto así como un "archivo adjunto" que formatea texto adicional o una *array* de campos. Veamos un ejemplo básico de `toSlack`:
 
     /**
      * Get the Slack representation of the notification.
@@ -736,13 +736,13 @@ If a notification supports being sent as a Slack message, you should define a `t
     }
     
 
-In this example we are just sending a single line of text to Slack, which will create a message that looks like the following:
+En este ejemplo sólo estamos enviando una única línea de texto a Slack, que creará un mensaje parecido al siguiente:
 
 <img src="https://laravel.com/assets/img/basic-slack-notification.png" />
 
-#### Customizing The Sender & Recipient
+#### Personalización del remitente & destinatario
 
-You may use the `from` and `to` methods to customize the sender and recipient. The `from` method accepts a username and emoji identifier, while the `to` method accepts a channel or username:
+Puede utilizar los métodos `from` y `to` para personalizar el remitente y el destinatario. El método `from` acepta un nombre de usuario e identificador emoji, mientras que el método `to` acepta un canal o nombre de usuario:
 
     /**
      * Get the Slack representation of the notification.
@@ -759,7 +759,7 @@ You may use the `from` and `to` methods to customize the sender and recipient. T
     }
     
 
-You may also use an image as your logo instead of an emoji:
+También puede utilizar una imagen como su logotipo en lugar de un emoji:
 
     /**
      * Get the Slack representation of the notification.
@@ -778,9 +778,9 @@ You may also use an image as your logo instead of an emoji:
 
 <a name="slack-attachments"></a>
 
-### Slack Attachments
+### Adjuntos en Slack
 
-You may also add "attachments" to Slack messages. Attachments provide richer formatting options than simple text messages. In this example, we will send an error notification about an exception that occurred in an application, including a link to view more details about the exception:
+También puede agregar "adjuntos" a los mensajes de Slack. Los archivos adjuntos proporcionan opciones de formato más completas que los mensajes de texto simples. En este ejemplo, enviaremos una notificación de error sobre una excepción ocurrida en una aplicación, incluyendo un enlace para ver más detalles sobre la excepción:
 
     /**
      * Get the Slack representation of the notification.
@@ -802,11 +802,11 @@ You may also add "attachments" to Slack messages. Attachments provide richer for
     }
     
 
-The example above will generate a Slack message that looks like the following:
+El ejemplo anterior generará un mensaje de Slack que se parecerá al siguiente:
 
 <img src="https://laravel.com/assets/img/basic-slack-attachment.png" />
 
-Attachments also allow you to specify an array of data that should be presented to the user. The given data will be presented in a table-style format for easy reading:
+Los adjuntos también le permiten especificar un *array* de datos que deben presentarse al usuario. Los datos proporcionados se presentarán en un formato de tabla para facilitar la lectura:
 
     /**
      * Get the Slack representation of the notification.
@@ -833,13 +833,13 @@ Attachments also allow you to specify an array of data that should be presented 
     }
     
 
-The example above will create a Slack message that looks like the following:
+El ejemplo anterior creará un mensaje de Slack que se parecerá al siguiente:
 
 <img src="https://laravel.com/assets/img/slack-fields-attachment.png" />
 
 #### Markdown Attachment Content
 
-If some of your attachment fields contain Markdown, you may use the `markdown` method to instruct Slack to parse and display the given attachment fields as Markdown formatted text. The values accepted by this method are: `pretext`, `text`, and / or `fields`. For more information about Slack attachment formatting, check out the [Slack API documentation](https://api.slack.com/docs/message-formatting#message_formatting):
+Si algunos de los campos de datos adjuntos contienen Markdown, puede utilizar el método `markdown` para indicar a Slack que analice y muestre los campos de datos adjuntos como texto con formato Markdown. Los valores aceptados por este método son: `pretext`, `text`, y / o `fields`. Para obtener más información sobre el formato de Slack para adjuntar archivos consulte la documentación [Slack API documentation](https://api.slack.com/docs/message-formatting#message_formatting):
 
     /**
      * Get the Slack representation of the notification.
@@ -864,9 +864,9 @@ If some of your attachment fields contain Markdown, you may use the `markdown` m
 
 <a name="routing-slack-notifications"></a>
 
-### Routing Slack Notifications
+### Enrutar notificaciones de Slack
 
-To route Slack notifications to the proper location, define a `routeNotificationForSlack` method on your notifiable entity. This should return the webhook URL to which the notification should be delivered. Webhook URLs may be generated by adding an "Incoming Webhook" service to your Slack team:
+Para enrutar las notificaciones de Slack a la ubicación apropiada, defina un método `routeNotificationForSlack` en su entidad *notifiable*. Esto debería devolver la URL del *webhook* al que se debe enviar la notificación. Las URLs de *webhook* se pueden generar añadiendo un servicio "Incoming Webhook" a su equipo de Slack:
 
     <?php
     
@@ -911,7 +911,7 @@ Cuando se envía una notificación, el sistema de notificaciones activa el event
 
 > {tip} Después de registrar a los escuchas en su `EventServiceProvider`, utilice el comando Artisan `event:generate` para generar rápidamente los *listeners* para estos eventos.
 
-Within an event listener, you may access the `notifiable`, `notification`, and `channel` properties on the event to learn more about the notification recipient or the notification itself:
+Dentro de un receptor de eventos, puede acceder a las propiedades `notifiable`, `notification`, y `channel` en el evento para obtener más información sobre el destinatario de la notificación o sobre la notificación en sí:
 
     /**
      * Handle the event.
