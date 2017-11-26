@@ -559,9 +559,9 @@ Todas las notificaciones *broadcast* se colocan en una cola para su difusión. I
 
 <a name="listening-for-notifications"></a>
 
-### Listening For Notifications
+### Cómo capturar notificaciones
 
-Notifications will broadcast on a private channel formatted using a `{notifiable}.{id}` convention. So, if you are sending a notification to a `App\User` instance with an ID of `1`, the notification will be broadcast on the `App.User.1` private channel. When using [Laravel Echo](/docs/{{version}}/broadcasting), you may easily listen for notifications on a channel using the `notification` helper method:
+Las notificaciones serán difundidas en un canal privado formateado usando la convención `{notifiable}.{id}`. Por tanto, si envía una notificación a una instancia de `App\User` con un ID de `1`, la notificación será difundida sobre el canal privado `App.User.1`. Cuando use [Laravel Echo](/docs/{{version}}/broadcasting) podrá escuchar fácilmente a las notificaciones en un canal usando el *helper* `notification`:
 
     Echo.private('App.User.' + userId)
         .notification((notification) => {
@@ -569,9 +569,9 @@ Notifications will broadcast on a private channel formatted using a `{notifiable
         });
     
 
-#### Customizing The Notification Channel
+#### Personalizar el canal de notificación
 
-If you would like to customize which channels a notifiable entity receives its broadcast notifications on, you may define a `receivesBroadcastNotificationsOn` method on the notifiable entity:
+Si desea personalizar los canales en los cuales una entidad *notifiable* recibirá sus notificaciones de difusión (*broadcast notifications*), deberá definir un método `receivesBroadcastNotificationsOn` en la entidad *notifiable*:
 
     <?php
     
@@ -599,13 +599,13 @@ If you would like to customize which channels a notifiable entity receives its b
 
 <a name="sms-notifications"></a>
 
-## SMS Notifications
+## Notificaciones por SMS
 
 <a name="sms-prerequisites"></a>
 
-### Prerequisites
+### Requisitos previos
 
-Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com/). Before you can send notifications via Nexmo, you need to install the `nexmo/client` Composer package and add a few configuration options to your `config/services.php` configuration file. You may copy the example configuration below to get started:
+El envío de notificaciones SMS en Laravel se opera por [Nexmo](https://www.nexmo.com/). Antes de que pueda enviar notificaciones a través de Nexmo, necesita instalar el paquete de Composer `nexmo/client` y añadir algunas opciones de configuración a su archivo `config/services.php`. Puede copiar el ejemplo de configuración a continuación para comenzar:
 
     'nexmo' => [
         'key' => env('NEXMO_KEY'),
@@ -614,13 +614,13 @@ Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com
     ],
     
 
-The `sms_from` option is the phone number that your SMS messages will be sent from. You should generate a phone number for your application in the Nexmo control panel.
+La opción `sms_from` es el número de teléfono desde el que se enviarán sus mensajes SMS. Debe generar un número de teléfono para su aplicación en el panel de control de Nexmo.
 
 <a name="formatting-sms-notifications"></a>
 
-### Formatting SMS Notifications
+### Formatear notificaciones SMS
 
-If a notification supports being sent as a SMS, you should define a `toNexmo` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\NexmoMessage` instance:
+Si una notificación soporta el ser enviada como SMS, debe definir un método `toNexmo` en la clase de notificación. Este método recibirá una entidad `$notifiable` y deberá devolver una instancia de `Illuminate\Notifications\Messages\NexmoMessage`:
 
     /**
      * Get the Nexmo / SMS representation of the notification.
@@ -635,9 +635,9 @@ If a notification supports being sent as a SMS, you should define a `toNexmo` me
     }
     
 
-#### Unicode Content
+#### Contenido Unicode
 
-If your SMS message will contain unicode characters, you should call the `unicode` method when constructing the `NexmoMessage` instance:
+Si su mensaje SMS contiene caracteres unicode, debe llamar al método `unicode` al construir la instancia `NexmoMessage`:
 
     /**
      * Get the Nexmo / SMS representation of the notification.
@@ -655,9 +655,9 @@ If your SMS message will contain unicode characters, you should call the `unicod
 
 <a name="customizing-the-from-number"></a>
 
-### Customizing The "From" Number
+### Personalizar el número de origen
 
-If you would like to send some notifications from a phone number that is different from the phone number specified in your `config/services.php` file, you may use the `from` method on a `NexmoMessage` instance:
+Si desea enviar algunas notificaciones desde un número de teléfono diferente al especificado en su archivo `config/services.php`, puede utilizar el método `from` en una instancia `NexmoMessage`:
 
     /**
      * Get the Nexmo / SMS representation of the notification.
@@ -675,9 +675,9 @@ If you would like to send some notifications from a phone number that is differe
 
 <a name="routing-sms-notifications"></a>
 
-### Routing SMS Notifications
+### Enrutar notificaciones SMS
 
-When sending notifications via the `nexmo` channel, the notification system will automatically look for a `phone_number` attribute on the notifiable entity. If you would like to customize the phone number the notification is delivered to, define a `routeNotificationForNexmo` method on the entity:
+Al enviar notificaciones a través del canal `nexmo`, el sistema de notificaciones buscará automáticamente un atributo `phone_number` en la entidad *notifiable*. Si desea personalizar el número de teléfono al que se envía la notificación, defina un método `routeNotificationForNexmo` en la entidad:
 
     <?php
     
@@ -704,24 +704,24 @@ When sending notifications via the `nexmo` channel, the notification system will
 
 <a name="slack-notifications"></a>
 
-## Slack Notifications
+## Notificaciones de Slack
 
 <a name="slack-prerequisites"></a>
 
-### Prerequisites
+### Requisitos previos
 
-Before you can send notifications via Slack, you must install the Guzzle HTTP library via Composer:
+Antes de poder enviar notificaciones a través de Slack, debe instalar la librería *Guzzle HTTP* a través de Composer:
 
     composer require guzzlehttp/guzzle
     
 
-You will also need to configure an ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) integration for your Slack team. This integration will provide you with a URL you may use when [routing Slack notifications](#routing-slack-notifications).
+También necesitará configurar una integración ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) en su equipo de Slack. Esta integración le proporcionará una URL que puede utilizar para [erutar las notificaciones de Slack](#routing-slack-notifications).
 
 <a name="formatting-slack-notifications"></a>
 
 ### Formatting Slack Notifications
 
-If a notification supports being sent as a Slack message, you should define a `toSlack` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\SlackMessage` instance. Slack messages may contain text content as well as an "attachment" that formats additional text or an array of fields. Let's take a look at a basic `toSlack` example:
+Si una notificación soporta el envío de un mensaje a Slack, debe definir un método `toSlack` en la clase. Este método recibirá una entidad `$notifiable` y devolverá una instancia de `Illuminate\Notifications\Messages\MailMessage`. Los mensajes de Slack pueden contener texto así como un "archivo adjunto" que formatea texto adicional o una *array* de campos. Veamos un ejemplo básico de `toSlack`:
 
     /**
      * Get the Slack representation of the notification.
