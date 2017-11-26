@@ -1,4 +1,4 @@
-# HTTP Responses
+# Respuestas HTTP
 
 - [Creating Responses](#creating-responses) 
     - [Attaching Headers To Responses](#attaching-headers-to-responses)
