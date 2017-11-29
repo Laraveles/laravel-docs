@@ -34,7 +34,7 @@ Laravel se esfuerza por hacer toda la experiencia de desarrollo de PHP agradable
 
 Laravel Homestead es una *Vagrant box* oficial que le provee de un maravilloso entorno de desarrollo sin requerirle instalar PHP, un servidor web, y cualquier otras aplicaciones de servidor en su máquina local. No más preocupaciones acerca de estropear su sistema operativo! Las "boxes" de Vagrant son completamente desechables. Si algo sale mal, ¡se puede destruir la box y crearla nuevamente en cuestión de minutos!
 
-Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.1, PHP 7.0, PHP 5.6, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
+Homestead se puede ejecutar sobre cualquier sistema Windows, Mac o Linux e incluye el servidor web Nginx, PHP 7.1, PHP 7.0, PHP 5.6, MySQL, PostgreSQL, Redis, Memcached, Node, y todas las características necesarias para desarrollar aplicaciones con Laravel.
 
 > {note} Si está utilizando Windows, podría necesitar activar la virtualización por *hardware* (VT-x). Normalmente, ésta puede activarse a través de su BIOS. Si está utilizando Hyper-V en una sistema UEFI, además puede necesitar desactivar Hyper-V para acceder a VT-x.
 
