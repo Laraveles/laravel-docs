@@ -36,7 +36,7 @@ Todas las rutas de Laravel se definen en los archivos que se encuentran en la ca
 
 Para la mayoría de aplicaciones, se comenzará definiendo las rutas en el archivo `routes/web.php`. Se puede acceder a las rutas definidas en `routes/web.php` simplemente escribiendo la URI definida en el navegador. Por ejemplo, se puede acceder a la siguiente ruta simplemente accediendo a `http://tu-app.dev/user` desde el navegador:
 
-    Route::get('/user', 'UsersController@index');
+    Route::get('/user', 'UserController@index');
     
 
 El `RouteServiceProvider` anidará las rutas definidas en `routes/api.php` bajo un grupo de rutas. Este grupo añadirá el URI `/api` como prefijo de forma automática, por lo que no es necesario definirlo en cada una de las rutas del archivo. Se puede modificar el prefijo y otras opciones del grupo modificando la clase `RouteServiceProvider`.
