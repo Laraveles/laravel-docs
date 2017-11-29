@@ -45,6 +45,12 @@ Laravel 5.5 requires version `~6.0` of Swift Mailer.
 
 ### Artisan
 
+#### Auto-Loading Commands
+
+In Laravel 5.5, Artisan can automatically discover commands so that you do not have to manually register them in your kernel. To take advantage of this new feature, you should add the following line to the `commands` method of your  `App\Console\Kernel` class:
+
+    $this->load(__DIR__.'/Commands');
+
 #### The `fire` Method
 
 Any `fire` methods present on your Artisan commands should be renamed to `handle`.
