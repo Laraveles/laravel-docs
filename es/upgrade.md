@@ -47,6 +47,13 @@ Laravel 5.5 requires version `~6.0` of Swift Mailer.
 
 ### Artisan
 
+#### Auto-Loading Commands
+
+In Laravel 5.5, Artisan can automatically discover commands so that you do not have to manually register them in your kernel. To take advantage of this new feature, you should add the following line to the `commands` method of your `App\Console\Kernel` class:
+
+    $this->load(__DIR__.'/Commands');
+    
+
 #### The `fire` Method
 
 Any `fire` methods present on your Artisan commands should be renamed to `handle`.
@@ -338,11 +345,11 @@ Some authentication assertions were renamed for better consistency with the rest
 
 #### Mail Fake
 
-Si está usando el *fake* `Mail` para determinar si un *mailable* fue enviado a la cola (***queued***) durante una solicitud, ahora debería usar `Mail::assertQueued` en lugar de `Mail::assertSent`. Esta distinción le permite afirmar específicamente que el correo se ha puesto en cola para el envío en *background* y no se ha enviado durante la propia solicitud.
+If you are using the `Mail` fake to determine if a mailable was **queued** during a request, you should now use `Mail::assertQueued` instead of `Mail::assertSent`. This distinction allows you to specifically assert that the mail was queued for background sending and not sent during the request itself.
 
 #### Tinker
 
-Laravel Tinker ahora soporta omitir namespaces al referirse a las clases de su aplicación. Esta característica requiere un mapa optimizado de la clase Composer, por lo que debe añadir la directiva `optimize-autoloader` a la sección `config` de su archivo `composer.json`:
+Laravel Tinker now supports omitting namespaces when referring to your application classes. This feature requires an optimized Composer class-map, so you should add the `optimize-autoloader` directive to the `config` section of your `composer.json` file:
 
     "config": {
         ...
@@ -352,33 +359,33 @@ Laravel Tinker ahora soporta omitir namespaces al referirse a las clases de su a
 
 ### Traducción
 
-#### La `LoaderInterface`
+#### The `LoaderInterface`
 
-La interfaz `Illuminate\Translation\LoaderInterface` ha sido movida a `Illuminate\Contracts\Translation\Loader`.
+The `Illuminate\Translation\LoaderInterface` interface has been moved to `Illuminate\Contracts\Translation\Loader`.
 
 ### Validación
 
-#### Metodos de validacion
+#### Validator Methods
 
-Todos los métodos de validación del validador son `public` en lugar de `protected`.
+All of the validator's validation methods are now `public` instead of `protected`.
 
 ### Vistas
 
-#### Nombre de variables dinámicas con "With"
+#### Dynamic "With" Variable Names
 
 When allowing the dynamic `__call` method to share variables with a view, these variables will automatically use "camel" case. For example, given the following:
 
     return view('pool')->withMaximumVotes(100);
     
 
-La variable `maximumVotes` puede ser accedida de esta manera en la plantilla:
+The `maximumVotes` variable may be accessed in the template like so:
 
     {{ $maximumVotes }}
     
 
-#### Directiva Blade `@php`
+#### `@php` Blade Directive
 
-La directiva blade `@php` ya no acepta etiquetas en línea. En su lugar, utilice la forma completa de la directiva:
+The `@php` blade directive no longer accepts inline tags. Instead, use the full form of the directive:
 
     @php
         $teamMember = true;
@@ -387,4 +394,4 @@ La directiva blade `@php` ya no acepta etiquetas en línea. En su lugar, utilice
 
 ### Varios
 
-También le animamos a que vea los cambios en el [Repositorio GitHub](https://github.com/laravel/laravel) `laravel/laravel`. Aunque muchos de estos cambios no son necesarios, es posible que desee mantener estos archivos sincronizados con su aplicación. Algunos de estos cambios se cubrirán en esta guía de actualización, pero otros, como los cambios en los archivos de configuración o los comentarios, no lo serán. Puede ver fácilmente los cambios con la [herramienta de comparación de GitHub](https://github.com/laravel/laravel/compare/5.4...master) y elegir qué actualizaciones le son importantes.
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.4...master) and choose which updates are important to you.
