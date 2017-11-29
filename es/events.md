@@ -1,32 +1,32 @@
-# Events
+# Eventos
 
-- [Introduction](#introduction)
-- [Registering Events & Listeners](#registering-events-and-listeners) 
-    - [Generating Events & Listeners](#generating-events-and-listeners)
-    - [Manually Registering Events](#manually-registering-events)
-- [Defining Events](#defining-events)
-- [Defining Listeners](#defining-listeners)
-- [Queued Event Listeners](#queued-event-listeners) 
-    - [Manually Accessing The Queue](#manually-accessing-the-queue)
-    - [Handling Failed Jobs](#handling-failed-jobs)
-- [Dispatching Events](#dispatching-events)
-- [Event Subscribers](#event-subscribers) 
-    - [Writing Event Subscribers](#writing-event-subscribers)
-    - [Registering Event Subscribers](#registering-event-subscribers)
+- [Introducción](#introduction)
+- [Registrar eventos & *listeners*](#registering-events-and-listeners) 
+    - [Generar eventos & *listeners*](#generating-events-and-listeners)
+    - [Registrar eventos manualmente](#manually-registering-events)
+- [Definir eventos](#defining-events)
+- [Definir *listeners*](#defining-listeners)
+- [Colas de *listeners*](#queued-event-listeners) 
+    - [Acceder a la cola manualmente](#manually-accessing-the-queue)
+    - [Gestionar trabajos (*jobs*) fallidos](#handling-failed-jobs)
+- [Disparar eventos](#dispatching-events)
+- [Suscriptores de eventos](#event-subscribers) 
+    - [Escribir suscriptores de eventos](#writing-event-subscribers)
+    - [Registrar suscriptores de eventos](#registering-event-subscribers)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel's events provides a simple observer implementation, allowing you to subscribe and listen for various events that occur in your application. Event classes are typically stored in the `app/Events` directory, while their listeners are stored in `app/Listeners`. Don't worry if you don't see these directories in your application, since they will be created for you as you generate events and listeners using Artisan console commands.
+Los eventos de Laravel proveen una implementación *observer*, permitiendo suscribir y capturar varios eventos que ocurren en la aplicación. Las clases de eventos se almacenan normalmente en `app/Events`, mientras que sus *listeners* (escuchadores) se almacenan en `app/Listeners`. No se preocupe si no encuentra estos directorios en la aplicación, puesto que se crearán tan pronto como comience a generar eventos y *listeners* utilizando los comandos de Artisan.
 
-Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that do not depend on each other. For example, you may wish to send a Slack notification to your user each time an order has shipped. Instead of coupling your order processing code to your Slack notification code, you can simply raise an `OrderShipped` event, which a listener can receive and transform into a Slack notification.
+Los eventos son una buena forma de desacoplar varios aspectos de la aplicación, puesto que un único evento puede tener varios *listeners* que no dependan de otros. Por ejemplo, se puede enviar una notificación de Slack a un usuario cada vez que se envía un pedido. En lugar de acoplar el procesamiento del pedido a las notificaciones de Slack, se puede simplemente lanzar un evento `OrderShipped`, el cual puede recibir un *listener* y transformarlo en una notificación de Slack.
 
 <a name="registering-events-and-listeners"></a>
 
-## Registering Events & Listeners
+## Registrar eventos & *listeners*
 
-The `EventServiceProvider` included with your Laravel application provides a convenient place to register all of your application's event listeners. The `listen` property contains an array of all events (keys) and their listeners (values). Of course, you may add as many events to this array as your application requires. For example, let's add a `OrderShipped` event:
+El `EventServiceProvider` que incluye Laravel es un buen lugar para registrar los *listeners* de eventos de toda su aplicación. La propiedad `listen` contiene un *array* de todos los eventos (claves) y sus *listeners* (valores). Por supuesto, se pueden añadir tantos eventos al *array* como sea necesario. Por ejemplo, para añadir un evento `OrderShipped`:
 
     /**
      * The event listener mappings for the application.
@@ -42,18 +42,18 @@ The `EventServiceProvider` included with your Laravel application provides a con
 
 <a name="generating-events-and-listeners"></a>
 
-### Generating Events & Listeners
+### Generar eventos & *listeners*
 
-Of course, manually creating the files for each event and listener is cumbersome. Instead, simply add listeners and events to your `EventServiceProvider` and use the `event:generate` command. This command will generate any events or listeners that are listed in your `EventServiceProvider`. Of course, events and listeners that already exist will be left untouched:
+Por supuesto, la creación de los archivos para eventos y *listeners* resulta tediosa. En su lugar, simplemente añade *listeners* y eventos al `EventServiceProvider` y ejecuta el comando `event:generate`. Este comando generará cualquier evento o *listener* listado en el `EventServiceProvider`. Por supuesto, los eventos y *listeners* que ya existan quedarán intactos:
 
     php artisan event:generate
     
 
 <a name="manually-registering-events"></a>
 
-### Manually Registering Events
+### Registrar eventos manualmente
 
-Typically, events should be registered via the `EventServiceProvider` `$listen` array; however, you may also register Closure based events manually in the `boot` method of your `EventServiceProvider`:
+Normalmente, los eventos se registrarán a través del *array* `$listen` en `EventServiceProvider`; sin embargo, se puede registrar eventos basados en *Closures* de forma manual en el método `boot` del `EventServiceProvider`:
 
     /**
      * Register any other events for your application.
@@ -70,9 +70,9 @@ Typically, events should be registered via the `EventServiceProvider` `$listen` 
     }
     
 
-#### Wildcard Event Listeners
+#### Comodín de captura de eventos
 
-You may even register listeners using the `*` as a wildcard parameter, allowing you to catch multiple events on the same listener. Wildcard listeners receive the event name as their first argument, and the entire event data array as their second argument:
+Se pueden registrar *listeners* utilizando `*` como parámetro comodín, permitiendo capturar varios eventos en el mismo *listener*. Los *listeners* con comodín reciben el nombre del evento como primer parámetro y el *array* de datos del array como segundo argumento:
 
     Event::listen('event.*', function ($eventName, array $data) {
         //
@@ -81,9 +81,9 @@ You may even register listeners using the `*` as a wildcard parameter, allowing 
 
 <a name="defining-events"></a>
 
-## Defining Events
+## Definir eventos
 
-An event class is simply a data container which holds the information related to the event. For example, let's assume our generated `OrderShipped` event receives an [Eloquent ORM](/docs/{{version}}/eloquent) object:
+Una clase de evento es simplemente un contenedor de datos que incluye información relacionada con el evento. Por ejemplo, asuma que el evento `OrderShipped` generado recibe un objeto [Eloquent](/docs/{{version}}/eloquent):
 
     <?php
     
@@ -111,13 +111,13 @@ An event class is simply a data container which holds the information related to
     }
     
 
-As you can see, this event class contains no logic. It is simply a container for the `Order` instance that was purchased. The `SerializesModels` trait used by the event will gracefully serialize any Eloquent models if the event object is serialized using PHP's `serialize` function.
+Como puede observar, el evento no contiene lógica. Es un contenedor simple para la instancia de `Order` que se compró. El *trait* `SerializesModels` utilizado por el evento *serializará* cualquier modelo Eloquent si el objeto del evento se *serializa* utilizando la función de PHP `serialize`.
 
 <a name="defining-listeners"></a>
 
-## Defining Listeners
+## Definir *listeners*
 
-Next, let's take a look at the listener for our example event. Event listeners receive the event instance in their `handle` method. The `event:generate` command will automatically import the proper event class and type-hint the event on the `handle` method. Within the `handle` method, you may perform any actions necessary to respond to the event:
+A continuación, echemos un vistazo al *listener* del evento de ejemplo. Los *listeners* reciben la instancia del evento en el método `handle`. El comando `event:generate` importará automáticamente la clase adecuada y incluirán el *type-hint* del evento en el método `handle`. En el método `handle` se puede ejecutar cualquier acción necesaria para responder al evento:
 
     <?php
     
@@ -150,19 +150,19 @@ Next, let's take a look at the listener for our example event. Event listeners r
     }
     
 
-> {tip} Your event listeners may also type-hint any dependencies they need on their constructors. All event listeners are resolved via the Laravel [service container](/docs/{{version}}/container), so dependencies will be injected automatically.
+> {tip} Los *listeners* de eventos pueden además incluir *type-hints* de cualquier dependencia que necesiten en sus constructores. Todos los *listeners* se resuelven a través del [service container](/docs/{{version}}/container) de Laravel, por lo que las dependencias se inyectarán automáticamente.
 
-#### Stopping The Propagation Of An Event
+#### Detener la propagación de un evento
 
-Sometimes, you may wish to stop the propagation of an event to other listeners. You may do so by returning `false` from your listener's `handle` method.
+A veces, es necesario detener la propagación de un evento a otros *listeners*. Se puede hacer retornando `false` desde el método `handle` del *listener*.
 
 <a name="queued-event-listeners"></a>
 
-## Queued Event Listeners
+## Colas de *listeners*
 
-Queueing listeners can be beneficial if your listener is going to perform a slow task such as sending an e-mail or making an HTTP request. Before getting started with queued listeners, make sure to [configure your queue](/docs/{{version}}/queues) and start a queue listener on your server or local development environment.
+Añadir la ejecución de un *listener* a una cola puede ser beneficioso si el *listener* va a ejecutar alguna tarea lenta como enviar un correo electrónico o peticiones HTTP. Antes de comenzar con colas de *listeners*, asegúrese de [configurar su cola](/docs/{{version}}/queues) y comenzar un *queue listener* en su servidor local o entorno de desarrollo.
 
-To specify that a listener should be queued, add the `ShouldQueue` interface to the listener class. Listeners generated by the `event:generate` Artisan command already have this interface imported into the current namespace, so you can use it immediately:
+Para especificar que un *listener* debe incluirse en una cola, debe añadir la interfaz `ShouldQueue` a la clase del mismo. Los *listeners* generados por el comando Artisan `event:generate` ya tienen esta interfaz importada en el *namespace* y pueden utilizarla directamente:
 
     <?php
     
@@ -177,11 +177,11 @@ To specify that a listener should be queued, add the `ShouldQueue` interface to 
     }
     
 
-That's it! Now, when this listener is called for an event, it will be automatically queued by the event dispatcher using Laravel's [queue system](/docs/{{version}}/queues). If no exceptions are thrown when the listener is executed by the queue, the queued job will automatically be deleted after it has finished processing.
+¡Eso es todo! Ahora cuando se llame a un *listener* para un evento, se añadirá directamente a una cola por el *event dispatcher* (disparador de eventos) utilizando el [sistema de colas](/docs/{{version}}/queues) (*queue system*) de Laravel. Si no se lanza ninguna excepción durante la ejecución del *listener*, el trabajo se eliminará de la cola una vez que haya concluido su procesamiento.
 
-#### Customizing The Queue Connection & Queue Name
+#### Personalizar la conexión de colas & nombre de cola
 
-If you would like to customize the queue connection and queue name used by an event listener, you may define `$connection` and `$queue` properties on your listener class:
+Si desea personalizar la conexión para la cola y el nombre que utiliza un *listener*, se pueden definir las propiedades `$connection` y `$queue` de la clase *listener*:
 
     <?php
     
@@ -210,9 +210,9 @@ If you would like to customize the queue connection and queue name used by an ev
 
 <a name="manually-accessing-the-queue"></a>
 
-### Manually Accessing The Queue
+### Acceder a la cola manualmente
 
-If you need to manually access the listener's underlying queue job's `delete` and `release` methods, you may do so using the `Illuminate\Queue\InteractsWithQueue` trait. This trait is imported by default on generated listeners and provides access to these methods:
+Si necesita acceder a los métodos `delete` y `release` de la cola de trabajo subyacente del *listener*, puede hacerlo utilizando el *trait* `Illuminate\Queue\InteractsWithQueue`. Este *trait* se importa por defecto en los *listeners* generados y proporciona acceso a estos métodos:
 
     <?php
     
@@ -243,9 +243,9 @@ If you need to manually access the listener's underlying queue job's `delete` an
 
 <a name="handling-failed-jobs"></a>
 
-### Handling Failed Jobs
+### Gestionar trabajos (*jobs*) fallidos
 
-Sometimes your queued event listeners may fail. If queued listener exceeds the maximum number of attempts as defined by your queue worker, the `failed` method will be called on your listener. The `failed` method receives the event instance and the exception that caused the failure:
+En ocasiones, las colas de *listeners* pueden fallar. Si un *listener* de una cola supera el número máximo de intentos definidos por el *queue worker*, se ejecutará el método `failed` del *listener*. El método `failed` recibe la instancia del evento y la excepción que causó el fallo:
 
     <?php
     
@@ -286,9 +286,9 @@ Sometimes your queued event listeners may fail. If queued listener exceeds the m
 
 <a name="dispatching-events"></a>
 
-## Dispatching Events
+## Disparar eventos
 
-To dispatch an event, you may pass an instance of the event to the `event` helper. The helper will dispatch the event to all of its registered listeners. Since the `event` helper is globally available, you may call it from anywhere in your application:
+Para lanzar un evento, se puede pasar una instancia del evento al *helper* `event`. El *helper* disparará el evento a todos los *listeners* registrados. Puesto que el *helper* `event` está disponible globalmente, se puede llamar desde cualquier parte de la aplicación:
 
     <?php
     
@@ -317,17 +317,17 @@ To dispatch an event, you may pass an instance of the event to the `event` helpe
     }
     
 
-> {tip} When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#event-fake) makes it a cinch.
+> {tip} Cuando se ejecutan *tests*, puede ser útil afirmar (*assert*) que se dispararon ciertos eventos sin necesidad de ejecutar sus *listeners*. Los [helpers incluidos](/docs/{{version}}/mocking#event-fake) hacen esto muy sencillo.
 
 <a name="event-subscribers"></a>
 
-## Event Subscribers
+## Suscriptores de Eventos – *Subscribers*
 
 <a name="writing-event-subscribers"></a>
 
-### Writing Event Subscribers
+### Escribir suscriptores de eventos
 
-Event subscribers are classes that may subscribe to multiple events from within the class itself, allowing you to define several event handlers within a single class. Subscribers should define a `subscribe` method, which will be passed an event dispatcher instance. You may call the `listen` method on the given dispatcher to register event listeners:
+Los suscriptores de eventos son clases que pueden suscribirse a varios eventos desde la propia clase, permitiendo definir varios controladores de eventos en una misma clase. Los suscriptores deben definir un método `subscribe`, el cual recibirá una instancia de un *event dispatcher*. Se puede llamar al método `listen` en el *dispatcher* dado para registrar *listeners* (capturadores/escuchadores) de eventos:
 
     <?php
     
@@ -368,9 +368,9 @@ Event subscribers are classes that may subscribe to multiple events from within 
 
 <a name="registering-event-subscribers"></a>
 
-### Registering Event Subscribers
+### Registrar suscriptores de eventos
 
-After writing the subscriber, you are ready to register it with the event dispatcher. You may register subscribers using the `$subscribe` property on the `EventServiceProvider`. For example, let's add the `UserEventSubscriber` to the list:
+Tras escribir el *subscriber*, ya está listo para registrarlo con el *event dispatcher* (disparador de eventos). Puede registrar *subscribers* utilizando la propiedad `$subscribe` en `EventServiceProvider`. Por ejemplo, para añadir el `UserEventSubscriber` a la lista:
 
     <?php
     
