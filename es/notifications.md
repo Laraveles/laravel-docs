@@ -196,7 +196,7 @@ Si una notificación soporta que se envíe como un correo electrónico, debe def
     }
     
 
-> {tip} Nótese que se está usando `$this->invoice->id` en el método `message`. Puede pasar cualquier dato que necesite su notificación para generar su mensaje en el constructor.
+> {tip} Note we are using `$this->invoice->id` in our `toMail` method. Puede pasar cualquier dato que necesite su notificación para generar su mensaje en el constructor.
 
 En este ejemplo se registra un saludo, una línea de texto, una llamada a la acción, y luego otra línea de texto. Estos métodos proporcionados por el objeto `MailMessage` hacen que formatear pequeños correos electrónicos transaccionales sea fácil y rápido. El canal de correo traducirá los componentes del mensaje en una plantilla de correo electrónico HTML agradable y receptiva con una contraparte de texto plano. A continuación se muestra un ejemplo de un correo electrónico generado por el canal `mail`:
 
