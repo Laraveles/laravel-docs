@@ -1,19 +1,19 @@
-# Controllers
+# Controladores
 
-- [Introduction](#introduction)
-- [Basic Controllers](#basic-controllers) 
-    - [Defining Controllers](#defining-controllers)
-    - [Controllers & Namespaces](#controllers-and-namespaces)
-    - [Single Action Controllers](#single-action-controllers)
-- [Controller Middleware](#controller-middleware)
-- [Resource Controllers](#resource-controllers) 
-    - [Partial Resource Routes](#restful-partial-resource-routes)
-    - [Naming Resource Routes](#restful-naming-resource-routes)
-    - [Naming Resource Route Parameters](#restful-naming-resource-route-parameters)
-    - [Localizing Resource URIs](#restful-localizing-resource-uris)
-    - [Supplementing Resource Controllers](#restful-supplementing-resource-controllers)
-- [Dependency Injection & Controllers](#dependency-injection-and-controllers)
-- [Route Caching](#route-caching)
+- [Introducción](#introduction)
+- [Controladores básicos](#basic-controllers) 
+    - [Definir controladores](#defining-controllers)
+    - [Controladores & *namespaces*](#controllers-and-namespaces)
+    - [Controladores de acción única](#single-action-controllers)
+- [*Middleware* y controladores](#controller-middleware)
+- [Controladores de recursos – *resource controllers*](#resource-controllers) 
+    - [Rutas de recursos parciales](#restful-partial-resource-routes)
+    - [Nombrar rutas de recursos](#restful-naming-resource-routes)
+    - [Nombrar parámetros en rutas de recursos](#restful-naming-resource-route-parameters)
+    - [Traducir las URIs de los recursos](#restful-localizing-resource-uris)
+    - [Complementar a los controladores de recursos](#restful-supplementing-resource-controllers)
+- [Inyección de dependencias & controladores](#dependency-injection-and-controllers)
+- [Caché de rutas](#route-caching)
 
 <a name="introduction"></a>
 
