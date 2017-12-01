@@ -17,9 +17,9 @@
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes. Controllers can group related request handling logic into a single class. Controllers are stored in the `app/Http/Controllers` directory.
+En lugar de definir toda la lógica para la gestión de una petición dentro de *Closures* o funciones anónimas en los archivos de rutas, se puede organizar este comportamiento en unas clases llamadas Controladores (*controllers*). Los controladores pueden agrupar la lógica de gestión de peticiones relacionadas en una única clase. Estos controladores se encuentran normalmente en el directorio `app/Http/Controllers`.
 
 <a name="basic-controllers"></a>
 
@@ -29,7 +29,7 @@ Instead of defining all of your request handling logic as Closures in route file
 
 ### Defining Controllers
 
-Below is an example of a basic controller class. Note that the controller extends the base controller class included with Laravel. The base class provides a few convenience methods such as the `middleware` method, which may be used to attach middleware to controller actions:
+A continuación se muestra un ejemplo de una clase de controlador básico. Tenga en cuenta que el controlador hereda de la clase de controlador base incluida con Laravel. La clase base provee de una serie de métodos útiles como el método `middleware`, que se puede usar para adjuntar un *middleware* a las acciones del controlador:
 
     <?php
     
@@ -53,20 +53,20 @@ Below is an example of a basic controller class. Note that the controller extend
     }
     
 
-You can define a route to this controller action like so:
+Se puede apuntar una ruta a la acción de este controlador así:
 
     Route::get('user/{id}', 'UserController@show');
     
 
-Now, when a request matches the specified route URI, the `show` method on the `UserController` class will be executed. Of course, the route parameters will also be passed to the method.
+Ahora, cuando una petición concuerda con la URI de la ruta, se ejecutará el método `show` de la clase `UserController`. Por supuesto, los parámetros de la ruta se pasarán también a este método.
 
-> {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenience features such as the `middleware`, `validate`, and `dispatch` methods.
+> {tip} Los controladores no **requieren** heredar la clase base. Sin embargo, no se tendrá acceso a las características como los métodos `middleware`, `validate`, y `dispatch`.
 
 <a name="controllers-and-namespaces"></a>
 
-### Controladores & Namespaces
+### Controladores & *namespaces*
 
-It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
+Es muy importante tener en cuenta que no es necesario especificar el *namespace* completo del controlador cuando se define la ruta del controlador. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
 
 If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, simply use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
 
