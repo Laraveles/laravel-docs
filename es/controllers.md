@@ -17,9 +17,9 @@
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Instead of defining all of your request handling logic as Closures in route files, you may wish to organize this behavior using Controller classes. Controllers can group related request handling logic into a single class. Controllers are stored in the `app/Http/Controllers` directory.
+En lugar de definir toda la lógica para la gestión de una petición dentro de *Closures* o funciones anónimas en los archivos de rutas, se puede organizar este comportamiento en unas clases llamadas Controladores (*controllers*). Los controladores pueden agrupar la lógica de gestión de peticiones relacionadas en una única clase. Estos controladores se encuentran normalmente en el directorio `app/Http/Controllers`.
 
 <a name="basic-controllers"></a>
 
@@ -29,7 +29,7 @@ Instead of defining all of your request handling logic as Closures in route file
 
 ### Defining Controllers
 
-Below is an example of a basic controller class. Note that the controller extends the base controller class included with Laravel. The base class provides a few convenience methods such as the `middleware` method, which may be used to attach middleware to controller actions:
+A continuación se muestra un ejemplo de una clase de controlador básico. Tenga en cuenta que el controlador hereda de la clase de controlador base incluida con Laravel. La clase base provee de una serie de métodos útiles como el método `middleware`, que se puede usar para adjuntar un *middleware* a las acciones del controlador:
 
     <?php
     
@@ -53,31 +53,31 @@ Below is an example of a basic controller class. Note that the controller extend
     }
     
 
-You can define a route to this controller action like so:
+Se puede apuntar una ruta a la acción de este controlador así:
 
     Route::get('user/{id}', 'UserController@show');
     
 
-Now, when a request matches the specified route URI, the `show` method on the `UserController` class will be executed. Of course, the route parameters will also be passed to the method.
+Ahora, cuando una petición concuerda con la URI de la ruta, se ejecutará el método `show` de la clase `UserController`. Por supuesto, los parámetros de la ruta se pasarán también a este método.
 
-> {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenience features such as the `middleware`, `validate`, and `dispatch` methods.
+> {tip} Los controladores no **requieren** heredar la clase base. Sin embargo, no se tendrá acceso a las características como los métodos `middleware`, `validate`, y `dispatch`.
 
 <a name="controllers-and-namespaces"></a>
 
-### Controladores & Namespaces
+### Controladores & *namespaces*
 
-It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
+Es muy importante tener en cuenta que no es necesario especificar el *namespace* completo del controlador cuando se define la ruta del controlador. Como el `RouteServiceProvider` carga los archivos de ruta dentro de un grupo de rutas que contiene el *namespace*, únicamente especificamos la porción del nombre de clase que viene después del *namespace* `App\Http\Controllers`.
 
-If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, simply use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
+Si se prefiere anidar u organizar los controladores más profundos que el directorio `App\Http\Controllers`, simplemente se debe utilizar el nombre de la clase relativo a `App\Http\Controllers` como *namespace* raíz. Por lo que, si el la clase del controlador es `App\Http\Controllers\Photos\AdminController`, se debe registrar la siguiente ruta:
 
     Route::get('foo', 'Photos\AdminController@method');
     
 
 <a name="single-action-controllers"></a>
 
-### Single Action Controllers
+### Controladores de acción única
 
-If you would like to define a controller that only handles a single action, you may place a single `__invoke` method on the controller:
+Si se necesita, se puede definir un controlador que únicamente gestione una única acción, simplemente es necesario colocar el método `__invoke` dentro del controlador:
 
     <?php
     
@@ -101,7 +101,7 @@ If you would like to define a controller that only handles a single action, you 
     }
     
 
-When registering routes for single action controllers, you do not need to specify a method:
+Cuando se registra una ruta de un controlador de acción única, no se necesita especificar ningún método en la ruta:
 
     Route::get('user/{id}', 'ShowProfile');
     
@@ -193,7 +193,7 @@ If you are using route model binding and would like the resource controller's me
 
 #### Spoofing Form Methods
 
-Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need to add a hidden `_method` field to spoof these HTTP verbs. The `method_field` helper can create this field for you:
+Los formularios HTML no pueden realizar peticiones `PUT`, `PATCH`, o `DELETE`, para hacerlo se necesita agregar un campo oculto `_method` para suplantar estos verbos HTTP. The `method_field` helper can create this field for you:
 
     {{ method_field('PUT') }}
     
