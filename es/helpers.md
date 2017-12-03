@@ -1,17 +1,17 @@
-# Helpers
+# *Helpers*
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Available Methods](#available-methods)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel includes a variety of global "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
+Laravel incluye una gran variedad de funciones "*helper*". Muchas de estas funciones son utilizadas por el propio framework; sin embargo, es libre de usarlas en sus propias aplicaciones si lo considera conveniente.
 
 <a name="available-methods"></a>
 
-## Available Methods
+## Métodos disponibles
 
 <style>
     .collection-method-list > p {
@@ -24,7 +24,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
     }
 </style>
 
-### Arrays & Objects
+### Arrays & objetos
 
 <div class="collection-method-list">
   <p>
@@ -32,7 +32,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
   </p>
 </div>
 
-### Paths
+### Rutas
 
 <div class="collection-method-list">
   <p>
@@ -40,7 +40,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
   </p>
 </div>
 
-### Strings
+### Cadenas
 
 <div class="collection-method-list">
   <p>
@@ -56,7 +56,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
   </p>
 </div>
 
-### Miscellaneous
+### Varios
 
 <div class="collection-method-list">
   <p>
@@ -66,7 +66,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 <a name="method-listing"></a>
 
-## Method Listing
+## Lista de métodos
 
 <style>
     #collection-method code {
@@ -80,13 +80,13 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 <a name="arrays"></a>
 
-## Arrays & Objects
+## Arrays & objetos
 
 <a name="method-array-add"></a>
 
 #### `array_add()` {#collection-method.first-collection-method}
 
-The `array_add` function adds a given key / value pair to an array if the given key doesn't already exist in the array:
+La función `array_add` añade un par clave/valor dado a un *array* si la clave dada no existe ya en el mismo:
 
     $array = array_add(['name' => 'Desk'], 'price', 100);
     
@@ -97,7 +97,7 @@ The `array_add` function adds a given key / value pair to an array if the given 
 
 #### `array_collapse()` {#collection-method}
 
-The `array_collapse` function collapses an array of arrays into a single array:
+La función `array_collapse` colapsa un *array* de *arrays* en un solo *array*:
 
     $array = array_collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
     
@@ -108,7 +108,7 @@ The `array_collapse` function collapses an array of arrays into a single array:
 
 #### `array_divide()` {#collection-method}
 
-The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the given array:
+La función `array_divide` devuelve dos *arrays*, uno que contiene las claves y el otro que contiene los valores del *array* en cuestión:
 
     list($keys, $values) = array_divide(['name' => 'Desk']);
     
@@ -121,7 +121,7 @@ The `array_divide` function returns two arrays, one containing the keys, and the
 
 #### `array_dot()` {#collection-method}
 
-The `array_dot` function flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
+La función `array_dot` convierte un *array* multidimensional en un *array* de un único nivel utilizando la notación de "puntos" para indicar la profundidad:
 
     $array = ['products' => ['desk' => ['price' => 100]]];
     
@@ -134,7 +134,7 @@ The `array_dot` function flattens a multi-dimensional array into a single level 
 
 #### `array_except()` {#collection-method}
 
-The `array_except` function removes the given key / value pairs from an array:
+La función `array_except` elimina los pares clave/valor dados de un *array*:
 
     $array = ['name' => 'Desk', 'price' => 100];
     
@@ -147,7 +147,7 @@ The `array_except` function removes the given key / value pairs from an array:
 
 #### `array_first()` {#collection-method}
 
-The `array_first` function returns the first element of an array passing a given truth test:
+El método `array_first` devuelve el primer elemento de un *array* que cumpla una condición dada:
 
     $array = [100, 200, 300];
     
@@ -1693,7 +1693,7 @@ A default value or `Closure` may also be passed as the third parameter to the me
 
 #### `validator()` {#collection-method}
 
-The `validator` function creates a new [validator](/docs/{{version}}/validation) instance with the given arguments. You may use it instead of the `Validator` facade for convenience:
+La función `validator` crea una nueva instancia de [validator](/docs/{{version}}/validation) con los argumentos dados. Puede utilizarlo en lugar de la *facade* `Validador` por conveniencia:
 
     $validator = validator($data, $rules, $messages);
     
