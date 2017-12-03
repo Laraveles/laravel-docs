@@ -158,7 +158,7 @@ El método `array_first` devuelve el primer elemento de un *array* que cumpla un
     // 200
     
 
-A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
+Se puede pasar un valor por defecto como tercer parámetro al método. Este valor se devolverá si no hay un valor que cumpla la condición:
 
     $first = array_first($array, $callback, $default);
     
@@ -167,7 +167,7 @@ A default value may also be passed as the third parameter to the method. This va
 
 #### `array_flatten()` {#collection-method}
 
-The `array_flatten` function flattens a multi-dimensional array into a single level array:
+La función `array_flatten` aplana un *array* multidimensional en un *array* de un solo nivel:
 
     $array = ['name' => 'Joe', 'languages' => ['PHP', 'Ruby']];
     
@@ -180,7 +180,7 @@ The `array_flatten` function flattens a multi-dimensional array into a single le
 
 #### `array_forget()` {#collection-method}
 
-The `array_forget` function removes a given key / value pair from a deeply nested array using "dot" notation:
+El método `array_forget` elimina un par clave/valor dado de un *array* anidado utilizando la notación de "puntos":
 
     $array = ['products' => ['desk' => ['price' => 100]]];
     
@@ -193,7 +193,7 @@ The `array_forget` function removes a given key / value pair from a deeply neste
 
 #### `array_get()` {#collection-method}
 
-The `array_get` function retrieves a value from a deeply nested array using "dot" notation:
+El método `array_get` recupera un valor de un *array* anidado usando la notación de "puntos":
 
     $array = ['products' => ['desk' => ['price' => 100]]];
     
@@ -202,7 +202,7 @@ The `array_get` function retrieves a value from a deeply nested array using "dot
     // 100
     
 
-The `array_get` function also accepts a default value, which will be returned if the specific key is not found:
+La función `array_get` también acepta un valor predeterminado, que será devuelto si no se encuentra la clave especificada:
 
     $discount = array_get($array, 'products.desk.discount', 0);
     
@@ -213,7 +213,7 @@ The `array_get` function also accepts a default value, which will be returned if
 
 #### `array_has()` {#collection-method}
 
-The `array_has` function checks whether a given item or items exists in an array using "dot" notation:
+La función `array_has` comprueba si un elemento o elementos determinados existen en un *array* utilizando la notación de "puntos":
 
     $array = ['product' => ['name' => 'Desk', 'price' => 100]];
     
@@ -230,7 +230,7 @@ The `array_has` function checks whether a given item or items exists in an array
 
 #### `array_last()` {#collection-method}
 
-The `array_last` function returns the last element of an array passing a given truth test:
+La función `array_last` devuelve el último elemento de un *array* que pasa una prueba de verdad concreta:
 
     $array = [100, 200, 300, 110];
     
@@ -241,7 +241,7 @@ The `array_last` function returns the last element of an array passing a given t
     // 300
     
 
-A default value may be passed as the third argument to the method. This value will be returned if no value passes the truth test:
+Se puede pasar un valor predeterminado como tercer argumento al método. Este valor se devolverá si ningún valor pasa la prueba de la verdad:
 
     $last = array_last($array, $callback, $default);
     
@@ -250,7 +250,7 @@ A default value may be passed as the third argument to the method. This value wi
 
 #### `array_only()` {#collection-method}
 
-The `array_only` function returns only the specified key / value pairs from the given array:
+La función `array_only` devuelve sólo los pares clave/valor especificados del *array* dado:
 
     $array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
     
@@ -263,7 +263,7 @@ The `array_only` function returns only the specified key / value pairs from the 
 
 #### `array_pluck()` {#collection-method}
 
-The `array_pluck` function retrieves all of the values for a given key from an array:
+La función `array_pluck` recupera todos los valores de una clave determinada de un *array*:
 
     $array = [
         ['developer' => ['id' => 1, 'name' => 'Taylor']],
@@ -275,7 +275,7 @@ The `array_pluck` function retrieves all of the values for a given key from an a
     // ['Taylor', 'Abigail']
     
 
-You may also specify how you wish the resulting list to be keyed:
+También se puede especificar que clave obtendrá el resultado:
 
     $names = array_pluck($array, 'developer.name', 'developer.id');
     
@@ -286,7 +286,7 @@ You may also specify how you wish the resulting list to be keyed:
 
 #### `array_prepend()` {#collection-method}
 
-The `array_prepend` function will push an item onto the beginning of an array:
+La función `array_prepend` añadirá un elemento al principio del *array*:
 
     $array = ['one', 'two', 'three', 'four'];
     
@@ -295,7 +295,7 @@ The `array_prepend` function will push an item onto the beginning of an array:
     // ['zero', 'one', 'two', 'three', 'four']
     
 
-If needed, you may specify the key that should be used for the value:
+Si es necesario, puede especificar la clave que debe utilizarse para el valor:
 
     $array = ['price' => 100];
     
@@ -308,7 +308,7 @@ If needed, you may specify the key that should be used for the value:
 
 #### `array_pull()` {#collection-method}
 
-The `array_pull` function returns and removes a key / value pair from an array:
+La función `array_pull` devuelve y elimina un par clave/valor del *array*:
 
     $array = ['name' => 'Desk', 'price' => 100];
     
@@ -319,7 +319,7 @@ The `array_pull` function returns and removes a key / value pair from an array:
     // $array: ['price' => 100]
     
 
-A default value may be passed as the third argument to the method. This value will be returned if the key doesn't exist:
+Se puede pasar un valor predeterminado como tercer argumento al método. Este valor se devolverá si la clave no existe:
 
     $value = array_pull($array, $key, $default);
     
@@ -328,7 +328,7 @@ A default value may be passed as the third argument to the method. This value wi
 
 #### `array_random()` {#collection-method}
 
-The `array_random` function returns a random value from an array:
+La función `array_random` devuelve un valor aleatorio del *array*:
 
     $array = [1, 2, 3, 4, 5];
     
@@ -337,7 +337,7 @@ The `array_random` function returns a random value from an array:
     // 4 - (retrieved randomly)
     
 
-You may also specify the number of items to return as an optional second argument. Note that providing this argument will return an array, even if only one item is desired:
+También puede especificar el número de elementos a devolver como segundo argumento opcional. Tenga en cuenta que al proporcionar este argumento se devolverá un *array*, incluso si sólo se desea un elemento:
 
     $items = array_random($array, 2);
     
@@ -348,7 +348,7 @@ You may also specify the number of items to return as an optional second argumen
 
 #### `array_set()` {#collection-method}
 
-The `array_set` function sets a value within a deeply nested array using "dot" notation:
+El método `array_set` establece un valor dentro de un *array* anidado en profundidad mediante la notación de "puntos":
 
     $array = ['products' => ['desk' => ['price' => 100]]];
     
@@ -361,7 +361,7 @@ The `array_set` function sets a value within a deeply nested array using "dot" n
 
 #### `array_sort()` {#collection-method}
 
-The `array_sort` function sorts an array by its values:
+La función `array_sort` ordena un *array* por sus valores:
 
     $array = ['Desk', 'Table', 'Chair'];
     
@@ -370,7 +370,7 @@ The `array_sort` function sorts an array by its values:
     // ['Chair', 'Desk', 'Table']
     
 
-You may also sort the array by the results of the given Closure:
+También puede ordenar el *array* por los resultados del *Closure* dado:
 
     $array = [
         ['name' => 'Desk'],
@@ -395,7 +395,7 @@ You may also sort the array by the results of the given Closure:
 
 #### `array_sort_recursive()` {#collection-method}
 
-The `array_sort_recursive` function recursively sorts an array using the `sort` function:
+La función `array_sort_recursive` un *array* de forma recursiva usando la función `sort`:
 
     $array = [
         ['Roman', 'Taylor', 'Li'],
@@ -416,7 +416,7 @@ The `array_sort_recursive` function recursively sorts an array using the `sort` 
 
 #### `array_where()` {#collection-method}
 
-The `array_where` function filters an array using the given Closure:
+La función `array_where` filtra un *array* usando el *Closure* dado:
 
     $array = [100, '200', 300, '400', 500];
     
@@ -431,7 +431,7 @@ The `array_where` function filters an array using the given Closure:
 
 #### `array_wrap()` {#collection-method}
 
-The `array_wrap` function wraps the given value in an array. If the given value is already an array it will not be changed:
+La función `array_wrap` envuelve el valor dado en un *array*. Si el valor dado ya es un *array* no se modificará:
 
     $string = 'Laravel';
     
@@ -444,7 +444,7 @@ The `array_wrap` function wraps the given value in an array. If the given value 
 
 #### `data_fill()` {#collection-method}
 
-The `data_fill` function sets a missing value within a nested array or object using "dot" notation:
+La función `data_fill` establece un valor faltante dentro del *array* anidado u objeto usando la notación de "punto":
 
     $data = ['products' => ['desk' => ['price' => 100]]];
     
@@ -457,7 +457,7 @@ The `data_fill` function sets a missing value within a nested array or object us
     // ['products' => ['desk' => ['price' => 100, 'discount' => 10]]]
     
 
-This function also accepts asterisks as wildcards and will fill the target accordingly:
+Esta función también acepta asteriscos como comodines y rellenará el objetivo en consecuencia:
 
     $data = [
         'products' => [
@@ -482,7 +482,7 @@ This function also accepts asterisks as wildcards and will fill the target accor
 
 #### `data_get()` {#collection-method}
 
-The `data_get` function retrieves a value from a nested array or object using "dot" notation:
+La función `data_get` recupera un valor de un *array* anidado u objeto utilizando la notación de "puntos":
 
     $data = ['products' => ['desk' => ['price' => 100]]];
     
@@ -491,7 +491,7 @@ The `data_get` function retrieves a value from a nested array or object using "d
     // 100
     
 
-The `data_get` function also accepts a default value, which will be returned if the specified key is not found:
+La función `data_get` también acepta un valor predeterminado, que se devolverá si no se encuentra la clave especificada:
 
     $discount = data_get($data, 'products.desk.discount', 0);
     
@@ -502,7 +502,7 @@ The `data_get` function also accepts a default value, which will be returned if 
 
 #### `data_set()` {#collection-method}
 
-The `data_set` function sets a value within a nested array or object using "dot" notation:
+La función `data_set` establece un valor dentro de un *array* anidado u objeto usando la notación de "punto":
 
     $data = ['products' => ['desk' => ['price' => 100]]];
     
@@ -511,7 +511,7 @@ The `data_set` function sets a value within a nested array or object using "dot"
     // ['products' => ['desk' => ['price' => 200]]]
     
 
-This function also accepts wildcards and will set values on the target accordingly:
+Esta función también acepta comodines y fijará los valores en el objetivo en consecuencia:
 
     $data = [
         'products' => [
@@ -532,7 +532,7 @@ This function also accepts wildcards and will set values on the target according
     */
     
 
-By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the third argument:
+Por defecto, todos los valores existentes se sobrescriben. Si sólo desea establecer un valor si no existe, puede pasar `false` como tercer argumento:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
     
@@ -545,7 +545,7 @@ By default, any existing values are overwritten. If you wish to only set a value
 
 #### `head()` {#collection-method}
 
-The `head` function returns the first element in the given array:
+La función `head` devuelve el primer elemento del *array*:
 
     $array = [100, 200, 300];
     
@@ -558,7 +558,7 @@ The `head` function returns the first element in the given array:
 
 #### `last()` {#collection-method}
 
-The `last` function returns the last element in the given array:
+La función `last` devuelve el último elemento del *array* especificado:
 
     $array = [100, 200, 300];
     
@@ -569,13 +569,13 @@ The `last` function returns the last element in the given array:
 
 <a name="paths"></a>
 
-## Paths
+## Rutas
 
 <a name="method-app-path"></a>
 
 #### `app_path()` {#collection-method}
 
-The `app_path` function returns the fully qualified path to the `app` directory. You may also use the `app_path` function to generate a fully qualified path to a file relative to the application directory:
+La función `app_path` devuelve la ruta cualificada al directorio `app`. También puede utilizar la función `app_path` para generar una ruta totalmente cualificada a un archivo relativo al directorio *app*:
 
     $path = app_path();
     
@@ -586,7 +586,7 @@ The `app_path` function returns the fully qualified path to the `app` directory.
 
 #### `base_path()` {#collection-method}
 
-The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
+La función `base_path` devuelve la ruta cualificada a la raíz del proyecto. También puede utilizar la función `base_path` para generar una ruta totalmente cualificada a un archivo determinado en relación con el directorio raíz del proyecto:
 
     $path = base_path();
     
@@ -597,7 +597,7 @@ The `base_path` function returns the fully qualified path to the project root. Y
 
 #### `config_path()` {#collection-method}
 
-The `config_path` function returns the fully qualified path to the `config` directory. You may also use the `config_path` function to generate a fully qualified path to a given file within the application's configuration directory:
+La función `config_path` devuelve la ruta totalmente cualificada al directorio `config`. También puede utilizar la función `config_path` para generar una ruta totalmente cualificada a un archivo determinado dentro del directorio *config*:
 
     $path = config_path();
     
@@ -608,7 +608,7 @@ The `config_path` function returns the fully qualified path to the `config` dire
 
 #### `database_path()` {#collection-method}
 
-The `database_path` function returns the fully qualified path to the `database` directory. You may also use the `database_path` function to generate a fully qualified path to a given file within the database directory:
+La función `database_path` devuelve la ruta totalmente cualificada al directorio `database`. También puede utilizar la función `database_path` para generar una ruta totalmente cualificada a un archivo determinado dentro del directorio *database*:
 
     $path = database_path();
     
@@ -619,7 +619,7 @@ The `database_path` function returns the fully qualified path to the `database` 
 
 #### `mix()` {#collection-method}
 
-The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/mix):
+La función `mix` devuelve la ruta a un [archivo de *Mix* versionado](/docs/{{version}}/mix):
 
     $path = mix('css/app.css');
     
@@ -628,7 +628,7 @@ The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/
 
 #### `public_path()` {#collection-method}
 
-The `public_path` function returns the fully qualified path to the `public` directory. You may also use the `public_path` function to generate a fully qualified path to a given file within the public directory:
+La función `public_path` devuelve la ruta totalmente cualificada al directorio `public`. También puede utilizar la función `public_path` para generar una ruta totalmente cualificada a un archivo determinado dentro del directorio *public*:
 
     $path = public_path();
     
@@ -639,7 +639,7 @@ The `public_path` function returns the fully qualified path to the `public` dire
 
 #### `resource_path()` {#collection-method}
 
-The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file within the resources directory:
+La función `resource_path` devuelve la ruta totalmente cualificada al directorio `resources`. También puede utilizar la función `resource_path` para generar una ruta totalmente cualificada a un archivo determinado dentro del directorio *resources*:
 
     $path = resource_path();
     
@@ -650,7 +650,7 @@ The `resource_path` function returns the fully qualified path to the `resources`
 
 #### `storage_path()` {#collection-method}
 
-The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
+La función `storage_path` devuelve la ruta totalmente cualificada al directorio `storage`. También puede utilizar la función `storage_path` para generar una ruta totalmente cualificada a un archivo determinado dentro del directorio *storage*:
 
     $path = storage_path();
     
@@ -659,26 +659,26 @@ The `storage_path` function returns the fully qualified path to the `storage` di
 
 <a name="strings"></a>
 
-## Strings
+## Cadenas
 
 <a name="method-__"></a>
 
 #### `__()` {#collection-method}
 
-The `__` function translates the given translation string or translation key using your [localization files](/docs/{{version}}/localization):
+La función `__` traduce la cadena de traducción o la clave de traducción utilizando sus [ficheros de localización](/docs/{{version}}/localization):
 
     echo __('Welcome to our application');
     
     echo __('messages.welcome');
     
 
-If the specified translation string or key does not exist, the `__` function will simply return the given value. So, using the example above, the `__` function would return `messages.welcome` if that translation key does not exist.
+Si la cadena o clave de traducción especificada no existe, la función `__` simplemente devolverá el valor proporcionado. Por lo tanto, utilizando el ejemplo anterior, la función `__` devolvería `messages.welcome` si esa clave de conversión no existe.
 
 <a name="method-camel-case"></a>
 
 #### `camel_case()` {#collection-method}
 
-The `camel_case` function converts the given string to `camelCase`:
+La función `camel_case` convierte la cadena dada en `camelCase`:
 
     $converted = camel_case('foo_bar');
     
