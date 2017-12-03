@@ -689,7 +689,7 @@ La función `camel_case` convierte la cadena dada en `camelCase`:
 
 #### `class_basename()` {#collection-method}
 
-The `class_basename` returns the class name of the given class with the class' namespace removed:
+`class_basename` devuelve el nombre de la clase especificada sin el *namespace* de la propia clase:
 
     $class = class_basename('Foo\Bar\Baz');
     
@@ -700,7 +700,7 @@ The `class_basename` returns the class name of the given class with the class' n
 
 #### `e()` {#collection-method}
 
-The `e` function runs PHP's `htmlspecialchars` function with the `double_encode` option set to `false`:
+La función `e` ejecuta la función `htmlspecialchars` de PHP con la opción `double_encode` ajustada a `false`:
 
     echo e('<html>foo</html>');
     
@@ -711,7 +711,7 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 
 #### `ends_with()` {#collection-method}
 
-The `ends_with` function determines if the given string ends with the given value:
+La función `ends_with` determina si la cadena dada termina con un valor especificado:
 
     $result = ends_with('This is my name', 'name');
     
@@ -722,7 +722,7 @@ The `ends_with` function determines if the given string ends with the given valu
 
 #### `kebab_case()` {#collection-method}
 
-The `kebab_case` function converts the given string to `kebab-case`:
+La función `kebab_case` convierte la cadena dada a `kebab-case`:
 
     $converted = kebab_case('fooBar');
     
@@ -733,7 +733,7 @@ The `kebab_case` function converts the given string to `kebab-case`:
 
 #### `preg_replace_array()` {#collection-method}
 
-The `preg_replace_array` function replaces a given pattern in the string sequentially using an array:
+La función `preg_replace_array` reemplaza un patrón dado en la cadena de forma secuencial utilizando un *array*:
 
     $string = 'The event will take place between :start and :end';
     
@@ -746,7 +746,7 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
 
 #### `snake_case()` {#collection-method}
 
-The `snake_case` function converts the given string to `snake_case`:
+La función `snake_case` convierte la cadena dada en formato `snake_case`:
 
     $converted = snake_case('fooBar');
     
