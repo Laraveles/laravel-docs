@@ -318,11 +318,11 @@ Esta opción es particularmente útil para proyectos antiguos donde no se requie
 
 ### Configuración personalizada de Webpack
 
-Entre bastidores, Laravel Mix hace referencia a un archivo `webpack.config.js` pre-configurado para que pueda comenzar a trabajar lo más rápido posible. En ocasiones, puede necesitar modificar manualmente este archivo. You might have a special loader or plug-in that needs to be referenced, or maybe you prefer to use Stylus instead of Sass. In such instances, you have two choices:
+Entre bastidores, Laravel Mix hace referencia a un archivo `webpack.config.js` pre-configurado para que pueda comenzar a trabajar lo más rápido posible. En ocasiones, puede necesitar modificar manualmente este archivo. Es posible que tenga un cargador o *plug-in* especial al que se deba hacer referencia, o tal vez prefiera usar Stylus en lugar de Sass. En tales casos, tiene dos opciones:
 
-#### Merging Custom Configuration
+#### Fusionar la configuración personalizada
 
-Mix provides a useful `webpackConfig` method that allows you to merge any short Webpack configuration overrides. This is a particularly appealing choice, as it doesn't require you to copy and maintain your own copy of the `webpack.config.js` file. The `webpackConfig` method accepts an object, which should contain any [Webpack-specific configuration](https://webpack.js.org/configuration/) that you wish to apply.
+Mix proporciona un método útil `webpackConfig` que le permite combinar cualquier anulación de configuración de Webpack. Esta es una opción particularmente atractiva, ya que no requiere que copie y mantenga su propia copia del archivo `webpack.config.js`. El método `webpackConfig` acepta un objeto, que debe contener cualquier [configuración específica de Webpack](https://webpack.js.org/configuration/) que desee aplicar.
 
     mix.webpackConfig({
         resolve: {
@@ -333,42 +333,42 @@ Mix provides a useful `webpackConfig` method that allows you to merge any short 
     });
     
 
-#### Custom Configuration Files
+#### Archivos de configuración personalizados
 
-If you would like completely customize your Webpack configuration, copy the `node_modules/laravel-mix/setup/webpack.config.js` file to your project's root directory. Next, point all of the `--config` references in your `package.json` file to the newly copied configuration file. If you choose to take this approach to customization, any future upstream updates to Mix's `webpack.config.js` must be manually merged into your customized file.
+Si desea personalizar completamente la configuración de su Webpack, copie el archivo `node_modules/laravel-mix/setup/webpack.config.js` en el directorio raíz de su proyecto. A continuación, apunte todas las referencias de `--config` en su archivo `package.json` al archivo de configuración recién copiado. Si opta por llevar este enfoque, cualquier actualización futura de del archivo `webpack.config.js` de Mix deberá fusionarse manualmente en su archivo personalizado.
 
 <a name="copying-files-and-directories"></a>
 
-## Copying Files & Directories
+## Copiar archivos & directorios
 
-The `copy` method may be used to copy files and directories to new locations. This can be useful when a particular asset within your `node_modules` directory needs to be relocated to your `public` folder.
+El método `copy` se puede usar para copiar archivos y directorios a ubicaciones nuevas. Puede ser útil cuando un recurso particular dentro de su directorio `node_modules` necesita ser reubicado en su carpeta `public`.
 
     mix.copy('node_modules/foo/bar.css', 'public/css/bar.css');
     
 
-When copying a directory, the `copy` method will flatten the directory's structure. To maintain the directory's original structure, you should use the `copyDirectory` method instead:
+Al copiar un directorio, el método `copy` aplanará la estructura del directorio. Para mantener la estructura original del directorio, debe usar el método `copyDirectory` en su lugar:
 
     mix.copyDirectory('assets/img', 'public/img');
     
 
 <a name="versioning-and-cache-busting"></a>
 
-## Versioning / Cache Busting
+## Versionado/evitar caché
 
-Many developers suffix their compiled assets with a timestamp or unique token to force browsers to load the fresh assets instead of serving stale copies of the code. Mix can handle this for you using the `version` method.
+Muchos desarrolladores establecen un *timestamp* o *token* único como sufijo para sus archivos compilados para forzar a los navegadores cargar las nuevas copias en lugar de servir copias obsoletas del código. Mix gestiona esto utilizando el método `version`.
 
-The `version` method will automatically append a unique hash to the filenames of all compiled files, allowing for more convenient cache busting:
+El método `version` agregará automáticamente un *hash* único a los nombres de archivo de todos los archivos compilados, lo que permite un almacenamiento en memoria caché más conveniente:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .version();
     
 
-After generating the versioned file, you won't know the exact file name. So, you should use Laravel's global `mix` function within your [views](/docs/{{version}}/views) to load the appropriately hashed asset. The `mix` function will automatically determine the current name of the hashed file:
+Después de generar el archivo versionado, no sabrá el nombre exacto del archivo. Por lo tanto, debe usar la función global de Laravel `mix` en sus [vistas](/docs/{{version}}/views) para cargar el *asset* adecuado. La función `mix` determinará automáticamente el nombre actual del archivo:
 
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
     
 
-Because versioned files are usually unnecessary in development, you may instruct the versioning process to only run during `npm run production`:
+Debido a que los archivos versionados generalmente no son necesarios en el desarrollo, puede indicarle al proceso de versiones que solo se ejecute durante `npm run production`:
 
     mix.js('resources/assets/js/app.js', 'public/js');
     
@@ -379,9 +379,9 @@ Because versioned files are usually unnecessary in development, you may instruct
 
 <a name="browsersync-reloading"></a>
 
-## Browsersync Reloading
+## Recarga Browsersync
 
-[BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
+[BrowserSync](https://browsersync.io/) puede supervisar automáticamente sus archivos en busca de cambios e inyectar sus cambios en el navegador sin necesidad de una actualización manual. Puede habilitar el soporte llamando al método `mix.browserSync()`:
 
     mix.browserSync('my-domain.dev');
     
@@ -393,26 +393,26 @@ Because versioned files are usually unnecessary in development, you may instruct
     });
     
 
-You may pass either a string (proxy) or object (BrowserSync settings) to this method. Next, start Webpack's dev server using the `npm run watch` command. Now, when you modify a script or PHP file, watch as the browser instantly refreshes the page to reflect your changes.
+Puede pasar una cadena (proxy) u objeto (configuración BrowserSync) a este método. A continuación, inicie el servidor de desarrollo de Webpack con el comando `npm run watch`. Ahora, cuando modifique un script o un archivo PHP, observe cómo el navegador actualiza al instante la página para reflejar sus cambios.
 
 <a name="environment-variables"></a>
 
-## Environment Variables
+## Variables de entorno
 
-You may inject environment variables into Mix by prefixing a key in your `.env` file with `MIX_`:
+Puede inyectar variables de entorno en Mix prefijando una clave en su archivo `.env` con `MIX_`:
 
     MIX_SENTRY_DSN_PUBLIC=http://example.com
     
 
-After the variable has been defined in your `.env` file, you may access via the `process.env` object. If the value changes while you are running a `watch` task, you will need to restart the task:
+Después de que la variable se haya definido en su archivo `.env`, puede acceder a través del objeto `process.env`. Si el valor cambia mientras está ejecutando una tarea `watch`, deberá reiniciar la tarea:
 
     process.env.MIX_SENTRY_DSN_PUBLIC
     
 
 <a name="notifications"></a>
 
-## Notifications
+## Notificaciones
 
-When available, Mix will automatically display OS notifications for each bundle. This will give you instant feedback, as to whether the compilation was successful or not. However, there may be instances when you'd prefer to disable these notifications. One such example might be triggering Mix on your production server. Notifications may be deactivated, via the `disableNotifications` method.
+Cuando esté disponible, Mix mostrará automáticamente las notificaciones del sistema operativo para cada paquete. Esto le dará una respuesta instantánea, si la compilación fue exitosa o no. Sin embargo, puede haber instancias en las que prefiera inhabilitar estas notificaciones. Uno de esos ejemplos podría ser activar Mix en su servidor de producción. Las notificaciones se pueden desactivar mediante el método `disableNotifications`.
 
     mix.disableNotifications();
