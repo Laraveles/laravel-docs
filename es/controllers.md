@@ -23,11 +23,11 @@ En lugar de definir toda la lógica para la gestión de una petición dentro de 
 
 <a name="basic-controllers"></a>
 
-## Basic Controllers
+## Controladores básicos
 
 <a name="defining-controllers"></a>
 
-### Defining Controllers
+### Definir controladores
 
 A continuación se muestra un ejemplo de una clase de controlador básico. Tenga en cuenta que el controlador hereda de la clase de controlador base incluida con Laravel. La clase base provee de una serie de métodos útiles como el método `middleware`, que se puede usar para adjuntar un *middleware* a las acciones del controlador:
 
@@ -108,14 +108,14 @@ Cuando se registra una ruta de un controlador de acción única, no se necesita 
 
 <a name="controller-middleware"></a>
 
-## Controller Middleware
+## *Middleware* y controladores
 
-[Middleware](/docs/{{version}}/middleware) may be assigned to the controller's routes in your route files:
+A las rutas de los controladores se les puede asignar [middleware](/docs/{{version}}/middleware) del siguiente modo:
 
     Route::get('profile', 'UserController@show')->middleware('auth');
     
 
-However, it is more convenient to specify middleware within your controller's constructor. Using the `middleware` method from your controller's constructor, you may easily assign middleware to the controller's action. You may even restrict the middleware to only certain methods on the controller class:
+Sin embargo, es más conveniente especificar el *middleware* en el constructor del controlador. Utilizando el método `middleware` desde el constructor del controlador, se puede asignar un *middleware* a las acciones del controlador. Incluso se puede restringir el *middleware* a únicamente ciertos métodos:
 
     class UserController extends Controller
     {
@@ -135,7 +135,7 @@ However, it is more convenient to specify middleware within your controller's co
     }
     
 
-Controllers also allow you to register middleware using a Closure. This provides a convenient way to define a middleware for a single controller without defining an entire middleware class:
+Los controladores también permiten registrar *middleware* usando un *Closure* o función anónima. Esto proporciona una forma conveniente de definir un *middleware* para un solo controlador sin definir una clase *middleware* completa:
 
     $this->middleware(function ($request, $next) {
         // ...
@@ -144,27 +144,27 @@ Controllers also allow you to register middleware using a Closure. This provides
     });
     
 
-> {tip} You may assign middleware to a subset of controller actions; however, it may indicate your controller is growing too large. Instead, consider breaking your controller into multiple, smaller controllers.
+> {tip} Se puede asignar un *middleware* a un subconjunto de acciones del controlador; sin embargo, esto puede indicar que el controlador está creciendo demasiado. En su lugar, se recomienda dividir el controlador en controladores más pequeños.
 
 <a name="resource-controllers"></a>
 
-## Resource Controllers
+## Controladores de recursos – *resource controllers*
 
-Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the `make:controller` Artisan command, we can quickly create such a controller:
+El *routing* de recursos de Laravel asigna las rutas "CRUD" típicas a un controlador con una sola línea de código. Por ejemplo, la creación de un controlador que gestiona todas las peticiones HTTP sobre "photos" (fotos) almacenadas por nuestra aplicación. Utilizando el comando de Artisan `make:controller`, se puede crear un controlador rápidamente:
 
     php artisan make:controller PhotoController --resource
     
 
-This command will generate a controller at `app/Http/Controllers/PhotoController.php`. The controller will contain a method for each of the available resource operations.
+El comando generará un controlador en el archivo `app/Http/Controllers/PhotoController.php`. El controlador incluirá un método para cada una de las operaciones disponibles para el recurso.
 
-Next, you may register a resourceful route to the controller:
+A continuación, se puede registrar una ruta de recursos para el controlador:
 
     Route::resource('photos', 'PhotoController');
     
 
-This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
+Esta única declaración crea varias rutas que gestionan los diferentes métodos sobre un recurso. El controlador generado incluirá los métodos ya declarados para cada una de estas acciones, incluyendo notas que informan sobre que URIs y verbos gestionan.
 
-You may register many resource controllers at once by passing an array to the `resources` method:
+Se pueden registrar varios controladores de recursos a la vez pasando una *array* al método `resources`:
 
     Route::resources([
         'photos' => 'PhotoController',
@@ -172,9 +172,9 @@ You may register many resource controllers at once by passing an array to the `r
     ]);
     
 
-#### Actions Handled By Resource Controller
+#### Acciones gestionadas por controladores de recursos
 
-| Verb      | URI                    | Action  | Route Name     |
+| Verbo     | URI                    | Acción  | Nombre de Ruta |
 | --------- | ---------------------- | ------- | -------------- |
 | GET       | `/photos`              | index   | photos.index   |
 | GET       | `/photos/create`       | create  | photos.create  |
@@ -184,25 +184,25 @@ You may register many resource controllers at once by passing an array to the `r
 | PUT/PATCH | `/photos/{photo}`      | update  | photos.update  |
 | DELETE    | `/photos/{photo}`      | destroy | photos.destroy |
 
-#### Specifying The Resource Model
+#### Especificar el modelo del recurso
 
-If you are using route model binding and would like the resource controller's methods to type-hint a model instance, you may use the `--model` option when generating the controller:
+Si se está utilizando el *route model binding* y se desea que los métodos del controlador de recursos incluyan un *type-hint* de una instancia del modelo, se puede usar la opción `--model` al generar el controlador:
 
     php artisan make:controller PhotoController --resource --model=Photo
     
 
-#### Spoofing Form Methods
+#### Suplantación de métodos en formularios
 
-Los formularios HTML no pueden realizar peticiones `PUT`, `PATCH`, o `DELETE`, para hacerlo se necesita agregar un campo oculto `_method` para suplantar estos verbos HTTP. The `method_field` helper can create this field for you:
+Los formularios HTML no pueden realizar peticiones `PUT`, `PATCH`, o `DELETE`, para hacerlo se necesita agregar un campo oculto `_method` para suplantar estos verbos HTTP. El *helper* `method_field` permite crear este campo de forma rápida:
 
     {{ method_field('PUT') }}
     
 
 <a name="restful-partial-resource-routes"></a>
 
-### Partial Resource Routes
+### Rutas de recursos parciales
 
-When declaring a resource route, you may specify a subset of actions the controller should handle instead of the full set of default actions:
+Cuando se declara una ruta de recursos, se puede especificar un subconjunto de acciones que el controlador debe manejar en lugar del conjunto completo de acciones predeterminadas:
 
     Route::resource('photo', 'PhotoController', ['only' => [
         'index', 'show'
@@ -213,14 +213,14 @@ When declaring a resource route, you may specify a subset of actions the control
     ]]);
     
 
-#### API Resource Routes
+#### Rutas de recursos para API
 
-When declaring resource routes that will be consumed by APIs, you will commonly want to exclude routes that present HTML templates such as `create` and `edit`. For convenience, you may use the `apiResource` method to automatically exclude these two routes:
+Al declarar rutas de recursos que consumirá un API, normalmente se querrá excluir rutas que presenten plantillas HTML, como `create` y `edit`. Para su comodidad, se puede usar el método `apiResource` para excluir automáticamente estas dos rutas:
 
     Route::apiResource('photo', 'PhotoController');
     
 
-You may register many API resource controllers at once by passing an array to the `apiResources` method:
+Se pueden registrar varios controladores de recursos de API a la vez pasando una *array* al método `apiResources`:
 
     Route::apiResources([
         'photos' => 'PhotoController',
@@ -230,9 +230,9 @@ You may register many API resource controllers at once by passing an array to th
 
 <a name="restful-naming-resource-routes"></a>
 
-### Naming Resource Routes
+### Nombrar rutas de recursos
 
-By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
+Por defecto, todas las acciones de los controladores de recursos tienen un nombre de ruta; sin embargo, se puede sobrescribir este nombre pasando un *array* `names` con sus opciones:
 
     Route::resource('photo', 'PhotoController', ['names' => [
         'create' => 'photo.build'
@@ -241,25 +241,25 @@ By default, all resource controller actions have a route name; however, you can 
 
 <a name="restful-naming-resource-route-parameters"></a>
 
-### Naming Resource Route Parameters
+### Nombrar parámetros en rutas de recursos
 
-By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by passing `parameters` in the options array. The `parameters` array should be an associative array of resource names and parameter names:
+Por defecto, `Route::resource` crea los parámetros de ruta para las rutas de recursos utilizando la versión "singular" del nombre del recurso. Se puede sobrescribir esto fácilmente por recurso pasando `parameters` en el *array* de opciones. El *array* de `parameters` debe ser un *array* asociativo de los nombres de los recursos y el nombre de su parámetro:
 
     Route::resource('user', 'AdminUserController', ['parameters' => [
         'user' => 'admin_user'
     ]]);
     
 
-The example above generates the following URIs for the resource's `show` route:
+El ejemplo anterior genera las siguientes URIs para la ruta `show` del recurso:
 
     /user/{admin_user}
     
 
 <a name="restful-localizing-resource-uris"></a>
 
-### Localizing Resource URIs
+### Traducir las URIs de los recursos
 
-By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
+Por defecto, `Route::resource` crea las URIs de los recursos usando verbos en inglés. Si se necesita traducir los verbos de las acciones `create` y `edit`, se puede usar el método `Route::resourceVerbs`. Se puede hacer esto en el método `boot` de nuestro `AppServiceProvider`:
 
     use Illuminate\Support\Facades\Route;
     
@@ -277,7 +277,7 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
     }
     
 
-Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', 'PhotoController')` will produce the following URIs:
+Una vez que se han personalizado los verbos, una ruta de recursos como `Route::resource('fotos', 'PhotoController')` producirá las siguientes URIs:
 
     /fotos/crear
     
@@ -286,24 +286,24 @@ Once the verbs have been customized, a resource route registration such as `Rout
 
 <a name="restful-supplementing-resource-controllers"></a>
 
-### Supplementing Resource Controllers
+### Complementar a los controladores de recursos
 
-If you need to add additional routes to a resource controller beyond the default set of resource routes, you should define those routes before your call to `Route::resource`; otherwise, the routes defined by the `resource` method may unintentionally take precedence over your supplemental routes:
+Si es necesario agregar rutas adicionales a un controlador de recursos más allá de las predeterminadas, se deben definir antes de llamar a `Route::resource`; de otro modo, las rutas definidas por el método `resource` pueden prevalecer sobre las rutas suplementarias:
 
     Route::get('photos/popular', 'PhotoController@method');
     
     Route::resource('photos', 'PhotoController');
     
 
-> {tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
+> {tip} Recuerde mantener sus controladores enfocados. Si se encuentra rutinariamente necesitando métodos fuera del conjunto típico de las acciones de recursos, considere dividir su controlador en dos controladores más pequeños.
 
 <a name="dependency-injection-and-controllers"></a>
 
-## Dependency Injection & Controllers
+## Inyección de dependencias & controladores
 
-#### Constructor Injection
+#### Inyección en constructores
 
-The Laravel [service container](/docs/{{version}}/container) is used to resolve all Laravel controllers. As a result, you are able to type-hint any dependencies your controller may need in its constructor. The declared dependencies will automatically be resolved and injected into the controller instance:
+El [service container](/docs/{{version}}/container) de Laravel se utiliza para resolver todos los controladores. Como resultado, se puede *type-hint* (firma del método) cualquier dependencia que el controlador pueda tener en su constructor. Las dependencias declaradas se resuelven automáticamente y se inyectan en la instancia del controlador:
 
     <?php
     
@@ -331,11 +331,11 @@ The Laravel [service container](/docs/{{version}}/container) is used to resolve 
     }
     
 
-Of course, you may also type-hint any [Laravel contract](/docs/{{version}}/contracts). If the container can resolve it, you can type-hint it. Depending on your application, injecting your dependencies into your controller may provide better testability.
+Y por supuesto, se puede incluir cualquier [Contracto de Laravel](/docs/{{version}}/contracts). Si el contenedor puede resolverlo, se puede utilizar en la firma del constructor. Dependiendo de la aplicación, inyectar las dependencias dentro del controlador puede ofrecer mejor control sobre el *testing*.
 
-#### Method Injection
+#### Inyección en métodos
 
-In addition to constructor injection, you may also type-hint dependencies on your controller's methods. A common use-case for method injection is injecting the `Illuminate\Http\Request` instance into your controller methods:
+Además de inyectar en constructores, se puede hacer *type-hint* de dependencias en los métodos del controlador. Un caso de uso muy común para la inyección es la de la instancia de `Illuminate\Http\Request` dentro de los métodos del controlador:
 
     <?php
     
@@ -360,12 +360,12 @@ In addition to constructor injection, you may also type-hint dependencies on you
     }
     
 
-If your controller method is also expecting input from a route parameter, simply list your route arguments after your other dependencies. For example, if your route is defined like so:
+Si el método del controlador también espera datos de entrada de un parámetro en la ruta se deben listar los parámetros de ruta después de las otras dependencias. Por ejemplo, si la ruta está definida así:
 
     Route::put('user/{id}', 'UserController@update');
     
 
-You may still type-hint the `Illuminate\Http\Request` and access your `id` parameter by defining your controller method as follows:
+Se podría hacer *type-hint* de `Illuminate\Http\Request` y acceder al parámetro de ruta `id` definiendo el método del controlador de la siguiente forma:
 
     <?php
     
@@ -391,17 +391,17 @@ You may still type-hint the `Illuminate\Http\Request` and access your `id` param
 
 <a name="route-caching"></a>
 
-## Route Caching
+## Caché de rutas
 
-> {note} Closure based routes cannot be cached. To use route caching, you must convert any Closure routes to controller classes.
+> {note} Las rutas basadas en *Closures* o funciones anónimas no se pueden almacenar en caché. Para utilizar el almacenamiento en caché de rutas, debe convertir las rutas de *Closure* en controladores.
 
-If your application is exclusively using controller based routes, you should take advantage of Laravel's route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application's routes. In some cases, your route registration may even be up to 100x faster. To generate a route cache, just execute the `route:cache` Artisan command:
+Si la aplicación usa exclusivamente rutas basadas en controladores, se puede aprovechar la caché de rutas de Laravel. Utilizando la caché de rutas se reducirá drásticamente el tiempo que toma la aplicación en registrar todas las rutas. En algunos casos, ¡el registro de rutas puede ser hasta 100x más rápido. Para generar una caché de rutas, simplemente hay que ejecutar el comando de Artisan `route:cache`:
 
     php artisan route:cache
     
 
-After running this command, your cached routes file will be loaded on every request. Remember, if you add any new routes you will need to generate a fresh route cache. Because of this, you should only run the `route:cache` command during your project's deployment.
+Tras ejecutar el comando, el archivo de rutas en caché se cargará en cada solicitud. Recordar, si se añaden nuevas rutas se debe generar de nuevo una nueva caché. Es por esto, se recomienda utilizar el comando `route:cache` únicamente en el entorno de producción.
 
-You may use the `route:clear` command to clear the route cache:
+Se puede utilizar el comando `route:clear` para limpiar las rutas en caché:
 
     php artisan route:clear
