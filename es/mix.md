@@ -157,7 +157,7 @@ También puede instalar complementos adicionales de Stylus, como [Rupture](https
 
 ### PostCSS
 
-[PostCSS](http://postcss.org/), una herramienta poderosa para transformar su CSS, se incluye con Laravel Mix de serie. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
+[PostCSS](http://postcss.org/), una herramienta poderosa para transformar su CSS, se incluye con Laravel Mix de serie. De forma predeterminada, Mix aprovecha el popular *plug-in* [Autoprefixer](https://github.com/postcss/autoprefixer) para aplicar automáticamente todos los prefijos de CSS necesarios. Sin embargo, puede agregar complementos adicionales que sean apropiados para su aplicación. Primero, instale el complemento deseado a través de NPM y luego hágalo en su archivo `webpack.mix.js`:
 
     mix.sass('resources/assets/sass/app.scss', 'public/css')
        .options({
@@ -169,9 +169,9 @@ También puede instalar complementos adicionales de Stylus, como [Rupture](https
 
 <a name="plain-css"></a>
 
-### Plain CSS
+### CSS simple
 
-If you would just like to concatenate some plain CSS stylesheets into a single file, you may use the `styles` method.
+Si simplemente desea concatenar algunas hojas de estilos CSS simples en un solo archivo, puede usar el método `styles`.
 
     mix.styles([
         'public/css/vendor/normalize.css',
@@ -181,25 +181,25 @@ If you would just like to concatenate some plain CSS stylesheets into a single f
 
 <a name="url-processing"></a>
 
-### URL Processing
+### Procesamiento URL
 
-Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
+Debido a que Laravel Mix se basa en Webpack, es importante comprender algunos conceptos de Webpack. Para la compilación de CSS, Webpack reescribirá y optimizará cualquier llamada `url()` dentro de sus hojas de estilo. Si bien esto inicialmente puede sonar extraño, es una funcionalidad increíblemente poderosa. Imagine que queremos compilar Sass que incluye una URL relativa a una imagen:
 
     .example {
         background: url('../images/example.png');
     }
     
 
-> {note} Absolute paths for any given `url()` will be excluded from URL-rewriting. For example, `url('/images/thing.png')` or `url('http://example.com/images/thing.png')` won't be modified.
+> {note} Las rutas absolutas para cualquier `url()` determinada se excluirán de la reescritura de URL. Por ejemplo, `url('/images/thing.png')` o `url('http://example.com/images/thing.png')` no será modificado.
 
-By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
+De forma predeterminada, Laravel Mix y Webpack encontrarán `example.png`, lo copiarán en su carpeta `public/images` y luego reescribirá la `url()` dentro de su hoja de estilo generada. Como tal, su CSS compilado será:
 
     .example {
       background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
     }
     
 
-As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
+Tan útil como puede ser esta característica, es posible que su estructura de carpetas existente ya esté configurada de la manera que desee. Si este es el caso, puede deshabilitar la reescritura de `url()` así:
 
     mix.sass('resources/assets/app/app.scss', 'public/css')
        .options({
@@ -207,7 +207,7 @@ As useful as this feature may be, it's possible that your existing folder struct
        });
     
 
-With this addition to your `webpack.mix.js` file, Mix will no longer match any `url()` or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
+Con esta adición a su archivo `webpack.mix.js`, Mix ya no coincidirá con ninguna `url()` o copiará los *assets* en su directorio *public*. En otras palabras, el CSS compilado se verá exactamente como se escribió originalmente:
 
     .example {
         background: url("../images/thing.png");
@@ -216,9 +216,9 @@ With this addition to your `webpack.mix.js` file, Mix will no longer match any `
 
 <a name="css-source-maps"></a>
 
-### Source Maps
+### Mapas de fuentes – *Source maps*
 
-Though disabled by default, source maps may be activated by calling the `mix.sourceMaps()` method in your `webpack.mix.js` file. Though it comes with a compile/performance cost, this will provide extra debugging information to your browser's developer tools when using compiled assets.
+Aunque está deshabilitado de forma predeterminada, los *source maps* se pueden activar llamando al método `mix.sourceMaps()` en su archivo `webpack.mix.js`. A pesar de que viene con un costo de compilación/rendimiento, esto proporcionará información de depuración adicional a las herramientas de desarrollo de su navegador al usar recursos compilados.
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sourceMaps();
@@ -226,61 +226,61 @@ Though disabled by default, source maps may be activated by calling the `mix.sou
 
 <a name="working-with-scripts"></a>
 
-## Working With JavaScript
+## Trabajar con JavaScript
 
-Mix provides several features to help you work with your JavaScript files, such as compiling ECMAScript 2015, module bundling, minification, and simply concatenating plain JavaScript files. Even better, this all works seamlessly, without requiring an ounce of custom configuration:
+Mix proporciona varias funciones para ayudar a trabajar con sus archivos JavaScript, como la compilación de ECMAScript 2015, la agrupación de módulos, la minificación y simplemente la concatenación de archivos JavaScript simples. Aún mejor, todo esto funciona a la perfección, sin requerir una pizca de configuración personalizada:
 
     mix.js('resources/assets/js/app.js', 'public/js');
     
 
-With this single line of code, you may now take advantage of:
+Con esta única línea de código, ahora puede aprovechar:
 
 <div class="content-list">
   <ul>
     <li>
-      ES2015 syntax.
+      Sintaxis ES2015.
     </li>
     <li>
-      Modules
+      Módulos
     </li>
     <li>
-      Compilation of <code>.vue</code> files.
+      Compilación de archivos <code>.vue</code>.
     </li>
     <li>
-      Minification for production environments.
+      Minificación para entornos de producción.
     </li>
   </ul>
 </div>
 
 <a name="vendor-extraction"></a>
 
-### Vendor Extraction
+### Extracción del *Vendor*
 
-One potential downside to bundling all application-specific JavaScript with your vendor libraries is that it makes long-term caching more difficult. For example, a single update to your application code will force the browser to re-download all of your vendor libraries even if they haven't changed.
+Una posible desventaja de agrupar todo el JavaScript específico de la aplicación con las bibliotecas de su *vendor* es que hace que el almacenamiento en caché a largo plazo sea más difícil. Por ejemplo, una sola actualización de su código de aplicación obligará al navegador a volver a descargar todas las bibliotecas de su *vendor*, incluso si no han cambiado.
 
-If you intend to make frequent updates to your application's JavaScript, you should consider extracting all of your vendor libraries into their own file. This way, a change to your application code will not affect the caching of your large `vendor.js` file. Mix's `extract` method makes this a breeze:
+Si tiene la intención de realizar actualizaciones frecuentes del JavaScript de su aplicación, debería considerar extraer todas sus librerías del *vendor* en su propio archivo. De esta forma, un cambio en el código de su aplicación no afectará el almacenamiento en caché de su gran archivo `vendor.js`. El método `exctract` de Mix hace que esto sea muy sencillo:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .extract(['vue'])
     
 
-The `extract` method accepts an array of all libraries or modules that you wish to extract into a `vendor.js` file. Using the above snippet as an example, Mix will generate the following files:
+El método `extract` acepta una matriz de todas las librerías o módulos que desea extraer en un archivo `vendor.js`. Usando el fragmento de arriba como ejemplo, Mix generará los siguientes archivos:
 
 <div class="content-list">
   <ul>
     <li>
-      <code>public/js/manifest.js</code>: <em>The Webpack manifest runtime</em>
+      <code>public/js/manifest.js</code>: <em>El tiempo de ejecución del manifiesto de Webpack</em>
     </li>
     <li>
-      <code>public/js/vendor.js</code>: <em>Your vendor libraries</em>
+      <code>public/js/vendor.js</code>: <em>Sus librerías del vendor</em>
     </li>
     <li>
-      <code>public/js/app.js</code>: <em>Your application code</em>
+      <code>public/js/app.js</code>: <em>Su código de aplicación</em>
     </li>
   </ul>
 </div>
 
-To avoid JavaScript errors, be sure to load these files in the proper order:
+Para evitar errores de JavaScript, asegúrese de cargar estos archivos en el orden correcto:
 
     <script src="/js/manifest.js"></script>
     <script src="/js/vendor.js"></script>
@@ -291,18 +291,18 @@ To avoid JavaScript errors, be sure to load these files in the proper order:
 
 ### React
 
-Mix can automatically install the Babel plug-ins necessary for React support. To get started, replace your `mix.js()` call with `mix.react()`:
+Mix puede instalar automáticamente los *plug-ins* de Babel necesarios para la compatibilidad con React. Para comenzar, reemplace su llamada a `mix.js()` con `mix.react()`:
 
     mix.react('resources/assets/js/app.jsx', 'public/js');
     
 
-Behind the scenes, Mix will download and include the appropriate `babel-preset-react` Babel plug-in.
+Mix descargará e incluirá el *plug-in* de Babel `babel-preset-react`.
 
 <a name="vanilla-js"></a>
 
 ### Vanilla JS
 
-Similar to combining stylesheets with `mix.styles()`, you may also combine and minify any number of JavaScript files with the `scripts()` method:
+Similar a la combinación de hojas de estilo con `mix.styles()`, también puedes combinar y minificar cualquier cantidad de archivos JavaScript con el método `scripts()`:
 
     mix.scripts([
         'public/js/admin.js',
@@ -310,15 +310,15 @@ Similar to combining stylesheets with `mix.styles()`, you may also combine and m
     ], 'public/js/all.js');
     
 
-This option is particularly useful for legacy projects where you don't require Webpack compilation for your JavaScript.
+Esta opción es particularmente útil para proyectos antiguos donde no se requiere compilación de Webpack para su JavaScript.
 
-> {tip} A slight variation of `mix.scripts()` is `mix.babel()`. Its method signature is identical to `scripts`; however, the concatenated file will receive Babel compilation, which translates any ES2015 code to vanilla JavaScript that all browsers will understand.
+> {tip} Una ligera variación de `mix.scripts()` es `mix.babel()`. Su firma de método es idéntica a `scripts`; sin embargo, el archivo concatenado recibirá la compilación de Babel, que traduce cualquier código de ES2015 a *vanilla JavaScript* que todos los navegadores entenderán.
 
 <a name="custom-webpack-configuration"></a>
 
-### Custom Webpack Configuration
+### Configuración personalizada de Webpack
 
-Behind the scenes, Laravel Mix references a pre-configured `webpack.config.js` file to get you up and running as quickly as possible. Occasionally, you may need to manually modify this file. You might have a special loader or plug-in that needs to be referenced, or maybe you prefer to use Stylus instead of Sass. In such instances, you have two choices:
+Entre bastidores, Laravel Mix hace referencia a un archivo `webpack.config.js` pre-configurado para que pueda comenzar a trabajar lo más rápido posible. En ocasiones, puede necesitar modificar manualmente este archivo. You might have a special loader or plug-in that needs to be referenced, or maybe you prefer to use Stylus instead of Sass. In such instances, you have two choices:
 
 #### Merging Custom Configuration
 
