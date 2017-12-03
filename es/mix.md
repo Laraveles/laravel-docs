@@ -1,65 +1,65 @@
-# Compiling Assets (Laravel Mix)
+# Compilando *Assets* (Laravel Mix)
 
-- [Introduction](#introduction)
-- [Installation & Setup](#installation)
-- [Running Mix](#running-mix)
-- [Working With Stylesheets](#working-with-stylesheets) 
+- [Introducción](#introduction)
+- [Instalación & configuración](#installation)
+- [Ejecutar Mix](#running-mix)
+- [Trabajar con hojas de estilo](#working-with-stylesheets) 
     - [Less](#less)
     - [Sass](#sass)
     - [Stylus](#stylus)
     - [PostCSS](#postcss)
-    - [Plain CSS](#plain-css)
-    - [URL Processing](#url-processing)
-    - [Source Maps](#css-source-maps)
-- [Working With JavaScript](#working-with-scripts) 
-    - [Vendor Extraction](#vendor-extraction)
+    - [CSS simple](#plain-css)
+    - [Procesamiento de URL](#url-processing)
+    - [Mapas de fuentes – *Source maps*](#css-source-maps)
+- [Trabajar con JavaScript](#working-with-scripts) 
+    - [Extracción del *Vendor*](#vendor-extraction)
     - [React](#react)
     - [Vanilla JS](#vanilla-js)
-    - [Custom Webpack Configuration](#custom-webpack-configuration)
-- [Copying Files & Directories](#copying-files-and-directories)
-- [Versioning / Cache Busting](#versioning-and-cache-busting)
-- [Browsersync Reloading](#browsersync-reloading)
-- [Environment Variables](#environment-variables)
-- [Notifications](#notifications)
+    - [Configuración personalizada de Webpack](#custom-webpack-configuration)
+- [Copiar archivos & directorios](#copying-files-and-directories)
+- [Versionado/evitar caché](#versioning-and-cache-busting)
+- [Recarga Browsersync](#browsersync-reloading)
+- [Variables de entorno](#environment-variables)
+- [Notificaciones](#notifications)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-[Laravel Mix](https://github.com/JeffreyWay/laravel-mix) provides a fluent API for defining Webpack build steps for your Laravel application using several common CSS and JavaScript pre-processors. Through simple method chaining, you can fluently define your asset pipeline. For example:
+[Laravel Mix](https://github.com/JeffreyWay/laravel-mix) proporciona una API fluida para definir los pasos de compilación de Webpack para su aplicación Laravel utilizando varios preprocesadores comunes de CSS y JavaScript. Encadenando métodos, puede definir con fluidez su *asset pipeline*. Por ejemplo:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sass('resources/assets/sass/app.scss', 'public/css');
     
 
-If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application. Of course, you are free to use any asset pipeline tool you wish, or even none at all.
+Si alguna vez ha estado confundido y abrumado sobre cómo comenzar con la compilación de *assets* y Webpack, le encantará Laravel Mix. Sin embargo, no es necesario utilizarlo para el desarrollo de la aplicación. Por supuesto, puede usar cualquier herramienta para el tratamiento de *assets* que desee, o incluso ninguna.
 
 <a name="installation"></a>
 
-## Installation & Setup
+## Instalación & configuración
 
-#### Installing Node
+#### Instalar Node
 
-Before triggering Mix, you must first ensure that Node.js and NPM are installed on your machine.
+Antes de activar Mix, primero debe asegurarse de que Node.js y NPM estén instalados en su máquina.
 
     node -v
     npm -v
     
 
-By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install the latest version of Node and NPM using simple graphical installers from [their download page](https://nodejs.org/en/download/).
+Por defecto, Laravel Homestead incluye todo lo que necesita; sin embargo, si no está utilizando Vagrant, puede instalar fácilmente la última versión de Node y NPM usando instaladores gráficos simples desde [su p&aacute;gina de descarga](https://nodejs.org/en/download/).
 
 #### Laravel Mix
 
-The only remaining step is to install Laravel Mix. Within a fresh installation of Laravel, you'll find a `package.json` file in the root of your directory structure. The default `package.json` file includes everything you need to get started. Think of this like your `composer.json` file, except it defines Node dependencies instead of PHP. You may install the dependencies it references by running:
+El único paso restante es instalar Laravel Mix. Dentro de una nueva instalación de Laravel, encontrará un archivo `package.json` en la raíz de la estructura de su directorio. El archivo predeterminado `package.json` incluye todo lo que necesita para comenzar. Este archivo es similar a `composer.json`, excepto que define las dependencias de Node en lugar de PHP. Se pueden instalar estas dependencias ejecutando:
 
     npm install
     
 
 <a name="running-mix"></a>
 
-## Running Mix
+## Ejecutar Mix
 
-Mix is a configuration layer on top of [Webpack](https://webpack.js.org), so to run your Mix tasks you only need to execute one of the NPM scripts that is included with the default Laravel `package.json` file:
+Mix es una capa de configuración por encima de [Webpack](https://webpack.js.org), por lo que para ejecutar las tareas de Mix solo es necesario ejecutar uno de los scripts de NPM que se incluye con el archivo Laravel predeterminado `package.json`:
 
     // Run all Mix tasks...
     npm run dev
@@ -68,45 +68,45 @@ Mix is a configuration layer on top of [Webpack](https://webpack.js.org), so to 
     npm run production
     
 
-#### Watching Assets For Changes
+#### Observar cambios en *assets*
 
-The `npm run watch` command will continue running in your terminal and watch all relevant files for changes. Webpack will then automatically recompile your assets when it detects a change:
+El comando `npm run watch` continuará ejecutándose en su terminal y observará todos los ficheros relevantes en busca de cambios. Webpack luego recompilará automáticamente estos *assets* cuando detecte un cambio:
 
     npm run watch
     
 
-You may find that in certain environments Webpack isn't updating when your files change. If this is the case on your system, consider using the `watch-poll` command:
+Puede encontrar que en ciertos entornos Webpack no se actualiza cuando se modifican sus archivos. Si este es el caso en su sistema, considerar el comando `watch-poll`:
 
     npm run watch-poll
     
 
 <a name="working-with-stylesheets"></a>
 
-## Working With Stylesheets
+## Trabajar con hojas de estilo
 
-The `webpack.mix.js` file is your entry point for all asset compilation. Think of it as a light configuration wrapper around Webpack. Mix tasks can be chained together to define exactly how your assets should be compiled.
+El archivo `webpack.mix.js` es el punto de entrada para la compilación de todos los *assets*. Piense en ello como un contenedor de configuración ligera de Webpack. Las tareas Mix pueden encadenarse juntas para definir exactamente cómo deben compilarse los *assets*.
 
 <a name="less"></a>
 
 ### Less
 
-The `less` method may be used to compile [Less](http://lesscss.org/) into CSS. Let's compile our primary `app.less` file to `public/css/app.css`.
+El método `Less` se puede usar para compilar [Less](http://lesscss.org/) en CSS. Vamos a compilar nuestro archivo principal `app.less` a `public/css/app.css`.
 
     mix.less('resources/assets/less/app.less', 'public/css');
     
 
-Multiple calls to the `less` method may be used to compile multiple files:
+Se pueden realizar varias llamadas al método `less` para compilar varios archivos:
 
     mix.less('resources/assets/less/app.less', 'public/css')
        .less('resources/assets/less/admin.less', 'public/css');
     
 
-If you wish to customize the file name of the compiled CSS, you may pass a full file path as the second argument to the `less` method:
+Si desea personalizar el nombre del archivo compilado CSS, puede pasar una ruta completa del archivo como el segundo argumento para el método `less`:
 
     mix.less('resources/assets/less/app.less', 'public/stylesheets/styles.css');
     
 
-If you need to override the [underlying Less plug-in options](https://github.com/webpack-contrib/less-loader#options), you may pass an object as the third argument to `mix.less()`:
+Si necesita anular las [opciones del plug-in Less subyacentes](https://github.com/webpack-contrib/less-loader#options), puede pasar un objeto como tercer argumento para `mix.less()`:
 
     mix.less('resources/assets/less/app.less', 'public/css', {
         strictMath: true
@@ -117,18 +117,18 @@ If you need to override the [underlying Less plug-in options](https://github.com
 
 ### Sass
 
-The `sass` method allows you to compile [Sass](http://sass-lang.com/) into CSS. You may use the method like so:
+El método `sass` te permite compilar [Sass](http://sass-lang.com/) en CSS. Puede usar el método de esta manera:
 
     mix.sass('resources/assets/sass/app.scss', 'public/css');
     
 
-Again, like the `less` method, you may compile multiple Sass files into their own respective CSS files and even customize the output directory of the resulting CSS:
+De nuevo, al igual que el método `less`, puede compilar varios archivos Sass en sus respectivos archivos CSS e incluso personalizar el directorio de salida del CSS resultante:
 
     mix.sass('resources/assets/sass/app.sass', 'public/css')
        .sass('resources/assets/sass/admin.sass', 'public/css/admin');
     
 
-Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
+Se pueden proporcionar [opciones del plug-in Node-Sass](https://github.com/sass/node-sass#options) como tercer argumento:
 
     mix.sass('resources/assets/sass/app.sass', 'public/css', {
         precision: 5
@@ -139,12 +139,12 @@ Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options
 
 ### Stylus
 
-Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
+Similar a Less y Sass, el método `stylus` le permite compilar [Stylus](http://stylus-lang.com/) en CSS:
 
     mix.stylus('resources/assets/stylus/app.styl', 'public/css');
     
 
-You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
+También puede instalar complementos adicionales de Stylus, como [Rupture](https://github.com/jescalan/rupture). Primero, instale el complemento en cuestión a través de NPM (`npm install rupture`) y luego lo requiere en su llamada a `mix.stylus()`:
 
     mix.stylus('resources/assets/stylus/app.styl', 'public/css', {
         use: [
@@ -157,7 +157,7 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 
 ### PostCSS
 
-[PostCSS](http://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
+[PostCSS](http://postcss.org/), una herramienta poderosa para transformar su CSS, se incluye con Laravel Mix de serie. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
 
     mix.sass('resources/assets/sass/app.scss', 'public/css')
        .options({
