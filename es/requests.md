@@ -1,4 +1,4 @@
-# HTTP Requests
+# Peticiones HTTP
 
 - [Accessing The Request](#accessing-the-request) 
     - [Request Path & Method](#request-path-and-method)
@@ -14,9 +14,9 @@
 
 <a name="accessing-the-request"></a>
 
-## Accessing The Request
+## Acceder a la petición
 
-To obtain an instance of the current HTTP request via dependency injection, you should type-hint the `Illuminate\Http\Request` class on your controller method. The incoming request instance will automatically be injected by the [service container](/docs/{{version}}/container):
+Para obtener una instancia de la petición HTTP actual vía inyección de dependencias, se debe hacer *type-hint* de la clase `Illuminate\Http\Request` en el método del controlador. La instancia de la petición entrante será automáticamente inyectada por el [service container](/docs/{{version}}/container):
 
     <?php
     
@@ -41,14 +41,14 @@ To obtain an instance of the current HTTP request via dependency injection, you 
     }
     
 
-#### Dependency Injection & Route Parameters
+#### Inyección de dependencias & parámetros de rutas
 
-If your controller method is also expecting input from a route parameter you should list your route parameters after your other dependencies. For example, if your route is defined like so:
+Si el método del controlador también espera datos de entrada de un parámetro en la ruta se deben listar los parámetros de ruta después de las otras dependencias. Por ejemplo, si la ruta está definida así:
 
     Route::put('user/{id}', 'UserController@update');
     
 
-You may still type-hint the `Illuminate\Http\Request` and access your route parameter `id` by defining your controller method as follows:
+Se podría hacer *type-hint* de `Illuminate\Http\Request` y acceder al parámetro de ruta `id` definiendo el método del controlador de la siguiente forma:
 
     <?php
     
@@ -72,9 +72,9 @@ You may still type-hint the `Illuminate\Http\Request` and access your route para
     }
     
 
-#### Accessing The Request Via Route Closures
+#### Accediendo a las peticiones usando *Closures* de ruta
 
-You may also type-hint the `Illuminate\Http\Request` class on a route Closure. The service container will automatically inject the incoming request into the Closure when it is executed:
+Se puede usar el *type-hinting* de la clase `Illuminate\Http\Request` en un *Closure* de ruta. El *service container* inyectará automáticamente la petición entrante dentro del *Closure* al ejecutarse:
 
     use Illuminate\Http\Request;
     
@@ -85,13 +85,13 @@ You may also type-hint the `Illuminate\Http\Request` class on a route Closure. T
 
 <a name="request-path-and-method"></a>
 
-### Request Path & Method
+### Método & ruta de la petición
 
-The `Illuminate\Http\Request` instance provides a variety of methods for examining the HTTP request for your application and extends the `Symfony\Component\HttpFoundation\Request` class. We will discuss a few of the most important methods below.
+La instancia de `Illuminate\Http\Request` provee una variedad de métodos para examinar una petición HTTP dentro de la aplicación, extiende de la clase `Symfony\Component\HttpFoundation\Request`. A continuación se muestran los métodos más importantes.
 
-#### Retrieving The Request Path
+#### Obtener la ruta de la petición
 
-The `path` method returns the request's path information. So, if the incoming request is targeted at `http://domain.com/foo/bar`, the `path` method will return `foo/bar`:
+El método `path` retorna la información de la ruta de la petición. Así que, si la petición se realizara sobre `http://domain.com/foo/bar`, el método `path` retornaría `foo/bar`:
 
     $uri = $request->path();
     
