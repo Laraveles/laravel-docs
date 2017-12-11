@@ -230,25 +230,25 @@ Si se quiere recuperar un subconjunto de los datos de entrada, se pueden usar lo
     $input = $request->except('credit_card');
     
 
-> {tip} The `only` method returns all of the key / value pairs that you request; however, it will not return key / values pairs that are not present on the request.
+> {tip} El método `only` devuelve todos los pares clave/valor que solicite; sin embargo, no devuelve los pares clave/valores que no están presentes en la solicitud.
 
-#### Determining If An Input Value Is Present
+#### Determinar si un valor de entrada está presente
 
-You should use the `has` method to determine if a value is present on the request. The `has` method returns `true` if the value is present on the request:
+Puede utilizar el método `has` para determinar si un valor está presente en la solicitud. El método `has` devuelve `true` si el valor está presente:
 
     if ($request->has('name')) {
         //
     }
     
 
-When given an array, the `has` method will determine if all of the specified values are present:
+Cuando se le pasa un *array*, el método `has` determinará si todos los valores especificados están presentes:
 
     if ($request->has(['name', 'email'])) {
         //
     }
     
 
-If you would like to determine if a value is present on the request and is not empty, you may use the `filled` method:
+Si desea determinar si un valor está presente en la solicitud y no está vacío, puede utilizar el método `filled`:
 
     if ($request->filled('name')) {
         //
@@ -257,18 +257,18 @@ If you would like to determine if a value is present on the request and is not e
 
 <a name="old-input"></a>
 
-### Old Input
+### Datos de entrada antiguos – *Old input*
 
-Laravel allows you to keep input from one request during the next request. This feature is particularly useful for re-populating forms after detecting validation errors. However, if you are using Laravel's included [validation features](/docs/{{version}}/validation), it is unlikely you will need to manually use these methods, as some of Laravel's built-in validation facilities will call them automatically.
+Laravel le permite mantener los datos de entrada de una solicitud durante la próxima solicitud. Esta característica es particularmente útil para rellenar formularios después de detectar errores de validación. Sin embargo, si está usando la [validación](/docs/{{version}}/validation) incluida en Laravel, es poco probable que tenga que utilizar manualmente estos métodos, ya que algunas de las funciones de validación los llamarán automáticamente.
 
 #### Flashing Input To The Session
 
-The `flash` method on the `Illuminate\Http\Request` class will flash the current input to the [session](/docs/{{version}}/session) so that it is available during the user's next request to the application:
+El método `flash` en la clase `Illuminate\Http\Request` mantendrá la entrada actual en la [sesión](/docs/{{version}}/session) para que esté disponible durante la próxima solicitud del usuario a la aplicación:
 
     $request->flash();
     
 
-You may also use the `flashOnly` and `flashExcept` methods to flash a subset of the request data to the session. These methods are useful for keeping sensitive information such as passwords out of the session:
+También puede utilizar los métodos `flashOnly` y `flashExcept` para enviar un subconjunto de los datos de solicitud a la sesión. Estos métodos son útiles para mantener la información confidencial, como las contraseñas, fuera de la sesión:
 
     $request->flashOnly(['username', 'email']);
     
@@ -277,7 +277,7 @@ You may also use the `flashOnly` and `flashExcept` methods to flash a subset of 
 
 #### Flashing Input Then Redirecting
 
-Since you often will want to flash input to the session and then redirect to the previous page, you may easily chain input flashing onto a redirect using the `withInput` method:
+Dado que a menudo querrá hacer un *flash input* a la sesión y luego redirigir a la página anterior, puede encadenar fácilmente el *input flashing* a un redireccionamiento usando el método `withInput`:
 
     return redirect('form')->withInput();
     
@@ -286,14 +286,14 @@ Since you often will want to flash input to the session and then redirect to the
     );
     
 
-#### Retrieving Old Input
+#### Obtener datos de entrada antiguos
 
-To retrieve flashed input from the previous request, use the `old` method on the `Request` instance. The `old` method will pull the previously flashed input data from the [session](/docs/{{version}}/session):
+Para obtener la entrada de la petición anterior, utilice el método `old` de la instancia `Request`. El método `old` extraerá los datos de entrada anteriores de la [session](/docs/{{version}}/session):
 
     $username = $request->old('username');
     
 
-Laravel also provides a global `old` helper. If you are displaying old input within a [Blade template](/docs/{{version}}/blade), it is more convenient to use the `old` helper. If no old input exists for the given field, `null` will be returned:
+Laravel también proporciona un *helper* global `old`. Si está mostrando la entrada antigua dentro de una [plantilla Blade](/docs/{{version}}/blade), es más conveniente utilizar el helper `old`. Si no existe ninguna entrada antigua para el campo dado, se devolverá `null`:
 
     <input type="text" name="username" value="{{ old('username') }}">
     
@@ -302,44 +302,44 @@ Laravel also provides a global `old` helper. If you are displaying old input wit
 
 ### Cookies
 
-#### Retrieving Cookies From Requests
+#### Obtener las cookies de la petición
 
-All cookies created by the Laravel framework are encrypted and signed with an authentication code, meaning they will be considered invalid if they have been changed by the client. To retrieve a cookie value from the request, use the `cookie` method on a `Illuminate\Http\Request` instance:
+Todas las *cookies* creadas por el framework de Laravel están cifradas y firmadas con un código de autenticación, lo que significa que se considerarán inválidas si han sido modificadas por el cliente. Para recuperar un valor de una *cookie* de la solicitud, utilice el método `cookie` en una instancia de `Illuminate\Http\Request`:
 
     $value = $request->cookie('name');
     
 
-Alternatively, you may use the `Cookie` facade to access cookie values:
+Alternativamente, puede utilizar la *facade* `Cookie` para acceder a los valores de las *cookies*:
 
     $value = Cookie::get('name');
     
 
-#### Attaching Cookies To Responses
+#### Añadir *cookies* a las respuestas
 
-You may attach a cookie to an outgoing `Illuminate\Http\Response` instance using the `cookie` method. You should pass the name, value, and number of minutes the cookie should be considered valid to this method:
+Puede adjuntar una *cookie* a una respuesta con una instancia de `Illuminate\Http\Response` usando el método `cookie`. Debe proporcionar el nombre, valor y número de minutos que la *cookie* debe considerarse válida:
 
     return response('Hello World')->cookie(
         'name', 'value', $minutes
     );
     
 
-The `cookie` method also accepts a few more arguments which are used less frequently. Generally, these arguments have the same purpose and meaning as the arguments that would be given to PHP's native [setcookie](https://secure.php.net/manual/en/function.setcookie.php) method:
+El método `cookie` acepta además ciertos argumentos que se usan menos frecuentemente. Generalmente estos argumentos tienen el mismo propósito y significado que los argumentos del método nativo de PHP [setcookie](https://secure.php.net/manual/en/function.setcookie.php):
 
     return response('Hello World')->cookie(
         'name', 'value', $minutes, $path, $domain, $secure, $httpOnly
     );
     
 
-Alternatively, you can use the `Cookie` facade to "queue" cookies for attachment to the outgoing response from your application. The `queue` method accepts a `Cookie` instance or the arguments needed to create a `Cookie` instance. These cookies will be attached to the outgoing response before it is sent to the browser:
+Por otro lado, se puede utilizar la *facade* `Cookie` para crear una "cola" de *cookies* a añadir a la respuesta de la aplicación. El método `queue` acepta una instancia de `Cookie` o los argumentos necesarios para crear una instancia de `Cookie`. Estas *cookies* se adjuntarán a la respuesta antes de que se devuelva al navegador:
 
     Cookie::queue(Cookie::make('name', 'value', $minutes));
     
     Cookie::queue('name', 'value', $minutes);
     
 
-#### Generating Cookie Instances
+#### Generación de cookies
 
-If you would like to generate a `Symfony\Component\HttpFoundation\Cookie` instance that can be given to a response instance at a later time, you may use the global `cookie` helper. This cookie will not be sent back to the client unless it is attached to a response instance:
+Si desea generar una instancia de `Symfony\Component\HttpFoundation\Cookie` en una respuesta posterior, puede utilizar el *helper* global `cookie`. Esta *cookie* no será enviada de vuelta al cliente a menos que se adjunte a una instancia de una respuesta:
 
     $cookie = cookie('name', 'value', $minutes);
     
@@ -348,36 +348,36 @@ If you would like to generate a `Symfony\Component\HttpFoundation\Cookie` instan
 
 <a name="files"></a>
 
-## Files
+## Archivos
 
 <a name="retrieving-uploaded-files"></a>
 
-### Retrieving Uploaded Files
+### Obtener archivos subidos
 
-You may access uploaded files from a `Illuminate\Http\Request` instance using the `file` method or using dynamic properties. The `file` method returns an instance of the `Illuminate\Http\UploadedFile` class, which extends the PHP `SplFileInfo` class and provides a variety of methods for interacting with the file:
+Puede acceder a los archivos subidos desde una instancia `Illuminate\Http\Request` usando el método `file` o usando propiedades dinámicas. El método `file` devuelve una instancia de la clase `Illuminate\Http\UploadedFile`, que hereda la clase PHP `SplFileInfo` y proporciona una variedad de métodos para interactuar con el archivo:
 
     $file = $request->file('photo');
     
     $file = $request->photo;
     
 
-You may determine if a file is present on the request using the `hasFile` method:
+Puede determinar si un archivo está presente en la solicitud utilizando el método `hasFile`:
 
     if ($request->hasFile('photo')) {
         //
     }
     
 
-#### Validating Successful Uploads
+#### Validación de subidas exitosas
 
-In addition to checking if the file is present, you may verify that there were no problems uploading the file via the `isValid` method:
+Además de comprobar si el archivo está presente, puede verificar que no hubo problemas para cargar el archivo a través del método `isValid`:
 
     if ($request->file('photo')->isValid()) {
         //
     }
     
 
-#### File Paths & Extensions
+#### Extensiones & rutas de archivo
 
 The `UploadedFile` class also contains methods for accessing the file's fully-qualified path and its extension. The `extension` method will attempt to guess the file's extension based on its contents. This extension may be different from the extension that was supplied by the client:
 
