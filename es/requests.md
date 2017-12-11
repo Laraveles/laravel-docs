@@ -1,22 +1,22 @@
-# HTTP Requests
+# Peticiones HTTP
 
-- [Accessing The Request](#accessing-the-request) 
-    - [Request Path & Method](#request-path-and-method)
-    - [PSR-7 Requests](#psr7-requests)
-- [Input Trimming & Normalization](#input-trimming-and-normalization)
-- [Retrieving Input](#retrieving-input) 
-    - [Old Input](#old-input)
+- [Acceder a la petición](#accessing-the-request) 
+    - [Método & ruta de la petición](#request-path-and-method)
+    - [Peticiones PSR-7](#psr7-requests)
+- [*Trimming* de datos & normalización](#input-trimming-and-normalization)
+- [Obtener datos de entrada](#retrieving-input) 
+    - [Datos de entrada antiguos](#old-input)
     - [Cookies](#cookies)
-- [Files](#files) 
-    - [Retrieving Uploaded Files](#retrieving-uploaded-files)
-    - [Storing Uploaded Files](#storing-uploaded-files)
+- [Archivos](#files) 
+    - [Recuperación de archivos subidos](#retrieving-uploaded-files)
+    - [Almacenamiento de archivos subidos](#storing-uploaded-files)
 - [Configuring Trusted Proxies](#configuring-trusted-proxies)
 
 <a name="accessing-the-request"></a>
 
-## Accessing The Request
+## Acceder a la petición
 
-To obtain an instance of the current HTTP request via dependency injection, you should type-hint the `Illuminate\Http\Request` class on your controller method. The incoming request instance will automatically be injected by the [service container](/docs/{{version}}/container):
+Para obtener una instancia de la petición HTTP actual vía inyección de dependencias, se debe hacer *type-hint* de la clase `Illuminate\Http\Request` en el método del controlador. La instancia de la petición entrante será automáticamente inyectada por el [service container](/docs/{{version}}/container):
 
     <?php
     
@@ -41,14 +41,14 @@ To obtain an instance of the current HTTP request via dependency injection, you 
     }
     
 
-#### Dependency Injection & Route Parameters
+#### Inyección de dependencias & parámetros de rutas
 
-If your controller method is also expecting input from a route parameter you should list your route parameters after your other dependencies. For example, if your route is defined like so:
+Si el método del controlador también espera datos de entrada de un parámetro en la ruta se deben listar los parámetros de ruta después de las otras dependencias. Por ejemplo, si la ruta está definida así:
 
     Route::put('user/{id}', 'UserController@update');
     
 
-You may still type-hint the `Illuminate\Http\Request` and access your route parameter `id` by defining your controller method as follows:
+Se podría hacer *type-hint* de `Illuminate\Http\Request` y acceder al parámetro de ruta `id` definiendo el método del controlador de la siguiente forma:
 
     <?php
     
@@ -72,9 +72,9 @@ You may still type-hint the `Illuminate\Http\Request` and access your route para
     }
     
 
-#### Accessing The Request Via Route Closures
+#### Accediendo a las peticiones usando *Closures* de ruta
 
-You may also type-hint the `Illuminate\Http\Request` class on a route Closure. The service container will automatically inject the incoming request into the Closure when it is executed:
+Se puede usar el *type-hinting* de la clase `Illuminate\Http\Request` en un *Closure* de ruta. El *service container* inyectará automáticamente la petición entrante dentro del *Closure* al ejecutarse:
 
     use Illuminate\Http\Request;
     
@@ -85,27 +85,27 @@ You may also type-hint the `Illuminate\Http\Request` class on a route Closure. T
 
 <a name="request-path-and-method"></a>
 
-### Request Path & Method
+### Método & ruta de la petición
 
-The `Illuminate\Http\Request` instance provides a variety of methods for examining the HTTP request for your application and extends the `Symfony\Component\HttpFoundation\Request` class. We will discuss a few of the most important methods below.
+La instancia de `Illuminate\Http\Request` provee una variedad de métodos para examinar una petición HTTP dentro de la aplicación, extiende de la clase `Symfony\Component\HttpFoundation\Request`. A continuación se muestran los métodos más importantes.
 
-#### Retrieving The Request Path
+#### Obtener la ruta de la petición
 
-The `path` method returns the request's path information. So, if the incoming request is targeted at `http://domain.com/foo/bar`, the `path` method will return `foo/bar`:
+El método `path` retorna la información de la ruta de la petición. Así que, si la petición se realizara sobre `http://domain.com/foo/bar`, el método `path` retornaría `foo/bar`:
 
     $uri = $request->path();
     
 
-The `is` method allows you to verify that the incoming request path matches a given pattern. You may use the `*` character as a wildcard when utilizing this method:
+El método `is` permite verificar si la ruta coincide con un patrón determinado. Se puede utilizar el carácter `*` como comodín al utilizar este método:
 
     if ($request->is('admin/*')) {
         //
     }
     
 
-#### Retrieving The Request URL
+#### Obtener la URL de la petición
 
-To retrieve the full URL for the incoming request you may use the `url` or `fullUrl` methods. The `url` method will return the URL without the query string, while the `fullUrl` method includes the query string:
+Para obtener la URL completa de una petición entrante se pueden usar los métodos `url` o `fullUrl`. El método `url` retorna la URL sin la cadena de consulta, mientras que `fullUrl` incluye todos los parámetros:
 
     // Without Query String...
     $url = $request->url();
@@ -114,9 +114,9 @@ To retrieve the full URL for the incoming request you may use the `url` or `full
     $url = $request->fullUrl();
     
 
-#### Retrieving The Request Method
+#### Obtener el método de la petición
 
-The `method` method will return the HTTP verb for the request. You may use the `isMethod` method to verify that the HTTP verb matches a given string:
+El método `method` retornará el verbo HTTP de la petición. Además se puede utilizar el método `isMethod` para verificar que el verbo HTTP coincide con una cadena dada:
 
     $method = $request->method();
     
@@ -127,15 +127,15 @@ The `method` method will return the HTTP verb for the request. You may use the `
 
 <a name="psr7-requests"></a>
 
-### PSR-7 Requests
+### Peticiones PSR-7
 
-The [PSR-7 standard](http://www.php-fig.org/psr/psr-7/) specifies interfaces for HTTP messages, including requests and responses. If you would like to obtain an instance of a PSR-7 request instead of a Laravel request, you will first need to install a few libraries. Laravel uses the *Symfony HTTP Message Bridge* component to convert typical Laravel requests and responses into PSR-7 compatible implementations:
+El [estándar PSR-7](http://www.php-fig.org/psr/psr-7/) especifica interfaces para los mensajes HTTP, incluyendo respuestas y peticiones. Si se desea obtener una instancia de una petición PSR-7 en lugar de una petición de Laravel, primero se deben instalar algunas librerías. Laravel utiliza el componente *Symfony HTTP Message Bridge* para convertir las típicas peticiones y respuestas de Laravel en implementaciones compatibles con PSR-7:
 
     composer require symfony/psr-http-message-bridge
     composer require zendframework/zend-diactoros
     
 
-Once you have installed these libraries, you may obtain a PSR-7 request by type-hinting the request interface on your route Closure or controller method:
+Una vez instaladas las librerías, se puede obtener una petición PSR-7 usando el *type-hinting* de la interfaz de la petición dentro del *route Closure* o del método de un controlador:
 
     use Psr\Http\Message\ServerRequestInterface;
     
@@ -144,40 +144,40 @@ Once you have installed these libraries, you may obtain a PSR-7 request by type-
     });
     
 
-> {tip} If you return a PSR-7 response instance from a route or controller, it will automatically be converted back to a Laravel response instance and be displayed by the framework.
+> {tip} Si se retorna una instancia de una respuesta PSR-7 desde la ruta o controlador, automáticamente se convierte en una instancia de respuesta de Laravel que se mostrará por el framework.
 
 <a name="input-trimming-and-normalization"></a>
 
-## Input Trimming & Normalization
+## *Trimming* de datos & normalización
 
-By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
+Por defecto, Laravel incluye los *middleware* `TrimStrings` y `ConvertEmptyStringsToNull` de manera global dentro del *stack* de *middlewares*. Estos *middleware* se listan en la clase `App\Http\Kernel`. Los *middleware* aplicarán la función `trim` automáticamente todos los campos de cadena entrantes a petición, así como convertirán cualquier campo de cadena vacío en `null`. Esto le permite no tener que preocuparse por las cuestiones de normalización en sus rutas y controladores.
 
-If you would like to disable this behavior, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
+Si desea deshabilitar este comportamiento, puede eliminar los dos middleware de la pila de *middleware* de su aplicación eliminándolos de la propiedad `$middleware` de su clase `App\Http\Kernel`.
 
 <a name="retrieving-input"></a>
 
-## Retrieving Input
+## Obtener datos de entrada
 
-#### Retrieving All Input Data
+#### Obtener todos los datos de entrada
 
-You may also retrieve all of the input data as an `array` using the `all` method:
+También se pueden recuperar todos los datos de entrada como un `array` usando el método `all`:
 
     $input = $request->all();
     
 
-#### Retrieving An Input Value
+#### Recuperar un valor de entrada
 
-Using a few simple methods, you may access all of the user input from your `Illuminate\Http\Request` instance without worrying about which HTTP verb was used for the request. Regardless of the HTTP verb, the `input` method may be used to retrieve user input:
+Usando unos pocos métodos sencillos, se puede acceder a todos los datos ingresados por el usuario desde la instancia de `Illuminate\Http\Request` sin preocuparse por el método HTTP que se haya usado para la petición. Sin importar el verbo HTTP, el método `input` se puede usar para recuperar las entradas del usuario:
 
     $name = $request->input('name');
     
 
-You may pass a default value as the second argument to the `input` method. This value will be returned if the requested input value is not present on the request:
+Se puede pasar un valor por defecto como segundo argumento del método `input`. Este valor se retornará si el valor de la entrada solicitada no está presente en la petición:
 
     $name = $request->input('name', 'Sally');
     
 
-When working with forms that contain array inputs, use "dot" notation to access the arrays:
+Cuando se trabaja con formularios que contienen *arrays*, se usa la "notación por puntos" o "*dot notation*" para acceder a los datos:
 
     $name = $request->input('products.0.name');
     
