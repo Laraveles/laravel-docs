@@ -379,33 +379,33 @@ Además de comprobar si el archivo está presente, puede verificar que no hubo p
 
 #### Extensiones & rutas de archivo
 
-The `UploadedFile` class also contains methods for accessing the file's fully-qualified path and its extension. The `extension` method will attempt to guess the file's extension based on its contents. This extension may be different from the extension that was supplied by the client:
+La clase `UploadedFile` también contiene métodos para acceder a la ruta totalmente calificada del archivo y su extensión. El método `extension` intentará adivinar la extensión del archivo en función de su contenido. Esta extensión puede ser diferente de la que fue suministrada por el cliente:
 
     $path = $request->photo->path();
     
     $extension = $request->photo->extension();
     
 
-#### Other File Methods
+#### Otros métodos
 
-There are a variety of other methods available on `UploadedFile` instances. Check out the [API documentation for the class](http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html) for more information regarding these methods.
+Existen otros métodos en la instancia de `UploadedFile`. Consulte la [documentación API de la clase](http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html) para obtener más información sobre estos métodos.
 
 <a name="storing-uploaded-files"></a>
 
-### Storing Uploaded Files
+### Almacenar archivos subidos
 
-To store an uploaded file, you will typically use one of your configured [filesystems](/docs/{{version}}/filesystem). The `UploadedFile` class has a `store` method which will move an uploaded file to one of your disks, which may be a location on your local filesystem or even a cloud storage location like Amazon S3.
+Para almacenar un archivo subido, normalmente utilizará uno de sus [filesystems](/docs/{{version}}/filesystem) configurados. La clase `UploadedFile` tiene un método `store` que moverá un archivo subido a uno de sus discos, que puede ser una ubicación en su sistema de archivos local o incluso una ubicación de almacenamiento en la nube como Amazon S3.
 
-The `store` method accepts the path where the file should be stored relative to the filesystem's configured root directory. This path should not contain a file name, since a unique ID will automatically be generated to serve as the file name.
+El método `store` acepta la ruta donde se debe almacenar el archivo en relación al directorio raíz configurado del sistema de archivos. Esta ruta no debe contener un nombre de archivo, ya que se generará automáticamente un ID único para que sirva como nombre de archivo.
 
-The `store` method also accepts an optional second argument for the name of the disk that should be used to store the file. The method will return the path of the file relative to the disk's root:
+El método `store` también acepta un segundo argumento opcional para el nombre del disco que debe usarse para almacenar el archivo. El método devolverá la ruta del archivo relativa a la raíz del disco:
 
     $path = $request->photo->store('images');
     
     $path = $request->photo->store('images', 's3');
     
 
-If you do not want a file name to be automatically generated, you may use the `storeAs` method, which accepts the path, file name, and disk name as its arguments:
+Si no desea que se genere automáticamente un nombre de archivo, puede utilizar el método `storeAs`, que acepta la ruta, el nombre de archivo y el nombre del disco como argumentos:
 
     $path = $request->photo->storeAs('images', 'filename.jpg');
     
