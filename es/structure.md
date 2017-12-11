@@ -127,61 +127,61 @@ Al utilizar los comandos `make` de Artisan para crear clases se crearan distinta
 
 #### El directorio *Console*
 
-The `Console` directory contains all of the custom Artisan commands for your application. These commands may be generated using the `make:command` command. This directory also houses your console kernel, which is where your custom Artisan commands are registered and your [scheduled tasks](/docs/{{version}}/scheduling) are defined.
+El directorio `Console` contiene todos los comandos personalizados de su aplicación. Estos comandos pueden generarse usando el comando `make:command`. Este directorio además almacena el *kernel* de la consola, que es dónde se registran los comandos Artisan personalizados y se definen las [tareas programadas](/docs/{{version}}/scheduling).
 
 <a name="the-events-directory"></a>
 
 #### El directorio *Events*
 
-This directory does not exist by default, but will be created for you by the `event:generate` and `make:event` Artisan commands. El directorio `Events`, como era de esperar, almacena [clases de eventos](/docs/{{version}}/events). Los eventos se utilizan para alertar a otras partes de la aplicación de que una acción concreta ha ocurrido, proporcionando flexibilidad y desacoplamiento.
+Por defecto este directorio no existe, pero será creado por el comando `event:generate` y `make:event`. El directorio `Events`, como era de esperar, almacena [clases de eventos](/docs/{{version}}/events). Los eventos se utilizan para alertar a otras partes de la aplicación de que una acción concreta ha ocurrido, proporcionando flexibilidad y desacoplamiento.
 
 <a name="the-exceptions-directory"></a>
 
 #### El directorio *Exceptions*
 
-The `Exceptions` directory contains your application's exception handler and is also a good place to place any exceptions thrown by your application. If you would like to customize how your exceptions are logged or rendered, you should modify the `Handler` class in this directory.
+El directorio `Exceptions` contiene el gestor de excepciones y es un buen lugar para definir cualquier excepción que pueda producir la aplicación. Si se deseas personalizar el modo en que se almacenan o se muestran las excepciones, se debe modificar la clase `Handler` en este directorio.
 
 <a name="the-http-directory"></a>
 
 #### El directorio *Http*
 
-The `Http` directory contains your controllers, middleware, and form requests. Almost all of the logic to handle requests entering your application will be placed in this directory.
+El directorio `Http` contiene los *controladores, middleware y form requests*. Casi toda la lógica para gestionar peticiones se encuentra en este directorio.
 
 <a name="the-jobs-directory"></a>
 
 #### El directorio *Jobs*
 
-This directory does not exist by default, but will be created for you if you execute the `make:job` Artisan command. The `Jobs` directory houses the [queueable jobs](/docs/{{version}}/queues) for your application. Jobs may be queued by your application or run synchronously within the current request lifecycle. Jobs that run synchronously during the current request are sometimes referred to as "commands" since they are an implementation of the [command pattern](https://en.wikipedia.org/wiki/Command_pattern).
+Este directorio no existe por defecto, pero sera creado al ejecutar el comando Artisan `make:job`. El directorio `jobs` alberga los [queueable Jobs](/docs/{{version}}/queues). Laravel puede poner en cola los *Jobs* o ejecutarlos de forma síncrona dentro del ciclo de vida de la petición actual. Los *Jobs* que se ejecutan de manera síncrona durante la petición actual son conocidos como "comandos" ya que son la implementación del *command pattern*.
 
 <a name="the-listeners-directory"></a>
 
 #### El directorio *Listeners*
 
-This directory does not exist by default, but will be created for you if you execute the `event:generate` or `make:listener` Artisan commands. The `Listeners` directory contains the classes that handle your [events](/docs/{{version}}/events). Event listeners receive an event instance and perform logic in response to the event being fired. Por ejemplo, un evento `UserRegistered` puede gestionarse por un listener `SendWelcomeEmail`.
+Este directorio no existe por defecto, pero sera creado al ejecutar uno de los comandos de Artisan `event:generate` o `make:listener`. El directorio `Listeners` contiene las clases que gestionan los [eventos](/docs/{{version}}/events). Los *event listeners* reciben una instancia de un evento y responden en base a la lógica del evento en ejecución. Por ejemplo, un evento `UserRegistered` puede gestionarse por un listener `SendWelcomeEmail`.
 
 <a name="the-mail-directory"></a>
 
 #### El directorio *Mail*
 
-This directory does not exist by default, but will be created for you if you execute the `make:mail` Artisan command. The `Mail` directory contains all of your classes that represent emails sent by your application. Mail objects allow you to encapsulate all of the logic of building an email in a single, simple class that may be sent using the `Mail::send` method.
+Este directorio no existe por defecto, pero sera creado al ejecutar el comando de Artisan `make:mail`. El directorio `Mail` contiene todas las clases que representan correos electrónicos enviados por Laravel. Los objetos *Mail* permiten encapsular toda la lógica de construir un correo electrónico en una simple clase, este correo electrónico se puede enviar utilizando la función `Mail::send`.
 
 <a name="the-notifications-directory"></a>
 
 #### El directorio *Notifications*
 
-This directory does not exist by default, but will be created for you if you execute the `make:notification` Artisan command. The `Notifications` directory contains all of the "transactional" notifications that are sent by your application, such as simple notifications about events that happen within your application. Laravel's notification features abstracts sending notifications over a variety of drivers such as email, Slack, SMS, or stored in a database.
+Este directorio no existe por defecto, pero sera creado al ejecutar el comando de Artisan `make:notification`. El directorio `Notifications` contiene todas las notificaciones que son enviadas por Laravel, como notificaciones simples acerca de eventos que se ejecutan en Laravel. Las notificaciones de Laravel ofrecen una variedad de drivers para ser enviadas, tales como email, Slack, SMS, o ser guardadas en una base de datos.
 
 <a name="the-policies-directory"></a>
 
 #### El directorio *Policies*
 
-This directory does not exist by default, but will be created for you if you execute the `make:policy` Artisan command. The `Policies` directory contains the authorization policy classes for your application. Policies are used to determine if a user can perform a given action against a resource. For more information, check out the [authorization documentation](/docs/{{version}}/authorization).
+Este directorio no existe por defecto, pero sera creado si ejecuta el comando de Artisan `make:policy`. El directorio `Policies` contiene las clases de políticas de autorización para su aplicación. Las políticas se utilizan para determinar si un usuario puede realizar una acción determinada contra un recurso. Para obtener más información, consulte la [documentación de la autorización](/docs/{{version}}/authorization).
 
 <a name="the-providers-directory"></a>
 
 #### El directorio *Providers*
 
-The `Providers` directory contains all of the [service providers](/docs/{{version}}/providers) for your application. Service providers bootstrap your application by binding services in the service container, registering events, or performing any other tasks to prepare your application for incoming requests.
+El directorio `Providers` contiene todos los [proveedores de servicios](/docs/{{version}}/providers) para su aplicación. Service providers bootstrap your application by binding services in the service container, registering events, or performing any other tasks to prepare your application for incoming requests.
 
 In a fresh Laravel application, this directory will already contain several providers. You are free to add your own providers to this directory as needed.
 
