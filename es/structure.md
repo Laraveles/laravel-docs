@@ -181,12 +181,12 @@ Este directorio no existe por defecto, pero sera creado si ejecuta el comando de
 
 #### El directorio *Providers*
 
-El directorio `Providers` contiene todos los [proveedores de servicios](/docs/{{version}}/providers) para su aplicación. Service providers bootstrap your application by binding services in the service container, registering events, or performing any other tasks to prepare your application for incoming requests.
+El directorio `Providers` contiene todos los [proveedores de servicios](/docs/{{version}}/providers) para su aplicación. Los *service providers* inician su aplicación vinculando servicios en el *service container*, registrando eventos o realizando cualquier otra tarea para preparar su aplicación para las solicitudes entrantes.
 
-In a fresh Laravel application, this directory will already contain several providers. You are free to add your own providers to this directory as needed.
+En una aplicación nueva de Laravel, este directorio ya contendrá varios proveedores. Se es libre de agregar sus propios proveedores a este directorio según sea necesario.
 
 <a name="the-rules-directory"></a>
 
 #### El directorio *Rules*
 
-This directory does not exist by default, but will be created for you if you execute the `make:rule` Artisan command. The `Rules` directory contains the custom validation rule objects for your application. Rules are used to encapsulate complicated validation logic in a simple object. For more information, check out the [validation documentation](/docs/{{version}}/validation).
+Este directorio no existe por defecto, pero sera creado al ejecutar el comando de Artisan `make:rule`. El directorio `Rules` contiene los objetos de reglas de validación personalizados para su aplicación. Las reglas se utilizan para encapsular una lógica de validación complicada en un objeto simple. Para obtener más información, consulte la [documentación de validación](/docs/{{version}}/validation).
