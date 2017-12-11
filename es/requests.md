@@ -184,42 +184,42 @@ Cuando se trabaja con formularios que contienen *arrays*, se usa la "notación p
     $names = $request->input('products.*.name');
     
 
-#### Retrieving Input From The Query String
+#### Recuperar valores de la cadena de consulta
 
-While the `input` method retrieves values from entire request payload (including the query string), the `query` method will only retrieve values from the query string:
+Mientras que el método `input` recupera valores de toda la carga útil de la solicitud (incluyendo la cadena de consulta), el método `query` sólo recupera valores de la cadena de consulta:
 
     $name = $request->query('name');
     
 
-If the requested query string value data is not present, the second argument to this method will be returned:
+Si los datos de valor de la cadena de consulta solicitada no están presentes, se devolverá el segundo argumento de este método:
 
     $name = $request->query('name', 'Helen');
     
 
-You may call the `query` method without any arguments in order to retrieve all of the query string values as an associative array:
+Puede llamar al método `query` sin ningún argumento para recuperar todos los valores de la cadena de consulta como *array* asociativo:
 
     $query = $request->query();
     
 
-#### Retrieving Input Via Dynamic Properties
+#### Recuperar datos de entrada mediante propiedades dinámicas
 
-You may also access user input using dynamic properties on the `Illuminate\Http\Request` instance. For example, if one of your application's forms contains a `name` field, you may access the value of the field like so:
+También puede acceder a los datos de entrada de usuario utilizando las propiedades dinámicas en la instancia de `Illuminate\Http\Request`. Por ejemplo, si uno de los formularios de su solicitud contiene un campo `name`, puede acceder al valor del campo así:
 
     $name = $request->name;
     
 
-When using dynamic properties, Laravel will first look for the parameter's value in the request payload. If it is not present, Laravel will search for the field in the route parameters.
+Cuando se utilizan propiedades dinámicas, Laravel primero buscará el valor del parámetro en la carga útil solicitada. Si no está presente, Laravel buscará el campo en los parámetros de ruta.
 
-#### Retrieving JSON Input Values
+#### Recuperar valores de entrada JSON
 
-When sending JSON requests to your application, you may access the JSON data via the `input` method as long as the `Content-Type` header of the request is properly set to `application/json`. You may even use "dot" syntax to dig into JSON arrays:
+Cuando envíe solicitudes JSON a su aplicación, puede acceder a los datos JSON mediante el método `input`, siempre que el encabezado `Content-Type` de la solicitud esté correctamente configurado en `application/json`. Incluso puede utilizar la "sintaxis de puntos" para buscar en los *array* JSON:
 
     $name = $request->input('user.name');
     
 
-#### Retrieving A Portion Of The Input Data
+#### Recuperar una parte de los datos de entrada
 
-If you need to retrieve a subset of the input data, you may use the `only` and `except` methods. Both of these methods accept a single `array` or a dynamic list of arguments:
+Si se quiere recuperar un subconjunto de los datos de entrada, se pueden usar los métodos `only` y `except`. Ambos métodos aceptan un `array` o una lista dinámica de argumentos:
 
     $input = $request->only(['username', 'password']);
     
