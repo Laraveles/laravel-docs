@@ -1,40 +1,40 @@
-# Package Development
+# Desarrollo de paquetes
 
-- [Introduction](#introduction) 
-    - [A Note On Facades](#a-note-on-facades)
-- [Package Discovery](#package-discovery)
-- [Service Providers](#service-providers)
-- [Resources](#resources) 
-    - [Configuration](#configuration)
-    - [Migrations](#migrations)
-    - [Routes](#routes)
-    - [Translations](#translations)
-    - [Views](#views)
-- [Commands](#commands)
-- [Public Assets](#public-assets)
-- [Publishing File Groups](#publishing-file-groups)
+- [Introducción](#introduction) 
+    - [Nota sobre *facades*](#a-note-on-facades)
+- [Descubrir paquetes](#package-discovery)
+- [*Service Providers*](#service-providers)
+- [Recursos – *Resources*](#resources) 
+    - [Configuración](#configuration)
+    - [Migraciones](#migrations)
+    - [Rutas](#routes)
+    - [Traducciones](#translations)
+    - [Vistas](#views)
+- [Comandos](#commands)
+- [Publicar *assets*](#public-assets)
+- [Publicar grupos de ficheros](#publishing-file-groups)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Packages are the primary way of adding functionality to Laravel. Packages might be anything from a great way to work with dates like [Carbon](https://github.com/briannesbitt/Carbon), or an entire BDD testing framework like [Behat](https://github.com/Behat/Behat).
+Los paquetes son el método principal para añadir funcionalidad a Laravel. Pueden ser cualquier cosa, desde una gran manera de trabajar con fechas como [Carbon](https://github.com/briannesbitt/Carbon), o un *framework* BDD completo como [Behat](https://github.com/Behat/Behat).
 
-Of course, there are different types of packages. Some packages are stand-alone, meaning they work with any PHP framework. Carbon and Behat are examples of stand-alone packages. Any of these packages may be used with Laravel by simply requesting them in your `composer.json` file.
+Por supuesto, hay diferentes tipos de paquetes. Algunos paquetes son independientes, lo que significa que funcionan con cualquier framework PHP. Carbon y Behat son ejemplos de paquetes independientes. Cualquiera de estos paquetes puede utilizarse en Laravel con tan solo añadirlos en el archivo `composer.json`.
 
-On the other hand, other packages are specifically intended for use with Laravel. These packages may have routes, controllers, views, and configuration specifically intended to enhance a Laravel application. This guide primarily covers the development of those packages that are Laravel specific.
+Por otro lado, otros paquetes son específicos, a propósito, para utilizarlos con Laravel. Estos paquetes pueden tener rutas, controladores, vistas y configuración específicamente desarrollada para una aplicación Laravel. Esta guía principalmente cubre el desarrollo de esos paquetes específicos para Laravel.
 
 <a name="a-note-on-facades"></a>
 
-### A Note On Facades
+### Nota sobre *facades*
 
-When writing a Laravel application, it generally does not matter if you use contracts or facades since both provide essentially equal levels of testability. However, when writing packages, your package will not typically have access to all of Laravel's testing helpers. If you would like to be able to write your package tests as if they existed inside a typical Laravel application, you may use the [Orchestral Testbench](https://github.com/orchestral/testbench) package.
+Al escribir una aplicación de Laravel, generalmente no importa si usa contratos o *facades* ya que ambos proporcionan niveles esencialmente iguales de *testing*. Sin embargo, su paquete no tendrá acceso a todos los *helpers* de *testing* de Laravel. Si desea poder escribir sus *tests* como si existieran dentro de una aplicación típica de Laravel, puede utilizar el paquete [Orchestral Testbench](https://github.com/orchestral/testbench).
 
 <a name="package-discovery"></a>
 
-## Package Discovery
+## Descubrir paquetes
 
-In a Laravel application's `config/app.php` configuration file, the `providers` option defines a list of service providers that should be loaded by Laravel. When someone installs your package, you will typically want your service provider to be included in this list. Instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file. In addition to service providers, you may also list any [facades](/docs/{{version}}/facades) you would like to be registered:
+En el fichero de configuración `config/app.php` de Laravel, la opción `providers` define una lista de *service providers* que Laravel debe cargar. When someone installs your package, you will typically want your service provider to be included in this list. Instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file. In addition to service providers, you may also list any [facades](/docs/{{version}}/facades) you would like to be registered:
 
     "extra": {
         "laravel": {
