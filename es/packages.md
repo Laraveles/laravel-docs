@@ -1,40 +1,40 @@
-# Package Development
+# Desarrollo de paquetes
 
-- [Introduction](#introduction) 
-    - [A Note On Facades](#a-note-on-facades)
-- [Package Discovery](#package-discovery)
-- [Service Providers](#service-providers)
-- [Resources](#resources) 
-    - [Configuration](#configuration)
-    - [Migrations](#migrations)
-    - [Routes](#routes)
-    - [Translations](#translations)
-    - [Views](#views)
-- [Commands](#commands)
-- [Public Assets](#public-assets)
-- [Publishing File Groups](#publishing-file-groups)
+- [Introducción](#introduction) 
+    - [Nota sobre *facades*](#a-note-on-facades)
+- [Descubrir paquetes](#package-discovery)
+- [*Service Providers*](#service-providers)
+- [Recursos – *Resources*](#resources) 
+    - [Configuración](#configuration)
+    - [Migraciones](#migrations)
+    - [Rutas](#routes)
+    - [Traducciones](#translations)
+    - [Vistas](#views)
+- [Comandos](#commands)
+- [Publicar *assets*](#public-assets)
+- [Publicar grupos de ficheros](#publishing-file-groups)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Packages are the primary way of adding functionality to Laravel. Packages might be anything from a great way to work with dates like [Carbon](https://github.com/briannesbitt/Carbon), or an entire BDD testing framework like [Behat](https://github.com/Behat/Behat).
+Los paquetes son el método principal para añadir funcionalidad a Laravel. Pueden ser cualquier cosa, desde una gran manera de trabajar con fechas como [Carbon](https://github.com/briannesbitt/Carbon), o un *framework* BDD completo como [Behat](https://github.com/Behat/Behat).
 
-Of course, there are different types of packages. Some packages are stand-alone, meaning they work with any PHP framework. Carbon and Behat are examples of stand-alone packages. Any of these packages may be used with Laravel by simply requesting them in your `composer.json` file.
+Por supuesto, hay diferentes tipos de paquetes. Algunos paquetes son independientes, lo que significa que funcionan con cualquier framework PHP. Carbon y Behat son ejemplos de paquetes independientes. Cualquiera de estos paquetes puede utilizarse en Laravel con tan solo añadirlos en el archivo `composer.json`.
 
-On the other hand, other packages are specifically intended for use with Laravel. These packages may have routes, controllers, views, and configuration specifically intended to enhance a Laravel application. This guide primarily covers the development of those packages that are Laravel specific.
+Por otro lado, otros paquetes son específicos, a propósito, para utilizarlos con Laravel. Estos paquetes pueden tener rutas, controladores, vistas y configuración específicamente desarrollada para una aplicación Laravel. Esta guía principalmente cubre el desarrollo de esos paquetes específicos para Laravel.
 
 <a name="a-note-on-facades"></a>
 
-### A Note On Facades
+### Nota sobre *facades*
 
-When writing a Laravel application, it generally does not matter if you use contracts or facades since both provide essentially equal levels of testability. However, when writing packages, your package will not typically have access to all of Laravel's testing helpers. If you would like to be able to write your package tests as if they existed inside a typical Laravel application, you may use the [Orchestral Testbench](https://github.com/orchestral/testbench) package.
+Al escribir una aplicación de Laravel, generalmente no importa si usa contratos o *facades* ya que ambos proporcionan niveles esencialmente iguales de *testing*. Sin embargo, su paquete no tendrá acceso a todos los *helpers* de *testing* de Laravel. Si desea poder escribir sus *tests* como si existieran dentro de una aplicación típica de Laravel, puede utilizar el paquete [Orchestral Testbench](https://github.com/orchestral/testbench).
 
 <a name="package-discovery"></a>
 
-## Package Discovery
+## Descubrir paquetes
 
-In a Laravel application's `config/app.php` configuration file, the `providers` option defines a list of service providers that should be loaded by Laravel. When someone installs your package, you will typically want your service provider to be included in this list. Instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file. In addition to service providers, you may also list any [facades](/docs/{{version}}/facades) you would like to be registered:
+En el fichero de configuración `config/app.php` de Laravel, la opción `providers` define una lista de *service providers* que Laravel debe cargar. Cuando alguien instala su paquete, normalmente querrá que su *service provider* se incluya en esta lista. En lugar de exigir a los usuarios que agreguen manualmente su *service provider* a la lista, puede definirlo en la sección `extra` del archivo `composer.json` de su paquete. Además de los *service provider*, también puede listar cualquier [facade](/docs/{{version}}/facades) que desee registrar:
 
     "extra": {
         "laravel": {
@@ -48,11 +48,11 @@ In a Laravel application's `config/app.php` configuration file, the `providers` 
     },
     
 
-Once your package has been configured for discovery, Laravel will automatically register its service providers and facades when it is installed, creating a convenient installation experience for your package's users.
+Una vez que su paquete ha sido configurado para ser descubierto, Laravel registrará automáticamente sus *service providers* y *facades* cuando se instale, creando una experiencia de instalación sencillísima para los usuarios de su paquete.
 
-### Opting Out Of Package Discovery
+### Optar por no descubrir paquetes
 
-If you are the consumer of a package and would like to disable package discovery for a package, you may list the package name in the `extra` section of your application's `composer.json` file:
+Si usted es el consumidor de un paquete y desea deshabilitar esta característica, puede listar el nombre del paquete en la sección `extra` del archivo `composer.json` de su aplicación:
 
     "extra": {
         "laravel": {
@@ -63,7 +63,7 @@ If you are the consumer of a package and would like to disable package discovery
     },
     
 
-You may disable package discovery for all packages using the `*` character inside of your application's `dont-discover` directive:
+Puede deshabilitarlo para todos los paquetes utilizando el caracter `*` dentro de la directiva `dont-discover` de su aplicación:
 
     "extra": {
         "laravel": {
@@ -78,19 +78,19 @@ You may disable package discovery for all packages using the `*` character insid
 
 ## Service Providers
 
-[Service providers](/docs/{{version}}/providers) are the connection points between your package and Laravel. A service provider is responsible for binding things into Laravel's [service container](/docs/{{version}}/container) and informing Laravel where to load package resources such as views, configuration, and localization files.
+Los [Service Providers](/docs/{{version}}/providers) son el punto de conexión entre el paquete y Laravel. Un *service provider* es responsable de incluir cosas en el [service container](/docs/{{version}}/container) de Laravel e informar al framework de donde cargar recursos como vistas, configuración o archivos de idioma.
 
-A service provider extends the `Illuminate\Support\ServiceProvider` class and contains two methods: `register` and `boot`. The base `ServiceProvider` class is located in the `illuminate/support` Composer package, which you should add to your own package's dependencies. To learn more about the structure and purpose of service providers, check out [their documentation](/docs/{{version}}/providers).
+Un *service provider* hereda de la clase `Illuminate\Support\ServiceProvider` y contiene dos métodos: `register` y `boot`. La clase base `ServiceProvider` se encuentra en el paquete de Composer `illuminate/support`, el cual debería agregarse a sus dependencias del propio paquete. Para obtener más información sobre la estructura y el propósito de los *service providers*, consulte [su documentación](/docs/{{version}}/providers).
 
 <a name="resources"></a>
 
-## Resources
+## Recursos – *Resources*
 
 <a name="configuration"></a>
 
-### Configuration
+### Configuración
 
-Typically, you will need to publish your package's configuration file to the application's own `config` directory. This will allow users of your package to easily override your default configuration options. To allow your configuration files to be published, call the `publishes` method from the `boot` method of your service provider:
+Normalmente, necesitará publicar el archivo de configuración de su paquete en el propio directorio `config` de la aplicación. Esto permite a los usuarios modificar fácilmente las opciones por defecto de configuración del paquete. Para permitir que sus archivos de configuración se publiquen, llame al método `publishes` desde el método `boot` de su *service provider*:
 
     /**
      * Perform post-registration booting of services.
@@ -105,16 +105,16 @@ Typically, you will need to publish your package's configuration file to the app
     }
     
 
-Now, when users of your package execute Laravel's `vendor:publish` command, your file will be copied to the specified publish location. Of course, once your configuration has been published, its values may be accessed like any other configuration file:
+Ahora, cuando los usuarios de su paquete ejecuten el comando `vendor:publish` de Laravel, su archivo se copiará en la ubicación de publicación especificada. Por supuesto, una vez que su configuración ha sido publicada, se puede acceder a sus valores como cualquier otro archivo de configuración:
 
     $value = config('courier.option');
     
 
-> {note} You should not define Closures in your configuration files. They can not be serialized correctly when users execute the `config:cache` Artisan command.
+> {note} No debe definir *Closures* en los archivos de configuración. No se pueden "serializar" correctamente cuando los usuarios ejecutan el comando Artisan `config:cache`.
 
-#### Default Package Configuration
+#### Configuración de paquetes por defecto
 
-You may also merge your own package configuration file with the application's published copy. This will allow your users to define only the options they actually want to override in the published copy of the configuration. To merge the configurations, use the `mergeConfigFrom` method within your service provider's `register` method:
+También puede fusionar su propio archivo de configuración de paquetes con la copia publicada de la aplicación. Esto permitirá a sus usuarios definir sólo las opciones que realmente desean anular en la copia publicada de la configuración. Para combinar las configuraciones, se usa el método `mergeConfigFrom` dentro del método `register` del *service provider*:
 
     /**
      * Register bindings in the container.
@@ -129,13 +129,13 @@ You may also merge your own package configuration file with the application's pu
     }
     
 
-> {note} This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
+> {note} Este método sólo fusiona el primer nivel del *array* de configuración. Si sus usuarios definen parcialmente un *array* de configuración multidimensional, las opciones que faltan no se fusionarán.
 
 <a name="routes"></a>
 
-### Routes
+### Rutas
 
-If your package contains routes, you may load them using the `loadRoutesFrom` method. This method will automatically determine if the application's routes are cached and will not load your routes file if the routes have already been cached:
+Si su paquete contiene rutas, puede cargarlas usando el método `loadRoutesFrom`. Este método determinará automáticamente si las rutas de la aplicación están almacenadas en caché y no cargará el archivo de ser así:
 
     /**
      * Perform post-registration booting of services.
@@ -150,9 +150,9 @@ If your package contains routes, you may load them using the `loadRoutesFrom` me
 
 <a name="migrations"></a>
 
-### Migrations
+### Migraciones
 
-If your package contains [database migrations](/docs/{{version}}/migrations), you may use the `loadMigrationsFrom` method to inform Laravel how to load them. The `loadMigrationsFrom` method accepts the path to your package's migrations as its only argument:
+Si su paquete contiene [migraciones](/docs/{{version}}/migrations), puede utilizar el método `loadMigrationsFrom` para informar a Laravel cómo cargarlas. El método `loadMigrationsFrom` acepta la ruta a las migraciones de su paquete como su único argumento:
 
     /**
      * Perform post-registration booting of services.
@@ -165,13 +165,13 @@ If your package contains [database migrations](/docs/{{version}}/migrations), yo
     }
     
 
-Once your package's migrations have been registered, they will automatically be run when the `php artisan migrate` command is executed. You do not need to export them to the application's main `database/migrations` directory.
+Una vez registradas las migraciones de su paquete, se ejecutarán automáticamente cuando se ejecute el comando `php artisan migrate`. No es necesario exportarlos al directorio principal de la aplicación `database/migrations`.
 
 <a name="translations"></a>
 
-### Translations
+### Traducciones
 
-If your package contains [translation files](/docs/{{version}}/localization), you may use the `loadTranslationsFrom` method to inform Laravel how to load them. For example, if your package is named `courier`, you should add the following to your service provider's `boot` method:
+Si el paquete contiene [archivos de traducción](/docs/{{version}}/localization), tiene disponible el método `loadTranslationsFrom` para informar a Laravel como cargarlos. Por ejemplo, si su paquete se llama `courier`, debería añadir lo siguiente al método `boot` de su *service provider*:
 
     /**
      * Perform post-registration booting of services.
@@ -184,7 +184,7 @@ If your package contains [translation files](/docs/{{version}}/localization), yo
     }
     
 
-Package translations are referenced using the `package::file.line` syntax convention. So, you may load the `courier` package's `welcome` line from the `messages` file like so:
+Las traducciones de paquetes son referenciadas usando la convención de sintaxis `paquete::file.line`. So, you may load the `courier` package's `welcome` line from the `messages` file like so:
 
     echo trans('courier::messages.welcome');
     
