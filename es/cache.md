@@ -1,8 +1,8 @@
 # Cache
 
-- [Configuration](#configuration) 
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Cache Usage](#cache-usage) 
+- [Configuración](#configuration) 
+    - [Pre-requisitos del driver](#driver-prerequisites)
+- [Uso de Caché](#cache-usage) 
     - [Obtaining A Cache Instance](#obtaining-a-cache-instance)
     - [Retrieving Items From The Cache](#retrieving-items-from-the-cache)
     - [Storing Items In The Cache](#storing-items-in-the-cache)
