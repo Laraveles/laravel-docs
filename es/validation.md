@@ -145,7 +145,7 @@ Ahora, ¿qué sucede si los parámetros de validación entrantes no pasan las re
 
 > {note} Cuando se habla de flash, es en relación a un modo de guardar los errores en la sesión, y éstos serán eliminados cuando sean accedidos o esa sesión sea renovada.
 
-De nuevo, observe que no teníamos que vincular explícitamente los mensajes de error a la vista en nuestra ruta `GET`. Esto se debe a que Laravel comprobará si hay errores en los datos de la sesión y automáticamente lso enlazará a la vista si los datos están disponibles. La variable `$errors` será una instancia de `Illuminate\Support\MessageBag`. Para más información sobre cómo trabajar con este objeto, [eche un vistazo a su documentación](#working-with-error-messages).
+De nuevo, observe que no teníamos que vincular explícitamente los mensajes de error a la vista en nuestra ruta `GET`. Esto se debe a que Laravel comprobará si hay errores en los datos de la sesión y automáticamente los enlazará a la vista si los datos están disponibles. La variable `$errors` será una instancia de `Illuminate\Support\MessageBag`. Para más información sobre cómo trabajar con este objeto, [eche un vistazo a su documentación](#working-with-error-messages).
 
 > {tip} La variable `$errors` esta ligada a la vista a través del *middleware* `Illuminate\View\Middleware\ShareErrorsFromSession` el cual es proporcionado por el grupo de *middlewares* `web`. **Cuando este middleware es aplicado, la variable `$errors` estará siempre disponible en sus vistas**, permitiendo asumir convenientemente que la variable `$errors` siempre está definida y se puede ser usada con seguridad.
 
@@ -172,7 +172,9 @@ Así, en el ejemplo, el usuario será redirigido al método `create` de nuestro 
 
 ### Nota sobre los campos opcionales
 
-Por defecto, Laravel incluye los *middleware* `TrimStrings` y `ConvertEmptyStringsToNull` en la pila global de *middlewares</en>. Estos *middlewares* son enumerados en la pila por la clase `App\Http\Kernel`. A causa de esto, a menudo, necesitará marcar la solicitud de campos "opcionales" como `nullable` si no quiere que el validador los considerelos valores `nulos (null)` como inválidos. A causa de esto, puede que necesitase colocar la regla <0>nullable</0> a los campos "opcionales" si no desea que el validador considere valores <0>null</0> como no válidos. Por ejemplo:</p> 
+Por defecto, Laravel incluye los *middleware* `TrimStrings` y `ConvertEmptyStringsToNull` en la pila global de *middlewares</en>. Estos *middlewares* son enumerados en la pila por la clase `App\Http\Kernel`. A causa de esto, a menudo, necesitará marcar la solicitud de campos "opcionales" como `nullable` si no quiere que el validador los considerelos valores `nulos (null)` como inválidos. 
+
+A causa de esto, puede que necesitase colocar la regla <0>nullable</0> a los campos "opcionales" si no desea que el validador considere valores <0>null</0> como no válidos. Por ejemplo:</p> 
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
