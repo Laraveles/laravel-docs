@@ -184,14 +184,14 @@ Si el paquete contiene [archivos de traducción](/docs/{{version}}/localization)
     }
     
 
-Las traducciones de paquetes son referenciadas usando la convención de sintaxis `paquete::file.line`. So, you may load the `courier` package's `welcome` line from the `messages` file like so:
+Las traducciones de paquetes son referenciadas usando la convención de sintaxis `paquete::file.line`. Por lo tanto, se puede cargar del paquete `courier` la línea `welcome` del archivo `messages` de la siguiente forma:
 
     echo trans('courier::messages.welcome');
     
 
-#### Publishing Translations
+#### Publicar traducciones
 
-If you would like to publish your package's translations to the application's `resources/lang/vendor` directory, you may use the service provider's `publishes` method. The `publishes` method accepts an array of package paths and their desired publish locations. For example, to publish the translation files for the `courier` package, you may do the following:
+Si se quiere publicar las traducciones de un paquete dentro del directorio `resources/lang/vendor` de la aplicación, se puede usar el método `publishes` del *service provider*. El método `publishes` acepta un *array* de rutas de paquetes y sus ubicaciones de publicación deseadas. Por ejemplo, para publicar los archivos de traducción del paquete `courier` puede hacer lo siguiente:
 
     /**
      * Perform post-registration booting of services.
@@ -208,13 +208,13 @@ If you would like to publish your package's translations to the application's `r
     }
     
 
-Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's translations will be published to the specified publish location.
+Ahora, cuando los usuarios de su paquete ejecuten el comando Artisan `vendor:publish` de Laravel, las traducciones de su paquete se publicarán en la ubicación de publicación especificada.
 
 <a name="views"></a>
 
-### Views
+### Vistas
 
-To register your package's [views](/docs/{{version}}/views) with Laravel, you need to tell Laravel where the views are located. You may do this using the service provider's `loadViewsFrom` method. The `loadViewsFrom` method accepts two arguments: the path to your view templates and your package's name. For example, if your package's name is `courier`, you would add the following to your service provider's `boot` method:
+Para registrar las [vistas](/docs/{{version}}/views) del paquete con Laravel, es necesario informar al framework donde se encuentran. Esto se puede hacer utilizando el método `loadViewsFrom` del *service provider*. El método `loadViewsFrom` acepta dos argumentos: la ruta a las vistas y el nombre del paquete. Por ejemplo, si el nombre de su paquete es `courier`, puede añadir lo siguiente al método `boot` de su *service provider*:
 
     /**
      * Perform post-registration booting of services.
@@ -227,16 +227,16 @@ To register your package's [views](/docs/{{version}}/views) with Laravel, you ne
     }
     
 
-Package views are referenced using the `package::view` syntax convention. So, once your view path is registered in a service provider, you may load the `admin` view from the `courier` package like so:
+Las vistas de paquetes se referencian usando la convención de sintaxis `package::view`. Por lo tanto, una vez que su ruta de vista está registrada en un *service provider*, puede cargar la vista `admin` desde el paquete `courier`:
 
     Route::get('admin', function () {
         return view('courier::admin');
     });
     
 
-#### Overriding Package Views
+#### Sobrescribir las vistas de un paquete
 
-When you use the `loadViewsFrom` method, Laravel actually registers two locations for your views: the application's `resources/views/vendor` directory and the directory you specify. So, using the `courier` example, Laravel will first check if a custom version of the view has been provided by the developer in `resources/views/vendor/courier`. Then, if the view has not been customized, Laravel will search the package view directory you specified in your call to `loadViewsFrom`. This makes it easy for package users to customize / override your package's views.
+Cuando utiliza el método `loadViewsFrom`, Laravel registra dos ubicaciones para sus vistas: el directorio `resources/views/vendor` de la aplicación y el directorio que especifique. Por lo tanto, usando el ejemplo `courier`, Laravel primero comprobará si el desarrollador ha proporcionado una versión personalizada de la vista en `resources/views/vendor/vendor/courier`. Si no se encuentra, Laravel buscará la vista en el directorio que se especificó en el método `loadViewsFrom`. This makes it easy for package users to customize / override your package's views.
 
 #### Publishing Views
 
@@ -307,9 +307,9 @@ Now, when your package's users execute the `vendor:publish` command, your assets
 
 <a name="publishing-file-groups"></a>
 
-## Publishing File Groups
+## Publicar grupos de ficheros
 
-You may want to publish groups of package assets and resources separately. For instance, you might want to allow your users to publish your package's configuration files without being forced to publish your package's assets. You may do this by "tagging" them when calling the `publishes` method from a package's service provider. For example, let's use tags to define two publish groups in the `boot` method of a package service provider:
+Puedes querer publicar un grupo de recursos del paquete de forma separada. Por ejemplo, es posible que desee permitir a sus usuarios publicar los archivos de configuración de su paquete sin verse forzado a publicar los recursos. Puede hacerlo "etiquetándolos" cuando llame al método `publishes` del proveedor de servicios de un paquete. Por ejemplo, usemos etiquetas para definir dos grupos de publicación en el método `boot` de un *service provider* de un paquete:
 
     /**
      * Perform post-registration booting of services.
@@ -328,6 +328,6 @@ You may want to publish groups of package assets and resources separately. For i
     }
     
 
-Now your users may publish these groups separately by referencing their tag when executing the `vendor:publish` command:
+Ahora los usuarios pueden publicar estos grupos por separado haciendo referencia a su etiqueta al ejecutar el comando `vendor:publish`:
 
     php artisan vendor:publish --tag=config
