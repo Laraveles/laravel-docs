@@ -236,11 +236,11 @@ Las vistas de paquetes se referencian usando la convención de sintaxis `package
 
 #### Sobrescribir las vistas de un paquete
 
-Cuando utiliza el método `loadViewsFrom`, Laravel registra dos ubicaciones para sus vistas: el directorio `resources/views/vendor` de la aplicación y el directorio que especifique. Por lo tanto, usando el ejemplo `courier`, Laravel primero comprobará si el desarrollador ha proporcionado una versión personalizada de la vista en `resources/views/vendor/vendor/courier`. Si no se encuentra, Laravel buscará la vista en el directorio que se especificó en el método `loadViewsFrom`. This makes it easy for package users to customize / override your package's views.
+Cuando utiliza el método `loadViewsFrom`, Laravel registra dos ubicaciones para sus vistas: el directorio `resources/views/vendor` de la aplicación y el directorio que especifique. Por lo tanto, usando el ejemplo `courier`, Laravel primero comprobará si el desarrollador ha proporcionado una versión personalizada de la vista en `resources/views/vendor/vendor/courier`. Si no se encuentra, Laravel buscará la vista en el directorio que se especificó en el método `loadViewsFrom`. Esto hace que sea fácil para los usuarios de paquetes personalizar / anular las vistas de su paquete.
 
-#### Publishing Views
+#### Publicar las vistas
 
-If you would like to make your views available for publishing to the application's `resources/views/vendor` directory, you may use the service provider's `publishes` method. The `publishes` method accepts an array of package view paths and their desired publish locations:
+Si se quiere publicar las vistas de un paquete dentro del directorio `resources/views/vendor` de la aplicación, se puede usar el método `publishes` del *service provider*. El método `publishes` acepta un conjunto de rutas de vista de paquetes y sus ubicaciones de publicación deseadas:
 
     /**
      * Perform post-registration booting of services.
@@ -257,13 +257,13 @@ If you would like to make your views available for publishing to the application
     }
     
 
-Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's views will be copied to the specified publish location.
+Ahora, cuando los usuarios de su paquete ejecuten el comando Artisan `vendor:publish` de Laravel, las vistas de su paquete se copiarán en la ubicación de publicación especificada.
 
 <a name="commands"></a>
 
-## Commands
+## Commandos
 
-To register your package's Artisan commands with Laravel, you may use the `commands` method. This method expects an array of command class names. Once the commands have been registered, you may execute them using the [Artisan CLI](/docs/{{version}}/artisan):
+Para registrar los comandos Artisan de su paquete con Laravel, puede usar el método `commands`. Este método espera un *array* de nombres de clases de comando. Una vez registrados los comandos, puede ejecutarlos utilizando [Artisan CLI](/docs/{{version}}/artisan):
 
     /**
      * Bootstrap the application services.
@@ -283,9 +283,9 @@ To register your package's Artisan commands with Laravel, you may use the `comma
 
 <a name="public-assets"></a>
 
-## Public Assets
+## Publicar *assets*
 
-Your package may have assets such as JavaScript, CSS, and images. To publish these assets to the application's `public` directory, use the service provider's `publishes` method. In this example, we will also add a `public` asset group tag, which may be used to publish groups of related assets:
+Su paquete puede tener recursos como JavaScript, CSS e imágenes. Para publicar estos recursos dentro del directorio `public` de la aplicación, se utiliza el método `publishes` del *service provider*. En este ejemplo, añadiremos también una etiqueta `public`, la cual puede utilizarse para publicar grupos de recursos relacionados:
 
     /**
      * Perform post-registration booting of services.
@@ -300,7 +300,7 @@ Your package may have assets such as JavaScript, CSS, and images. To publish the
     }
     
 
-Now, when your package's users execute the `vendor:publish` command, your assets will be copied to the specified publish location. Since you will typically need to overwrite the assets every time the package is updated, you may use the `--force` flag:
+Ahora, cuando los usuarios del paquete ejecuten el comando `vendor:publish`, sus activos se copiarán en la ubicación de publicación especificada. Como normalmente necesitará sobrescribir los activos cada vez que actualice el paquete, puede utilizar el indicador `--force`:
 
     php artisan vendor:publish --tag=public --force
     
