@@ -1,8 +1,8 @@
 # Laravel Horizon
 
-- [Introduction](#introduction)
-- [Installation](#installation) 
-    - [Configuration](#configuration)
+- [Introducción](#introduction)
+- [Instalación](#installation) 
+    - [Configuración](#configuration)
     - [Dashboard Authentication](#dashboard-authentication)
 - [Running Horizon](#running-horizon) 
     - [Deploying Horizon](#deploying-horizon)
