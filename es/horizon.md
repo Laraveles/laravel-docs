@@ -168,7 +168,7 @@ Si este trabajo se encuentra en una cola con una instancia `App\Video`, por ejem
 
 #### Etiquetado manual
 
-If you would like to manually define the tags for one of your queueable objects, you may define a `tags` method on the class:
+Si prefiere definir las etiquetas de forma manual, puede definir un método `tags` en la clase:
 
     class RenderVideo implements ShouldQueue
     {
@@ -186,20 +186,20 @@ If you would like to manually define the tags for one of your queueable objects,
 
 <a name="notifications"></a>
 
-## Notifications
+## Notificaciones
 
-> **Note:** Before using notifications, you should add the `guzzlehttp/guzzle` Composer package to your project. When configuring Horizon to send SMS notifications, you should also review the [prerequisites for the Nexmo notification driver](https://laravel.com/docs/5.5/notifications#sms-notifications).
+> **Note:** Antes de utilizar las notificaciones, deberá agregar el paquete Composer `guzzlehttp/guzzle` a su proyecto. Cuando configure Horizon a enviar notificaciones SMS, también deberá revisar los [requerimientos para el driver de notificación Nexmo](https://laravel.com/docs/5.5/notifications#sms-notifications).
 
-If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from your application's `AppServiceProvider`:
+Si prefiere recibir notificaciones cuando una de las colas tenga un tiempo de espera muy largo, se pueden utilizar los métodos `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo` y `Horizon::routeSmsNotificationsTo`. Podrá ejecutar estos métodos desde el `AppServiceProvider` de su aplicación:
 
     Horizon::routeMailNotificationsTo('example@example.com');
     Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');
     Horizon::routeSmsNotificationsTo('15556667777');
     
 
-#### Configuring Notification Wait Time Thresholds
+#### Configurar umbrales de tiempo de espera de la notificación
 
-You may configure how many seconds are considered a "long wait" within your `config/horizon.php` configuration file. The `waits` configuration option within this file allows you to control the long wait threshold for each connection / queue combination:
+Podrá configurar cuántos segundos se consideran una "larga espera" dentro del fichero de configuración `config/horizon.php`. La opción de configuración `waits` dentro de este fichero, permite controlar el umbral de espera por cada combinación conexión/cola:
 
     'waits' => [
         'redis:default' => 60,
@@ -208,9 +208,9 @@ You may configure how many seconds are considered a "long wait" within your `con
 
 <a name="metrics"></a>
 
-## Metrics
+## Métricas
 
-Horizon includes a metrics dashboard which provides information on your job and queue wait times and throughput. In order to populate this dashboard, you should configure Horizon's `snapshot` Artisan command to run every five minutes via your application's [scheduler](/docs/{{version}}/scheduling):
+Horizon incluye un *dashboard* de métricas el cual proporciona información sobre sus trabajos y tiempos de espera de la colas y rendimiento. Con el fin de añadir datos a este *dashboard*, deberá configurar el comando de Artisan `snapshot` para ejecutarse cada cinco minutos a través del [scheduler](/docs/{{version}}/scheduling) de su aplicación:
 
     /**
      * Define the application's command schedule.
