@@ -414,11 +414,11 @@ Si no desea que se genere automáticamente un nombre de archivo, puede utilizar 
 
 <a name="configuring-trusted-proxies"></a>
 
-## Configuring Trusted Proxies
+## Configurar *proxies* de confianza
 
-When running your applications behind a load balancer that terminates TLS / SSL certificates, you may notice your application sometimes does not generate HTTPS links. Typically this is because your application is being forwarded traffic from your load balancer on port 80 and does not know it should generate secure links.
+Al ejecutar su aplicación tras un balanceador de carga (*load balancer*) que finaliza los certificados TLS/SSL, es posible que en ocasiones su aplicación no genere los enlaces HTTPS. Normalmente ocurre porque la aplicación está recibiendo tráfico redirigido desde el *load balancer* en el puerto 80 y no sabe si debe generar enlaces seguros o no.
 
-To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware that is included in your Laravel application, which allows you to quickly customize the load balancers or proxies that should be trusted by your application. Your trusted proxies should be listed as an array on the `$proxies` property of this middleware. In addition to configuring the trusted proxies, you may configure the headers that are being sent by your proxy with information about the original request:
+Para solucionar esto, se puede utilizar el *middleware* `App\Http\Middleware\TrustProxies` que se incluye con Laravel, el cual permitirá personalizar los *load balancers* o *proxies* en los que debe confiar la aplicación. Los "*proxies* de confianza" (*trusted proxies*) se deben listar como un *array* en la propiedad `$proxies` de este *middleware*. Además de configurar *trusted proxies*, se pueden configurar cabeceras a enviar por el *proxy* con información sobre la petición original:</p> 
 
     <?php
     
@@ -454,9 +454,9 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
     }
     
 
-#### Trusting All Proxies
+#### Confiar en todos los *proxies*
 
-If you are using Amazon AWS or another "cloud" load balancer provider, you may not know the IP addresses of your actual balancers. In this case, you may use `**` to trust all proxies:
+Si se está utilizando Amazon AWS o otro proveedor de *load balancer* "cloud", quizá no se conozca la IP de los *balancers* actuales. En este caso, se puede utilizar `**` para confiar en todos los proxies:
 
     /**
      * The trusted proxies for this application.
