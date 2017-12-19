@@ -87,14 +87,14 @@ Puede finalizar el proceso principal de Horizon utilizando el comando Artisan `h
 
 If you are deploying Horizon to a live server, you should configure a process monitor to monitor the `php artisan horizon` command and restart it if it quits unexpectedly. When deploying fresh code to your server, you will need to instruct the master Horizon process to terminate so it can be restarted by your process monitor and receive your code changes.
 
-You may gracefully terminate the master Horizon process on your machine using the `horizon:terminate` Artisan command. Any jobs that Horizon is currently processing will be completed and then Horizon will exit:
+You may gracefully terminate the master Horizon process on your machine using the `horizon:terminate` Artisan command. Todos los trabajos que Horizon esté ejecutando en ese momento se completarán y a continuación se detendrá su ejecución:
 
     php artisan horizon:terminate
     
 
-#### Supervisor Configuration
+#### Configuración de Supervisor
 
-If you are using the Supervisor process monitor to manage your `horizon` process, the following configuration file should suffice:
+Si está utilizando el monitor de procesos *Supervisor* para gestionar su proceso `horizon`, el siguiente fichero de configuración deberá ser suficiente:
 
     [program:horizon]
     process_name=%(program_name)s
@@ -106,13 +106,13 @@ If you are using the Supervisor process monitor to manage your `horizon` process
     stdout_logfile=/home/forge/app.com/horizon.log
     
 
-> {tip} If you are uncomfortable managing your own servers, consider using [Laravel Forge](https://forge.laravel.com). Forge provisions PHP 7+ servers with everything you need to run modern, robust Laravel applications with Horizon.
+> {tip} Si no se encuentra cómodo gestionando sus propios servidores, considere utilizar [Laravel Forge](https://forge.laravel.com). Forge provee servidores PHP 7+ con todo lo que necesita para ejecutar aplicaciones modernas y robustas de Laravel con Horizon.
 
 <a name="tags"></a>
 
-## Tags
+## Etiquetas
 
-Horizon allows you to assign “tags” to jobs, including mailables, event broadcasts, notifications, and queued event listeners. In fact, Horizon will intelligently and automatically tag most jobs depending on the Eloquent models that are attached to the job. For example, take a look at the following job:
+Horizon permite asignar "etiquetas" a trabajos, incluyendo *mailables*, *event broadcasting*, notificaciones y colas de *event listeners*. De hecho, Horizon etiquetará de forma inteligente y automática la mayoría de los trabajos dependiendo de los modelos Eloquent que estén relacionados con el trabajo. Por ejemplo, revise el siguiente *job*:
 
     <?php
     
@@ -159,14 +159,14 @@ Horizon allows you to assign “tags” to jobs, including mailables, event broa
     }
     
 
-If this job is queued with an `App\Video` instance that has an `id` of `1`, it will automatically receive the tag `App\Video:1`. This is because Horizon will examine the job's properties for any Eloquent models. If Eloquent models are found, Horizon will intelligently tag the job using the model's class name and primary key:
+Si este trabajo se encuentra en una cola con una instancia `App\Video`, por ejemplo, que tiene un `id` con valor `1`, automáticamente recibirá la etiqueta `App\Video:1`. Esto se debe a que Horizon examina las propiedades del trabajo buscando modelos Eloquent. Si se encuentran modelos Eloquent, Horizon inteligentemente etiquetará el trabajo utilizando el nombre de la clase y la clave principal del modelo:
 
     $video = App\Video::find(1);
     
     App\Jobs\RenderVideo::dispatch($video);
     
 
-#### Manually Tagging
+#### Etiquetado manual
 
 If you would like to manually define the tags for one of your queueable objects, you may define a `tags` method on the class:
 
