@@ -85,9 +85,9 @@ Puede finalizar el proceso principal de Horizon utilizando el comando Artisan `h
 
 ### Desplegar Horizon
 
-If you are deploying Horizon to a live server, you should configure a process monitor to monitor the `php artisan horizon` command and restart it if it quits unexpectedly. When deploying fresh code to your server, you will need to instruct the master Horizon process to terminate so it can be restarted by your process monitor and receive your code changes.
+Si está desplegando Horizon en un servidor online, debe configurar un monitor de procesos para monitorear para monitorear el comando `php artisan horizon` y re-ejecutarlo si se detiene de forma inesperada. Al desplegar código nuevo a su servidor, tendrá que detener el proceso principal de Horizon para que pueda ser reiniciado por su monitor de procesos y recibir los cambios de código.
 
-You may gracefully terminate the master Horizon process on your machine using the `horizon:terminate` Artisan command. Todos los trabajos que Horizon esté ejecutando en ese momento se completarán y a continuación se detendrá su ejecución:
+Puede finalizar el proceso principal de Horizon utilizando el comando Artisan `horizon:terminate`. Todos los trabajos que Horizon esté ejecutando en ese momento se completarán y a continuación se detendrá su ejecución:
 
     php artisan horizon:terminate
     
