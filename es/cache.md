@@ -3,27 +3,27 @@
 - [Configuración](#configuration) 
     - [Pre-requisitos del driver](#driver-prerequisites)
 - [Uso de Caché](#cache-usage) 
-    - [Obtaining A Cache Instance](#obtaining-a-cache-instance)
-    - [Retrieving Items From The Cache](#retrieving-items-from-the-cache)
-    - [Storing Items In The Cache](#storing-items-in-the-cache)
-    - [Removing Items From The Cache](#removing-items-from-the-cache)
-    - [The Cache Helper](#the-cache-helper)
-- [Cache Tags](#cache-tags) 
+    - [Obtener una instancia de Caché](#obtaining-a-cache-instance)
+    - [Recuperar elementos de la Caché](#retrieving-items-from-the-cache)
+    - [Almacenar elementos en Caché](#storing-items-in-the-cache)
+    - [Quitar elementos de Caché](#removing-items-from-the-cache)
+    - [El helper Caché](#the-cache-helper)
+- [Etiquetas de Caché](#cache-tags) 
     - [Storing Tagged Cache Items](#storing-tagged-cache-items)
     - [Accessing Tagged Cache Items](#accessing-tagged-cache-items)
     - [Removing Tagged Cache Items](#removing-tagged-cache-items)
 - [Adding Custom Cache Drivers](#adding-custom-cache-drivers) 
     - [Writing The Driver](#writing-the-driver)
     - [Registering The Driver](#registering-the-driver)
-- [Events](#events)
+- [Eventos](#events)
 
 <a name="configuration"></a>
 
-## Configuration
+## Configuración
 
-Laravel provides an expressive, unified API for various caching backends. The cache configuration is located at `config/cache.php`. In this file you may specify which cache driver you would like to be used by default throughout your application. Laravel supports popular caching backends like [Memcached](https://memcached.org) and [Redis](https://redis.io) out of the box.
+Laravel incorpora un API unificado para varios sistemas de caché. La configuración de caché se encuentra en `config/cache.php`. En este archivo se puede especificar qué *driver* utilizar por defecto para la aplicación. Laravel soporta de serie los sistemas de caché más populares como [Memcached](https://memcached.org) y [Redis](https://redis.io).
 
-The cache configuration file also contains various other options, which are documented within the file, so make sure to read over these options. By default, Laravel is configured to use the `file` cache driver, which stores the serialized, cached objects in the filesystem. For larger applications, it is recommended that you use a more robust driver such as Memcached or Redis. You may even configure multiple cache configurations for the same driver.
+El archivo de configuración de caché incluye además otras opciones, las cuales se encuentran documentadas y es recomendable leer. Por defecto, Laravel viene configurado para utilizar el *driver* `file`, el cual almacena objetos serializados en el sistema de archivos. For larger applications, it is recommended that you use a more robust driver such as Memcached or Redis. You may even configure multiple cache configurations for the same driver.
 
 <a name="driver-prerequisites"></a>
 
