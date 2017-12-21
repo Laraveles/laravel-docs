@@ -1,7 +1,7 @@
 # Cache
 
 - [Configuración](#configuration) 
-    - [Pre-requisitos del driver](#driver-prerequisites)
+    - [Prerrequisitos del *driver*](#driver-prerequisites)
 - [Uso de Caché](#cache-usage) 
     - [Obtener una instancia de Caché](#obtaining-a-cache-instance)
     - [Recuperar elementos de la Caché](#retrieving-items-from-the-cache)
@@ -23,15 +23,15 @@
 
 Laravel incorpora un API unificado para varios sistemas de caché. La configuración de caché se encuentra en `config/cache.php`. En este archivo se puede especificar qué *driver* utilizar por defecto para la aplicación. Laravel soporta de serie los sistemas de caché más populares como [Memcached](https://memcached.org) y [Redis](https://redis.io).
 
-El archivo de configuración de caché incluye además otras opciones, las cuales se encuentran documentadas y es recomendable leer. Por defecto, Laravel viene configurado para utilizar el *driver* `file`, el cual almacena objetos serializados en el sistema de archivos. For larger applications, it is recommended that you use a more robust driver such as Memcached or Redis. You may even configure multiple cache configurations for the same driver.
+El archivo de configuración de caché incluye además otras opciones, las cuales se encuentran documentadas y es recomendable leer. Por defecto, Laravel viene configurado para utilizar el *driver* `file`, el cual almacena objetos serializados en el sistema de archivos. Para aplicaciones más grandes, se recomienda utilizar un controlador más robusto como Memcached o Redis. Se pueden establecer varias configuraciones para un mismo *driver*.
 
 <a name="driver-prerequisites"></a>
 
-### Driver Prerequisites
+### Prerrequisitos del *driver*
 
-#### Database
+#### Base de datos
 
-When using the `database` cache driver, you will need to setup a table to contain the cache items. You'll find an example `Schema` declaration for the table below:
+Cuando se utiliza el *driver* `database`, es necesario crear una tabla que contendrá los elementos cacheados. Este es un ejemplo del `Schema` de esta tabla:
 
     Schema::create('cache', function ($table) {
         $table->string('key')->unique();
@@ -40,11 +40,11 @@ When using the `database` cache driver, you will need to setup a table to contai
     });
     
 
-> {tip} You may also use the `php artisan cache:table` Artisan command to generate a migration with the proper schema.
+> {tip} También se puede usar el comando de Artisan `php artisan cache:table` para generar una migración con el esquema apropiado.
 
 #### Memcached
 
-Using the Memcached driver requires the [Memcached PECL package](https://pecl.php.net/package/memcached) to be installed. You may list all of your Memcached servers in the `config/cache.php` configuration file:
+El uso del controlador Memcached requiere la instalación del paquete [Memcached PECL](https://pecl.php.net/package/memcached). Puede listar todos sus servidores Memcached en el archivo de configuración `config/cache.php`:
 
     'memcached' => [
         [
@@ -55,7 +55,7 @@ Using the Memcached driver requires the [Memcached PECL package](https://pecl.ph
     ],
     
 
-You may also set the `host` option to a UNIX socket path. If you do this, the `port` option should be set to ``:
+También se puede establecer la opción `host` a un *socket* UNIX. De ser así, la opción `port` debe establecerse en ``:
 
     'memcached' => [
         [
@@ -70,19 +70,19 @@ You may also set the `host` option to a UNIX socket path. If you do this, the `p
 
 Before using a Redis cache with Laravel, you will need to either install the `predis/predis` package (~1.0) via Composer or install the PhpRedis PHP extension via PECL.
 
-For more information on configuring Redis, consult its [Laravel documentation page](/docs/{{version}}/redis#configuration).
+Para más información sobre cómo configurar Redis, consultar su [documentación en Laravel](/docs/{{version}}/redis#configuration).
 
 <a name="cache-usage"></a>
 
-## Cache Usage
+## Uso de Caché
 
 <a name="obtaining-a-cache-instance"></a>
 
-### Obtaining A Cache Instance
+### Obtener una Instancia de Caché
 
-The `Illuminate\Contracts\Cache\Factory` and `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts) provide access to Laravel's cache services. The `Factory` contract provides access to all cache drivers defined for your application. The `Repository` contract is typically an implementation of the default cache driver for your application as specified by your `cache` configuration file.
+Los [contracts](/docs/{{version}}/contracts) `Illuminate\Contracts\Cache\Factory` y `Illuminate\Contracts\Cache\Repository` proporcionan acceso a los servicios de caché de Laravel. El contrato `Factory` permite acceder a todos los *drivers* de caché definidos en la aplicación. El contrato `Repository` es normalmente una implementación del *driver* de caché por defecto de la aplicación especificado por el archivo de configuración `cache`.
 
-However, you may also use the `Cache` facade, which is what we will use throughout this documentation. The `Cache` facade provides convenient, terse access to the underlying implementations of the Laravel cache contracts:
+Sin embargo, también se puede utilizar la *facade* `Cache`, la cual se utilizará a lo largo de esta documentación. La *facade* `Cache` proporciona un acceso cómodo y preciso a las implementaciones subyacentes de los contratos de caché de Laravel:
 
     <?php
     
@@ -108,7 +108,7 @@ However, you may also use the `Cache` facade, which is what we will use througho
 
 #### Accessing Multiple Cache Stores
 
-Using the `Cache` facade, you may access various cache stores via the `store` method. The key passed to the `store` method should correspond to one of the stores listed in the `stores` configuration array in your `cache` configuration file:
+Utilizando la *facade* `Cache`, se puede acceder a los diferentes sistemas de caché utilizando el método `store`. La clave pasada al método `store` corresponderá con una de las listadas en el *array* `stores` del archivo de configuración `cache`:
 
     $value = Cache::store('file')->get('foo');
     
@@ -117,25 +117,25 @@ Using the `Cache` facade, you may access various cache stores via the `store` me
 
 <a name="retrieving-items-from-the-cache"></a>
 
-### Retrieving Items From The Cache
+### Recuperar elementos de la Caché
 
-The `get` method on the `Cache` facade is used to retrieve items from the cache. If the item does not exist in the cache, `null` will be returned. If you wish, you may pass a second argument to the `get` method specifying the default value you wish to be returned if the item doesn't exist:
+El método `get` de la *facade* `Cache` se utiliza para obtener elementos desde la caché. Si el elemento no existe en la caché, se retornará `null`. Si lo desea, puede pasar un segundo argumento al método `get` especificando el valor predeterminado que desea que se devuelva si el elemento no existe:
 
     $value = Cache::get('key');
     
     $value = Cache::get('key', 'default');
     
 
-You may even pass a `Closure` as the default value. The result of the `Closure` will be returned if the specified item does not exist in the cache. Passing a Closure allows you to defer the retrieval of default values from a database or other external service:
+Se puede incluso pasar un `Closure` como valor por defecto. Se retornará el resultado de este `Closure` si el elemento especificado no existe en la caché. Pasar un *Closure* permite recuperar valores desde una base de datos o incluso un servicio externo:
 
     $value = Cache::get('key', function () {
         return DB::table(...)->get();
     });
     
 
-#### Checking For Item Existence
+#### Comprobar la existencia de un elemento
 
-The `has` method may be used to determine if an item exists in the cache. This method will return `false` if the value is `null` or `false`:
+Se puede utilizar el método `has` para determinar si existe un elemento en la caché. Este método devuelve `false` si el valor es `null` o `false`:
 
     if (Cache::has('key')) {
         //
