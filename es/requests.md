@@ -10,7 +10,7 @@
 - [Archivos](#files) 
     - [Recuperación de archivos subidos](#retrieving-uploaded-files)
     - [Almacenamiento de archivos subidos](#storing-uploaded-files)
-- [Configuring Trusted Proxies](#configuring-trusted-proxies)
+- [Configurar *proxies* de confianza](#configuring-trusted-proxies)
 
 <a name="accessing-the-request"></a>
 

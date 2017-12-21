@@ -1,9 +1,9 @@
 # Envoy Task Runner
 
-- [Introduction](#introduction) 
-    - [Installation](#installation)
+- [Introducción](#introduction) 
+    - [Instalación](#installation)
 - [Writing Tasks](#writing-tasks) 
-    - [Setup](#setup)
+    - [Configuración](#setup)
     - [Variables](#variables)
     - [Stories](#stories)
     - [Multiple Servers](#multiple-servers)

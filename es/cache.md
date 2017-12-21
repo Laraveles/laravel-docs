@@ -142,9 +142,9 @@ Se puede utilizar el método `has` para determinar si existe un elemento en la c
     }
     
 
-#### Incrementing / Decrementing Values
+#### Incrementar/decrementar valores
 
-The `increment` and `decrement` methods may be used to adjust the value of integer items in the cache. Both of these methods accept an optional second argument indicating the amount by which to increment or decrement the item's value:
+Los métodos `increment` y `decrement` se utilizan para ajustar el valor de elementos enteros en la caché. Ambos métodos aceptan un segundo argumento opcional que indica la cantidad por la cual se debe incrementar o disminuir el valor del elemento:
 
     Cache::increment('key');
     Cache::increment('key', $amount);
@@ -152,27 +152,27 @@ The `increment` and `decrement` methods may be used to adjust the value of integ
     Cache::decrement('key', $amount);
     
 
-#### Retrieve & Store
+#### Recuperar & almacenar
 
-Sometimes you may wish to retrieve an item from the cache, but also store a default value if the requested item doesn't exist. For example, you may wish to retrieve all users from the cache or, if they don't exist, retrieve them from the database and add them to the cache. You may do this using the `Cache::remember` method:
+A veces se desea recuperar un elemento de la caché, pero a su vez almacenar un valor por defecto si ese elemento no existe. Por ejemplo, obtener todos los usuarios desde la caché o, si no existen, recuperarlos de la base de datos y añadirlos a la caché. Para ello se puede utilizar el método `Cache::remember`:
 
     $value = Cache::remember('users', $minutes, function () {
         return DB::table('users')->get();
     });
     
 
-If the item does not exist in the cache, the `Closure` passed to the `remember` method will be executed and its result will be placed in the cache.
+Si el elemento no existe en la caché, el `Closure` pasado al método `remember` se ejecutará y se almacenará su resultado.
 
-You may use the `rememberForever` method to retrieve an item from the cache or store it forever:
+Puede utilizar el método `rememberForever` para recuperar un elemento de la caché o guardarlo para siempre:
 
     $value = Cache::rememberForever('users', function() {
         return DB::table('users')->get();
     });
     
 
-#### Retrieve & Delete
+#### Recuperar & borrar
 
-If you need to retrieve an item from the cache and then delete the item, you may use the `pull` method. Like the `get` method, `null` will be returned if the item does not exist in the cache:
+Si necesita recuperar un elemento de la caché y luego eliminarlo, puede utilizar el método `pull`. Como el método `get`, retornará `null` si el elemento no existe:
 
     $value = Cache::pull('key');
     
@@ -181,73 +181,73 @@ If you need to retrieve an item from the cache and then delete the item, you may
 
 ### Storing Items In The Cache
 
-You may use the `put` method on the `Cache` facade to store items in the cache. When you place an item in the cache, you need to specify the number of minutes for which the value should be cached:
+Para almacenar elementos en la caché se puede utilizar el método `put` de la *facade* `Cache`. Cuando se coloca un elemento en la caché, es necesario especificar el número de minutos que el valor debe estar almacenado:
 
     Cache::put('key', 'value', $minutes);
     
 
-Instead of passing the number of minutes as an integer, you may also pass a `DateTime` instance representing the expiration time of the cached item:
+En lugar de pasar el número de minutos como un entero, también puede pasar una instancia `DateTime` representando la hora/fecha de caducidad del elemento almacenado en caché:
 
     $expiresAt = Carbon::now()->addMinutes(10);
     
     Cache::put('key', 'value', $expiresAt);
     
 
-#### Store If Not Present
+#### Almacenar si no está presente
 
-The `add` method will only add the item to the cache if it does not already exist in the cache store. The method will return `true` if the item is actually added to the cache. Otherwise, the method will return `false`:
+El método `add` únicamente añadirá un elemento a la caché si no existe previamente. Este método retornará `true` si el elemento ya existe en la caché. De otro modo, retornará `false`:
 
     Cache::add('key', 'value', $minutes);
     
 
-#### Storing Items Forever
+#### Almacenar elementos indefinidamente
 
-The `forever` method may be used to store an item in the cache permanently. Since these items will not expire, they must be manually removed from the cache using the `forget` method:
+El método `forever` puede utilizarse para almacenar un elemento en la caché permanentemente. Dado que estos elementos no caducarán, deben eliminarse manualmente de la caché utilizando el método `forget`:
 
     Cache::forever('key', 'value');
     
 
-> {tip} If you are using the Memcached driver, items that are stored "forever" may be removed when the cache reaches its size limit.
+> {tip} Si está utilizando el driver Memcached, los elementos que se almacenan "para siempre" pueden eliminarse cuando la caché alcanza su límite de tamaño.
 
 <a name="removing-items-from-the-cache"></a>
 
-### Removing Items From The Cache
+### Borrar elementos de la Caché
 
-You may remove items from the cache using the `forget` method:
+Puede eliminar elementos de la caché utilizando el método `forget`:
 
     Cache::forget('key');
     
 
-You may clear the entire cache using the `flush` method:
+Y además se puede limpiar por completo la caché utilizando el método `flush`:
 
     Cache::flush();
     
 
-> {note} Flushing the cache does not respect the cache prefix and will remove all entries from the cache. Consider this carefully when clearing a cache which is shared by other applications.
+> {note} La purga de la caché no respeta el prefijo de caché y eliminará todas las entradas. Tenga mucha precaución al limpiar una caché que pueda estar siendo compartida por otras aplicaciones.
 
 <a name="the-cache-helper"></a>
 
-### The Cache Helper
+### El *helper* Caché
 
-In addition to using the `Cache` facade or [cache contract](/docs/{{version}}/contracts), you may also use the global `cache` function to retrieve and store data via the cache. When the `cache` function is called with a single, string argument, it will return the value of the given key:
+Además de utilizar la *facade* `Cache` o el [contrato caché](/docs/{{version}}/contracts), también puede utilizar la función global `cache` para recuperar y almacenar datos. Cuando se llama a la función `cache` con una cadena como único argumento, retornará el valor para esa clave:
 
     $value = cache('key');
     
 
-If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:
+Si se proporciona un *array* de pares clave/valor y un tiempo de caducidad a la función, almacenará los valores en la caché durante el tiempo especificado:
 
     cache(['key' => 'value'], $minutes);
     
     cache(['key' => 'value'], Carbon::now()->addSeconds(10));
     
 
-> {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
+> {tip} Al "testear" la llamada a la función global `cache`, puede utilizar el método `Cache::shouldReceive` como si estuviera [testeando un facade](/docs/{{version}}/mocking#mocking-facades).
 
 <a name="cache-tags"></a>
 
-## Cache Tags
+## Etiquetas de Caché
 
-> {note} Cache tags are not supported when using the `file` or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
+> {note} Las etiquetas de caché no son compatibles cuando se utilizan los *drivers* de caché `file` o `database`. Además, cuando se utilizan varias etiquetas con cachés que se almacenan "forever", el rendimiento aumenta con *drivers* como `memcached`, que automáticamente purgan registros obsoletos.
 
 <a name="storing-tagged-cache-items"></a>
 
