@@ -1,6 +1,6 @@
-# Eloquent: API Resources
+# Eloquent: Recursos API
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Generating Resources](#generating-resources)
 - [Concept Overview](#concept-overview)
 - [Writing Resources](#writing-resources) 
@@ -13,24 +13,24 @@
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-When building an API, you may need a transformation layer that sits between your Eloquent models and the JSON responses that are actually returned to your application's users. Laravel's resource classes allow you to expressively and easily transform your models and model collections into JSON.
+Cuando se construye una API, se puede necesitar una capa de transformación que se ubica entre los modelos de Eloquent y las respuestas JSON que se devuelven a los usuarios de la aplicación. Las clases de recursos de Laravel permiten transformar los modelos y las colecciones en JSON.
 
 <a name="generating-resources"></a>
 
-## Generating Resources
+## Generar recursos
 
-To generate a resource class, you may use the `make:resource` Artisan command. By default, resources will be placed in the `app/Http/Resources` directory of your application. Resources extend the `Illuminate\Http\Resources\Json\Resource` class:
+Para generar una clase recurso, se puede utilizar el comando de Artisan `make:resource`. Por defecto, los recursos se colocan en el directorio `app/Http/Resources` de la aplicación. Los recursos extienden de la clase `Illuminate\Http\Resources\Json\Resource`:
 
     php artisan make:resource User
     
 
-#### Resource Collections
+#### Recursos para Colecciones
 
-In addition to generating resources that transform individual models, you may generate resources that are responsible for transforming collections of models. This allows your response to include links and other meta information that is relevant to an entire collection of a given resource.
+Además de generar recursos que transforman modelos individuales, es posible generar recursos que son responsables de transformar colecciones de modelos. Esto le permite a la respuesta incluir enlaces y otra meta información que es relevante para la colección completa de un recurso en particular.
 
-To create a resource collection, you should use the `--collection` flag when creating the resource. Or, simply including the word `Collection` in the resource name will indicate to Laravel that it should create a collection resource. Collection resources extend the `Illuminate\Http\Resources\Json\ResourceCollection` class:
+Para crear un recurso para colecciones, se debe usar la bandera `--collection` cuando se crea el recurso. O, simplemente incluir la palabra `Collection` en el nombre del recurso le indica a Laravel que debe crear un recurso para colecciones. Los recursos para colecciones extienden de la clase `Illuminate\Http\Resources\Json\ResourceCollection`:
 
     php artisan make:resource Users --collection
     
@@ -39,11 +39,11 @@ To create a resource collection, you should use the `--collection` flag when cre
 
 <a name="concept-overview"></a>
 
-## Concept Overview
+## Revisión de conceptos
 
-> {tip} This is a high-level overview of resources and resource collections. You are highly encouraged to read the other sections of this documentation to gain a deeper understanding of the customization and power offered to you by resources.
+> {tip} Esta es una presentación de conceptos de alto nivel sobre los recursos y los recursos para colecciones. Se recomienda encarecidamente leer las otras secciones de esta documentación para ganar un conocimiento más profundo sobre la personalización y el poder que ofrecen los recursos.
 
-Before diving into all of the options available to you when writing resources, let's first take a high-level look at how resources are used within Laravel. A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple `User` resource class:
+Antes de entrar en detalle de las opciones disponibles cuando se crean recursos, demos una mirada de alto nivel a cómo se usan los recursos en Laravel. Una clase recurso representa un único modelo que necesita transformarse en una estructura JSON. Por ejemplo, esta es una simple clase de recurso de `User`:
 
     <?php
     
@@ -72,7 +72,7 @@ Before diving into all of the options available to you when writing resources, l
     }
     
 
-Every resource class defines a `toArray` method which returns the array of attributes that should be converted to JSON when sending the response. Notice that we can access model properties directly from the `$this` variable. This is because a resource class will automatically proxy property and method access down to the underlying model for convenient access. Once the resource is defined, it may be returned from a route or controller:
+Cada clase recurso define un método `toArray` que retorna un *array* de atributos que deben ser convertidos a JSON cuando se envíe la respuesta. Tenga en cuenta que se pueden acceder a las propiedades del modelo directamente desde la variable `$this`. Esto es debido a que una clase de recurso automáticamente conectará las propiedades y los métodos del modelo que se inyecta para facilitar el acceso a los mismos. Una vez que se define el recurso, este puede retornarse desde una ruta o un controlador:
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -82,9 +82,9 @@ Every resource class defines a `toArray` method which returns the array of attri
     });
     
 
-### Resource Collections
+### Colección de recursos
 
-If you are returning a collection of resources or a paginated response, you may use the `collection` method when creating the resource instance in your route or controller:
+Si se está retornando una colección de recursos o una respuesta paginada, se puede usar el método `collection` cuando se crea la instancia del recurso en la ruta o controlador:
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -94,12 +94,12 @@ If you are returning a collection of resources or a paginated response, you may 
     });
     
 
-Of course, this does not allow any addition of meta data that may need to be returned with the collection. If you would like to customize the resource collection response, you may create a dedicated resource to represent the collection:
+Por supuesto, esto no permite añadir ninguna ningún meta-dato que pueda ser necesario retornarlo con la colección. Si se quiere personalizar la respuesta del recurso para colecciones, se puede crear un recurso dedicdo a representar la colección:
 
     php artisan make:resource UserCollection
     
 
-Once the resource collection class has been generated, you may easily define any meta data that should be included with the response:
+Una vez que se ha generado el recurso para colecciones, se puede definir fácilmente cualquier meta-dato que debería incluirse con la respuesta:
 
     <?php
     
@@ -127,7 +127,7 @@ Once the resource collection class has been generated, you may easily define any
     }
     
 
-After defining your resource collection, it may be returned from a route or controller:
+Después de definir el recurso para colecciones, se puede retornar desde una ruta o un controlador:
 
     use App\User;
     use App\Http\Resources\UserCollection;
@@ -139,11 +139,11 @@ After defining your resource collection, it may be returned from a route or cont
 
 <a name="writing-resources"></a>
 
-## Writing Resources
+## Escribir recursos
 
-> {tip} If you have not read the [concept overview](#concept-overview), you are highly encouraged to do so before proceeding with this documentation.
+> {tip} Si no se ha revisado la [revisión de conceptos](#concept-overview), se recomienda encarecidamente hacerlo antes de seguir adelante con la documentación.
 
-In essence, resources are simple. They only need to transform a given model into an array. So, each resource contains a `toArray` method which translates your model's attributes into an API friendly array that can be returned to your users:
+Esencialmente, los recursos son simples. Sólo necesitan transformar un modelo dado en *array*. Así, cada recurso contiene un método `toArray` que traduce los atributos de dicho modelo a un *array* que es amigable para la API y que puede ser devuelto a los usuarios:
 
     <?php
     
@@ -172,7 +172,7 @@ In essence, resources are simple. They only need to transform a given model into
     }
     
 
-Once a resource has been defined, it may be returned directly from a route or controller:
+Una vez que se define el recurso, puede retornarse directamente desde una ruta o controlador:
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -182,7 +182,7 @@ Once a resource has been defined, it may be returned directly from a route or co
     });
     
 
-#### Relationships
+#### Relaciones
 
 If you would like to include related resources in your response, you may simply add them to the array returned by your `toArray` method. In this example, we will use the `Post` resource's `collection` method to add the user's blog posts to the resource response:
 
