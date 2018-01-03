@@ -184,7 +184,7 @@ Una vez que se define el recurso, puede retornarse directamente desde una ruta o
 
 #### Relaciones
 
-If you would like to include related resources in your response, you may simply add them to the array returned by your `toArray` method. In this example, we will use the `Post` resource's `collection` method to add the user's blog posts to the resource response:
+Si se quiere incluir un recurso relacionado en la respuesta, se puede simplemente agregarlo en el *array* que se retorna del método `toArray`. En este ejemplo se usa el método `collection` del recurso `Post` para agregar los posts del usuario en la respuesta del recurso:
 
     /**
      * Transform the resource into an array.
@@ -205,11 +205,11 @@ If you would like to include related resources in your response, you may simply 
     }
     
 
-> {tip} If you would like to include relationships only when they have already been loaded, check out the documentation on [conditional relationships](#conditional-relationships).
+> {tip} Si se quiere incluir una relación sólo cuando se haya cargado previamente, revise la documentación sobre [relaciones condicionales](#conditional-relationships).
 
-#### Resource Collections
+#### Colección de recursos
 
-While resources translate a single model into an array, resource collections translate a collection of models into an array. It is not absolutely necessary to define a resource collection class for each one of your model types since all resources provide a `collection` method to generate an "ad-hoc" resource collection on the fly:
+Mientras los recursos traducen un modelo en un *array*, los recursos para colecciones traducen una colección de modelos a un *array*. No es absolutamente necesario definir una clase de recurso para colecciones por cada uno de los tipos de modelos existentes ya que todos los recursos incluyen un método `collection` que genera un recurso para colecciones "ad-hoc" en el momento:
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -219,7 +219,7 @@ While resources translate a single model into an array, resource collections tra
     });
     
 
-However, if you need to customize the meta data returned with the collection, it will be necessary to define a resource collection:
+Sin embargo, si se necesita personalizar los meta-datos que se retornan con la colección, será necesario definir un recurso para colecciones:
 
     <?php
     
@@ -247,7 +247,7 @@ However, if you need to customize the meta data returned with the collection, it
     }
     
 
-Like singular resources, resource collections may be returned directly from routes or controllers:
+Tal como los recursos singulares, los recursos para colecciones se pueden retornar desde las rutas o los controladores:
 
     use App\User;
     use App\Http\Resources\UserCollection;
@@ -259,9 +259,9 @@ Like singular resources, resource collections may be returned directly from rout
 
 <a name="data-wrapping"></a>
 
-### Data Wrapping
+### Encapsulamiento de datos
 
-By default, your outer-most resource is wrapped in a `data` key when the resource response is converted to JSON. So, for example, a typical resource collection response looks like the following:
+Por defecto, el recurso más externo se encapsula en una clave `data` cuando la respuesta se convierte a JSON. Así, por ejemplo, un recurso para colecciones se parece a lo siguiente:
 
     {
         "data": [
@@ -279,7 +279,7 @@ By default, your outer-most resource is wrapped in a `data` key when the resourc
     }
     
 
-If you would like to disable the wrapping of the outer-most resource, you may use the `withoutWrapping` method on the base resource class. Typically, you should call this method from your `AppServiceProvider` or another [service provider](/docs/{{version}}/providers) that is loaded on every request to your application:
+Si se quiere deshabilitar el encapsulamiento del recurso externo, se debe usar el método `withoutWrapping` en la clase base del recurso. Normalmente, se puede llamar a este método desde el `AppServiceProvider` o desde otro [service provider](/docs/{{version}}/providers) que se cargue en cada petición a la aplicación:
 
     <?php
     
@@ -312,13 +312,13 @@ If you would like to disable the wrapping of the outer-most resource, you may us
     }
     
 
-> {note} The `withoutWrapping` method only affects the outer-most response and will not remove `data` keys that you manually add to your own resource collections.
+> {nota} El método `withoutWrapping` sólo afecta a la respuesta exterior y no removerá las claves `data` que se hayan agregado manualmente a los recursos para colecciones.
 
-### Wrapping Nested Resources
+### Encapsular recursos anidados
 
-You have total freedom to determine how your resource's relationships are wrapped. If you would like all resource collections to be wrapped in a `data` key, regardless of their nesting, you should define a resource collection class for each resource and return the collection within a `data` key.
+Se tiene total libertad para determinar cómo se encapsulan las relaciones entre los recursos. Si se quiere tener todos los recursos encapsulados dentro de una clave `data`, sin importar su anidado, se debe definir una clase de recurso para colecciones por cada recurso y retornar la colección dentro de una clave `data`.
 
-Of course, you may be wondering if this will cause your outer-most resource to be wrapped in two `data` keys. Don't worry, Laravel will never let your resources be accidentally double-wrapped, so you don't have to be concerned about the nesting level of the resource collection you are transforming:
+Por supuesto, queda en duda si esto causará que el recurso exterior sea encapsulados en dos claves `data`. No hay de qué alarmarse, Laravel no permitirá que los recursos se encapsulen dos veces, así que no debe haber preocupación acerca del nivel de anidado de la colección que se está transformando:
 
     <?php
     
@@ -341,9 +341,9 @@ Of course, you may be wondering if this will cause your outer-most resource to b
     }
     
 
-### Data Wrapping And Pagination
+### Encapsular datos y paginación
 
-When returning paginated collections in a resource response, Laravel will wrap your resource data in a `data` key even if the `withoutWrapping` method has been called. This is because paginated responses always contain `meta` and `links` keys with information about the paginator's state:
+Cuando se retorna una colección paginada en la respuesta, Laravel encapsulará los datos en una clave `data` aunque se haya llamado al método `withoutWrapping`. Esto se hace ya que las respuestas paginadas siempre contienen las claves `meta` y </code>links</0> con información acerca del estado del paginador:
 
     {
         "data": [
@@ -378,9 +378,9 @@ When returning paginated collections in a resource response, Laravel will wrap y
 
 <a name="pagination"></a>
 
-### Pagination
+### Paginación
 
-You may always pass a paginator instance to the `collection` method of a resource or to a custom resource collection:
+Siempre se puede pasar una instancia de *paginator* al método `collection` de un recurso o de un recurso para colecciones personalizado:
 
     use App\User;
     use App\Http\Resources\UserCollection;
@@ -390,7 +390,7 @@ You may always pass a paginator instance to the `collection` method of a resourc
     });
     
 
-Paginated responses always contain `meta` and `links` keys with information about the paginator's state:
+Las respuestas paginadas siempre contienen las claves `meta` y `links` con información sobre el estado del *paginator*:
 
     {
         "data": [
@@ -425,9 +425,9 @@ Paginated responses always contain `meta` and `links` keys with information abou
 
 <a name="conditional-attributes"></a>
 
-### Conditional Attributes
+### Atributos condicionales
 
-Sometimes you may wish to only include an attribute in a resource response if a given condition is met. For example, you may wish to only include a value if the current user is an "administrator". Laravel provides a variety of helper methods to assist you in this situation. The `when` method may be used to conditionally add an attribute to a resource response:
+En ocasiones es necesario incluir un atributo en un recurso para colecciones sólo si se cumple con una condición dada. Por ejemplo, se puede querer incluir un valor si el usuario actual es un "administrador". Laravel provee una variedad de métodos auxiliares que son de ayuda en estas situaciones. El método `when` se puede usar para agregar condicionalmente un atributo a una respuesta:
 
     /**
      * Transform the resource into an array.
@@ -448,20 +448,20 @@ Sometimes you may wish to only include an attribute in a resource response if a 
     }
     
 
-In this example, the `secret` key will only be returned in the final resource response if the `$this->isAdmin()` method returns `true`. If the method returns `false`, the `secret` key will be removed from the resource response entirely before it is sent back to the client. The `when` method allows you to expressively define your resources without resorting to conditional statements when building the array.
+En este ejemplo, la clave `secret` solo será retornada en la respuesta final si el método `$this->isAdmin()` retorna `true`. Si el método retorna `false`, la clave `secret` se excluirá completamente de la respuesta antes de ser enviada al cliente. El método `when` permite definir los recursos expresivamente sin hacer uso de condicionales durante la construcción del *array*.
 
-The `when` method also accepts a Closure as its second argument, allowing you to calculate the resulting value only if the given condition is `true`:
+El método `when` también acepta un *Closure* como segundo argumento, permitiendo calcular el valor resultante únicamente si la condición dada es `true`:
 
     'secret' => $this->when($this->isAdmin(), function () {
         return 'secret-value';
     }),
     
 
-> {tip} Remember, method calls on resources proxy down to the underlying model instance. So, in this case, the `isAdmin` method is proxying to the underlying Eloquent model that was originally given to the resource.
+> {tip} Recuerde que las llamadas a los métodos en los recursos, se propagan hasta la instancia del modelo subyacente. Así, en este caso, el método `isAdmin` se propaga al modelo Eloquent que se dió originalmente al recurso.
 
-#### Merging Conditional Attributes
+#### Combinar atributos condicionales
 
-Sometimes you may have several attributes that should only be included in the resource response based on the same condition. In this case, you may use the `mergeWhen` method to include the attributes in the response only when the given condition is `true`:
+En ocasiones, se tienen varios atributos que sólo deben incluirse en la respuesta del recurso si se cumple la misma condición. En ese caso, se puede usar el método `mergeWhen` para incluir los atributos en la respuesta únicamente cuando la condición dada es `true`:
 
     /**
      * Transform the resource into an array.
@@ -485,17 +485,17 @@ Sometimes you may have several attributes that should only be included in the re
     }
     
 
-Again, if the given condition is `false`, these attributes will be removed from the resource response entirely before it is sent to the client.
+De nuevo, si la condición dada es `false`, estos atributos se eliminarán completamente de la respuesta antes de que sea enviada al cliente.
 
-> {note} The `mergeWhen` method should not be used within arrays that mix string and numeric keys. Furthermore, it should not be used within arrays with numeric keys that are not ordered sequentially.
+> {nota} El método `mergeWhen` no debería usarse dentro de *arrays* que mezclan claves númericas y de texto. Y más allá, no debería usarse en *arrays* que tienen claves numéricas que no están ordenadas secuencialmente.
 
 <a name="conditional-relationships"></a>
 
-### Conditional Relationships
+### Relaciones condicionales
 
-In addition to conditionally loading attributes, you may conditionally include relationships on your resource responses based on if the relationship has already been loaded on the model. This allows your controller to decide which relationships should be loaded on the model and your resource can easily include them only when they have actually been loaded.
+Además de cargar atributos de forma condicional, se pueden incluir relaciones condicionales a las respuestas del recurso basadas en si la relación ya se ha cargado en el modelo. Esto le permite al controlador decidir cuáles relaciones deben cargarse en el modelo y el recurso puede fácilmente incluirlas sólo cuando estas han sido cargadas.
 
-Ultimately, this makes it easier to avoid "N+1" query problems within your resources. The `whenLoaded` method may be used to conditionally load a relationship. In order to avoid unnecessarily loading relationships, this method accepts the name of the relationship instead of the relationship itself:
+Finalmente, esto hace más fácil evitar los problemas de consultas "N+1" en los recursos. El método `whenLoaded` se puede usar para cargar condicionalmente una relación. Para evitar la carga innecesaria de relaciones, este méttodo acepta el nombre de la relación en lugar de la relación propiamente:
 
     /**
      * Transform the resource into an array.
@@ -516,11 +516,11 @@ Ultimately, this makes it easier to avoid "N+1" query problems within your resou
     }
     
 
-In this example, if the relationship has not been loaded, the `posts` key will be removed from the resource response entirely before it is sent to the client.
+En este ejemplo, si la relación no se ha cargado, la clave `posts` se eliminará completamente de la respuesta antes de enviarse al cliente.
 
-#### Conditional Pivot Information
+#### Información *pivot* condicional
 
-In addition to conditionally including relationship information in your resource responses, you may conditionally include data from the intermediate tables of many-to-many relationships using the `whenPivotLoaded` method. The `whenPivotLoaded` method accepts the name of the pivot table as its first argument. The second argument should be a Closure that defines the value to be returned if the pivot information is available on the model:
+Sumado a incluir condicionalmente información de las relaciones en las respuesta de los recursos, se puede incluir condicionalmente datos de las trablas intermedias en las relaciones muchos-a-muchos usando el método `whenPivotLoaded`. El método `whenPivotLoaded` acepta el nombre de la tabla *pivot* como su primer argumento. El segundo argumento debería ser un *Closure* que defina el valor que debe retornarse si la información está disponible en el modelo:
 
     /**
      * Transform the resource into an array.
@@ -542,7 +542,7 @@ In addition to conditionally including relationship information in your resource
 
 <a name="adding-meta-data"></a>
 
-### Adding Meta Data
+### Agregar meta-datos
 
 Some JSON API standards require the addition of meta data to your resource and resource collections responses. This often includes things like `links` to the resource or related resources, or meta data about the resource itself. If you need to return additional meta data about a resource, simply include it in your `toArray` method. For example, you might include `link` information when transforming a resource collection:
 
