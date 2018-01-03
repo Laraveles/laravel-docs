@@ -94,12 +94,12 @@ Si se está retornando una colección de recursos o una respuesta paginada, se p
     });
     
 
-Por supuesto, esto no permite añadir ninguna ningún meta-dato que pueda ser necesario retornarlo con la colección. Si se quiere personalizar la respuesta del recurso para colecciones, se puede crear un recurso dedicdo a representar la colección:
+Por supuesto, esto no permite añadir ninguna ningún metadato que pueda ser necesario retornarlo con la colección. Si se quiere personalizar la respuesta del recurso para colecciones, se puede crear un recurso dedicdo a representar la colección:
 
     php artisan make:resource UserCollection
     
 
-Una vez que se ha generado el recurso para colecciones, se puede definir fácilmente cualquier meta-dato que debería incluirse con la respuesta:
+Una vez que se ha generado el recurso para colecciones, se puede definir fácilmente cualquier metadato que debería incluirse con la respuesta:
 
     <?php
     
@@ -219,7 +219,7 @@ Mientras los recursos traducen un modelo en un *array*, los recursos para colecc
     });
     
 
-Sin embargo, si se necesita personalizar los meta-datos que se retornan con la colección, será necesario definir un recurso para colecciones:
+Sin embargo, si se necesita personalizar los metadatos que se retornan con la colección, será necesario definir un recurso para colecciones:
 
     <?php
     
@@ -542,9 +542,9 @@ Sumado a incluir condicionalmente información de las relaciones en las respuest
 
 <a name="adding-meta-data"></a>
 
-### Agregar meta-datos
+### Agregar metadatos
 
-Some JSON API standards require the addition of meta data to your resource and resource collections responses. This often includes things like `links` to the resource or related resources, or meta data about the resource itself. If you need to return additional meta data about a resource, simply include it in your `toArray` method. For example, you might include `link` information when transforming a resource collection:
+Algunos estándares de API JSON requieren la adición de metadatos a las respuestas de los recursos y los recursos para colecciones. Frecuentemente esto incluye cosas como `links` al recurso o recursos relacionados, o metadatos acerca del recurso propiamente. Si se necesita retornar metadatos adicionales acerca de un recurso, simplemente deben incluirse en el método `toArray`. Por ejemplo, se puede incluir información de `link` cuando se transforma un recurso para colecciones:
 
     /**
      * Transform the resource into an array.
@@ -563,11 +563,11 @@ Some JSON API standards require the addition of meta data to your resource and r
     }
     
 
-When returning additional meta data from your resources, you never have to worry about accidentally overriding the `links` or `meta` keys that are automatically added by Laravel when returning paginated responses. Any additional `links` you define will simply be merged with the links provided by the paginator.
+Cuando se retornan metadatos adicionales desde los recursos, no hay que preocuparse de reemplazar accidentalmente las claves `links` o `meta` que Laravel incluye automáticamente cuando se trata de respuestas paginadas. Cualquier clave `links` adicional simplemente se fusionará con los *links* que provienen del *paginator*.
 
-#### Top Level Meta Data
+#### Meta-datos al máximo nivel
 
-Sometimes you may wish to only include certain meta data with a resource response if the resource is the outer-most resource being returned. Typically, this includes meta information about the response as a whole. To define this meta data, add a `with` method to your resource class. This method should return an array of meta data to be included with the resource response only when the resource is the outer-most resource being rendered:
+En ocasiones, es posible que desee incluir ciertos metadatos con una respuesta de recursos si el recurso es un recurso externo el que se devuelve. Normalmente esto incluye meta-información sobre la respuesta como un todo. Para definir estos metadatos, agregue un método `with` a la clase recurso. Este método debe devolver un *array* de metadatos para incluir con la respuesta del recurso solo cuando el mismo es el recurso más externo que se está representando:
 
     <?php
     
@@ -605,9 +605,9 @@ Sometimes you may wish to only include certain meta data with a resource respons
     }
     
 
-#### Adding Meta Data When Constructing Resources
+#### Agregar metadatos al construir recursos
 
-You may also add top-level data when constructing resource instances in your route or controller. The `additional` method, which is available on all resources, accepts an array of data that should be added to the resource response:
+También se puede agregar datos de nivel superior al construir instancias de recursos en la ruta o controlador. El método `additional`, está disponible en todos los recursos, acepta un *array* de datos que se debe agregar a la respuesta del recurso:
 
     return (new UserCollection(User::all()->load('roles')))
                     ->additional(['meta' => [
@@ -617,9 +617,9 @@ You may also add top-level data when constructing resource instances in your rou
 
 <a name="resource-responses"></a>
 
-## Resource Responses
+## Respuestas de los Recursos
 
-As you have already read, resources may be returned directly from routes and controllers:
+Como ya ha leído, los recursos pueden ser devueltos directamente desde las rutas y controladores:
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -629,7 +629,7 @@ As you have already read, resources may be returned directly from routes and con
     });
     
 
-However, sometimes you may need to customize the outgoing HTTP response before it is sent to the client. There are two ways to accomplish this. First, you may chain the `response` method onto the resource. This method will return an `Illuminate\Http\Response` instance, allowing you full control of the response's headers:
+Sin embargo, a veces se puede necesitar personalizar la respuesta HTTP saliente antes de enviarla al cliente. Hay dos maneras de lograr esto. En primer lugar, se puede encadenar el método `response` al recurso. Este método devolverá una instancia de `Illuminate\Http\Response`, lo que permitirá un control total de los encabezados de la respuesta:
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -641,7 +641,7 @@ However, sometimes you may need to customize the outgoing HTTP response before i
     });
     
 
-Alternatively, you may define a `withResponse` method within the resource itself. This method will be called when the resource is returned as the outer-most resource in a response:
+Alternativamente, se puede definir un método `withResponse` dentro del mismo recurso. Se llamará a este método cuando el recurso se devuelva como el recurso externo en una respuesta:
 
     <?php
     
