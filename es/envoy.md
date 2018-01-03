@@ -51,18 +51,18 @@ Todas las tareas de Envoy deben definirse en un archivo llamado `Envoy.blade.php
     @endtask
     
 
-Como se puede observar, se define un *array* `@servers` al inicio del archivo, lo que le permite hacer referencia a estos servidores en la opción `on` de las declaraciones de tareas. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
+Como se puede observar, se define un *array* `@servers` al inicio del archivo, lo que le permite hacer referencia a estos servidores en la opción `on` de las declaraciones de tareas. Dentro de las declaraciones `@task`, se debe colocar el código Bash que se deberá ejecutar en el servidor cuando se ejecute la tarea.
 
-You can force a script to run locally by specifying the server's IP address as `127.0.0.1`:
+Puede forzar un *script* para ejecutarlo localmente especificando la dirección IP del servidor como `127.0.0.1`:
 
     @servers(['localhost' => '127.0.0.1'])
     
 
 <a name="setup"></a>
 
-### Setup
+### Configuración
 
-Sometimes, you may need to execute some PHP code before executing your Envoy tasks. You may use the ```@setup``` directive to declare variables and do other general PHP work before any of your other tasks are executed:
+A veces, puede que se tenga que ejecutar código PHP antes de ejecutar las tareas en Envoy. Se puede utilizar la directiva ```@setup``` para declarar variables y ejecutar PHP general antes de que se ejecuten cualquiera de sus otras tareas:
 
     @setup
         $now = new DateTime();
