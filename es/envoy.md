@@ -2,47 +2,47 @@
 
 - [Introducción](#introduction) 
     - [Instalación](#installation)
-- [Writing Tasks](#writing-tasks) 
+- [Definir tareas](#writing-tasks) 
     - [Configuración](#setup)
     - [Variables](#variables)
     - [Stories](#stories)
-    - [Multiple Servers](#multiple-servers)
-- [Running Tasks](#running-tasks) 
-    - [Confirming Task Execution](#confirming-task-execution)
-- [Notifications](#notifications) 
+    - [Varios servidores](#multiple-servers)
+- [Ejecutar tareas](#running-tasks) 
+    - [Confirmar la ejecución de la tarea](#confirming-task-execution)
+- [Notificaciones](#notifications) 
     - [Slack](#slack)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-[Laravel Envoy](https://github.com/laravel/envoy) provides a clean, minimal syntax for defining common tasks you run on your remote servers. Using Blade style syntax, you can easily setup tasks for deployment, Artisan commands, and more. Currently, Envoy only supports the Mac and Linux operating systems.
+[Laravel Envoy](https://github.com/laravel/envoy) proporciona una sintaxis minimalista para la definición de las tareas más comunes que se ejecutan en sus servidores remotos. Usando el estilo de sintaxis de Blade, puede configurar fácilmente tareas de despliegue (*deployment*), comandos de Artisan y mucho más. Actualmente, Envoy sólo es compatible con los sistemas operativos Mac y Linux.
 
 <a name="installation"></a>
 
-### Installation
+### Instalación
 
-First, install Envoy using the Composer `global require` command:
+En primer lugar, instalar Envoy usando el comando `global` de Composer:
 
     composer global require laravel/envoy
     
 
-Since global Composer libraries can sometimes cause package version conflicts, you may wish to consider using `cgr`, which is a drop-in replacement for the `composer global require` command. The `cgr` library's installation instructions can be [found on GitHub](https://github.com/consolidation-org/cgr).
+Puesto que las librerías globales de Composer pueden causar conflictos de versión de paquetes en algunas ocasiones, se puede considerar usar `cgr`, el cual sería un reemplazo de `composer global require`. Las instrucciones de instalación de la librería `cgr` las puede [encontrar en GitHub](https://github.com/consolidation-org/cgr).
 
-> {note} Make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `envoy` executable is found when running the `envoy` command in your terminal.
+> {note} Asegúrese de situar el directorio `~/.composer/vendor/bin` en su PATH, permitiendo que se encuentre el ejecutable de `envoy` al ejecutar el comando `envoy` en su terminal.
 
-#### Updating Envoy
+#### Actualizar Envoy
 
-You may also use Composer to keep your Envoy installation up to date. Issuing the `composer global update` command will update all of your globally installed Composer packages:
+También puede usar Composer para mantener su instalación de Envoy actualizada. Al ejecutar el comando `composer global update` se actualizarán todos sus paquetes Composer instalados globalmente:
 
     composer global update
     
 
 <a name="writing-tasks"></a>
 
-## Writing Tasks
+## Definir tareas
 
-All of your Envoy tasks should be defined in an `Envoy.blade.php` file in the root of your project. Here's an example to get you started:
+Todas las tareas de Envoy deben definirse en un archivo llamado `Envoy.blade.php` ubicado en la raíz del proyecto. He aquí un ejemplo para empezar:
 
     @servers(['web' => ['user@192.168.1.1']])
     
@@ -51,7 +51,7 @@ All of your Envoy tasks should be defined in an `Envoy.blade.php` file in the ro
     @endtask
     
 
-As you can see, an array of `@servers` is defined at the top of the file, allowing you to reference these servers in the `on` option of your task declarations. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
+Como se puede observar, se define un *array* `@servers` al inicio del archivo, lo que le permite hacer referencia a estos servidores en la opción `on` de las declaraciones de tareas. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
 
 You can force a script to run locally by specifying the server's IP address as `127.0.0.1`:
 

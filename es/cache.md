@@ -9,12 +9,12 @@
     - [Quitar elementos de Caché](#removing-items-from-the-cache)
     - [El helper Caché](#the-cache-helper)
 - [Etiquetas de Caché](#cache-tags) 
-    - [Storing Tagged Cache Items](#storing-tagged-cache-items)
-    - [Accessing Tagged Cache Items](#accessing-tagged-cache-items)
-    - [Removing Tagged Cache Items](#removing-tagged-cache-items)
-- [Adding Custom Cache Drivers](#adding-custom-cache-drivers) 
-    - [Writing The Driver](#writing-the-driver)
-    - [Registering The Driver](#registering-the-driver)
+    - [Almacenar elementos etiquetados en caché](#storing-tagged-cache-items)
+    - [Acceder a elementos etiquetados en caché](#accessing-tagged-cache-items)
+    - [Eliminar elementos etiquetados en caché](#removing-tagged-cache-items)
+- [Añadir *drivers* personalizados](#adding-custom-cache-drivers) 
+    - [Escribir el *driver*](#writing-the-driver)
+    - [Registrar el *driver*](#registering-the-driver)
 - [Eventos](#events)
 
 <a name="configuration"></a>
@@ -68,7 +68,7 @@ También se puede establecer la opción `host` a un *socket* UNIX. De ser así, 
 
 #### Redis
 
-Before using a Redis cache with Laravel, you will need to either install the `predis/predis` package (~1.0) via Composer or install the PhpRedis PHP extension via PECL.
+Antes de utilizar Reids con Laravel, es necesario instalar el paquete `predis/predis` (~1.0) a través de Composer o instalar la exensión de PHP PhpRedis vía PECL.
 
 Para más información sobre cómo configurar Redis, consultar su [documentación en Laravel](/docs/{{version}}/redis#configuration).
 
@@ -106,7 +106,7 @@ Sin embargo, también se puede utilizar la *facade* `Cache`, la cual se utilizar
     }
     
 
-#### Accessing Multiple Cache Stores
+#### Acceder a varios sistemas de caché
 
 Utilizando la *facade* `Cache`, se puede acceder a los diferentes sistemas de caché utilizando el método `store`. La clave pasada al método `store` corresponderá con una de las listadas en el *array* `stores` del archivo de configuración `cache`:
 
@@ -179,7 +179,7 @@ Si necesita recuperar un elemento de la caché y luego eliminarlo, puede utiliza
 
 <a name="storing-items-in-the-cache"></a>
 
-### Storing Items In The Cache
+### Almacenar elementos en caché
 
 Para almacenar elementos en la caché se puede utilizar el método `put` de la *facade* `Cache`. Cuando se coloca un elemento en la caché, es necesario especificar el número de minutos que el valor debe estar almacenado:
 
@@ -251,9 +251,9 @@ Si se proporciona un *array* de pares clave/valor y un tiempo de caducidad a la 
 
 <a name="storing-tagged-cache-items"></a>
 
-### Storing Tagged Cache Items
+### Almacenar elementos etiquetados en caché
 
-Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
+Las etiquetas de caché permiten etiquetar elementos relacionados en la caché y luego eliminar todos los valores almacenados que han sido asignados a una etiqueta determinada. Se puede acceder a una caché etiquetada pasando un *array* ordenado de nombres de etiquetas. Por ejemplo, para acceder a una caché etiquetada y hacer `put` (almacenar) de un valor en la caché:
 
     Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
     
@@ -262,9 +262,9 @@ Cache tags allow you to tag related items in the cache and then flush all cached
 
 <a name="accessing-tagged-cache-items"></a>
 
-### Accessing Tagged Cache Items
+### Acceder a elementos etiquetados en caché
 
-To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
+Para recuperar un elemento de caché etiquetado, pase la misma lista ordenada de etiquetas al método `tags` y llame al método `get` con la clave que desee recuperar:
 
     $john = Cache::tags(['people', 'artists'])->get('John');
     
@@ -273,27 +273,27 @@ To retrieve a tagged cache item, pass the same ordered list of tags to the `tags
 
 <a name="removing-tagged-cache-items"></a>
 
-### Removing Tagged Cache Items
+### Eliminar elementos etiquetados en caché
 
-You may flush all items that are assigned a tag or list of tags. For example, this statement would remove all caches tagged with either `people`, `authors`, or both. So, both `Anne` and `John` would be removed from the cache:
+Se pueden eliminar todos los elementos asignados a una etiqueta o lista de etiquetas. Por ejemplo, esta declaración eliminaría todas las cachés etiquetadas con `people`, `authors` o ambos. Por lo que tanto `Anne` como `John` se eliminarían de la caché:
 
     Cache::tags(['people', 'authors'])->flush();
     
 
-In contrast, this statement would remove only caches tagged with `authors`, so `Anne` would be removed, but not `John`:
+En contraste, esta declaración eliminaría sólo las cachés marcadas con `authors`, por lo que `Anne` se eliminaría, pero no `John`:
 
     Cache::tags('authors')->flush();
     
 
 <a name="adding-custom-cache-drivers"></a>
 
-## Adding Custom Cache Drivers
+## Añadir *drivers* personalizados
 
 <a name="writing-the-driver"></a>
 
-### Writing The Driver
+### Escribir el *driver*
 
-To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts). So, a MongoDB cache implementation would look something like this:
+Para crear un controlador de caché personalizado, es necesario implementar el [contrato](/docs/{{version}}/contracts) `Illuminate\Contracts\Cache\Store`. Por lo que una una implementación de caché con MongoDB tendría este aspecto:
 
     <?php
     
@@ -316,20 +316,20 @@ To create our custom cache driver, we first need to implement the `Illuminate\Co
     }
     
 
-We just need to implement each of these methods using a MongoDB connection. For an example of how to implement each of these methods, take a look at the `Illuminate\Cache\MemcachedStore` in the framework source code. Once our implementation is complete, we can finish our custom driver registration.
+Únicamente es necesario implementar cada uno de estos métodos utilizando una conexión MongoDB. Para ver un ejemplo de cómo implementar cada uno de estos métodos, revise `Illuminate\Cache\MemcachedStore` en el código fuente del framework. Una vez que la implementación esté completa, se puede registrar el *driver*personalizado</em>.
 
     Cache::extend('mongo', function ($app) {
         return Cache::repository(new MongoStore);
     });
     
 
-> {tip} If you're wondering where to put your custom cache driver code, you could create an `Extensions` namespace within your `app` directory. However, keep in mind that Laravel does not have a rigid application structure and you are free to organize your application according to your preferences.
+> {tip} Si se está preguntando dónde colocar el código de su *driver* personalizado, puede crear un *namespace* llamado `Extensions` dentro de su directorio `app`. Tenga en cuenta que Laravel no posee una estructura de aplicación rígida y que se es libre de organizar la aplicación como de acuerdo con sus preferencias.
 
 <a name="registering-the-driver"></a>
 
-### Registering The Driver
+### Registrar el *driver*
 
-To register the custom cache driver with Laravel, we will use the `extend` method on the `Cache` facade. The call to `Cache::extend` could be done in the `boot` method of the default `App\Providers\AppServiceProvider` that ships with fresh Laravel applications, or you may create your own service provider to house the extension - just don't forget to register the provider in the `config/app.php` provider array:
+Para registrar el *driver* de caché personalizado en Laravel puede utilizar el método `extend` en la *facade* `Cache`. La llamada a `Caché::extend` podría hacerse en el método `boot` de `App\Providers\AppServiceProvider` que se incluye con las nuevas aplicaciones de Laravel, o puede crear su propio *service provider* para alojar la extensión - no olvide registrar el *provider* en el *array* de *providers* del archivo`config/app.php`:
 
     <?php
     
@@ -365,15 +365,15 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
     }
     
 
-The first argument passed to the `extend` method is the name of the driver. This will correspond to your `driver` option in the `config/cache.php` configuration file. The second argument is a Closure that should return an `Illuminate\Cache\Repository` instance. The Closure will be passed an `$app` instance, which is an instance of the [service container](/docs/{{version}}/container).
+El primer argumento del método `extend` será el nombre del *driver*. Este además debe corresponder con la opción `driver` del archivo de archivo de configuración `config/cache.php`. El segundo argumento será un *Closure* que debe devolver una instancia de `Illuminate\Cache\Repository`. El *Closure* recibirá una instancia `$app`, que es una instancia del [service container](/docs/{{version}}/container).
 
-Once your extension is registered, simply update your `config/cache.php` configuration file's `driver` option to the name of your extension.
+Una vez que su extensión esté registrada, simplemente actualice la opción `driver` en el archivo de configuración `config/cache.php` con el nombre de su extensión.
 
 <a name="events"></a>
 
-## Events
+## Eventos
 
-To execute code on every cache operation, you may listen for the [events](/docs/{{version}}/events) fired by the cache. Typically, you should place these event listeners within your `EventServiceProvider`:
+Para ejecutar código en cada operación de caché, se pueden capturar los [eventos](/docs/{{version}}/events) lanzados por la caché. Normalmente, estos *listeners* se suelen ubicar en el `EventServiceProvider`:
 
     /**
      * The event listener mappings for the application.
