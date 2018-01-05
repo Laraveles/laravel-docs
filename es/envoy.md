@@ -161,7 +161,7 @@ By default, tasks will be executed on each server serially. In other words, a ta
 
 <a name="running-tasks"></a>
 
-## Running Tasks
+## Ejecutar tareas
 
 To run a task or story that is defined in your `Envoy.blade.php` file, execute Envoy's `run` command, passing the name of the task or story you would like to execute. Envoy will run the task and display the output from the servers as the task is running:
 
@@ -184,28 +184,28 @@ If you would like to be prompted for confirmation before running a given task on
 <a name="notifications"></a>
 <a name="hipchat-notifications"></a>
 
-## Notifications
+## Notificaciones
 
 <a name="slack"></a>
 
 ### Slack
 
-Envoy also supports sending notifications to [Slack](https://slack.com) after each task is executed. The `@slack` directive accepts a Slack hook URL and a channel name. You may retrieve your webhook URL by creating an "Incoming WebHooks" integration in your Slack control panel. You should pass the entire webhook URL into the `@slack` directive:
+Envoy también admite el envío de notificaciones a [Slack](https://slack.com) después de ejecutar cada tarea. La directiva `@slack` acepta un URL del *hook* de Slack y un nombre de canal. Puede obtener la URL del *webhook* mediante la creación de una integración "Incoming WebHooks" en su panel de control de Slack. Debe pasar la URL del *webhook* completo a la directiva `@slack`:
 
     @finished
         @slack('webhook-url', '#bots')
     @endfinished
     
 
-You may provide one of the following as the channel argument:
+Se puede proporcionar uno de los siguientes como el argumento de canal:
 
 <div class="content-list">
   <ul>
     <li>
-      To send the notification to a channel: <code>#channel</code>
+      Para enviar una notificación a un canal: <code>#canal</code>
     </li>
     <li>
-      To send the notification to a user: <code>@user</code>
+      Para enviar una notificación a un usuario: <code>@usuario</code>
     </li>
   </ul>
 </div>
