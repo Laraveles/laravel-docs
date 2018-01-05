@@ -1,39 +1,39 @@
 # Database: Query Builder
 
-- [Introduction](#introduction)
-- [Retrieving Results](#retrieving-results) 
-    - [Chunking Results](#chunking-results)
-    - [Aggregates](#aggregates)
+- [Introducción](#introduction)
+- [Obtener resultados](#retrieving-results) 
+    - [Fragmentar resultados](#chunking-results)
+    - [Funciones agregadas](#aggregates)
 - [Selects](#selects)
 - [Raw Expressions](#raw-expressions)
 - [Joins](#joins)
 - [Unions](#unions)
-- [Where Clauses](#where-clauses) 
-    - [Parameter Grouping](#parameter-grouping)
-    - [Where Exists Clauses](#where-exists-clauses)
-    - [JSON Where Clauses](#json-where-clauses)
-- [Ordering, Grouping, Limit, & Offset](#ordering-grouping-limit-and-offset)
-- [Conditional Clauses](#conditional-clauses)
+- [Cláusulas *where*](#where-clauses) 
+    - [Agrupar parámetros](#parameter-grouping)
+    - [Sentencias *where exists*](#where-exists-clauses)
+    - [Sentencias *JSON where*](#json-where-clauses)
+- [Ordenar, agrupar, limitar & offset](#ordering-grouping-limit-and-offset)
+- [Cláusulas condicionales](#conditional-clauses)
 - [Inserts](#inserts)
 - [Updates](#updates) 
-    - [Updating JSON Columns](#updating-json-columns)
-    - [Increment & Decrement](#increment-and-decrement)
+    - [Actualizar columnas JSON](#updating-json-columns)
+    - [Incrementar & decrementar](#increment-and-decrement)
 - [Deletes](#deletes)
-- [Pessimistic Locking](#pessimistic-locking)
+- [Bloqueos persistentes](#pessimistic-locking)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel's database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application and works on all supported database systems.
+El constructor de consultas o *query builder* de Laravel es una interfaz conveniente y fluida para ejecutar consultas de base de datos. Este puede usarse para realizar la mayoría de las operaciones de bases de datos de la aplicación y funciona para todos los sistemas de bases de datos soportados.
 
-The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.
+El generador de consultas de Laravel utiliza el enlace de parámetros de PDO para proteger la aplicación contra los ataques de inyección de SQL. No es necesario limpiar las cadenas que se pasan como enlaces.
 
 <a name="retrieving-results"></a>
 
-## Retrieving Results
+## Obtener resultados
 
-#### Retrieving All Rows From A Table
+#### Obtener todas las filas de una tabla
 
 You may use the `table` method on the `DB` facade to begin a query. The `table` method returns a fluent query builder instance for the given table, allowing you to chain more constraints onto the query and then finally get the results using the `get` method:
 
