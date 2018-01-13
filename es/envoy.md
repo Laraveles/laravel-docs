@@ -71,7 +71,7 @@ A veces, puede que se tenga que ejecutar código PHP antes de ejecutar las tarea
     @endsetup
     
 
-If you need to require other PHP files before your task is executed, you may use the `@include` directive at the top of your `Envoy.blade.php` file:
+Se se precisa de otros ficheros PHP antes de ejecutar la tarea, podrá utilizar la directiva `@include` al inicio de su fichero `Envoy.blade.php`:
 
     @include('vendor/autoload.php')
     
@@ -84,12 +84,12 @@ If you need to require other PHP files before your task is executed, you may use
 
 ### Variables
 
-If needed, you may pass option values into Envoy tasks using the command line:
+Si es necesario, puede pasar valores de opciones a las tareas de Envoy usando la línea de comandos:
 
     envoy run deploy --branch=master
     
 
-You may access the options in your tasks via Blade's "echo" syntax. Of course, you may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
+Podrá acceder a las opciones en sus tareas a través de la sintaxis "echo" de Blade. Desde luego, también podrá usar las declaraciones `if` y bucles de sus tareas. Por ejemplo, para verificar la presencia de una variable `$branch` antes de ejecutar el comando `git pull`:
 
     @servers(['web' => '192.168.1.1'])
     
@@ -108,7 +108,7 @@ You may access the options in your tasks via Blade's "echo" syntax. Of course, y
 
 ### Stories
 
-Stories group a set of tasks under a single, convenient name, allowing you to group small, focused tasks into large tasks. For instance, a `deploy` story may run the `git` and `composer` tasks by listing the task names within its definition:
+Las historias agrupan un conjunto de tareas con un nombre único y conveniente, lo que le permite agrupar tareas pequeñas enfocadas en grandes tareas. For instance, a `deploy` story may run the `git` and `composer` tasks by listing the task names within its definition:
 
     @servers(['web' => '192.168.1.1'])
     
