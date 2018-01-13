@@ -193,9 +193,9 @@ Una relación "uno-a-muchos" se usa para definir relaciones en las cuales un mod
     }
     
 
-Remember, Eloquent will automatically determine the proper foreign key column on the `Comment` model. By convention, Eloquent will take the "snake case" name of the owning model and suffix it with `_id`. So, for this example, Eloquent will assume the foreign key on the `Comment` model is `post_id`.
+Hay que recordar que Eloquent determinará automáticamente la columna de la clave externa adecuada en el modelo `Comment`. Por convenio, Eloquent unirá el nombre del propio modelo y el sufijo `_id` mediante la convención "snake_case". Así, para este ejemplo, Eloquent asumirá que la clave ajena del método `Comment` es `post_id`.
 
-Once the relationship has been defined, we can access the collection of comments by accessing the `comments` property. Remember, since Eloquent provides "dynamic properties", we can access relationship methods as if they were defined as properties on the model:
+Una vez que la relación ha sido definida, se puede acceder a la colección de comentarios accediendo a la propiedad `comments`. Recuerde, puesto que Eloquent provee de "propiedades dinámicas", se puede acceder a los métodos de la relación como si fueran propiedades del modelo:
 
     $comments = App\Post::find(1)->comments;
     
@@ -204,12 +204,12 @@ Once the relationship has been defined, we can access the collection of comments
     }
     
 
-Of course, since all relationships also serve as query builders, you can add further constraints to which comments are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
+Por supuesto, puesto que todas las relaciones sirven como *query builders*, se pueden agregar agregar *constraints* adicionales a los comentarios que fueron obtenidos con la llamada al método `comments` y continuar la cadena de condiciones en la consulta:
 
     $comments = App\Post::find(1)->comments()->where('title', 'foo')->first();
     
 
-Like the `hasOne` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method:
+Como en el método `hasOne`, se puede reemplazar las claves locales y foráneas pasando argumentos adicionales al método `hasMany`:
 
     return $this->hasMany('App\Comment', 'foreign_key');
     
@@ -218,9 +218,9 @@ Like the `hasOne` method, you may also override the foreign and local keys by pa
 
 <a name="one-to-many-inverse"></a>
 
-### One To Many (Inverse)
+### Uno a muchos (inverso)
 
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent post. To define the inverse of a `hasMany` relationship, define a relationship function on the child model which calls the `belongsTo` method:
+Ahora que podemos acceder a todos los comentarios del *post*, vamos a definir la relación para permitir que un comentario acceda a su publicación padre. Para definir el inverso de una relación `hasMany`, definir una función de relación en el modelo hijo que llame al método `belongsTo`:
 
     <?php
     
@@ -240,14 +240,14 @@ Now that we can access all of a post's comments, let's define a relationship to 
     }
     
 
-Once the relationship has been defined, we can retrieve the `Post` model for a `Comment` by accessing the `post` "dynamic property":
+Una vez que la relación se ha definido, se puede recuperar el modelo `Post` desde `Comment` accediendo a la "propiedad dinámica" `post`:
 
     $comment = App\Comment::find(1);
     
     echo $comment->post->title;
     
 
-In the example above, Eloquent will try to match the `post_id` from the `Comment` model to an `id` on the `Post` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `Comment` model is not `post_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+En el ejemplo anterior, Eloquent intentará emparejar el campo `user_id` del modelo `Phone` con un `id` del modelo `User`. Eloquent nombra la clave ajena por defecto con el nombre del método de la relación y el sufijo `_id`. Sin embargo, si la clave ajena del modelo `Phone` no es `user_id`, se puede pasar una diferente como segundo parámetro el método `belongsTo`:
 
     /**
      * Get the post that owns the comment.
@@ -258,7 +258,7 @@ In the example above, Eloquent will try to match the `post_id` from the `Comment
     }
     
 
-If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
+Si el modelo padre no utiliza `id` como clave primaria, o se desea hacer un *join* del modelo hijo a una columna diferente, se puede pasar un tercer parámetro al método `belongsTo` especificando la clave personalizada del modelo padre:
 
     /**
      * Get the post that owns the comment.
@@ -271,11 +271,11 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 
 <a name="many-to-many"></a>
 
-### Many To Many
+### Muchos a muchos – *Many to many*
 
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
+Las relaciones muchos-a-muchos son un poco más complicadas que las `hasOne` o las `hasMany`. Un ejemplo de tal relación es un usuario que contiene varios roles, donde los roles son compartidos por otros usuarios. Por ejemplo, varios usuarios pueden tener el rol de "Admin". Para definir esta relación, se requieren tres tablas de la base de datos: `users`, `roles`, y `role_user`. La tabla `role_user` es derivada del orden alfabético de los nombres de los modelos relacionados y contiene las columnas `user_id` y `role_id`.
 
-Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. For example, let's define the `roles` method on our `User` model:
+Las relaciones muchos-a-muchos se definen con un método que retorna el resultado del método `belongsToMany`. Por ejemplo, definir el método `roles` en el modelo `User`:
 
     <?php
     
@@ -295,7 +295,7 @@ Many-to-many relationships are defined by writing a method that returns the resu
     }
     
 
-Once the relationship is defined, you may access the user's roles using the `roles` dynamic property:
+Una vez definida la relación, se puede acceder a los roles del usuario usando la propiedad dinámica `roles`:
 
     $user = App\User::find(1);
     
@@ -304,7 +304,7 @@ Once the relationship is defined, you may access the user's roles using the `rol
     }
     
 
-Of course, like all other relationship types, you may call the `roles` method to continue chaining query constraints onto the relationship:
+Por supuesto, como en las otras relaciones, se puede llamar al método `roles` para continuar encadenando restricciones a la consulta sobre la relación:
 
     $roles = App\User::find(1)->roles()->orderBy('name')->get();
     
