@@ -1,26 +1,26 @@
-# Eloquent: Serialization
+# Eloquent: Serialización
 
-- [Introduction](#introduction)
-- [Serializing Models & Collections](#serializing-models-and-collections) 
-    - [Serializing To Arrays](#serializing-to-arrays)
-    - [Serializing To JSON](#serializing-to-json)
-- [Hiding Attributes From JSON](#hiding-attributes-from-json)
-- [Appending Values To JSON](#appending-values-to-json)
-- [Date Serialization](#date-serialization)
+- [Introducción](#introduction)
+- [*Serializar* modelos & colecciones](#serializing-models-and-collections) 
+    - [*Serializar* a *arrays*](#serializing-to-arrays)
+    - [*Serializar* a JSON](#serializing-to-json)
+- [Ocultar atributos del JSON](#hiding-attributes-from-json)
+- [Añadir valores al JSON](#appending-values-to-json)
+- [*Serializar* fechas](#date-serialization)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-When building JSON APIs, you will often need to convert your models and relationships to arrays or JSON. Eloquent includes convenient methods for making these conversions, as well as controlling which attributes are included in your serializations.
+Cuando se construyen APIs JSON, es común convertir modelos y sus relaciones en *arrays* o JSON. Eloquent incluye métodos para realizar estas conversiones, así como controlar qué atributos se incluyen en las serializaciones.
 
 <a name="serializing-models-and-collections"></a>
 
-## Serializing Models & Collections
+## *Serializar* modelos & colecciones
 
 <a name="serializing-to-arrays"></a>
 
-### Serializing To Arrays
+### *Serializar* a *arrays*
 
 To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-relationships) to an array, you should use the `toArray` method. This method is recursive, so all attributes and all relations (including the relations of relations) will be converted to arrays:
 
