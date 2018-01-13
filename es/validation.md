@@ -19,7 +19,7 @@
     - [Mensajes de error personalizados](#custom-error-messages)
 - [Reglas de validación disponibles](#available-validation-rules)
 - [Agregar reglas condicionales](#conditionally-adding-rules)
-- [Validación de matrices](#validating-arrays)
+- [Validación de Arrays](#validating-arrays)
 - [Reglas de validación personalizadas](#custom-validation-rules) 
     - [Utilizar objetos de reglas](#using-rule-objects)
     - [Utilizar extensiones](#using-extensions)

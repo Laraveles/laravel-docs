@@ -5,10 +5,10 @@
 - [Definir tareas](#writing-tasks) 
     - [Configuración](#setup)
     - [Variables](#variables)
-    - [Stories](#stories)
+    - [Historias – *Stories*](#stories)
     - [Varios servidores](#multiple-servers)
 - [Ejecutar tareas](#running-tasks) 
-    - [Confirmar la ejecución de la tarea](#confirming-task-execution)
+    - [Confirmar la ejecución de tareas](#confirming-task-execution)
 - [Notificaciones](#notifications) 
     - [Slack](#slack)
 
@@ -71,7 +71,7 @@ A veces, puede que se tenga que ejecutar código PHP antes de ejecutar las tarea
     @endsetup
     
 
-If you need to require other PHP files before your task is executed, you may use the `@include` directive at the top of your `Envoy.blade.php` file:
+Se se precisa de otros ficheros PHP antes de ejecutar la tarea, podrá utilizar la directiva `@include` al inicio de su fichero `Envoy.blade.php`:
 
     @include('vendor/autoload.php')
     
@@ -84,12 +84,12 @@ If you need to require other PHP files before your task is executed, you may use
 
 ### Variables
 
-If needed, you may pass option values into Envoy tasks using the command line:
+Si es necesario, puede pasar valores de opciones a las tareas de Envoy usando la línea de comandos:
 
     envoy run deploy --branch=master
     
 
-You may access the options in your tasks via Blade's "echo" syntax. Of course, you may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
+Podrá acceder a las opciones en sus tareas a través de la sintaxis "echo" de Blade. Desde luego, también podrá usar las declaraciones `if` y bucles de sus tareas. Por ejemplo, para verificar la presencia de una variable `$branch` antes de ejecutar el comando `git pull`:
 
     @servers(['web' => '192.168.1.1'])
     
@@ -106,9 +106,9 @@ You may access the options in your tasks via Blade's "echo" syntax. Of course, y
 
 <a name="stories"></a>
 
-### Stories
+### Historias – *Stories*
 
-Stories group a set of tasks under a single, convenient name, allowing you to group small, focused tasks into large tasks. For instance, a `deploy` story may run the `git` and `composer` tasks by listing the task names within its definition:
+Las historias agrupan un conjunto de tareas con un nombre único y conveniente, lo que le permite agrupar tareas pequeñas enfocadas en grandes tareas. Por ejemplo, una *story* `deploy` puede ejecutar las tareas `git` y `composer` listando los nombres de las mismas en su definición:
 
     @servers(['web' => '192.168.1.1'])
     
@@ -126,16 +126,16 @@ Stories group a set of tasks under a single, convenient name, allowing you to gr
     @endtask
     
 
-Once the story has been written, you may run it just like a typical task:
+Una vez que la historia ha sido escrita, puede ejecutarse como una tarea normal:
 
     envoy run deploy
     
 
 <a name="multiple-servers"></a>
 
-### Multiple Servers
+### Varios servidores
 
-Envoy allows you to easily run a task across multiple servers. First, add additional servers to your `@servers` declaration. Each server should be assigned a unique name. Once you have defined your additional servers, list each of the servers in the task's `on` array:
+Envoy permite ejecutar tareas en varios servidores fácilmente. Para empezar, añada los servidores adicionales a la declaración `@servers`. Cada servidor debe tener un nombre único. Una vez que haya definido sus servidores adicionales, liste cada uno de los servidores en el *array* de tareas `on`:
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
     
@@ -146,9 +146,9 @@ Envoy allows you to easily run a task across multiple servers. First, add additi
     @endtask
     
 
-#### Parallel Execution
+#### Ejecución paralela
 
-By default, tasks will be executed on each server serially. In other words, a task will finish running on the first server before proceeding to execute on the second server. If you would like to run a task across multiple servers in parallel, add the `parallel` option to your task declaration:
+Por defecto, las tareas se ejecutarán sobre cada servidor en serie. En otras palabras, un tarea terminará de correr en el primer servidor antes de proceder a ejecutarla en el segundo. Si prefiere ejecutar la tarea en varios servidores en paralelo, agregue `parallel` a la declaración:
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
     
@@ -163,16 +163,16 @@ By default, tasks will be executed on each server serially. In other words, a ta
 
 ## Ejecutar tareas
 
-To run a task or story that is defined in your `Envoy.blade.php` file, execute Envoy's `run` command, passing the name of the task or story you would like to execute. Envoy will run the task and display the output from the servers as the task is running:
+Para ejecutar una tarea o historia definida en el fichero `Envoy.blade.php`, ejecute el comando de Envoy `run`, pasando el nombre de la tarea o historia a ejecutar. Envoy ejecutará la tarea y mostrará la salida de los servidores donde se está corriendo:
 
     envoy run task
     
 
 <a name="confirming-task-execution"></a>
 
-### Confirming Task Execution
+### Confirmar la ejecución de tareas
 
-If you would like to be prompted for confirmation before running a given task on your servers, you should add the `confirm` directive to your task declaration. This option is particularly useful for destructive operations:
+Si desea que se le solicite confirmación antes de correr una tarea determinada en sus servidores, debe agregar la directiva `confirm` a su declaración de tarea. Esta opción es particularmente útil para operaciones destructivas:
 
     @task('deploy', ['on' => 'web', 'confirm' => true])
         cd site
