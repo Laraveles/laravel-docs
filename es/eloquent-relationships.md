@@ -496,11 +496,11 @@ Typical Eloquent foreign key conventions will be used when performing the relati
 
 <a name="polymorphic-relations"></a>
 
-### Polymorphic Relations
+### Relaciones polimórficas
 
-#### Table Structure
+#### Estructura de tablas
 
-Polymorphic relations allow a model to belong to more than one other model on a single association. For example, imagine users of your application can "comment" both posts and videos. Using polymorphic relationships, you can use a single `comments` table for both of these scenarios. First, let's examine the table structure required to build this relationship:
+Las relaciones polimorfas permiten a un modelo pertenecer a más de un modelo en una sola asociación. Por ejemplo, imaginar usuarios que pueden "comentar" tanto *posts* como vídeos. Utilizando relaciones polimórficas, se puede utilizar una única tabla `comments` para ambos escenarios. Primero, examinemos la estructura de la tabla requerida para construir esta relación:
 
     posts
         id - integer
@@ -519,11 +519,11 @@ Polymorphic relations allow a model to belong to more than one other model on a 
         commentable_type - string
     
 
-Two important columns to note are the `commentable_id` and `commentable_type` columns on the `comments` table. The `commentable_id` column will contain the ID value of the post or video, while the `commentable_type` column will contain the class name of the owning model. The `commentable_type` column is how the ORM determines which "type" of owning model to return when accessing the `commentable` relation.
+Las dos columnas a destacar aquí son `commentable_id` y `commentable_type` de la tabla `comments`. La columna `commentable_id` contiene el ID del *post* o *video*, mientras que la columna `commentable_type` contiene el nombre de la clase del modelo propietario. La columna `commentable_type` es como el ORM determina el "tipo" de modelo propietario a retornar cuando se accede a la relación `commentable`.
 
-#### Model Structure
+#### Estructura del modelo
 
-Next, let's examine the model definitions needed to build this relationship:
+Examinemos que definiciones en el modelo son necesarias para construir esta relación:
 
     <?php
     
@@ -565,29 +565,29 @@ Next, let's examine the model definitions needed to build this relationship:
     }
     
 
-#### Retrieving Polymorphic Relations
+#### Obtener relaciones polimórficas
 
-Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the comments for a post, we can simply use the `comments` dynamic property:
+Una vez definidas la tabla y los modelos de la base de datos, es posible acceder a las relaciones a través de sus modelos. Por ejemplo, para acceder a los comentarios de un *post*, se puede utilizar la propiedad dinámica `comments</em>:</p>
 
-    $post = App\Post::find(1);
-    
-    foreach ($post->comments as $comment) {
-        //
-    }
-    
+<pre><code>$post = App\Post::find(1);
 
-You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphTo`. In our case, that is the `commentable` method on the `Comment` model. So, we will access that method as a dynamic property:
+foreach ($post->comments as $comment) {
+    //
+}
+`</pre> 
+
+Se puede obtener el propietario de una relación polimórfica desde el modelo polimórfico accediendo al nombre del método que ejecuta la llamada a `morphTo`. En este caso, es el método `commentable` en el modelo `Comment`. Ahora se puede acceder a ese método como propiedad dinámica:
 
     $comment = App\Comment::find(1);
     
     $commentable = $comment->commentable;
     
 
-The `commentable` relation on the `Comment` model will return either a `Post` or `Video` instance, depending on which type of model owns the comment.
+La relación `commentable` del modelo `Comment` retornará una instancia de `Post` o `Video`, dependiendo del tipo de modelo al que pertenezca.
 
-#### Custom Polymorphic Types
+#### Tipos polimórficos personalizados
 
-By default, Laravel will use the fully qualified class name to store the type of the related model. For instance, given the example above where a `Comment` may belong to a `Post` or a `Video`, the default `commentable_type` would be either `App\Post` or `App\Video`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a relationship "morph map" to instruct Eloquent to use a custom name for each model instead of the class name:
+Por defecto, Laravel utilizará el nombre completo de la clase para almacenar el tipo del modelo relacionado. Por ejemplo, dado el ejemplo anterior donde `Comment` puede pertenecer a un `Post` o `Video`, el valor por defecto de `commentable_type` será `App\Post` o `App\Video` respectivamente. Sin embargo, es posible desacoplar la base de datos de la estructura interna de la aplicación. En este caso, se puede definir un "mapa de morfismo" (*morph map*) para instruir a Eloquent en el uso de un nombre personalizado para cada modelo en lugar del nombre de la clase:
 
     use Illuminate\Database\Eloquent\Relations\Relation;
     
@@ -597,11 +597,11 @@ By default, Laravel will use the fully qualified class name to store the type of
     ]);
     
 
-You may register the `morphMap` in the `boot` function of your `AppServiceProvider` or create a separate service provider if you wish.
+Se puede registrar el `morphMap` en la función `boot` del `AppServiceProvider` o en un *service provider* separado si se desea.
 
 <a name="many-to-many-polymorphic-relations"></a>
 
-### Many To Many Polymorphic Relations
+### Relaciones polimórficas muchos a muchos
 
 #### Table Structure
 
