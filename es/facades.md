@@ -1,8 +1,8 @@
 # Facades
 
-- [Introduction](#introduction)
-- [When To Use Facades](#when-to-use-facades) 
-    - [Facades Vs. Dependency Injection](#facades-vs-dependency-injection)
+- [Introducción](#introduction)
+- [Cuando utilizar *facades* ](#when-to-use-facades) 
+    - [*Facades* vs inyección de dependencias](#facades-vs-dependency-injection)
     - [Facades Vs. Helper Functions](#facades-vs-helper-functions)
 - [How Facades Work](#how-facades-work)
 - [Real-Time Facades](#real-time-facades)
