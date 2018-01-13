@@ -26,9 +26,9 @@
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Database tables are often related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Eloquent makes managing and working with these relationships easy, and supports several different types of relationships:
+Las tablas de las bases de datos se relacionan a menudo unas con otras. Por ejemplo, un artículo de un blog puede tener muchos comentarios, o un pedido podría estar relacionado con el usuario que lo solicitó. Eloquent facilita la gestión y el trabajo con estas relaciones fácilmente soportando varios tipos de relaciones diferentes:
 
 - [One To One](#one-to-one)
 - [One To Many](#one-to-many)
@@ -41,18 +41,18 @@ Database tables are often related to one another. For example, a blog post may h
 
 ## Defining Relationships
 
-Eloquent relationships are defined as methods on your Eloquent model classes. Since, like Eloquent models themselves, relationships also serve as powerful [query builders](/docs/{{version}}/queries), defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional constraints on this `posts` relationship:
+Las relaciones entre modelos Eloquent se definen como métodos en las propias clases. Dado que, como los propios modelos Eloquent, las relaciones también sirven como poderosos [query builders](/docs/{{version}}/queries), la definición de relaciones como métodos proporciona potentes funciones de encadenamiento y consulta de métodos. Por ejemplo, se pueden encadenar restricciones adicionales en esta relación `posts`:
 
     $user->posts()->where('active', 1)->get();
     
 
-But, before diving too deep into using relationships, let's learn how to define each type.
+Pero, antes de sumergirnos demasiado en el uso de las relaciones, aprendamos a definir cada tipo.
 
 <a name="one-to-one"></a>
 
-### One To One
+### Uno a uno – *One to one*
 
-A one-to-one relationship is a very basic relation. For example, a `User` model might be associated with one `Phone`. To define this relationship, we place a `phone` method on the `User` model. The `phone` method should call the `hasOne` method and return its result:
+La relación uno-a-uno es una relación muy básica. Por ejemplo, un modelo `User` podría estar asociado con uno `Phone`. Para definir esta relación, hay que poner un método `phone` en el modelo `User`. El método `phone` debería llamar al método `hasOne` y retornar su resultado:
 
     <?php
     
@@ -72,24 +72,24 @@ A one-to-one relationship is a very basic relation. For example, a `User` model 
     }
     
 
-The first argument passed to the `hasOne` method is the name of the related model. Once the relationship is defined, we may retrieve the related record using Eloquent's dynamic properties. Dynamic properties allow you to access relationship methods as if they were properties defined on the model:
+El primer argumento pasado al método `hasOne` es el nombre del modelo relacionado. Una vez que la relación está definida, se deben recuperar los registros relacionados usando las propiedades dinámicas de Eloquent. Las propiedades dinámicas le permiten acceder a los métodos de la relación como si fueran propiedades definidas en el modelo:
 
     $phone = User::find(1)->phone;
     
 
-Eloquent determines the foreign key of the relationship based on the model name. In this case, the `Phone` model is automatically assumed to have a `user_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
+Eloquent determina la clave foránea de la relación basada en el nombre del modelo. En este caso, se asume que el modelo `Phone` tiene un clave foránea `user_id`. Si se desea sobrescribir esta convención, hay que pasar un segundo parámetro al método `hasOne`:
 
     return $this->hasOne('App\Phone', 'foreign_key');
     
 
-Additionally, Eloquent assumes that the foreign key should have a value matching the `id` (or the custom `$primaryKey`) column of the parent. In other words, Eloquent will look for the value of the user's `id` column in the `user_id` column of the `Phone` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
+Además, Eloquent asume que la llave foránea debe tener un valor que coincida con la columna `id` (o la `$primaryKey` personalizada) columna del padre. En otras palabras, Eloquent buscará el valor de la columna `id` de los usuarios en la columna `user_id` de los registros `Phone`. Si desea que la relación utilice un valor distinto de `id`, puede pasar un tercer parámetro al método `hasOne` especificando la clave personalizada:
 
     return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
     
 
-#### Defining The Inverse Of The Relationship
+#### Definir la inversa de la relación
 
-So, we can access the `Phone` model from our `User`. Now, let's define a relationship on the `Phone` model that will let us access the `User` that owns the phone. We can define the inverse of a `hasOne` relationship using the `belongsTo` method:
+Por lo tanto, se puede acceder al modelo `Phone` desde `User`. Ahora se definirá una relación en el modelo `Phone` que permitirá acceder al `User` que posee el teléfono. Se puede definir la inversa de la relación `hasOne` utilizando el método `belongsTo`:
 
     <?php
     
@@ -133,9 +133,9 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 
 <a name="default-models"></a>
 
-#### Default Models
+#### Modelos por defecto
 
-The `belongsTo` relationship allows you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
+La relación `belongsTo` permite definir un modelo por defecto para devolver si la relación es `null`. Este patrón se conoce normalmente como [patrón del objeto nulo – *Null Object Pattern*](https://en.wikipedia.org/wiki/Null_Object_pattern) y puede ayudar a eliminar comprobaciones condicionales en el código. El el siguiente ejemplo, la relación `user` devolverá un modelo `App\User` si no hay un `user` asociado al *post*:
 
     /**
      * Get the author of the post.
@@ -171,9 +171,9 @@ To populate the default model with attributes, you may pass an array or Closure 
 
 <a name="one-to-many"></a>
 
-### One To Many
+### Uno a muchos – *One to many*
 
-A "one-to-many" relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Eloquent relationships, one-to-many relationships are defined by placing a function on your Eloquent model:
+Una relación "uno-a-muchos" se usa para definir relaciones en las cuales un modelo único posee cualquier cantidad de otros modelos. Por ejemplo, un blog puede tener un número infinito de comentarios. Como en otras relaciones de Eloquent, las relaciones uno-a-muchos se definen colocando una función en el modelo Eloquent:
 
     <?php
     
