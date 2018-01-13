@@ -1,42 +1,42 @@
-# File Storage
+# Almacenamiento de archivos – *File storage*
 
-- [Introduction](#introduction)
-- [Configuration](#configuration) 
-    - [The Public Disk](#the-public-disk)
-    - [The Local Driver](#the-local-driver)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Obtaining Disk Instances](#obtaining-disk-instances)
-- [Retrieving Files](#retrieving-files) 
-    - [File URLs](#file-urls)
-    - [File Metadata](#file-metadata)
-- [Storing Files](#storing-files) 
-    - [File Uploads](#file-uploads)
-    - [File Visibility](#file-visibility)
-- [Deleting Files](#deleting-files)
-- [Directories](#directories)
-- [Custom Filesystems](#custom-filesystems)
+- [Introducción](#introduction)
+- [Configuración](#configuration) 
+    - [El disco *public*](#the-public-disk)
+    - [El *driver* local](#the-local-driver)
+    - [Prerrequisitos del *driver*](#driver-prerequisites)
+- [Obtener Instancias de discos](#obtaining-disk-instances)
+- [Obtener archivos](#retrieving-files) 
+    - [URLs de archivos](#file-urls)
+    - [Metadatos de archivos](#file-metadata)
+- [Almacenar archivos](#storing-files) 
+    - [Subida de archivos](#file-uploads)
+    - [Visibilidad de archivos](#file-visibility)
+- [Eliminar archivos](#deleting-files)
+- [Directorios](#directories)
+- [*Filesystems* personalizados](#custom-filesystems)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel provides a powerful filesystem abstraction thanks to the wonderful [Flysystem](https://github.com/thephpleague/flysystem) PHP package by Frank de Jonge. The Laravel Flysystem integration provides simple to use drivers for working with local filesystems, Amazon S3, and Rackspace Cloud Storage. Even better, it's amazingly simple to switch between these storage options as the API remains the same for each system.
+Laravel provee una potente abstracción para *filesystem* (manejo de archivos) gracias al paquete de PHP de Frank de Jonge [Flysystem](https://github.com/thephpleague/flysystem). La integración de Flysystem de Laravel provee *drivers* sencillos para trabajar con sistemas de archivos locales, Amazon S3, y Rackspace Cloud. Incluso mejor, es increíblemente sencillo alternar entre estas opciones de almacenamiento, pues el API se mantiene constante para cada sistema.
 
 <a name="configuration"></a>
 
-## Configuration
+## Configuración
 
-The filesystem configuration file is located at `config/filesystems.php`. Within this file you may configure all of your "disks". Each disk represents a particular storage driver and storage location. Example configurations for each supported driver are included in the configuration file. So, simply modify the configuration to reflect your storage preferences and credentials.
+La configuración de *filesystem* se encuentra en el fichero `config/filesystems.php`. En este archivo se pueden configurar todos los "discos". Cada disco representa un *driver* de almacenamiento y una ubicación en particular. En el archivo de configuración se incluyen varios ejemplos para cada *driver* soportado. Así pues, simplemente hay que modificar la configuración para reflejar las preferencias de almacenamiento y credenciales.
 
-Of course, you may configure as many disks as you like, and may even have multiple disks that use the same driver.
+Por supuesto, se pueden configurar tantos discos como sea necesario, e incluso varios discos para un mismo *driver*.
 
 <a name="the-public-disk"></a>
 
-### The Public Disk
+### El disco *public*
 
-The `public` disk is intended for files that are going to be publicly accessible. By default, the `public` disk uses the `local` driver and stores these files in `storage/app/public`. To make them accessible from the web, you should create a symbolic link from `public/storage` to `storage/app/public`. This convention will keep your publicly accessible files in one directory that can be easily shared across deployments when using zero down-time deployment systems like [Envoyer](https://envoyer.io).
+El disco `public` está previsto para archivos que van a ser de acceso público. Por defecto, el uso del disco `public` usa el *driver* `local` y almacena estos archivos en `storage/app/public`. Para acceder desde la web, debe crear un enlace simbólico desde `public/storage` a `Storage/app/public`. Esta convención mantendrá sus archivos de acceso público en un directorio que se puede compartir fácilmente en las implementaciones cuando se utilizan sistemas de implementación sin tiempo de inactividad como [Envoyer](https://envoyer.io).
 
-To create the symbolic link, you may use the `storage:link` Artisan command:
+Para crear el link simbólico, puede usar el comando Artisan `storage:link`:
 
     php artisan storage:link
     
@@ -48,31 +48,31 @@ Por supuesto, una vez que se ha almacenado un archivo y se ha creado el link sim
 
 <a name="the-local-driver"></a>
 
-### The Local Driver
+### El *driver* local
 
-When using the `local` driver, all file operations are relative to the `root` directory defined in your configuration file. By default, this value is set to the `storage/app` directory. Therefore, the following method would store a file in `storage/app/file.txt`:
+Cuando se utiliza el *driver* `local`, hay que tener en cuenta que todas las operaciones son relativas al directorio `root` definido en el archivo de configuración. Por defecto, este valor se establece en el directorio `storage/app`. Por lo tanto, el siguiente comando almacenará un archivo en `storage/app/file.txt`:
 
     Storage::disk('local')->put('file.txt', 'Contents');
     
 
 <a name="driver-prerequisites"></a>
 
-### Driver Prerequisites
+### Pre requisitos del *driver*
 
-#### Composer Packages
+#### Paquetes composer
 
-Before using the S3 or Rackspace drivers, you will need to install the appropriate package via Composer:
+Antes de utilizar los *drivers* S3 o Rackspace, es necesario instalar el paquete apropiado vía Composer:
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
 
-#### S3 Driver Configuration
+#### Configuración del *driver* S3
 
-The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials. For convenience, these environment variables match the naming convention used by the AWS CLI.
+La información de configuración del *driver* S3 se encuentra localizada en el archivo de configuración `config/database.php`. Este archivo contiene un ejemplo de *array* de configuración para el *driver* S3. Podrá modificar este *array* con su propia configuración y credenciales de S3. Por conveniencia, estas variables de entorno coinciden con la convención de nomenclatura utilizada por AWS CLI.
 
-#### FTP Driver Configuration
+#### Configuración FTP
 
-Laravel's Flysystem integrations works great with FTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a FTP filesystem, you may use the example configuration below:
+Las integraciones de Laravel en Flysystem funcionan muy bien con FTP; sin embargo, no se incluye ninguna configuración de ejemplo en el archivo de configuración `filesystems.php`. Si necesita configurar el *filesystem* FTP, puede usar el siguiente ejemplo de configuración:
 
     'ftp' => [
         'driver'   => 'ftp',
@@ -89,20 +89,20 @@ Laravel's Flysystem integrations works great with FTP; however, a sample configu
     ],
     
 
-#### Rackspace Driver Configuration
+#### Configuración del *driver* Rackspace
 
-Laravel's Flysystem integrations works great with Rackspace; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a Rackspace filesystem, you may use the example configuration below:
+Las integraciones Flysystem de Laravel funcionan muy bien con Rackspace; sin embargo, no se incluye una configuración de ejemplo en el archivo de configuración `filesystems.php</ 0> del framework. Si necesita configurar el <em>filesystem</em> Rackspace, puede usar el siguiente ejemplo de configuración:</p>
 
-    'rackspace' => [
-        'driver'    => 'rackspace',
-        'username'  => 'your-username',
-        'key'       => 'your-key',
-        'container' => 'your-container',
-        'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
-        'region'    => 'IAD',
-        'url_type'  => 'publicURL',
-    ],
-    
+<pre><code>'rackspace' => [
+    'driver'    => 'rackspace',
+    'username'  => 'your-username',
+    'key'       => 'your-key',
+    'container' => 'your-container',
+    'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
+    'region'    => 'IAD',
+    'url_type'  => 'publicURL',
+],
+`</pre> 
 
 <a name="obtaining-disk-instances"></a>
 
