@@ -41,7 +41,7 @@ To create the symbolic link, you may use the `storage:link` Artisan command:
     php artisan storage:link
     
 
-Of course, once a file has been stored and the symbolic link has been created, you can create a URL to the files using the `asset` helper:
+Por supuesto, una vez que se ha almacenado un archivo y se ha creado el link simbólico, puede crear una URL para los archivos utilizando el *helper* `asset`:
 
     echo asset('storage/file.txt');
     
