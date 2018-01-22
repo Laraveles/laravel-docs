@@ -289,9 +289,9 @@ Por supuesto, puede usar el método `putFileAs` de la *facade* `Storage`, el cua
     );
     
 
-#### Specifying A Disk
+#### Especificar un disco
 
-By default, this method will use your default disk. If you would like to specify another disk, pass the disk name as the second argument to the `store` method:
+Por defecto, este método usará el disco predeterminado. Si quiere especificar otro disco, debe pasar el nombre del disco como segundo argumento en el método `store`:
 
     $path = $request->file('avatar')->store(
         'avatars/'.$request->user()->id, 's3'
@@ -300,18 +300,18 @@ By default, this method will use your default disk. If you would like to specify
 
 <a name="file-visibility"></a>
 
-### File Visibility
+### Visibilidad de archivos
 
-In Laravel's Flysystem integration, "visibility" is an abstraction of file permissions across multiple platforms. Files may either be declared `public` or `private`. When a file is declared `public`, you are indicating that the file should generally be accessible to others. For example, when using the S3 driver, you may retrieve URLs for `public` files.
+En la integración de Flysystem en Laravel, "visibilidad" es una abstracción de los permisos de archivo para múltiples plataformas. Los archivos pueden ser declarados `public` o `private`. Cuando un archivo es declarado `public`, se está indicando que el archivo debería ser accesible para otros. Por ejemplo, cuando se usa el *driver* de S3, puede obtener las URLs de los archivos `public`.
 
-You can set the visibility when setting the file via the `put` method:
+Puede seleccionar la visibilidad cuando configura el archivo a través del método `put`:
 
     use Illuminate\Support\Facades\Storage;
     
     Storage::put('file.jpg', $contents, 'public');
     
 
-If the file has already been stored, its visibility can be retrieved and set via the `getVisibility` and `setVisibility` methods:
+Si el archivo ya ha sido almacenado, su visibilidad puede obtenerse o seleccionarse a través de los métodos `getVisibility` y `setVisibility` respectivamente:
 
     $visibility = Storage::getVisibility('file.jpg');
     
@@ -320,9 +320,9 @@ If the file has already been stored, its visibility can be retrieved and set via
 
 <a name="deleting-files"></a>
 
-## Deleting Files
+## Eliminar archivos
 
-The `delete` method accepts a single filename or an array of files to remove from the disk:
+El método `delete` acepta un archivo o un *array* de archivos a eliminar del disco:
 
     use Illuminate\Support\Facades\Storage;
     
@@ -331,7 +331,7 @@ The `delete` method accepts a single filename or an array of files to remove fro
     Storage::delete(['file1.jpg', 'file2.jpg']);
     
 
-If necessary, you may specify the disk that the file should be deleted from:
+Si es necesario, se puede especificar el disco en el que se debería eliminar el archivo:
 
     use Illuminate\Support\Facades\Storage;
     
@@ -340,11 +340,11 @@ If necessary, you may specify the disk that the file should be deleted from:
 
 <a name="directories"></a>
 
-## Directories
+## Directorios
 
-#### Get All Files Within A Directory
+#### Obtener todos los archivos de un directorio
 
-The `files` method returns an array of all of the files in a given directory. If you would like to retrieve a list of all files within a given directory including all sub-directories, you may use the `allFiles` method:
+El método `files` retorna un *array* de todos los archivos en un directorio concreto. Para recuperar una lista de todos los archivos de un directorio, incluyendo sus sub-directorios, se puede utilizar el método `allFiles`:
 
     use Illuminate\Support\Facades\Storage;
     
@@ -353,9 +353,9 @@ The `files` method returns an array of all of the files in a given directory. If
     $files = Storage::allFiles($directory);
     
 
-#### Get All Directories Within A Directory
+#### Obtener todos los directorios de un directorio
 
-The `directories` method returns an array of all the directories within a given directory. Additionally, you may use the `allDirectories` method to get a list of all directories within a given directory and all of its sub-directories:
+El método `directories` retorna un *array* de todos los directorios dentro de un directorio. Además, se puede utilizar el método `allDirectories` para obtener una lista de todos los directorios de un directorio y sus sub-directorios:
 
     $directories = Storage::directories($directory);
     
@@ -363,32 +363,32 @@ The `directories` method returns an array of all the directories within a given 
     $directories = Storage::allDirectories($directory);
     
 
-#### Create A Directory
+#### Crear un directorio
 
-The `makeDirectory` method will create the given directory, including any needed sub-directories:
+El método `makeDirectory` creará el directorio, incluyendo cualquier sub-directorio que se necesite:
 
     Storage::makeDirectory($directory);
     
 
-#### Delete A Directory
+#### Eliminar un directorio
 
-Finally, the `deleteDirectory` may be used to remove a directory and all of its files:
+Finalmente, se puede usar `deleteDirectory` para eliminar un directorio y todos sus archivos:
 
     Storage::deleteDirectory($directory);
     
 
 <a name="custom-filesystems"></a>
 
-## Custom Filesystems
+## *Filesystems* personalizados
 
-Laravel's Flysystem integration provides drivers for several "drivers" out of the box; however, Flysystem is not limited to these and has adapters for many other storage systems. You can create a custom driver if you want to use one of these additional adapters in your Laravel application.
+La integración de Flysystem de Laravel provee *drivers* para varios "*drivers*"; sin embargo, Flysystem no está limitado a estos y posee adaptadores para otros sistemas de almacenamiento. Se puede crear un *driver* personalizado si se necesita alguno de estos adaptadores adicionales en una aplicación Laravel.
 
-In order to set up the custom filesystem you will need a Flysystem adapter. Let's add a community maintained Dropbox adapter to our project:
+Para configurar un sistema de archivos a medida se necesitará un adaptador Flysystem. Se puede añadir un adaptador de Dropbox mantenido por la comunidad a un proyecto utilizando:
 
     composer require spatie/flysystem-dropbox
     
 
-Next, you should create a [service provider](/docs/{{version}}/providers) such as `DropboxServiceProvider`. In the provider's `boot` method, you may use the `Storage` facade's `extend` method to define the custom driver:
+Puede crear un [service provider](/docs/{{version}}/providers) llamado `DropboxServiceProvider`. En el método `boot` del *provider*, se puede utilizar el método `extend` de la *facade* `Storage` para definir el *driver*:
 
     <?php
     
@@ -430,6 +430,6 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
     }
     
 
-The first argument of the `extend` method is the name of the driver and the second is a Closure that receives the `$app` and `$config` variables. The resolver Closure must return an instance of `League\Flysystem\Filesystem`. The `$config` variable contains the values defined in `config/filesystems.php` for the specified disk.
+El primer parámetro del método `extend` es el nombre del *driver* y el segundo un *Closure* que recibirá las variables `$app` y `$config`. El resultado del *Closure* debe retornar una instancia de `League\Flysystem\Filesystem`. La variable `$config` contiene los valores definidos en `config/filesystems.php` para el disco especificado.
 
-Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystems.php` configuration file.
+Una vez creado el *service provider*, para registrar la extensión se puede utilizar el *driver* `dropbox` en el archivo de configuración `config/filesystems.php`.
