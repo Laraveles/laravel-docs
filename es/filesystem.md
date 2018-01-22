@@ -106,59 +106,59 @@ Las integraciones Flysystem de Laravel funcionan muy bien con Rackspace; sin emb
 
 <a name="obtaining-disk-instances"></a>
 
-## Obtaining Disk Instances
+## Obtener Instancias de discos
 
-The `Storage` facade may be used to interact with any of your configured disks. For example, you may use the `put` method on the facade to store an avatar on the default disk. If you call methods on the `Storage` facade without first calling the `disk` method, the method call will automatically be passed to the default disk:
+La *facade* `Storage` se puede utilizar para interactuar con cualquiera de los discos configurados. Por ejemplo, se puede utilizar el método `put` de la *facade* para almacenar un avatar en el disco por defecto. Si se llaman a métodos en la *facade* `Storage` sin haber llamado primero al método `disk`, la llamada al método se pasará automáticamente al disco por defecto:
 
     use Illuminate\Support\Facades\Storage;
     
     Storage::put('avatars/1', $fileContents);
     
 
-If your applications interacts with multiple disks, you may use the `disk` method on the `Storage` facade to work with files on a particular disk:
+Si la aplicación interacciona con varios discos, se puede utilizar el método `disk` en la *facade* `Storage` para trabajar con los archivos de un disco en particular:
 
     Storage::disk('s3')->put('avatars/1', $fileContents);
     
 
 <a name="retrieving-files"></a>
 
-## Retrieving Files
+## Obtener archivos
 
-The `get` method may be used to retrieve the contents of a file. The raw string contents of the file will be returned by the method. Remember, all file paths should be specified relative to the "root" location configured for the disk:
+El método `get` se utiliza para obtener el contenido de un archivo. El método devolverá una cadena sin formato con el contenido del archivo. Recordar, todas las rutas a archivos deben especificarse de forma relativa a la "raíz" configurada para el disco:
 
     $contents = Storage::get('file.jpg');
     
 
-The `exists` method may be used to determine if a file exists on the disk:
+El método `exists` puede utilizarse para determinar si existe un archivo en el disco:
 
     $exists = Storage::disk('s3')->exists('file.jpg');
     
 
 <a name="file-urls"></a>
 
-### File URLs
+### URLs de archivos
 
-You may use the `url` method to get the URL for the given file. If you are using the `local` driver, this will typically just prepend `/storage` to the given path and return a relative URL to the file. If you are using the `s3` or `rackspace` driver, the fully qualified remote URL will be returned:
+Puede usar el método `url` para obtener la URL para un archivo dado. Si está usando el *driver* `local`, normalmente antepondrá `/storage` a la ruta y retornará la URL relativa del archivo. Si está usando el *driver* `s3` ó `rackspace`, se retornará la URL remota completa:
 
     use Illuminate\Support\Facades\Storage;
     
     $url = Storage::url('file1.jpg');
     
 
-> {note} Remember, if you are using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) at `public/storage` which points to the `storage/app/public` directory.
+> {nota} Recuerde, si está usando el *driver* `local`, todos los archivos que deberían ser de acceso público deben colocarse en el directorio `storage/app/public</ 0>. Además, deberá <a href="#the-public-disk">crear un enlace simbólico</a> en <code>public/storage` que apuntará al directorio `storage/app/public`.
 
-#### Temporary URLs
+#### URLs temporales
 
-For files stored using the `s3` or `rackspace` driver, you may create a temporary URL to a given file using the `temporaryUrl` method. This methods accepts a path and a `DateTime` instance specifying when the URL should expire:
+Para archivos almacenados usando los *driver* `s3` o `rackspace`, puede crearse una URL temporal para un archivo dado usando el método `temporaryURL`. Este método acepta una ruta e instancia `DateTime` especificando cuando debería expirar la URL:
 
     $url = Storage::temporaryUrl(
         'file1.jpg', Carbon::now()->addMinutes(5)
     );
     
 
-#### Local URL Host Customization
+#### Personalizar la URL del servidor local
 
-If you would like to pre-define the host for files stored on a disk using the `local` driver, you may add a `url` option to the disk's configuration array:
+Si quiere predefinir el *host* para los archivos almacenados en un disco usando el *driver* `local`, puede añadir la opción `url` al *array* de configuración del disco:
 
     'public' => [
         'driver' => 'local',
@@ -170,25 +170,25 @@ If you would like to pre-define the host for files stored on a disk using the `l
 
 <a name="file-metadata"></a>
 
-### File Metadata
+### Metadatos de los archivos
 
-In addition to reading and writing files, Laravel can also provide information about the files themselves. For example, the `size` method may be used to get the size of the file in bytes:
+Además de leer y escribir archivos, Laravel permite obtener información sobre los propios archivos. Por ejemplo, el método `size` puede utilizarse para obtener el tamaño del archivo en bytes:
 
     use Illuminate\Support\Facades\Storage;
     
     $size = Storage::size('file1.jpg');
     
 
-The `lastModified` method returns the UNIX timestamp of the last time the file was modified:
+El método `lastModified` retorna el UNIX timestamp de la última vez que el archivo fue modificado:
 
     $time = Storage::lastModified('file1.jpg');
     
 
 <a name="storing-files"></a>
 
-## Storing Files
+## Almacenar archivos
 
-The `put` method may be used to store raw file contents on a disk. You may also pass a PHP `resource` to the `put` method, which will use Flysystem's underlying stream support. Using streams is greatly recommended when dealing with large files:
+El método `put` puede usarse para almacenar el contenido de archivos raw en un disco. Además se puede pasar un `recurso` de PHP al método `put`, el cual utilizará el soporte para *stream* subyacente en Flysystem. Es recomendable utilizar *streams* cuando se trabaja con archivos grandes:
 
     use Illuminate\Support\Facades\Storage;
     
