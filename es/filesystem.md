@@ -197,9 +197,9 @@ El método `put` puede usarse para almacenar el contenido de archivos raw en un 
     Storage::put('file.jpg', $resource);
     
 
-#### Automatic Streaming
+#### *Streaming* automático
 
-If you would like Laravel to automatically manage streaming a given file to your storage location, you may use the `putFile` or `putFileAs` method. This method accepts either a `Illuminate\Http\File` or `Illuminate\Http\UploadedFile` instance and will automatically stream the file to your desired location:
+Si desea que Laravel administre automáticamente el *streaming* de un archivo concreto en una ubicación de almacenamiento, puede utilizar el método `putFile` o el método `putFileAs`. Este método acepta tanto una instancia `Iluminate\Http\File` como de `Illuminate\Http\UploadedFile` y automáticamente enviará el archivo a la ubicación deseada:
 
     use Illuminate\Http\File;
     use Illuminate\Support\Facades\Storage;
@@ -211,25 +211,25 @@ If you would like Laravel to automatically manage streaming a given file to your
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
     
 
-There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
+Hay varias cuestiones importantes a tener en cuenta sobre el método `putFile`: Tenga en cuenta que únicamente hay que especificar el nombre de un directorio, no el nombre de un archivo. Por defecto, el método `putFile` generará un ID único equivalente al nombre del archivo. El métoto `putFile` devolverá la ruta del archivo, incluyendo el nombre del archivo, por lo que podría utilizarla para almacenarla en su base de datos.
 
-The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to be publicly accessible:
+Los métodos `putFile` y `putFileAs` también aceptan un argumento para especificar la "visibilidad" del archivo almacenado. Esto es particularmente útil si se está almacenando el archivo en un disco en la nube como S3 y se necesita que dicho archivo sea accesible públicamente:
 
     Storage::putFile('photos', new File('/path/to/photo'), 'public');
     
 
-#### Prepending & Appending To Files
+#### Añadir datos al principio o al final de archivos
 
-The `prepend` and `append` methods allow you to write to the beginning or end of a file:
+Los métodos `prepend` y `append` permiten escribir al principio o al final de un archivo:
 
     Storage::prepend('file.log', 'Prepended Text');
     
     Storage::append('file.log', 'Appended Text');
     
 
-#### Copying & Moving Files
+#### Copiar & mover archivos
 
-The `copy` method may be used to copy an existing file to a new location on the disk, while the `move` method may be used to rename or move an existing file to a new location:
+El método `copy` puede usarse para copiar un archivo existente en una nueva ubicación del disco, mientras que el método `move` puede utilizarse para renombrar o mover un archivo existente a una nueva ubicación:
 
     Storage::copy('old/file1.jpg', 'new/file1.jpg');
     
@@ -238,9 +238,9 @@ The `copy` method may be used to copy an existing file to a new location on the 
 
 <a name="file-uploads"></a>
 
-### File Uploads
+### Subida de archivos
 
-In web applications, one of the most common use-cases for storing files is storing user uploaded files such as profile pictures, photos, and documents. Laravel makes it very easy to store uploaded files using the `store` method on an uploaded file instance. Simply call the `store` method with the path at which you wish to store the uploaded file:
+En las aplicaciones web, uno de los casos de uso más comunes de almacenamiento de archivos es almacenar los archivos subidos por los usuarios, tales como imágenes, fotos y documentos. Laravel permite almacenar los archivos subidos fácilmente usando el método `store` para una instancia de archivo subido. Simplemente hay que llamar al método `store` con la trayectoria en la que deseas almacenar el archivo subido:
 
     <?php
     
@@ -266,23 +266,23 @@ In web applications, one of the most common use-cases for storing files is stori
     }
     
 
-There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
+Hay varias cuestiones importantes a tener en cuenta en este ejemplo. Nótese que sólo se ha especificado un nombre de directorio, no un nombre de archivo. Por defecto, el método `store` generará un ID único equivalente al nombre del archivo. El método `store` devolverá la ruta del archivo, y así podrá utilizarse esta, incluyendo el nombre de archivo generado, para almacenarla en su base de datos.
 
-You may also call the `putFile` method on the `Storage` facade to perform the same file manipulation as the example above:
+También puede llamar al método `putFile` de la *facade* `Storage` para realizar la misma manipulación del archivo como en el siguiente ejemplo:
 
     $path = Storage::putFile('avatars', $request->file('avatar'));
     
 
-#### Specifying A File Name
+#### Especificar un nombre de archivo
 
-If you would not like a file name to be automatically assigned to your stored file, you may use the `storeAs` method, which receives the path, the file name, and the (optional) disk as its arguments:
+Si no quiere asignar un nombre automáticamente al archivo almacenado, puede utilizar el método `storeAs`, el cual recibe la ruta, el nombre del archivo y (opcionalmente) el disco como argumentos:
 
     $path = $request->file('avatar')->storeAs(
         'avatars', $request->user()->id
     );
     
 
-Of course, you may also use the `putFileAs` method on the `Storage` facade, which will perform the same file manipulation as the example above:
+Por supuesto, puede usar el método `putFileAs` de la *facade* `Storage`, el cual permitirá la misma manipulación de archivos como en el ejemplo anterior:
 
     $path = Storage::putFileAs(
         'avatars', $request->file('avatar'), $request->user()->id
