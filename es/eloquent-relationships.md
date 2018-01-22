@@ -26,9 +26,9 @@
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Database tables are often related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Eloquent makes managing and working with these relationships easy, and supports several different types of relationships:
+Las tablas de las bases de datos se relacionan a menudo unas con otras. Por ejemplo, un artículo de un blog puede tener muchos comentarios, o un pedido podría estar relacionado con el usuario que lo solicitó. Eloquent facilita la gestión y el trabajo con estas relaciones fácilmente soportando varios tipos de relaciones diferentes:
 
 - [One To One](#one-to-one)
 - [One To Many](#one-to-many)
@@ -41,18 +41,18 @@ Database tables are often related to one another. For example, a blog post may h
 
 ## Defining Relationships
 
-Eloquent relationships are defined as methods on your Eloquent model classes. Since, like Eloquent models themselves, relationships also serve as powerful [query builders](/docs/{{version}}/queries), defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional constraints on this `posts` relationship:
+Las relaciones entre modelos Eloquent se definen como métodos en las propias clases. Dado que, como los propios modelos Eloquent, las relaciones también sirven como poderosos [query builders](/docs/{{version}}/queries), la definición de relaciones como métodos proporciona potentes funciones de encadenamiento y consulta de métodos. Por ejemplo, se pueden encadenar restricciones adicionales en esta relación `posts`:
 
     $user->posts()->where('active', 1)->get();
     
 
-But, before diving too deep into using relationships, let's learn how to define each type.
+Pero, antes de sumergirnos demasiado en el uso de las relaciones, aprendamos a definir cada tipo.
 
 <a name="one-to-one"></a>
 
-### One To One
+### Uno a uno – *One to one*
 
-A one-to-one relationship is a very basic relation. For example, a `User` model might be associated with one `Phone`. To define this relationship, we place a `phone` method on the `User` model. The `phone` method should call the `hasOne` method and return its result:
+La relación uno-a-uno es una relación muy básica. Por ejemplo, un modelo `User` podría estar asociado con uno `Phone`. Para definir esta relación, hay que poner un método `phone` en el modelo `User`. El método `phone` debería llamar al método `hasOne` y retornar su resultado:
 
     <?php
     
@@ -72,24 +72,24 @@ A one-to-one relationship is a very basic relation. For example, a `User` model 
     }
     
 
-The first argument passed to the `hasOne` method is the name of the related model. Once the relationship is defined, we may retrieve the related record using Eloquent's dynamic properties. Dynamic properties allow you to access relationship methods as if they were properties defined on the model:
+El primer argumento pasado al método `hasOne` es el nombre del modelo relacionado. Una vez que la relación está definida, se deben recuperar los registros relacionados usando las propiedades dinámicas de Eloquent. Las propiedades dinámicas le permiten acceder a los métodos de la relación como si fueran propiedades definidas en el modelo:
 
     $phone = User::find(1)->phone;
     
 
-Eloquent determines the foreign key of the relationship based on the model name. In this case, the `Phone` model is automatically assumed to have a `user_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
+Eloquent determina la clave foránea de la relación basada en el nombre del modelo. En este caso, se asume que el modelo `Phone` tiene un clave foránea `user_id`. Si se desea sobrescribir esta convención, hay que pasar un segundo parámetro al método `hasOne`:
 
     return $this->hasOne('App\Phone', 'foreign_key');
     
 
-Additionally, Eloquent assumes that the foreign key should have a value matching the `id` (or the custom `$primaryKey`) column of the parent. In other words, Eloquent will look for the value of the user's `id` column in the `user_id` column of the `Phone` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
+Además, Eloquent asume que la llave foránea debe tener un valor que coincida con la columna `id` (o la `$primaryKey` personalizada) columna del padre. En otras palabras, Eloquent buscará el valor de la columna `id` de los usuarios en la columna `user_id` de los registros `Phone`. Si desea que la relación utilice un valor distinto de `id`, puede pasar un tercer parámetro al método `hasOne` especificando la clave personalizada:
 
     return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
     
 
-#### Defining The Inverse Of The Relationship
+#### Definir la inversa de la relación
 
-So, we can access the `Phone` model from our `User`. Now, let's define a relationship on the `Phone` model that will let us access the `User` that owns the phone. We can define the inverse of a `hasOne` relationship using the `belongsTo` method:
+Por lo tanto, se puede acceder al modelo `Phone` desde `User`. Ahora se definirá una relación en el modelo `Phone` que permitirá acceder al `User` que posee el teléfono. Se puede definir la inversa de la relación `hasOne` utilizando el método `belongsTo`:
 
     <?php
     
@@ -133,9 +133,9 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 
 <a name="default-models"></a>
 
-#### Default Models
+#### Modelos por defecto
 
-The `belongsTo` relationship allows you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
+La relación `belongsTo` permite definir un modelo por defecto para devolver si la relación es `null`. Este patrón se conoce normalmente como [patrón del objeto nulo – *Null Object Pattern*](https://en.wikipedia.org/wiki/Null_Object_pattern) y puede ayudar a eliminar comprobaciones condicionales en el código. El el siguiente ejemplo, la relación `user` devolverá un modelo `App\User` si no hay un `user` asociado al *post*:
 
     /**
      * Get the author of the post.
@@ -171,9 +171,9 @@ To populate the default model with attributes, you may pass an array or Closure 
 
 <a name="one-to-many"></a>
 
-### One To Many
+### Uno a muchos – *One to many*
 
-A "one-to-many" relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Eloquent relationships, one-to-many relationships are defined by placing a function on your Eloquent model:
+Una relación "uno-a-muchos" se usa para definir relaciones en las cuales un modelo único posee cualquier cantidad de otros modelos. Por ejemplo, un blog puede tener un número infinito de comentarios. Como en otras relaciones de Eloquent, las relaciones uno-a-muchos se definen colocando una función en el modelo Eloquent:
 
     <?php
     
@@ -193,9 +193,9 @@ A "one-to-many" relationship is used to define relationships where a single mode
     }
     
 
-Remember, Eloquent will automatically determine the proper foreign key column on the `Comment` model. By convention, Eloquent will take the "snake case" name of the owning model and suffix it with `_id`. So, for this example, Eloquent will assume the foreign key on the `Comment` model is `post_id`.
+Hay que recordar que Eloquent determinará automáticamente la columna de la clave externa adecuada en el modelo `Comment`. Por convenio, Eloquent unirá el nombre del propio modelo y el sufijo `_id` mediante la convención "snake_case". Así, para este ejemplo, Eloquent asumirá que la clave ajena del método `Comment` es `post_id`.
 
-Once the relationship has been defined, we can access the collection of comments by accessing the `comments` property. Remember, since Eloquent provides "dynamic properties", we can access relationship methods as if they were defined as properties on the model:
+Una vez que la relación ha sido definida, se puede acceder a la colección de comentarios accediendo a la propiedad `comments`. Recuerde, puesto que Eloquent provee de "propiedades dinámicas", se puede acceder a los métodos de la relación como si fueran propiedades del modelo:
 
     $comments = App\Post::find(1)->comments;
     
@@ -204,12 +204,12 @@ Once the relationship has been defined, we can access the collection of comments
     }
     
 
-Of course, since all relationships also serve as query builders, you can add further constraints to which comments are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
+Por supuesto, puesto que todas las relaciones sirven como *query builders*, se pueden agregar agregar *constraints* adicionales a los comentarios que fueron obtenidos con la llamada al método `comments` y continuar la cadena de condiciones en la consulta:
 
     $comments = App\Post::find(1)->comments()->where('title', 'foo')->first();
     
 
-Like the `hasOne` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method:
+Como en el método `hasOne`, se puede reemplazar las claves locales y foráneas pasando argumentos adicionales al método `hasMany`:
 
     return $this->hasMany('App\Comment', 'foreign_key');
     
@@ -218,9 +218,9 @@ Like the `hasOne` method, you may also override the foreign and local keys by pa
 
 <a name="one-to-many-inverse"></a>
 
-### One To Many (Inverse)
+### Uno a muchos (inverso)
 
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent post. To define the inverse of a `hasMany` relationship, define a relationship function on the child model which calls the `belongsTo` method:
+Ahora que podemos acceder a todos los comentarios del *post*, vamos a definir la relación para permitir que un comentario acceda a su publicación padre. Para definir el inverso de una relación `hasMany`, definir una función de relación en el modelo hijo que llame al método `belongsTo`:
 
     <?php
     
@@ -240,14 +240,14 @@ Now that we can access all of a post's comments, let's define a relationship to 
     }
     
 
-Once the relationship has been defined, we can retrieve the `Post` model for a `Comment` by accessing the `post` "dynamic property":
+Una vez que la relación se ha definido, se puede recuperar el modelo `Post` desde `Comment` accediendo a la "propiedad dinámica" `post`:
 
     $comment = App\Comment::find(1);
     
     echo $comment->post->title;
     
 
-In the example above, Eloquent will try to match the `post_id` from the `Comment` model to an `id` on the `Post` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `Comment` model is not `post_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+En el ejemplo anterior, Eloquent intentará emparejar el campo `user_id` del modelo `Phone` con un `id` del modelo `User`. Eloquent nombra la clave ajena por defecto con el nombre del método de la relación y el sufijo `_id`. Sin embargo, si la clave ajena del modelo `Phone` no es `user_id`, se puede pasar una diferente como segundo parámetro el método `belongsTo`:
 
     /**
      * Get the post that owns the comment.
@@ -258,7 +258,7 @@ In the example above, Eloquent will try to match the `post_id` from the `Comment
     }
     
 
-If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
+Si el modelo padre no utiliza `id` como clave primaria, o se desea hacer un *join* del modelo hijo a una columna diferente, se puede pasar un tercer parámetro al método `belongsTo` especificando la clave personalizada del modelo padre:
 
     /**
      * Get the post that owns the comment.
@@ -271,11 +271,11 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 
 <a name="many-to-many"></a>
 
-### Many To Many
+### Muchos a muchos – *Many to many*
 
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
+Las relaciones muchos-a-muchos son un poco más complicadas que las `hasOne` o las `hasMany`. Un ejemplo de tal relación es un usuario que contiene varios roles, donde los roles son compartidos por otros usuarios. Por ejemplo, varios usuarios pueden tener el rol de "Admin". Para definir esta relación, se requieren tres tablas de la base de datos: `users`, `roles`, y `role_user`. La tabla `role_user` es derivada del orden alfabético de los nombres de los modelos relacionados y contiene las columnas `user_id` y `role_id`.
 
-Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. For example, let's define the `roles` method on our `User` model:
+Las relaciones muchos-a-muchos se definen con un método que retorna el resultado del método `belongsToMany`. Por ejemplo, definir el método `roles` en el modelo `User`:
 
     <?php
     
@@ -295,7 +295,7 @@ Many-to-many relationships are defined by writing a method that returns the resu
     }
     
 
-Once the relationship is defined, you may access the user's roles using the `roles` dynamic property:
+Una vez definida la relación, se puede acceder a los roles del usuario usando la propiedad dinámica `roles`:
 
     $user = App\User::find(1);
     
@@ -304,7 +304,7 @@ Once the relationship is defined, you may access the user's roles using the `rol
     }
     
 
-Of course, like all other relationship types, you may call the `roles` method to continue chaining query constraints onto the relationship:
+Por supuesto, como en las otras relaciones, se puede llamar al método `roles` para continuar encadenando restricciones a la consulta sobre la relación:
 
     $roles = App\User::find(1)->roles()->orderBy('name')->get();
     
@@ -496,11 +496,11 @@ Typical Eloquent foreign key conventions will be used when performing the relati
 
 <a name="polymorphic-relations"></a>
 
-### Polymorphic Relations
+### Relaciones polimórficas
 
-#### Table Structure
+#### Estructura de tablas
 
-Polymorphic relations allow a model to belong to more than one other model on a single association. For example, imagine users of your application can "comment" both posts and videos. Using polymorphic relationships, you can use a single `comments` table for both of these scenarios. First, let's examine the table structure required to build this relationship:
+Las relaciones polimorfas permiten a un modelo pertenecer a más de un modelo en una sola asociación. Por ejemplo, imaginar usuarios que pueden "comentar" tanto *posts* como vídeos. Utilizando relaciones polimórficas, se puede utilizar una única tabla `comments` para ambos escenarios. Primero, examinemos la estructura de la tabla requerida para construir esta relación:
 
     posts
         id - integer
@@ -519,11 +519,11 @@ Polymorphic relations allow a model to belong to more than one other model on a 
         commentable_type - string
     
 
-Two important columns to note are the `commentable_id` and `commentable_type` columns on the `comments` table. The `commentable_id` column will contain the ID value of the post or video, while the `commentable_type` column will contain the class name of the owning model. The `commentable_type` column is how the ORM determines which "type" of owning model to return when accessing the `commentable` relation.
+Las dos columnas a destacar aquí son `commentable_id` y `commentable_type` de la tabla `comments`. La columna `commentable_id` contiene el ID del *post* o *video*, mientras que la columna `commentable_type` contiene el nombre de la clase del modelo propietario. La columna `commentable_type` es como el ORM determina el "tipo" de modelo propietario a retornar cuando se accede a la relación `commentable`.
 
-#### Model Structure
+#### Estructura del modelo
 
-Next, let's examine the model definitions needed to build this relationship:
+Examinemos que definiciones en el modelo son necesarias para construir esta relación:
 
     <?php
     
@@ -565,29 +565,29 @@ Next, let's examine the model definitions needed to build this relationship:
     }
     
 
-#### Retrieving Polymorphic Relations
+#### Obtener relaciones polimórficas
 
-Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the comments for a post, we can simply use the `comments` dynamic property:
+Una vez definidas la tabla y los modelos de la base de datos, es posible acceder a las relaciones a través de sus modelos. Por ejemplo, para acceder a los comentarios de un *post*, se puede utilizar la propiedad dinámica `comments</em>:</p>
 
-    $post = App\Post::find(1);
-    
-    foreach ($post->comments as $comment) {
-        //
-    }
-    
+<pre><code>$post = App\Post::find(1);
 
-You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphTo`. In our case, that is the `commentable` method on the `Comment` model. So, we will access that method as a dynamic property:
+foreach ($post->comments as $comment) {
+    //
+}
+`</pre> 
+
+Se puede obtener el propietario de una relación polimórfica desde el modelo polimórfico accediendo al nombre del método que ejecuta la llamada a `morphTo`. En este caso, es el método `commentable` en el modelo `Comment`. Ahora se puede acceder a ese método como propiedad dinámica:
 
     $comment = App\Comment::find(1);
     
     $commentable = $comment->commentable;
     
 
-The `commentable` relation on the `Comment` model will return either a `Post` or `Video` instance, depending on which type of model owns the comment.
+La relación `commentable` del modelo `Comment` retornará una instancia de `Post` o `Video`, dependiendo del tipo de modelo al que pertenezca.
 
-#### Custom Polymorphic Types
+#### Tipos polimórficos personalizados
 
-By default, Laravel will use the fully qualified class name to store the type of the related model. For instance, given the example above where a `Comment` may belong to a `Post` or a `Video`, the default `commentable_type` would be either `App\Post` or `App\Video`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a relationship "morph map" to instruct Eloquent to use a custom name for each model instead of the class name:
+Por defecto, Laravel utilizará el nombre completo de la clase para almacenar el tipo del modelo relacionado. Por ejemplo, dado el ejemplo anterior donde `Comment` puede pertenecer a un `Post` o `Video`, el valor por defecto de `commentable_type` será `App\Post` o `App\Video` respectivamente. Sin embargo, es posible desacoplar la base de datos de la estructura interna de la aplicación. En este caso, se puede definir un "mapa de morfismo" (*morph map*) para instruir a Eloquent en el uso de un nombre personalizado para cada modelo en lugar del nombre de la clase:
 
     use Illuminate\Database\Eloquent\Relations\Relation;
     
@@ -597,11 +597,11 @@ By default, Laravel will use the fully qualified class name to store the type of
     ]);
     
 
-You may register the `morphMap` in the `boot` function of your `AppServiceProvider` or create a separate service provider if you wish.
+Se puede registrar el `morphMap` en la función `boot` del `AppServiceProvider` o en un *service provider* separado si se desea.
 
 <a name="many-to-many-polymorphic-relations"></a>
 
-### Many To Many Polymorphic Relations
+### Relaciones polimórficas muchos a muchos
 
 #### Table Structure
 
@@ -1116,7 +1116,7 @@ If you need to update an existing row in your pivot table, you may use `updateEx
 
 ## Touching Parent Timestamps
 
-When a model `belongsTo` or `belongsToMany` another model, such as a `Comment` which belongs to a `Post`, it is sometimes helpful to update the parent's timestamp when the child model is updated. For example, when a `Comment` model is updated, you may want to automatically "touch" the `updated_at` timestamp of the owning `Post`. Eloquent makes it easy. Just add a `touches` property containing the names of the relationships to the child model:
+Cuando un modelo `belongsTo` (pertenece a) o `belongsToMany` (pertenece a muchos) otro modelo, tal como `Comment` pertenece a `Post`, puede ser útil actualizar los *timestamps* del padre cuando el hijo se actualiza. Por ejemplo, cuando un `Comment` se actualiza, se puede "tocar" (*touch*) el *timestamp* de `updated_at` del padre `Post`. Eloquent hace esto proceso muy sencillo. Simplemente añadir la propiedad `touches` conteniendo los nombres de las relaciones a tocar al modelo hijo:
 
     <?php
     
