@@ -441,7 +441,7 @@ In addition, you may "block" until the lock becomes available:
     }
     
 
-### Blade Improvements
+### Mejoras en *Blade*
 
 > {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/10) for this feature available on Laracasts.
 
