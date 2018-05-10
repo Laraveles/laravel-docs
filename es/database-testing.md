@@ -1,21 +1,21 @@
 # Database Testing
 
-- [Introduction](#introduction)
+- [Introducción](#introduction)
 - [Generating Factories](#generating-factories)
 - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
 - [Writing Factories](#writing-factories) 
     - [Factory States](#factory-states)
 - [Using Factories](#using-factories) 
-    - [Creating Models](#creating-models)
-    - [Persisting Models](#persisting-models)
-    - [Relationships](#relationships)
-- [Available Assertions](#available-assertions)
+    - [Creación de modelos](#creating-models)
+    - [Persistencia de modelos](#persisting-models)
+    - [Relaciones](#relationships)
+- [Verificaciones disponibles](#available-assertions)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `assertDatabaseHas` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
+Laravel proporciona una variedad de herramientas útiles para hacer más fácil el *testing* de aplicaciones basadas en bases de datos. En primer lugar se puede usar el *helper* `assertDatabaseHas` para confirmar que los datos existentes en la base de datos coinciden con un conjunto determinado de criterios. Por ejemplo, si se desea verificar que hay un registro en la tabla `users` con el valor `email` de `sally@example.com`, se puede hacer lo siguiente:
 
     public function testDatabase()
     {
@@ -27,9 +27,9 @@ Laravel provides a variety of helpful tools to make it easier to test your datab
     }
     
 
-You can also use the `assertDatabaseMissing` helper to assert that data does not exist in the database.
+También se puede usar el *helper* `assertDatabaseMissing` para verificar que los datos no existen en la base de datos.
 
-Of course, the `assertDatabaseHas` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.
+Desde luego, el método `assertDatabaseHas` y otros *helpers* como el se usan a conveniencia. Se es libre de usar cualquiera de los métodos de verificación integrados de PHPUnit para complementar las pruebas.
 
 <a name="generating-factories"></a>
 
