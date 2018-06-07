@@ -25,7 +25,7 @@ El *middleware* `VerifyCsrfToken` el cuál está incluído en el grupo de *middl
 
 #### Pruebas CSRF y JavasScript
 
-Cudno construye aplicaciones conducidas por JavaScript, es conveniente que su librería JavaScript de HTTP adjunte automáticamente la prueba CSRF a cada petición de salida. Por defecto, el fichero `resources/assets/js/bootstrap.js` registra el valor de la meta etiqueta `prueba csrf` con la librería de HTTP Axios. Si usted no está utilizando esta librería, necesitará configurar manualmente este comportamiento para su aplicación.
+Cuando construye aplicaciones conducidas por JavaScript, es conveniente que su librería JavaScript de HTTP adjunte automáticamente la prueba CSRF a cada petición de salida. By default, the `resources/assets/js/bootstrap.js` file registers the value of the `csrf-token` meta tag with the Axios HTTP library. Si usted no está utilizando esta librería, necesitará configurar manualmente este comportamiento para su aplicación.
 
 <a name="csrf-excluding-uris"></a>
 

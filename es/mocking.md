@@ -1,27 +1,27 @@
 # Mocking
 
-- [Introduction](#introduction)
-- [Bus Fake](#bus-fake)
-- [Event Fake](#event-fake)
-- [Mail Fake](#mail-fake)
-- [Notification Fake](#notification-fake)
-- [Queue Fake](#queue-fake)
-- [Storage Fake](#storage-fake)
+- [Introducción](#introduction)
+- [Fake Bus](#bus-fake)
+- [Fake Event](#event-fake)
+- [Fake Mail](#mail-fake)
+- [Notificaciones](#notification-fake)
+- [Fake Queue](#queue-fake)
+- [Fake Storage](#storage-fake)
 - [Facades](#mocking-facades)
 
 <a name="introduction"></a>
 
-## Introduction
+## Introducción
 
-When testing Laravel applications, you may wish to "mock" certain aspects of your application so they are not actually executed during a given test. For example, when testing a controller that dispatches an event, you may wish to mock the event listeners so they are not actually executed during the test. This allows you to only test the controller's HTTP response without worrying about the execution of the event listeners, since the event listeners can be tested in their own test case.
+Al probar las aplicaciones de Laravel, es posible que desee "simular" ciertos aspectos de su aplicación para que no se ejecuten realmente durante una prueba determinada. Por ejemplo, cuando se prueba un controlador que distribuye un evento, es posible que desee simular los detectores de eventos para que no se ejecuten realmente durante la prueba. Esto le permite probar únicamente la respuesta HTTP del controlador sin preocuparse por la ejecución de los detectores de eventos, ya que los detectores de eventos se pueden probar en su propio caso de prueba.
 
-Laravel provides helpers for mocking events, jobs, and facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls. Of course, you are free to use [Mockery](http://docs.mockery.io/en/latest/) or PHPUnit to create your own mocks or spies.
+Laravel proporciona ayudantes para simular eventos, trabajos, y facades listos para usarse. Estos ayudantes proporcionan principalemente una capa conveniente sobre Mockery para que no tenga que realizar manualmente llamadas de método de Mockery complicadas. Por supuesto, es libre de usar [Mockery](http://docs.mockery.io/en/latest/) o la PHPUnit para crear sus propios simuladores o espías.
 
 <a name="bus-fake"></a>
 
-## Bus Fake
+## Fake Bus
 
-As an alternative to mocking, you may use the `Bus` facade's `fake` method to prevent jobs from being dispatched. When using fakes, assertions are made after the code under test is executed:
+Como alternativa a la simulación, puede usar el método de facade `Bus` `fake` para evitar que se envíen trabajos. Cuando usa fakes, las afirmaciones se realizan después de que se ejecuta el código bajo prueba:
 
     <?php
     
@@ -53,9 +53,9 @@ As an alternative to mocking, you may use the `Bus` facade's `fake` method to pr
 
 <a name="event-fake"></a>
 
-## Event Fake
+## Fake Event
 
-As an alternative to mocking, you may use the `Event` facade's `fake` method to prevent all event listeners from executing. You may then assert that events were dispatched and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+Como alternativa a la simulación, puede usar el método de facade `fake` `Bus`para evitar que se ejecuten los detectores de eventos. A continuación, puede afirmar que los eventos fueron enviados e incluso inspeccionar los datos que recibieron. Cuando usa fakes, las afirmaciones se realizan después de que se ejecuta el código bajo prueba:
 
     <?php
     
@@ -90,9 +90,9 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
 
 <a name="mail-fake"></a>
 
-## Mail Fake
+## Fake Mail
 
-You may use the `Mail` facade's `fake` method to prevent mail from being sent. You may then assert that [mailables](/docs/{{version}}/mail) were sent to users and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+Puede usar el método de facade `fake` `Mail` para evitar que se envíe el correo. A continuación, puede afirmar que se enviaron [mailables](/docs/{{version}}/mail) a los usuarios e incluso inspeccionar los datos que ellos recibieron. Cuando usa fakes, las afirmaciones se realizan después de que se ejecuta el código bajo prueba:
 
     <?php
     
@@ -132,7 +132,7 @@ You may use the `Mail` facade's `fake` method to prevent mail from being sent. Y
     }
     
 
-If you are queueing mailables for delivery in the background, you should use the `assertQueued` method instead of `assertSent`:
+Si está haciendo queue en formato mailable para la entrega en segundo plano, debe usar el método `assertQueued` en vez de `assertSent`:
 
     Mail::assertQueued(...);
     Mail::assertNotQueued(...);
@@ -140,9 +140,9 @@ If you are queueing mailables for delivery in the background, you should use the
 
 <a name="notification-fake"></a>
 
-## Notification Fake
+## Notificación Fake
 
-You may use the `Notification` facade's `fake` method to prevent notifications from being sent. You may then assert that [notifications](/docs/{{version}}/notifications) were sent to users and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+Debe usar el método de facade `Notification` `fake` para evitar que se envíen las notificaciones. A continuación, puede afirmar que se enviaron las [notifications](/docs/{{version}}/notifications) a los usuarios e incluso inspeccionar los datos que ellos recibieron. Cuando usa fakes, las afirmaciones se realizan después de que se ejecuta el código bajo prueba:
 
     <?php
     
@@ -185,9 +185,9 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
 
 <a name="queue-fake"></a>
 
-## Queue Fake
+## Fake Queue
 
-As an alternative to mocking, you may use the `Queue` facade's `fake` method to prevent jobs from being queued. You may then assert that jobs were pushed to the queue and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+Como alternativa a la simulación, puede usar el método de facade `fake` `Queue`para evitar que los trabajos se mantengan en cola. Puede entonces afirmar que los trabajos se enviaron a la cola e incluso los datos que recibieron. Cuando usa fakes, las afirmaciones se realizan después de que se ejecuta el código bajo prueba:
 
     <?php
     
@@ -225,9 +225,9 @@ As an alternative to mocking, you may use the `Queue` facade's `fake` method to 
 
 <a name="storage-fake"></a>
 
-## Storage Fake
+## Fake Storage
 
-The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `UploadedFile` class, greatly simplifies the testing of file uploads. For example:
+El método de facade `fake` `Storage` le permite generar fácilmente un disco fake que, combinado con las utilidades de generación de archivos de la clase `UploadedFile`, simplifica enormemente la prueba de cargas de archivos. Por ejemplo:
 
     <?php
     
@@ -258,13 +258,13 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
     }
     
 
-> {tip} By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead.
+> {tip} Por defecto, el método `fake` eliminará todos los archivos en su directorio temporal. Si desea conservar estos archivos, puede usar a cambio el método "persistentFake".
 
 <a name="mocking-facades"></a>
 
 ## Facades
 
-Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may be mocked. This provides a great advantage over traditional static methods and grants you the same testability you would have if you were using dependency injection. When testing, you may often want to mock a call to a Laravel facade in one of your controllers. For example, consider the following controller action:
+A diferencia de las llamadas de métodos estáticos tradicionales, [facades](/docs/{{version}}/facades) puede ser simulado. Esto le proporciona una gran ventaja por sobre los métodos estáticos tradicionales y le ofrece la misma capacidad de prueba que tendría si estuviera usando la inyección de dependencia. Al realizar la prueba, puede con frecuencia querer simular una llamada a un facade Laravel en uno de sus controladores. Por ejemplo, considere la acción del siguiente controlador:
 
     <?php
     
@@ -288,7 +288,7 @@ Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may
     }
     
 
-We can mock the call to the `Cache` facade by using the `shouldReceive` method, which will return an instance of a [Mockery](https://github.com/padraic/mockery) mock. Since facades are actually resolved and managed by the Laravel [service container](/docs/{{version}}/container), they have much more testability than a typical static class. For example, let's mock our call to the `Cache` facade's `get` method:
+Podemos simular la llamada al facade `Cache` usando el método `shouldReceive`, el cual devolverá una instancia de una simulación [Mockery](https://github.com/padraic/mockery). Desde que facades en realidad se resuelve y maneja por el [service container](/docs/{{version}}/container) Laravel, tienen mucha más capacidad de prueba que una clase estática típica. Por ejemplo, simulemos nuestra llamada al método de facade `Cache` `get`:
 
     <?php
     
@@ -315,4 +315,4 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
     }
     
 
-> {note} You should not mock the `Request` facade. Instead, pass the input you desire into the HTTP helper methods such as `get` and `post` when running your test. Likewise, instead of mocking the `Config` facade, simply call the `Config::set` method in your tests.
+> {note} No debería simular el facade `Request`. En cambio, pase la entrada que desee a los métodos de ayuda de HTTP, como `get` y `post` al ejecutar su prueba. Del mismo modo, en lugar de simular el facade `Config`, simplemente llame al método `Config::set` en sus pruebas.
