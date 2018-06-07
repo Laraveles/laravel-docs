@@ -1,8 +1,8 @@
-# Database Testing
+# Pruebas de Base de Datos
 
 - [Introducción](#introduction)
 - [Generating Factories](#generating-factories)
-- [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
+- [Restablecer la base de datos después de cada test](#resetting-the-database-after-each-test)
 - [Writing Factories](#writing-factories) 
     - [Factory States](#factory-states)
 - [Using Factories](#using-factories) 
@@ -35,23 +35,23 @@ Desde luego, el método `assertDatabaseHas` y otros *helpers* como el se usan a 
 
 ## Generating Factories
 
-To create a factory, use the `make:factory` [Artisan command](/docs/{{version}}/artisan):
+Para crear una *factory*, se usa el [comando de Artisan](/docs/{{version}}/artisan) `make:factory`:
 
     php artisan make:factory PostFactory
     
 
-The new factory will be placed in your `database/factories` directory.
+La nueva *factory* será puesta in su directorio `database/factories`.
 
-The `--model` option may be used to indicate the name of the model created by the factory. This option will pre-fill the generated factory file with the given model:
+La opción `--model` puede ser usada para indicar el nombre del modelo creado por la *factory*. Esta opción se pre-llenará al archivo de *factory* generado con el modelo dado:
 
     php artisan make:factory PostFactory --model=Post
     
 
 <a name="resetting-the-database-after-each-test"></a>
 
-## Resetting The Database After Each Test
+## Restablecimiento de la Base de Datos tras Testing
 
-It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests. The `RefreshDatabase` trait takes the most optimal approach to migrating your test database depending on if you are using an in-memory database or a traditional database. Simply use the trait on your test class and everything will be handled for you:
+A menudo es útil restablecer su base de datos después de cada prueba para que los datos de una prueba anterior no interfieran con las pruebas posteriores. El trait `RefreshDatabase` toma el enfoque más óptimo para migrar su base de datos de prueba dependiendo de si está usando una base de datos in-memory o una base de datos tradicional. Simplemente use el trait en su clase de prueba y todo se manejará por usted:
 
     <?php
     
@@ -81,9 +81,9 @@ It is often useful to reset your database after each test so that data from a pr
 
 <a name="writing-factories"></a>
 
-## Writing Factories
+## Escritura de Fábricas
 
-When testing, you may need to insert a few records into your database before executing your test. Instead of manually specifying the value of each column when you create this test data, Laravel allows you to define a default set of attributes for each of your [Eloquent models](/docs/{{version}}/eloquent) using model factories. To get started, take a look at the `database/factories/UserFactory.php` file in your application. Out of the box, this file contains one factory definition:
+Al realizar la prueba, podría necesitar insertar unos pocos registros en su base de datos antes de ejecutar su prueba. En lugar de especificar manualmente el valor de cada columna cuando crea estos datos de prueba, Laravel le permite definir un set de configuración de atributos para cada uno de sus [Eloquent models](/docs/{{version}}/eloquent) usando *factories* modelo. Para empezar, chequée el archivo `database/factories/UserFactory.php` en su aplicación. Listo para su uso, este archivo contiene una definición de *factory*:
 
     use Faker\Generator as Faker;
     
@@ -99,22 +99,22 @@ When testing, you may need to insert a few records into your database before exe
     });
     
 
-Within the Closure, which serves as the factory definition, you may return the default test values of all attributes on the model. The Closure will receive an instance of the [Faker](https://github.com/fzaninotto/Faker) PHP library, which allows you to conveniently generate various kinds of random data for testing.
+Dentro del Closure, que sirve como definición de *factory*, puede devolver los valores de prueba predeterminados de todos los atributos en el modelo. El Closure recibirá una instancia de la librería PHP [Faker](https://github.com/fzaninotto/Faker), la cual le permite generar a conveniencia varios tipos de datos al azar para probar.
 
-You may also create additional factory files for each model for better organization. For example, you could create `UserFactory.php` and `CommentFactory.php` files within your `database/factories` directory. All of the files within the `factories` directory will automatically be loaded by Laravel.
+También puede crear archivos de *factory* adicionales por cada modelo para una mejor organización. Por ejemplo, podría crear archivos `UserFactory.php` y `CommentFactory.php` dentro de su directorio `database/factories`. Todos los archivos dentro del directorio `factories` se cargarán automáticamente por Laravel.
 
 <a name="factory-states"></a>
 
-### Factory States
+### Estados de Fábrica
 
-States allow you to define discrete modifications that can be applied to your model factories in any combination. For example, your `User` model might have a `delinquent` state that modifies one of its default attribute values. You may define your state transformations using the `state` method. For simple states, you may pass an array of attribute modifications:
+Los estados le permiten definir modificaciones discretas que pueden ser aplicadas a sus *factories* modelo en cualquier combinación. Por ejemplo, su modelo `User` puede tener un estado `delinquent` que modifica uno de sus valores de atributo predeterminado. Puede definir sus transformaciones de estado usando el método `state`. Para estados simples, puede pasar un array de modificaciones de atributos:
 
     $factory->state(App\User::class, 'delinquent', [
         'account_status' => 'delinquent',
     ]);
     
 
-If your state requires calculation or a `$faker` instance, you may use a Closure to calculate the state's attribute modifications:
+Si su estado requiere cálculo o una instancia `$faker`, puede usar un Closure para calcular las modificaciones de atributo del estado:
 
     $factory->state(App\User::class, 'address', function ($faker) {
         return [
@@ -125,13 +125,13 @@ If your state requires calculation or a `$faker` instance, you may use a Closure
 
 <a name="using-factories"></a>
 
-## Using Factories
+## Uso de Fábricas
 
 <a name="creating-models"></a>
 
-### Creating Models
+### Creación de Modelos
 
-Once you have defined your factories, you may use the global `factory` function in your tests or seed files to generate model instances. So, let's take a look at a few examples of creating models. First, we'll use the `make` method to create models but not save them to the database:
+Una vez que ha definido sus *factories*, puede usar la función global `factory` en sus pruebas o archivos poblados para generar instancias modelo. Entonces, echemos un vistazo a algunos ejemplos de creación de modelos. Primero, usaremos el método `make` para crear modelos pero sin guardarlos en la base de datos:
 
     public function testDatabase()
     {
@@ -141,24 +141,24 @@ Once you have defined your factories, you may use the global `factory` function 
     }
     
 
-You may also create a Collection of many models or create models of a given type:
+También puede crear una Colección de algunos modelos o crear modelos de un tipo dado:
 
     // Create three App\User instances...
     $users = factory(App\User::class, 3)->make();
     
 
-#### Applying States
+#### Aplicación de Estados
 
-You may also apply any of your [states](#factory-states) to the models. If you would like to apply multiple state transformations to the models, you should specify the name of each state you would like to apply:
+Puede también aplicar cualquiera de sus [states](#factory-states) a sus modelos. Si desea aplicar múltiples trasformaciones de estado a los modelos, deberá especificar el nombre de cada estado que desee aplicar:
 
     $users = factory(App\User::class, 5)->states('delinquent')->make();
     
     $users = factory(App\User::class, 5)->states('premium', 'delinquent')->make();
     
 
-#### Overriding Attributes
+#### Reemplazo de Atributos
 
-If you would like to override some of the default values of your models, you may pass an array of values to the `make` method. Only the specified values will be replaced while the rest of the values remain set to their default values as specified by the factory:
+Si desea reemplazar alguno de los valores por defecto de sus modelos, puede pasar un array de valores al método `make`. Solo los valores especificados serán reemplazados mientras que el resto de los valores permanecen establecidos en sus valores predeterminados según lo especificado por la *factory*:
 
     $user = factory(App\User::class)->make([
         'name' => 'Abigail',
@@ -167,9 +167,9 @@ If you would like to override some of the default values of your models, you may
 
 <a name="persisting-models"></a>
 
-### Persisting Models
+### Persistencia de Modelos
 
-The `create` method not only creates the model instances but also saves them to the database using Eloquent's `save` method:
+El método `create` no solo crea las instancias modelo sino que también los guarda en su base de datos usando el método de Eloquent `save`:
 
     public function testDatabase()
     {
@@ -183,7 +183,7 @@ The `create` method not only creates the model instances but also saves them to 
     }
     
 
-You may override attributes on the model by passing an array to the `create` method:
+Puede reemplazar atrributos sobre el modelo pasando un array al método `create`:
 
     $user = factory(App\User::class)->create([
         'name' => 'Abigail',
@@ -192,9 +192,9 @@ You may override attributes on the model by passing an array to the `create` met
 
 <a name="relationships"></a>
 
-### Relationships
+### Relaciones
 
-In this example, we'll attach a relation to some created models. When using the `create` method to create multiple models, an Eloquent [collection instance](/docs/{{version}}/eloquent-collections) is returned, allowing you to use any of the convenient functions provided by the collection, such as `each`:
+En este ejemplo, adjuntaremos una relación a unos modelos creados. Al usar el método `create` para crear múltiples modeos, una [collection instance](/docs/{{version}}/eloquent-collections) de Eloquent is devuelta, permitiéndole usar cualquiera de las funciones convenientes proporcionadas por la colección, tal y como `each`:
 
     $users = factory(App\User::class, 3)
                ->create()
@@ -203,9 +203,9 @@ In this example, we'll attach a relation to some created models. When using the 
                 });
     
 
-#### Relations & Attribute Closures
+#### Relaciones & y Atributos de Closures
 
-You may also attach relationships to models using Closure attributes in your factory definitions. For example, if you would like to create a new `User` instance when creating a `Post`, you may do the following:
+Puede también enfocar las relaciones a modelos usando atributos Closure en sus definiciones de *factory*. Por ejemplo, si desea crear una nueva instancia de `User` al crear un `Post`, puede hacer lo siguiente:
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -218,7 +218,7 @@ You may also attach relationships to models using Closure attributes in your fac
     });
     
 
-These Closures also receive the evaluated attribute array of the factory that defines them:
+Estos Closures también reciben el array de atributo evaluado de la *factory* que los define:
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -236,12 +236,12 @@ These Closures also receive the evaluated attribute array of the factory that de
 
 <a name="available-assertions"></a>
 
-## Available Assertions
+## Verificaciones Disponibles
 
-Laravel provides several database assertions for your [PHPUnit](https://phpunit.de/) tests:
+Laravel proporciona varias afirmaciones de base de datos de sus pruebas [PHPUnit](https://phpunit.de/):
 
-| Method                                                  | Description                                                          |
-| ------------------------------------------------------- | -------------------------------------------------------------------- |
-| `$this->assertDatabaseHas($table, array $data);`     | Assert that a table in the database contains the given data.         |
-| `$this->assertDatabaseMissing($table, array $data);` | Assert that a table in the database does not contain the given data. |
-| `$this->assertSoftDeleted($table, array $data);`     | Assert that the given record has been soft deleted.                  |
+| Método                                                  | Descripción                                                           |
+| ------------------------------------------------------- | --------------------------------------------------------------------- |
+| `$this->assertDatabaseHas($table, array $data);`     | Asegúrate que una tabla en la base de datos contiene los datos dados. |
+| `$this->assertDatabaseMissing($table, array $data);` | Asegúrate que una tabla en la base de datos no contiene datos dados.  |
+| `$this->assertSoftDeleted($table, array $data);`     | Asegúrate de que el registro dado haya sido borrado en forma suave.   |
