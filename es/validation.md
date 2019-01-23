@@ -609,7 +609,7 @@ El campo a validar debe tener un tamaño entre *min* y *max*. Cadenas, caractere
 
 #### boolean
 
-El campo a validar debe poder ser transformado a un valor booleano. Los valores aceptados son `true`, `false`, `1`, ``, `"1"`, y `"0"`.
+El campo a validar debe poder ser transformado a un valor booleano. Los valores aceptados son `true`, `false`, `1`, `0`, `"1"`, y `"0"`.
 
 <a name="rule-confirmed"></a>
 
