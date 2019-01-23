@@ -173,7 +173,7 @@ Por defecto, los *timestamps* tiene el formato `'Y-m-d H:i:s'`. Si se necesita p
 
 La propiedad `$casts` del modelo proporciona un método adecuado para convertir atributos a tipos de datos comunes. La propiedad `$casts` debe contener un array donde la clave es el nombre del atributo a aplicar el *casting* y el valor el tipo de *casting* a realizar. Los tipos soportados para convertir son: `integer`, `real`, `float`, `double`, `string`, `boolean`, `object`, `array`, `collection`, `date`, `datetime`, y `timestamp`.
 
-Por ejemplo, para convertir el atributo `is_admin`, el cual se almacena en la base de datos como un entero (`` o `1`) a un valor boobleano:
+Por ejemplo, para convertir el atributo `is_admin`, el cual se almacena en la base de datos como un entero (`0` o `1`) a un valor boobleano:
 
     <?php
     
