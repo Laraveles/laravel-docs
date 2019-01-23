@@ -55,7 +55,7 @@ El uso del controlador Memcached requiere la instalación del paquete [Memcached
     ],
     
 
-También se puede establecer la opción `host` a un *socket* UNIX. De ser así, la opción `port` debe establecerse en ``:
+También se puede establecer la opción `host` a un *socket* UNIX. De ser así, la opción `port` debe establecerse en `0`:
 
     'memcached' => [
         [
